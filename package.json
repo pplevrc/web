@@ -1,21 +1,34 @@
 {
-  "name": "pple-web",
-  "description": "",
-  "author": {
-    "name": "mew-ton",
-    "email": "mxl_usmarc@slmail.mewton.jp"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.3",
-    "lefthook": "1.7.18"
-  },
-  "packageManager": "yarn@4.5.0",
-  "volta": {
-    "node": "20.18.0",
-    "yarn": "4.5.0"
-  },
-  "engines": {
-    "node": "20.18.0",
-    "yarn": "4.5.0"
-  }
+	"name": "pple-web",
+	"description": "",
+	"author": {
+		"name": "mew-ton",
+		"email": "mxl_usmarc@slmail.mewton.jp"
+	},
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.4",
+		"astro": "4.16.2",
+		"typescript": "5.6.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.3",
+		"lefthook": "1.7.18"
+	},
+	"packageManager": "yarn@4.5.0",
+	"volta": {
+		"node": "20.18.0",
+		"yarn": "4.5.0"
+	},
+	"engines": {
+		"node": "20.18.0",
+		"yarn": "4.5.0"
+	}
 }
