@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+    "biomejs.biome",
+    "astro-build.astro-vscode"
+    ],
+    "unwantedRecommendations": [
+      "eslint.vscode-eslint",
+      "prettier.prettier",
+    ]
+  },
+  "settings": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[astro]": {
+      "editor.defaultFormatter": "astro-build.astro-vscode"
+    },
+
+    "editor.codeActionsOnSave": {
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+
+    "biome.lspBin": "../node_modules/.bin/biome",
+  }
+}

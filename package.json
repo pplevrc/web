@@ -1,0 +1,21 @@
+{
+  "name": "pple-web",
+  "description": "",
+  "author": {
+    "name": "mew-ton",
+    "email": "mxl_usmarc@slmail.mewton.jp"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.3",
+    "lefthook": "1.7.18"
+  },
+  "packageManager": "yarn@4.5.0",
+  "volta": {
+    "node": "20.18.0",
+    "yarn": "4.5.0"
+  },
+  "engines": {
+    "node": "20.18.0",
+    "yarn": "4.5.0"
+  }
+}
