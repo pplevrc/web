@@ -1,9 +1,1 @@
-@layer reset {
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-@layer base, tokens, recipes, utilities;
+@layer reset, base, tokens, recipes, utilities;

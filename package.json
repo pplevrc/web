@@ -12,7 +12,9 @@
 		"dev:panda": "panda -w",
 		"dev:astro": "astro dev",
 		"dev:panda-studio": "panda studio --port 3000",
-		"build": "astro check && astro build",
+		"build": "yarn build:panda && yarn build:astro",
+		"build:panda": "panda --minify --hash",
+		"build:astro": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro"
 	},

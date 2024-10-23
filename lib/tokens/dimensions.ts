@@ -1,6 +1,6 @@
 import { defineTokens } from "@pandacss/dev";
 import defu from "defu";
-import { toSizingToken } from "./lib/dimensions";
+import { toSizingToken } from "./commons/dimensions";
 
 export const tokens = defineTokens({
 	sizes: (() => {
