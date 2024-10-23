@@ -137,3 +137,6 @@ dist
 
 # jetbrains setting folder
 .idea/
+
+# PandaCSS output
+src/styles

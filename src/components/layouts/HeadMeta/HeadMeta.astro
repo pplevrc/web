@@ -1,0 +1,29 @@
+---
+import "@assets/css/index.css";
+import "@styles/styles.css";
+
+import FaviconMeta from "./internals/FaviconMeta.astro";
+import GtmMEta from "./internals/GtmMEta.astro";
+import OgpMeta from "./internals/OgpMeta.astro";
+import SecurityMeta from "./internals/SecurityMeta.astro";
+
+import type { HeadMetaProps } from "./types";
+
+interface Props extends HeadMetaProps {}
+
+const { title, description, keywords = [] } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(", ")} />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+
+<OgpMeta />
+<GtmMEta />
+<FaviconMeta />
+<SecurityMeta />

@@ -1,48 +1,44 @@
 {
-  "folders": [
-    {
-      "path": ".."
-    }
-  ],
-  "extensions": {
-    "recommendations": [
-    "biomejs.biome",
-    "astro-build.astro-vscode"
-    ],
-    "unwantedRecommendations": [
-      "eslint.vscode-eslint",
-      "prettier.prettier",
-    ]
-  },
-  "settings": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "[javascript]": {
-      "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[typescript]": {
-      "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[astro]": {
-      "editor.defaultFormatter": "astro-build.astro-vscode"
-    },
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"extensions": {
+		"recommendations": ["biomejs.biome", "astro-build.astro-vscode"],
+		"unwantedRecommendations": ["eslint.vscode-eslint", "prettier.prettier"]
+	},
+	"settings": {
+		"[javascript]": {
+			"editor.defaultFormatter": "biomejs.biome"
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "biomejs.biome"
+		},
+		"[astro]": {
+			"editor.defaultFormatter": "astro-build.astro-vscode"
+		},
+		"[json]": {
+			"editor.defaultFormatter": "biomejs.biome"
+		},
 
-    "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports.biome": "explicit"
-    },
+		"editor.codeActionsOnSave": {
+			"quickfix.biome": "explicit",
+			"source.organizeImports.biome": "explicit"
+		},
 
-    "biome.lspBin": "../node_modules/.bin/biome",
-  },
-  "launch": {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "command": "./node_modules/.bin/astro dev",
-        "name": "Development server",
-        "request": "launch",
-        "type": "node-terminal"
-      }
-    ],
-    "compounds": []
-  }
+		"editor.formatOnSave": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"command": "./node_modules/.bin/astro dev",
+				"name": "Development server",
+				"request": "launch",
+				"type": "node-terminal"
+			}
+		],
+		"compounds": []
+	}
 }

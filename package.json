@@ -7,20 +7,29 @@
 	},
 	"type": "module",
 	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
+		"prepare": "panda codegen && panda",
+		"dev": "yarn prepare && concurrently \"yarn dev:panda\" \"yarn dev:astro\" \"yarn dev:panda-studio\"",
+		"dev:panda": "panda -w",
+		"dev:astro": "astro dev",
+		"dev:panda-studio": "panda studio --port 3000",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
-		"astro": "4.16.2",
-		"typescript": "5.6.3"
+		"@pandacss/dev": "^0.47.0",
+		"astro": "^4.16.6",
+		"astro-relative-links": "^0.4.0",
+		"defu": "^6.1.4",
+		"is-wsl": "^3.1.0",
+		"typescript": "^5.6.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.3",
-		"lefthook": "1.7.18"
+		"@biomejs/biome": "^1.9.3",
+		"@pandacss/studio": "^0.47.0",
+		"concurrently": "^9.0.1",
+		"lefthook": "^1.7.18"
 	},
 	"packageManager": "yarn@4.5.0",
 	"volta": {

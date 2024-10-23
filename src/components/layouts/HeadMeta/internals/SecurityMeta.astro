@@ -1,0 +1,9 @@
+---
+const isProduction = import.meta.env.MODE === "production";
+---
+
+{
+  isProduction ? (
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
+  ) : null
+}
