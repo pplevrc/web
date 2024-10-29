@@ -1,15 +1,26 @@
 ---
 import { css } from "@styles/css";
+import HeaderNav from "./internals/HeaderNav.astro";
+
+css({});
 ---
 
-<header class={css({ bg: "honey.500" })}>
-  <div>
-    <nav>hogeho</nav>
-  </div>
+<header
+  class={css({
+    bg: "white",
+    h: "14",
+    shadow: "xs",
+    _after: {
+      borderTopColor: "latte.lite",
+      borderTopWidth: "xl",
+      content: '""',
+      position: "absolute",
+      top: "12",
+      display: "block",
+      overflow: "visible",
+      w: "full",
+    },
+  })}
+>
+  <HeaderNav class={css({ w: "screen" })} />
 </header>
-
-<style>
-  header {
-    border: red 1px solid;
-  }
-</style>

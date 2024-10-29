@@ -16,12 +16,15 @@ export const tokens = defineTokens({
 				{
 					px: toSizingToken(0.25),
 				},
+				{
+					full: { value: "100%" },
+				},
 				...sizeNames.map((name) => ({ [name]: toSizingToken(name) })),
 			),
 		);
 	})(),
 	spacing: (() => {
-		const spacingNames = [0, 2, 4, 6, 10, 16, 26, 42];
+		const spacingNames = [0, 2, 4, 6, 10, 12, 16, 26, 42];
 
 		type SpacingToken = NonNullable<Parameters<typeof defineTokens.spacing>[0]>;
 		return defineTokens.spacing(

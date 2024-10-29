@@ -1,6 +1,7 @@
 import { defineTokens } from "@pandacss/dev";
 import type { Gradient } from "@pandacss/types";
 import defu from "defu";
+import { toRem } from "./commons/dimensions";
 
 type Token = NonNullable<Parameters<typeof defineTokens.colors>[0]>;
 
@@ -612,6 +613,8 @@ const colorPalettes = {
 	mint,
 } as const;
 
+export const colorNames = Object.keys(colorPalettes);
+
 const colorEntries = Object.entries(colorPalettes) as [
 	string,
 	(typeof colorPalettes)[keyof typeof colorPalettes],
@@ -626,18 +629,24 @@ export const tokens = defineTokens({
 	),
 });
 export const semanticTokens = defineTokens({
-	colors: defineTokens.colors(
-		colorEntries.reduce<Token>(
+	colors: defineTokens.colors({
+		white: {
+			value: "#FFFFFF",
+		},
+		black: {
+			value: "#000000",
+		},
+		...colorEntries.reduce<Token>(
 			(acc, [name, color]) => defu(acc, { [name]: color.semanticTokens }),
 			{},
 		),
-	),
+	}),
 	gradients: defineTokens.gradients(
 		colorEntries.reduce<Token>(
 			(acc, [name, color]) =>
 				defu(acc, {
 					[name]: {
-						bg: {
+						bgGradient: {
 							value: {
 								type: "linear",
 								placement: "to bottom",
@@ -653,4 +662,15 @@ export const semanticTokens = defineTokens({
 			{},
 		),
 	),
+	shadows: {
+		none: {
+			value: "0 0 0 0 {colors.black}",
+		},
+		xs: {
+			value: `0 ${toRem(0.25)} ${toRem(0.25)} 0 {colors.black/15}`,
+		},
+		sm: {
+			value: `0, ${toRem(0.25)} ${toRem(0.5)} 0 {colors.black}`,
+		},
+	},
 });

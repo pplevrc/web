@@ -2,7 +2,7 @@ import { defineConfig } from "@pandacss/dev";
 import isWsl from "is-wsl";
 import { removeUnusedKeyframes } from "lib/cleanup/remove-unused-keyframe";
 import { removeUnusedCssVars } from "lib/cleanup/remove-unused-variables";
-import ppleThemePreset from "./lib/tokens";
+import ppleThemePreset from "./lib/styles";
 
 export default defineConfig({
 	preflight: true,

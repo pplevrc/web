@@ -1,0 +1,57 @@
+---
+import IconCherryBlossom from "./internals/IconCherryBlossom.astro";
+import IconFlower from "./internals/IconFlower.astro";
+import IconFlowerOutline from "./internals/IconFlowerOutline.astro";
+import IconPancake from "./internals/IconPancake.astro";
+import IconPlum from "./internals/IconPlum.astro";
+import IconTeaCup from "./internals/IconTeaCup.astro";
+import IconTeaPot from "./internals/IconTeaPot.astro";
+
+type IconType =
+  | "flower"
+  | "flower-outline"
+  | "plum"
+  | "cherry-blossom"
+  | "teacup"
+  | "teapot"
+  | "pancake";
+
+type Props = {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+
+  /**
+   * アイコンの種類.
+   */
+  type: IconType;
+};
+
+const { type, definition, ...rest } = Astro.props;
+
+const IconComponent = (() => {
+  switch (type) {
+    case "flower":
+      return IconFlower;
+    case "flower-outline":
+      return IconFlowerOutline;
+    case "teacup":
+      return IconTeaCup;
+    case "teapot":
+      return IconTeaPot;
+    case "pancake":
+      return IconPancake;
+    case "plum":
+      return IconPlum;
+    case "cherry-blossom":
+      return IconCherryBlossom;
+    default:
+      throw new Error(`Icon type ${type} is not supported`);
+  }
+})();
+---
+
+<IconComponent definition={definition} {...rest} />

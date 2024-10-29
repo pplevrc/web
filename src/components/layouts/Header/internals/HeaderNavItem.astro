@@ -1,0 +1,63 @@
+---
+import Icon from "@/components/decoratives/Icon/Icon.astro";
+import { css } from "@/styles/css";
+
+type Props = {
+  label: string;
+  path: string;
+};
+
+const { label, path } = Astro.props;
+
+const currentRootPath = Astro.url.pathname.split("/")[1];
+const isCurrent = path === `/${currentRootPath}`;
+
+css({
+  pc: {
+    w: "20",
+    h: "10",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    _hover: {
+      bg: "latte.lite",
+    },
+    '&[aria-current="page"]': {
+      bg: "latte.deep",
+    },
+  },
+});
+---
+
+<a
+  aria-current={isCurrent ? "page" : undefined}
+  href={path}
+  class={css({
+    pc: {
+      w: "20",
+      h: "10",
+      _hover: {
+        bg: "latte.deep",
+      },
+      "&[aria-current]": {
+        bg: "latte.deep",
+      },
+    },
+  })}
+>
+  <Icon
+    type="flower"
+    class={css({
+      fill: isCurrent ? "latte.deep" : "latte.lite",
+      w: "6",
+      h: "6",
+    })}
+  />
+  <p
+    class={css({
+      t: "3",
+    })}
+  >
+    {label}
+  </p>
+</a>

@@ -1,0 +1,45 @@
+---
+import { css } from "@styles/css";
+import HeaderNavItem from "./HeaderNavItem.astro";
+---
+
+<nav
+  class={css({
+    px: "6",
+    h: "14",
+    position: "relative",
+  })}
+>
+  <input
+    type="checkbox"
+    name="hanburger"
+    id="hanburger"
+    class={css({ display: "none" })}
+  />
+  <ul
+    class={css({
+      pc: {
+        display: "flex",
+        gap: "4",
+        justifyContent: "end",
+      },
+      sp: {},
+    })}
+  >
+    <li>
+      <HeaderNavItem label="ホーム" path="/" />
+    </li>
+    <li>
+      <HeaderNavItem label="ニュース" path="/articles" />
+    </li>
+    <li>
+      <HeaderNavItem label="コンセプト" path="/foo" />
+    </li>
+    <li>
+      <HeaderNavItem label="キャスト" path="/casts" />
+    </li>
+    <li>
+      <HeaderNavItem label="参加方法" path="/bar" />
+    </li>
+  </ul>
+</nav>

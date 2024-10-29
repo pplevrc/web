@@ -1,0 +1,19 @@
+---
+
+---
+
+<script>
+  import {
+    getViewportWidth,
+    calculateRootFontSize,
+    setRootFontSize,
+  } from "./scripts";
+
+  function applyNewRootFontSize() {
+    setRootFontSize(calculateRootFontSize(getViewportWidth()));
+  }
+
+  document.addEventListener("DOMContentLoaded", applyNewRootFontSize);
+
+  window.addEventListener("resize", applyNewRootFontSize);
+</script>

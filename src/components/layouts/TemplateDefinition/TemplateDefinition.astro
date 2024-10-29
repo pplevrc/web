@@ -1,0 +1,18 @@
+---
+import Icon from "@components/decoratives/Icon/Icon.astro";
+import { css } from "@styles/css";
+---
+
+<div aria-hidden role="presentation" class={css({ display: "none" })}>
+  <!-- 使用する svg を定義 -->
+  <Icon definition type="flower" />
+  <Icon definition type="flower-outline" />
+  <Icon definition type="plum" />
+  <Icon definition type="cherry-blossom" />
+  <Icon definition type="teacup" />
+  <Icon definition type="teapot" />
+  <Icon definition type="pancake" />
+
+  <!-- ページ固有のものがあれば slot から渡される -->
+  <slot />
+</div>

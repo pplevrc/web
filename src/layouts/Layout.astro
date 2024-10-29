@@ -4,6 +4,8 @@ import {
 	type HeadMetaProps,
 } from "@components/layouts/HeadMeta/index.ts";
 import Header from "@components/layouts/Header/Header.astro";
+import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
+import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 
 interface Props {
 	headMeta: HeadMetaProps;
@@ -18,9 +20,13 @@ const {
 <html lang="ja">
 	<head>
 		<HeadMeta title={title} description={description} keywords={keywords} />
+		<ResponsiveScript />
 	</head>
 
 	<body>
+		<TemplateDefinition>
+			<slot name="template-definition" />
+		</TemplateDefinition>
 		<Header />
 		<slot />
 	</body>
