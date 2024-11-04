@@ -8,6 +8,7 @@ export default defineConfig({
 				width: 2880,
 			},
 		},
+		open: false,
 	},
 
 	server: {

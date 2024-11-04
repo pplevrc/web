@@ -598,6 +598,24 @@ const mint = {
 	},
 } as const satisfies TokenFragment;
 
+const white = {
+	tokens: {
+		DEFAULT: {
+			value: "#FFFFFF",
+		},
+	},
+	semanticTokens: {},
+} as const satisfies TokenFragment;
+
+const black = {
+	tokens: {
+		DEFAULT: {
+			value: "#000000",
+		},
+	},
+	semanticTokens: {},
+} as const satisfies TokenFragment;
+
 const colorPalettes = {
 	smoke,
 	olive,
@@ -615,34 +633,32 @@ const colorPalettes = {
 
 export const colorNames = Object.keys(colorPalettes);
 
-const colorEntries = Object.entries(colorPalettes) as [
+const colorPaletteEntries = Object.entries(colorPalettes) as [
 	string,
 	(typeof colorPalettes)[keyof typeof colorPalettes],
 ][];
 
 export const tokens = defineTokens({
 	colors: defineTokens.colors(
-		colorEntries.reduce<Token>(
+		(
+			[...colorPaletteEntries, ["white", white], ["black", black]] as const
+		).reduce<Token>(
 			(acc, [name, color]) => defu(acc, { [name]: color.tokens }),
 			{},
 		),
 	),
 });
 export const semanticTokens = defineTokens({
-	colors: defineTokens.colors({
-		white: {
-			value: "#FFFFFF",
-		},
-		black: {
-			value: "#000000",
-		},
-		...colorEntries.reduce<Token>(
+	colors: defineTokens.colors(
+		(
+			[...colorPaletteEntries, ["white", white], ["black", black]] as const
+		).reduce<Token>(
 			(acc, [name, color]) => defu(acc, { [name]: color.semanticTokens }),
 			{},
 		),
-	}),
+	),
 	gradients: defineTokens.gradients(
-		colorEntries.reduce<Token>(
+		colorPaletteEntries.reduce<Token>(
 			(acc, [name, color]) =>
 				defu(acc, {
 					[name]: {

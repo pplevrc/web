@@ -28,9 +28,14 @@ type Props = {
    * アイコンの種類.
    */
   type: IconType;
+
+  /**
+   *
+   */
+  class?: string;
 };
 
-const { type, definition, ...rest } = Astro.props;
+const { type, ...rest } = Astro.props;
 
 const IconComponent = (() => {
   switch (type) {
@@ -54,4 +59,4 @@ const IconComponent = (() => {
 })();
 ---
 
-<IconComponent definition={definition} {...rest} />
+<IconComponent {...rest} />

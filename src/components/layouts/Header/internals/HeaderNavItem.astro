@@ -1,6 +1,6 @@
 ---
 import Icon from "@/components/decoratives/Icon/Icon.astro";
-import { css } from "@/styles/css";
+import { css, sva } from "@/styles/css";
 
 type Props = {
   label: string;
@@ -12,52 +12,94 @@ const { label, path } = Astro.props;
 const currentRootPath = Astro.url.pathname.split("/")[1];
 const isCurrent = path === `/${currentRootPath}`;
 
-css({
-  pc: {
-    w: "20",
-    h: "10",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    _hover: {
-      bg: "latte.lite",
-    },
-    '&[aria-current="page"]': {
-      bg: "latte.deep",
+const { root: rootStyle } = sva({
+  slots: ["root"],
+  base: {
+    root: {
+      pc: {
+        w: "20",
+        h: "9",
+        display: "flex",
+        position: "relative",
+        roundedBottom: "xl",
+        color: "latte.deep",
+
+        "& svg": {
+          color: "latte.regular",
+          position: "absolute",
+          top: "-3",
+          left: "0",
+          right: "0",
+          margin: "auto",
+          scale: "auto",
+          scaleX: "1",
+          scaleY: "1",
+          w: "6",
+          h: "6",
+        },
+
+        "& span": {
+          color: "latte.deep",
+          textStyle: "normal.sm",
+          alignSelf: "flex-end",
+          textAlign: "center",
+          w: "full",
+          h: "7",
+          pt: "2",
+        },
+
+        _hover: {
+          h: "11",
+          bg: "latte.bg",
+
+          "& svg": {
+            top: "-1.5",
+          },
+
+          "& span": {
+            color: "latte.regular",
+          },
+        },
+      },
     },
   },
-});
+  variants: {
+    selected: {
+      true: {
+        root: {
+          pc: {
+            bg: "latte.regular",
+            color: "latte.lite",
+            textStyle: "normal.bold.sm",
+
+            "& svg": {
+              color: "white/30",
+              scale: "auto",
+              scaleX: "2.666667",
+              scaleY: "2.666667",
+            },
+
+            "& span": {
+              color: "white/90",
+              textStyle: "normal.bold.sm",
+            },
+          },
+        },
+      },
+      false: {},
+    },
+  },
+}).raw({ selected: isCurrent });
 ---
 
 <a
   aria-current={isCurrent ? "page" : undefined}
   href={path}
-  class={css({
-    pc: {
-      w: "20",
-      h: "10",
-      _hover: {
-        bg: "latte.deep",
-      },
-      "&[aria-current]": {
-        bg: "latte.deep",
-      },
-    },
-  })}
+  class={css(rootStyle)}
 >
-  <Icon
-    type="flower"
-    class={css({
-      fill: isCurrent ? "latte.deep" : "latte.lite",
-      w: "6",
-      h: "6",
-    })}
-  />
-  <p
-    class={css({
-      t: "3",
-    })}
-  >
+  <Icon type="flower" />
+  <span>
     {label}
-  </p>
+  </span>
+  <Icon type="flower" class={css({ pc: { display: "none" } })} />
 </a>

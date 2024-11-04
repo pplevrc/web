@@ -1,4 +1,4 @@
-import { defineTokens } from "@pandacss/dev";
+import { defineSemanticTokens, defineTokens } from "@pandacss/dev";
 import defu from "defu";
 import { toSizingToken } from "./commons/dimensions";
 
@@ -24,12 +24,17 @@ export const tokens = defineTokens({
 		);
 	})(),
 	spacing: (() => {
-		const spacingNames = [0, 2, 4, 6, 10, 12, 16, 26, 42];
+		const spacingNames = [
+			0, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 26, 42,
+		];
 
 		type SpacingToken = NonNullable<Parameters<typeof defineTokens.spacing>[0]>;
 		return defineTokens.spacing(
 			defu<SpacingToken, SpacingToken[]>(
-				{},
+				{
+					"1/2": { value: "50%" },
+					"-1/2": { value: "-50%" },
+				},
 				...spacingNames.map((name) => ({ [name]: toSizingToken(name) })),
 			),
 		);
@@ -55,4 +60,9 @@ export const tokens = defineTokens({
 	}),
 });
 
-export const semanticTokens = defineTokens({});
+export const semanticTokens = defineSemanticTokens({});
+
+export const breakpoints = {
+	pc: "1440px",
+	sp: "320px",
+} as const satisfies Record<string, string>;

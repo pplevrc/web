@@ -3,9 +3,6 @@ import { defineConfig } from "astro/config";
 import isWsl from "is-wsl";
 
 export default defineConfig({
-	server: {
-		open: true,
-	},
 	integrations: [relativeLinks()],
 
 	vite: {
