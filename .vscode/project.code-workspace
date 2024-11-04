@@ -27,7 +27,9 @@
 			"source.organizeImports.biome": "explicit"
 		},
 
-		"editor.formatOnSave": true
+		"editor.formatOnSave": true,
+
+		"liveServer.settings.root": "./dist"
 	},
 	"launch": {
 		"version": "0.2.0",

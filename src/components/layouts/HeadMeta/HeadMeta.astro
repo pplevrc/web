@@ -7,6 +7,8 @@ import GtmMEta from "./internals/GtmMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
 
+import { ViewTransitions } from "astro:transitions";
+
 import type { HeadMetaProps } from "./types";
 
 interface Props extends HeadMetaProps {}
@@ -27,3 +29,5 @@ const { title, description, keywords = [] } = Astro.props;
 <GtmMEta />
 <FaviconMeta />
 <SecurityMeta />
+
+<ViewTransitions fallback="animate" />

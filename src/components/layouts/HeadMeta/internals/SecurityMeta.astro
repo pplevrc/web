@@ -1,9 +1,19 @@
 ---
-const isProduction = import.meta.env.MODE === "production";
+// const isProduction = import.meta.env.MODE === "production";
+
+// FIXME: unsafe-inline から nonce-... に変更が必須
 ---
 
+<!-- 
 {
   isProduction ? (
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        img-src 'self';
+
+      "
+    />
   ) : null
-}
+} -->

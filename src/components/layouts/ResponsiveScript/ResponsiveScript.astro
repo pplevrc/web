@@ -1,7 +1,3 @@
----
-
----
-
 <script>
   import {
     getViewportWidth,
@@ -9,11 +5,18 @@
     setRootFontSize,
   } from "./scripts";
 
-  function applyNewRootFontSize() {
+  function applyNewRootFontSize(e?: Event) {
+    console.log(e?.type ?? "script-scope", " resize:", getViewportWidth());
     setRootFontSize(calculateRootFontSize(getViewportWidth()));
   }
 
-  document.addEventListener("DOMContentLoaded", applyNewRootFontSize);
-
+  window.addEventListener("orientationchange", applyNewRootFontSize);
   window.addEventListener("resize", applyNewRootFontSize);
+  document.addEventListener("astro:after-swap", applyNewRootFontSize);
+
+  applyNewRootFontSize();
+</script>
+
+<script is:inline>
+  console.log("loaded inline!");
 </script>
