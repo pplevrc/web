@@ -1,0 +1,72 @@
+---
+import { css } from "@styles/css";
+
+interface BaseProps {
+  inputId: string;
+}
+
+type Props = BaseProps & Record<string, string>;
+
+const { inputId, ...props } = Astro.props;
+
+const iconStyle = css({
+  cursor: "pointer",
+  h: "12",
+  w: "12",
+  display: "flex",
+  justifyContent: "center",
+  placeItems: "center",
+
+  "& input": {
+    display: "none",
+
+    "&:checked + p span": {
+      transitionDelay: "faster",
+
+      "&:nth-child(odd)": {
+        transition: "transform",
+        transitionTimingFunction: "easeOut.back",
+      },
+
+      "&:nth-child(1)": {
+        transform: "rotate(45deg) translate(0.35rem, 0.35rem)",
+      },
+
+      "&:nth-child(2)": {
+        transition: "opacity",
+        transitionTimingFunction: "easeIn.circ",
+        opacity: "full",
+      },
+
+      "&:nth-child(3)": {
+        transform: "rotate(-45deg) translate(0.35rem, -0.35rem)",
+      },
+    },
+  },
+
+  "& p": {
+    alignItems: "center",
+    display: "flex",
+    flexDir: "column",
+    gap: "1",
+    placeItems: "center",
+  },
+
+  "& span": {
+    bg: "latte.regular",
+    display: "block",
+    h: "1",
+    w: "8",
+    rounded: "full",
+  },
+});
+---
+
+<label role="button" class={iconStyle} tabindex="-1" {...props}>
+  <input aria-hidden type="checkbox" id={inputId} />
+  <p aria-hidden>
+    <span></span>
+    <span></span>
+    <span></span>
+  </p>
+</label>

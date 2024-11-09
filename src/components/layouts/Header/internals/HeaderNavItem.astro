@@ -1,6 +1,6 @@
 ---
 import Icon from "@/components/decoratives/Icon/Icon.astro";
-import { css, sva } from "@/styles/css";
+import { css, cva } from "@/styles/css";
 
 type Props = {
   label: string;
@@ -12,76 +12,122 @@ const { label, path } = Astro.props;
 const currentRootPath = Astro.url.pathname.split("/")[1];
 const isCurrent = path === `/${currentRootPath}`;
 
-const { root: rootStyle } = sva({
-  slots: ["root"],
+const rootStyle = cva({
   base: {
-    root: {
+    color: "latte.deep",
+
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDir: "row",
+
+    rounded: "xl",
+
+    w: "64",
+    h: "8",
+
+    pc: {
+      w: "20",
+      h: "9",
+      pos: "relative",
+      textStyle: "normal.sm",
+
+      roundedTop: "none",
+    },
+
+    _active: {
+      spOnly: {
+        "& span": {
+          borderWidth: "lg",
+          borderColor: "latte.bg",
+        },
+      },
+    },
+
+    _hover: {
       pc: {
-        w: "20",
-        h: "9",
-        display: "flex",
-        pos: "relative",
-        roundedBottom: "xl",
-        color: "latte.deep",
+        bg: "latte.bg",
+        h: "11",
 
         "& svg": {
-          color: "latte.regular",
-          pos: "absolute",
-          top: "-3",
-          left: "0",
-          right: "0",
-          margin: "auto",
+          top: "-1.5",
+          color: "white/30",
+
           scale: "auto",
-          scaleX: "1",
-          scaleY: "1",
-          w: "6",
-          h: "6",
+          scaleX: "2.666667",
+          scaleY: "2.666667",
+
+          animationPlayState: "running",
         },
+      },
+    },
 
-        "& span": {
-          color: "latte.deep",
-          textStyle: "normal.sm",
-          alignSelf: "flex-end",
-          textAlign: "center",
-          w: "full",
-          h: "7",
-          pt: "2",
-        },
+    "& svg": {
+      color: "latte.lite",
+      w: "4",
+      h: "4",
 
-        _hover: {
-          h: "11",
-          bg: "latte.bg",
+      pc: {
+        w: "6",
+        h: "6",
+        color: "latte.regular",
+        pos: "absolute",
+        top: "-3",
+        left: "0",
+        right: "0",
+        margin: "auto",
+        scale: "auto",
+        scaleX: "1",
+        scaleY: "1",
 
-          "& svg": {
-            top: "-1.5",
-          },
+        animation: "rotate",
+        animationDuration: "slower",
+        animationIterationCount: "infinite",
+        animationTimingFunction: "linear",
+        animationPlayState: "paused",
+      },
+    },
 
-          "& span": {
-            color: "latte.regular",
-          },
-        },
+    "& span": {
+      w: "52",
+      rounded: "full",
+      textAlign: "center",
+
+      pc: {
+        alignSelf: "flex-end",
+        w: "full",
+        h: "7",
+        pt: "2",
       },
     },
   },
   variants: {
     selected: {
       true: {
-        root: {
+        // selected: true は PC のみでスタイルを定義する
+        pc: {
+          bg: "latte.regular",
+          color: "latte.lite",
+          textStyle: "normal.bold.sm",
+        },
+
+        "& svg": {
           pc: {
-            bg: "latte.regular",
-            color: "latte.lite",
+            color: "white/30",
+
+            scale: "auto",
+            scaleX: "2.666667",
+            scaleY: "2.666667",
+          },
+        },
+
+        "& span": {
+          pc: {
+            color: "white/90",
             textStyle: "normal.bold.sm",
 
-            "& svg": {
-              color: "white/30",
-              scale: "auto",
-              scaleX: "2.666667",
-              scaleY: "2.666667",
-            },
-
-            "& span": {
-              color: "white/90",
-              textStyle: "normal.bold.sm",
+            _hover: {
+              color: "latte.deep",
             },
           },
         },
@@ -97,9 +143,9 @@ const { root: rootStyle } = sva({
   href={path}
   class={css(rootStyle)}
 >
-  <Icon type="flower" />
+  <Icon type="flower" aria-hidden />
   <span>
     {label}
   </span>
-  <Icon type="flower" class={css({ pc: { display: "none" } })} />
+  <Icon type="flower" aria-hidden class={css({ pc: { display: "none" } })} />
 </a>

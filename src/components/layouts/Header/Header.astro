@@ -2,25 +2,23 @@
 import { css } from "@styles/css";
 import HeaderNav from "./internals/HeaderNav.astro";
 
-css({});
+const headerStyle = css({
+  bg: "white",
+  h: "14",
+  shadow: "xs",
+  _after: {
+    borderTopColor: "latte.lite",
+    borderTopWidth: "xl",
+    content: '""',
+    position: "absolute",
+    top: "12",
+    display: "block",
+    overflow: "visible",
+    w: "full",
+  },
+});
 ---
 
-<header
-  class={css({
-    bg: "white",
-    h: "14",
-    shadow: "xs",
-    _after: {
-      borderTopColor: "latte.lite",
-      borderTopWidth: "xl",
-      content: '""',
-      position: "absolute",
-      top: "12",
-      display: "block",
-      overflow: "visible",
-      w: "full",
-    },
-  })}
->
+<header class={headerStyle}>
   <HeaderNav class={css({ w: "screen" })} />
 </header>

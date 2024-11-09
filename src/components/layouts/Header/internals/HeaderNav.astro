@@ -1,31 +1,74 @@
 ---
+import {
+  GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
+  GLOBAL_NAVIGATION_ID,
+} from "@lib/ids";
 import { css } from "@styles/css";
 import HeaderNavItem from "./HeaderNavItem.astro";
+import HumbergerIconButton from "./HumbergerIconButton.astro";
+
+const rootStyle = css({
+  px: "6",
+  h: "14",
+  pos: "relative",
+
+  '& [role="button"]': {
+    pos: "absolute",
+    top: "0",
+    right: "2",
+    zIndex: "99999",
+
+    pc: {
+      display: "none",
+    },
+  },
+
+  "& ul": {
+    display: "none",
+
+    pc: {
+      display: "flex",
+      justifyContent: "end",
+      gap: "6",
+    },
+  },
+
+  spOnly: {
+    "&:has(:checked) ul": {
+      display: "flex",
+      justifyContent: "center",
+      flexDir: "column",
+
+      placeItems: "center",
+      gap: "4",
+
+      animation: "fadeIn",
+      animationFillMode: "both",
+      animationDuration: "fast",
+
+      pos: "absolute",
+      top: "0",
+      left: "0",
+      w: "[100vw]",
+      h: "[100vh]",
+      bg: "white/60",
+      zIndex: "9999",
+    },
+  },
+});
 ---
 
 <nav
-  class={css({
-    px: "6",
-    h: "14",
-    pos: "relative",
-  })}
+  class={rootStyle}
+  aria-label="グローバルナビゲーション"
+  id={GLOBAL_NAVIGATION_ID}
 >
-  <input
-    type="checkbox"
-    name="hanburger"
-    id="hanburger"
-    class={css({ pc: { display: "none" } })}
+  <HumbergerIconButton
+    aria-label="グローバルナビゲーションを開く"
+    aria-controls={GLOBAL_NAVIGATION_ID}
+    inputId={GLOBAL_NAVIGATION_EXPANDED_STATE_ID}
   />
-  <ul
-    class={css({
-      pc: {
-        display: "flex",
-        gap: "4",
-        justifyContent: "end",
-      },
-      sp: {},
-    })}
-  >
+  <ul>
     <li>
       <HeaderNavItem label="ホーム" path="/" />
     </li>
@@ -42,4 +85,32 @@ import HeaderNavItem from "./HeaderNavItem.astro";
       <HeaderNavItem label="ガイドライン" path="/guidelines" />
     </li>
   </ul>
+  <script>
+    import {
+      GLOBAL_NAVIGATION_ID,
+      GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
+    } from "@lib/ids";
+    import { isPC } from "@lib/breakpoint";
+
+    const checkboxEl = document.getElementById(
+      GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
+    )! as HTMLInputElement;
+    const navigationEl = document.getElementById(GLOBAL_NAVIGATION_ID)!;
+
+    checkboxEl.addEventListener("change", updateAriaExpanded);
+    window.addEventListener("resize", updateAriaExpanded);
+
+    function updateAriaExpanded() {
+      const pc = isPC();
+      navigationEl.ariaExpanded = pc
+        ? "undefined"
+        : (!!checkboxEl.checked).toString();
+
+      if (pc) {
+        checkboxEl.checked = false;
+      }
+    }
+
+    updateAriaExpanded();
+  </script>
 </nav>

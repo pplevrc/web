@@ -1,14 +1,14 @@
 ---
 import {
+	type DescriptionMetaProps,
 	default as HeadMeta,
-	type HeadMetaProps,
 } from "@components/layouts/HeadMeta/index.ts";
 import Header from "@components/layouts/Header/Header.astro";
 import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
 import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 
 interface Props {
-	headMeta: HeadMetaProps;
+	headMeta: DescriptionMetaProps;
 }
 
 const {
@@ -17,7 +17,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" dir="ltr">
 	<head>
 		<HeadMeta title={title} description={description} keywords={keywords} />
 		<ResponsiveScript />

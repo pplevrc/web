@@ -1,0 +1,16 @@
+---
+import type { DescriptionMetaProps } from "../types";
+
+interface Props extends DescriptionMetaProps {}
+
+const { description, keywords = [], title } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(", ")} />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>

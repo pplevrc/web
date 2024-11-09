@@ -1,0 +1,7 @@
+import { hash } from "ohash";
+
+export const GLOBAL_NAVIGATION_ID = hash("global-nav");
+
+export const GLOBAL_NAVIGATION_EXPANDED_STATE_ID = hash(
+	"global-nav-expanded-state",
+);

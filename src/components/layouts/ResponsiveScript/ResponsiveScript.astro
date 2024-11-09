@@ -1,13 +1,8 @@
 <script>
-  import {
-    getViewportWidth,
-    calculateRootFontSize,
-    setRootFontSize,
-  } from "./scripts";
+  import { calculateRootFontSize, setRootFontSize } from "./scripts";
 
-  function applyNewRootFontSize(e?: Event) {
-    console.log(e?.type ?? "script-scope", " resize:", getViewportWidth());
-    setRootFontSize(calculateRootFontSize(getViewportWidth()));
+  function applyNewRootFontSize() {
+    setRootFontSize(calculateRootFontSize());
   }
 
   window.addEventListener("orientationchange", applyNewRootFontSize);
@@ -15,8 +10,4 @@
   document.addEventListener("astro:after-swap", applyNewRootFontSize);
 
   applyNewRootFontSize();
-</script>
-
-<script is:inline>
-  console.log("loaded inline!");
 </script>

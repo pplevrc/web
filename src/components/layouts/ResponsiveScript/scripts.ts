@@ -1,6 +1,4 @@
-export function getViewportWidth(): number {
-	return document.documentElement.clientWidth;
-}
+import { PC_VIEWPORT_WIDTH, getViewportWidth, isSP } from "@/lib/breakpoint";
 
 let defaultRootFontSize: number | undefined;
 
@@ -14,12 +12,15 @@ function getRootFontSize(): number {
 	return defaultRootFontSize;
 }
 
-const PC_VIEWPORT_WIDTH = 1440;
+interface CalculateFontSizeOptions {
+	defaultRootFontSize?: number;
+	viewportWidth?: number;
+}
 
-export function calculateRootFontSize(
-	viewportWidth: number,
-	defaultRootFontSize: number = getRootFontSize(),
-): number {
+export function calculateRootFontSize({
+	defaultRootFontSize = getRootFontSize(),
+	viewportWidth = getViewportWidth(),
+}: CalculateFontSizeOptions = {}): number {
 	/**
 	 * smartphone viewport
 	 * 0 .. 0px
@@ -32,7 +33,7 @@ export function calculateRootFontSize(
 	return (
 		(viewportWidth / PC_VIEWPORT_WIDTH) *
 		defaultRootFontSize *
-		(viewportWidth < PC_VIEWPORT_WIDTH ? 2 : 1)
+		(isSP() ? 3.5 : 1)
 	);
 }
 

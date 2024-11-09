@@ -23,5 +23,7 @@ export default defineConfig({
 		},
 	},
 
+	hash: true,
+
 	poll: isWsl,
 });

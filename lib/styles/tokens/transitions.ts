@@ -5,7 +5,7 @@ export const tokens = defineTokens({
 		linear: {
 			value: [0, 0, 1, 1],
 		},
-		easeInt: {
+		easeIn: {
 			sine: {
 				value: [0.47, 0, 0.745, 0.715],
 				description: "弱い EaseIn",
@@ -121,6 +121,9 @@ export const tokens = defineTokens({
 		},
 		slow: {
 			value: "1000ms",
+		},
+		slower: {
+			value: "3000ms",
 		},
 	},
 	animations: {},
