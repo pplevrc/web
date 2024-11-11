@@ -4,6 +4,8 @@ import {
   GLOBAL_NAVIGATION_ID,
 } from "@lib/ids";
 import { css } from "@styles/css";
+import HeaderLogo from "./HeaderLogo.astro";
+import HeaderLogoKnot from "./HeaderLogoKnot.astro";
 import HeaderNavItem from "./HeaderNavItem.astro";
 import HumbergerIconButton from "./HumbergerIconButton.astro";
 
@@ -16,7 +18,7 @@ const rootStyle = css({
     pos: "absolute",
     top: "0",
     right: "2",
-    zIndex: "99999",
+    zIndex: "top",
 
     pc: {
       display: "none",
@@ -52,8 +54,30 @@ const rootStyle = css({
       w: "[100vw]",
       h: "[100vh]",
       bg: "white/60",
-      zIndex: "9999",
+      zIndex: "overlay",
     },
+  },
+});
+
+const logoStyle = css({
+  position: "absolute",
+  display: "block",
+  zIndex: "top",
+  shadow: "sm",
+
+  top: "1",
+  left: "7",
+});
+
+const knotStyle = css({
+  display: "none",
+
+  pc: {
+    display: "block",
+    position: "absolute",
+    right: "2",
+    zIndex: "top",
+    top: "10",
   },
 });
 ---
@@ -68,6 +92,8 @@ const rootStyle = css({
     aria-controls={GLOBAL_NAVIGATION_ID}
     inputId={GLOBAL_NAVIGATION_EXPANDED_STATE_ID}
   />
+  <HeaderLogo class={logoStyle} />
+  <HeaderLogoKnot class={knotStyle} />
   <ul>
     <li>
       <HeaderNavItem label="ホーム" path="/" />

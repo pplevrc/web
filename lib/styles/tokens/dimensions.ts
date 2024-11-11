@@ -58,6 +58,26 @@ export const tokens = defineTokens({
 		"2xl": toSizingToken(2),
 		"3xl": toSizingToken(4),
 	}),
+	zIndex: defineTokens.zIndex({
+		base: {
+			value: 0,
+		},
+		dropdown: {
+			value: 50,
+		},
+		stickey: {
+			value: 100,
+		},
+		overlay: {
+			value: 450,
+		},
+		tooltip: {
+			value: 800,
+		},
+		top: {
+			value: 9999,
+		},
+	}),
 });
 
 export const semanticTokens = defineSemanticTokens({});

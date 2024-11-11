@@ -4,7 +4,6 @@ import * as animations from "./tokens/animations";
 import * as colors from "./tokens/colors";
 import * as dimensions from "./tokens/dimensions";
 import * as transforms from "./tokens/transforms";
-import * as transitions from "./tokens/transitions";
 import * as typographies from "./tokens/typography";
 
 export default definePreset({
@@ -14,14 +13,14 @@ export default definePreset({
 			{},
 			colors.tokens,
 			dimensions.tokens,
-			transitions.tokens,
+			animations.tokens,
 			transforms.tokens,
 		),
 		semanticTokens: defu(
 			{},
 			colors.semanticTokens,
 			dimensions.semanticTokens,
-			transitions.semanticTokens,
+			animations.semanticTokens,
 		),
 		breakpoints: dimensions.breakpoints,
 		textStyles: typographies.textStyle,
@@ -38,4 +37,5 @@ export default definePreset({
 			"--global-font-body": typographies.globalFontFamily,
 		},
 	},
+	globalVars: defu({}, animations.globalVars),
 });

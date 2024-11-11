@@ -1,4 +1,5 @@
 ---
+import Footer from "@components/layouts/Footer/Footer.astro";
 import {
 	type DescriptionMetaProps,
 	default as HeadMeta,
@@ -23,11 +24,14 @@ const {
 		<ResponsiveScript />
 	</head>
 
-	<body>
+	<body style="height: 300vh">
 		<TemplateDefinition>
 			<slot name="template-definition" />
 		</TemplateDefinition>
 		<Header />
-		<slot />
+		<main>
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>

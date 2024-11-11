@@ -1,0 +1,37 @@
+---
+import PpleLogo from "./internals/PpleLogo.astro";
+import PpleLogoKnot from "./internals/PpleLogoKnot.astro";
+
+type LogoType = "pple" | "pple-knot";
+
+type Props = {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+
+  /**
+   * ロゴの種類.
+   */
+  type: LogoType;
+
+  class?: string;
+};
+
+const { type, ...props } = Astro.props;
+
+const LogoComponent = (() => {
+  switch (type) {
+    case "pple":
+      return PpleLogo;
+    case "pple-knot":
+      return PpleLogoKnot;
+    default:
+      throw new Error(`Logo type ${type} is not supported`);
+  }
+})();
+---
+
+<LogoComponent {...props} />

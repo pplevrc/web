@@ -1,0 +1,39 @@
+---
+import Logo from "@components/decoratives/Logo/Logo.astro";
+import { css, cva } from "@styles/css";
+
+interface Props {
+  class?: string;
+}
+
+const props = Astro.props;
+
+const isHome = Astro.url.pathname === "/";
+
+const logoStyle = cva({
+  base: {
+    w: "16",
+  },
+  variants: {
+    home: {
+      true: {
+        transformOrigin: "top left",
+        animation: "logoShrink",
+        animationTimeline: "scroll(y)",
+        animationDuration: "slow",
+
+        "--large-logo-size": "2",
+
+        pc: {
+          "--large-logo-size": "3",
+        },
+      },
+      false: {},
+    },
+  },
+}).raw({ home: isHome });
+---
+
+<a href="/" {...props}>
+  <Logo type="pple" class={css(logoStyle)} />
+</a>

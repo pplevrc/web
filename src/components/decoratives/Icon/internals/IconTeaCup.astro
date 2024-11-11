@@ -1,4 +1,6 @@
 ---
+import { GLOBAL_ICON_TEACUP_ID } from "@/lib/ids";
+
 type Props = {
   /**
    * SVG を `<symbol>` として定義するかどうか.
@@ -9,14 +11,12 @@ type Props = {
 };
 
 const { definition = false, ...props } = Astro.props;
-
-const id = "icon-tea-cup";
 ---
 
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
   {
     definition ? (
-      <symbol id={id} viewBox="0 0 24 24">
+      <symbol id={GLOBAL_ICON_TEACUP_ID} viewBox="0 0 24 24">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -29,7 +29,7 @@ const id = "icon-tea-cup";
         />
       </symbol>
     ) : (
-      <use xlink:href={`#${id}`} />
+      <use xlink:href={`#${GLOBAL_ICON_TEACUP_ID}`} />
     )
   }
 </svg>

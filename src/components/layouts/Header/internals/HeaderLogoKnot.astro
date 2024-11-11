@@ -1,0 +1,22 @@
+---
+import Logo from "@components/decoratives/Logo/Logo.astro";
+import { css } from "@styles/css";
+
+type Props = {
+  class?: string;
+};
+
+const props = Astro.props;
+
+const iconStyle = css({
+  w: "10",
+
+  pc: {
+    w: "16",
+  },
+});
+---
+
+<a href="#top" aria-label="画面上部にスクロールします" {...props}>
+  <Logo type="pple-knot" aria-hidden class={iconStyle} />
+</a>

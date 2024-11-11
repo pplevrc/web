@@ -662,7 +662,7 @@ export const semanticTokens = defineTokens({
 			(acc, [name, color]) =>
 				defu(acc, {
 					[name]: {
-						bgGradient: {
+						DEFAULT: {
 							value: {
 								type: "linear",
 								placement: "to bottom",
@@ -672,6 +672,13 @@ export const semanticTokens = defineTokens({
 									return [bg.value, lite.value];
 								})(),
 							} satisfies Gradient,
+						},
+						dashed: {
+							value: (() => {
+								const { lite } = color.semanticTokens;
+
+								return `linear-gradient(to right, ${lite.value} 1rem, transparent 1rem)`;
+							})(),
 						},
 					},
 				}),
