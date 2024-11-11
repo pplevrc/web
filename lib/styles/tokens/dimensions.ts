@@ -59,13 +59,16 @@ export const tokens = defineTokens({
 		"3xl": toSizingToken(4),
 	}),
 	zIndex: defineTokens.zIndex({
+		back: {
+			value: -1,
+		},
 		base: {
 			value: 0,
 		},
 		dropdown: {
 			value: 50,
 		},
-		stickey: {
+		sticky: {
 			value: 100,
 		},
 		overlay: {
