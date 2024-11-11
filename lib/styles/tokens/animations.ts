@@ -1,10 +1,5 @@
-import {
-	defineConfig,
-	defineSemanticTokens,
-	defineTokens,
-} from "@pandacss/dev";
+import { defineSemanticTokens, defineTokens } from "@pandacss/dev";
 import { defineKeyframes } from "@pandacss/dev";
-import type { init } from "astro/virtual-modules/prefetch.js";
 
 export const tokens = defineTokens({
 	easings: {
@@ -186,6 +181,6 @@ export const globalVars = {
 	"--large-logo-size": {
 		syntax: "<percentage>",
 		inherits: false,
-		initialValue: "1",
+		initialValue: "100%",
 	},
 } as const;
