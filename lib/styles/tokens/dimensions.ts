@@ -86,6 +86,7 @@ export const tokens = defineTokens({
 export const semanticTokens = defineSemanticTokens({});
 
 export const breakpoints = {
-	pc: "1440px",
-	sp: "320px",
+	// FIXME: breakpoints は px 指定を rem に変えてくるため, 独自で指定
+	// pc: "1440px",
+	// sp: "320px",
 } as const satisfies Record<string, string>;

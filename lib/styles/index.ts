@@ -29,6 +29,9 @@ export default definePreset({
 	conditions: {
 		extend: {
 			hover: ["@media (any-hover: hover) and (any-pointer: fine)", "&:hover"],
+			// FIXME: breakpoints は px 指定を rem に変えてくるため, 独自で指定
+			pc: ["@media screen and (min-width: 1440px)"],
+			spOnly: ["@media screen and (max-width: 1439.99px)"],
 		},
 	},
 	globalFontface: typographies.globalFontface,

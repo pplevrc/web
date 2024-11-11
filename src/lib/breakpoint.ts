@@ -1,5 +1,5 @@
 export function getViewportWidth(): number {
-	return document.documentElement.clientWidth;
+	return window.innerWidth;
 }
 
 export const PC_VIEWPORT_WIDTH = 1440;

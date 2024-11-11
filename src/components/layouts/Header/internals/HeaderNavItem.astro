@@ -26,7 +26,7 @@ const rootStyle = cva({
     w: "64",
     h: "8",
 
-    pc: {
+    _pc: {
       w: "20",
       h: "9",
       pos: "relative",
@@ -36,7 +36,7 @@ const rootStyle = cva({
     },
 
     _active: {
-      spOnly: {
+      _spOnly: {
         "& span": {
           borderWidth: "lg",
           borderColor: "latte.bg",
@@ -45,7 +45,7 @@ const rootStyle = cva({
     },
 
     _hover: {
-      pc: {
+      _pc: {
         bg: "latte.bg",
         h: "11",
 
@@ -67,7 +67,7 @@ const rootStyle = cva({
       w: "4",
       h: "4",
 
-      pc: {
+      _pc: {
         w: "6",
         h: "6",
         color: "latte.regular",
@@ -93,7 +93,7 @@ const rootStyle = cva({
       rounded: "full",
       textAlign: "center",
 
-      pc: {
+      _pc: {
         alignSelf: "flex-end",
         w: "full",
         h: "7",
@@ -105,14 +105,14 @@ const rootStyle = cva({
     selected: {
       true: {
         // selected: true は PC のみでスタイルを定義する
-        pc: {
+        _pc: {
           bg: "latte.regular",
           color: "latte.lite",
           textStyle: "normal.bold.sm",
         },
 
         "& svg": {
-          pc: {
+          _pc: {
             color: "white/30",
 
             scale: "auto",
@@ -122,7 +122,7 @@ const rootStyle = cva({
         },
 
         "& span": {
-          pc: {
+          _pc: {
             color: "white/90",
             textStyle: "normal.bold.sm",
 
@@ -147,5 +147,5 @@ const rootStyle = cva({
   <span>
     {label}
   </span>
-  <Icon type="flower" aria-hidden class={css({ pc: { display: "none" } })} />
+  <Icon type="flower" aria-hidden class={css({ _pc: { display: "none" } })} />
 </a>

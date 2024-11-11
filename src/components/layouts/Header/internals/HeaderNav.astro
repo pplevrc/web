@@ -20,7 +20,7 @@ const rootStyle = css({
     right: "2",
     zIndex: "top",
 
-    pc: {
+    _pc: {
       display: "none",
     },
   },
@@ -28,14 +28,14 @@ const rootStyle = css({
   "& > ul": {
     display: "none",
 
-    pc: {
+    _pc: {
       display: "flex",
       justifyContent: "end",
       gap: "6",
     },
   },
 
-  spOnly: {
+  _spOnly: {
     "&:has(:checked)": {
       "& > ul": {
         display: "flex",
@@ -74,7 +74,7 @@ const logoStyle = css({
 const knotStyle = css({
   display: "none",
 
-  pc: {
+  _pc: {
     display: "block",
     position: "absolute",
     right: "2",
