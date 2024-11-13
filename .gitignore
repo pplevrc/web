@@ -140,3 +140,6 @@ dist
 
 # PandaCSS output
 src/styles
+
+# Prepared for deployment
+**/*.generated.*
