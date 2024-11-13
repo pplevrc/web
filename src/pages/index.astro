@@ -1,4 +1,7 @@
 ---
+import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
+import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
+import StaffPickupSection from "@components/pages/home/StaffPickupSection/StaffPickupSection.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
@@ -9,6 +12,7 @@ import Layout from "@layouts/Layout.astro";
 		keywords: ["home", "page"],
 	}}
 >
-	<section style="background-color: gray, height: 1vh"></section>
-	main
+	<HeroSection />
+	<NewsHeadlineSection />
+	<StaffPickupSection />
 </Layout>

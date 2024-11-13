@@ -83,7 +83,16 @@ export const tokens = defineTokens({
 	}),
 });
 
-export const semanticTokens = defineSemanticTokens({});
+export const semanticTokens = defineSemanticTokens({
+	sizes: {
+		header: {
+			value: "{sizes.14}",
+		},
+		bodyVH: {
+			value: "calc(100vh - {sizes.14})",
+		},
+	},
+});
 
 export const breakpoints = {
 	// FIXME: breakpoints は px 指定を rem に変えてくるため, 独自で指定

@@ -1,0 +1,17 @@
+---
+const props = Astro.props;
+---
+
+<video
+  muted
+  autoplay
+  playsinline
+  disableRemotePlayback
+  loop
+  poster="/movies/top-poster.png"
+  {...props}
+>
+  <!-- <source src="/movies/top.mp4" type="video/mp4" /> -->
+  <source src="/movies/top.webm" type="video/webm" />
+  <!-- <source src="/movies/top.ogg" type="video/ogg" /> -->
+</video>

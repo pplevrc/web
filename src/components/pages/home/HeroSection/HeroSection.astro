@@ -1,0 +1,18 @@
+---
+import { css } from "@styles/css";
+import HeroMovie from "./internals/HeroMovie.astro";
+
+const sectionStyle = css({
+  h: "bodyVH",
+});
+
+const videoStyle = css({
+  h: "full",
+  w: "full",
+  objectFit: "cover",
+});
+---
+
+<section class={sectionStyle}>
+  <HeroMovie class={videoStyle} />
+</section>
