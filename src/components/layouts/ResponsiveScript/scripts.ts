@@ -1,4 +1,8 @@
-import { PC_VIEWPORT_WIDTH, getViewportWidth, isSP } from "@/lib/breakpoint";
+import {
+	PC_VIEWPORT_WIDTH,
+	getViewportWidth,
+	isSP,
+} from "@lib/browsers/breakpoint";
 
 let defaultRootFontSize: number | undefined;
 
