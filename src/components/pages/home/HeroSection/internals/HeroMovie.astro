@@ -1,17 +1,26 @@
 ---
+import sourceMP4ForPc from "@assets/videos/top-pc.generated.mp4";
+// import sourceWebMForPc from "@assets/videos/top-pc.generated.webm";
+import sourceMP4ForSp from "@assets/videos/top-sp.generated.mp4";
+import poster from "@assets/videos/top.generated.png";
+// import sourceWebMForSp from "@assets/videos/top-sp.generated.webm";
+import ResponsiveVideo from "@components/commons/ResponsiveVideo.astro";
+
 const props = Astro.props;
 ---
 
-<video
+<ResponsiveVideo
   muted
   autoplay
-  playsinline
+  playsInline
   disableRemotePlayback
   loop
-  poster="/movies/top-poster.png"
+  poster={poster.src}
+  sources={{
+    mp4: {
+      pc: sourceMP4ForPc,
+      sp: sourceMP4ForSp,
+    },
+  }}
   {...props}
->
-  <!-- <source src="/movies/top.mp4" type="video/mp4" /> -->
-  <source src="/movies/top.webm" type="video/webm" />
-  <!-- <source src="/movies/top.ogg" type="video/ogg" /> -->
-</video>
+/>

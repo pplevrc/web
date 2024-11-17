@@ -931,6 +931,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ffmpeg/core-mt@npm:^0.12.6":
+  version: 0.12.6
+  resolution: "@ffmpeg/core-mt@npm:0.12.6"
+  checksum: 10c0/451044a9d2d59fefda9c1e7340910c3b5b484e5c2997b25bf261fa5cde5d2ee6fcdacb570dd3085466906562b3ae5abbe2a78ad3567106244c48c078fc32d782
+  languageName: node
+  linkType: hard
+
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
@@ -5620,6 +5627,7 @@ __metadata:
   dependencies:
     "@astrojs/check": "npm:^0.9.4"
     "@biomejs/biome": "npm:^1.9.3"
+    "@ffmpeg/core-mt": "npm:^0.12.6"
     "@pandacss/dev": "npm:^0.47.0"
     "@pandacss/studio": "npm:^0.47.0"
     "@types/ejs": "npm:^3.1.5"

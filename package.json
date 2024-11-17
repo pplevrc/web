@@ -7,14 +7,16 @@
 	},
 	"type": "module",
 	"scripts": {
-		"prepare": "panda codegen && panda && yarn prepare:template",
-		"prepare:template": "jiti ./lib/prepare/template.ts",
+		"prepare": "panda codegen && panda && yarn prepare:template && yarn prepare:video",
+		"prepare:template": "jiti ./lib/prepare/sources/template.ts",
+		"prepare:video": "jiti ./lib/prepare/assets/videos/transport.ts",
 		"dev": "yarn prepare && concurrently \"yarn dev:panda\" \"yarn dev:astro\" \"yarn dev:panda-studio\" \"yarn dev:test\"",
 		"dev:panda": "panda -w",
 		"dev:astro": "astro dev",
 		"dev:test": "vitest --ui",
 		"dev:panda-studio": "panda studio --port 3000",
 		"build": "yarn build:panda && yarn build:astro",
+		"build:prepare": "NODE_ENV=production yarn prepare",
 		"build:panda": "panda --minify",
 		"build:astro": "astro check && astro build",
 		"test": "vitest",
@@ -24,6 +26,7 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
+		"@ffmpeg/core-mt": "^0.12.6",
 		"@pandacss/dev": "^0.47.0",
 		"@types/ejs": "^3.1.5",
 		"astro": "^4.16.6",
@@ -46,7 +49,7 @@
 	},
 	"packageManager": "yarn@4.5.0",
 	"volta": {
-		"node": "20.18.0",
+		"node": "22.11.0",
 		"yarn": "4.5.0"
 	},
 	"engines": {
