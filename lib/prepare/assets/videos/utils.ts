@@ -3,7 +3,7 @@
  * @param arg
  * @returns
  */
-export function ensureNonNull<T>(arg: T | null | undefined): T {
+export function ensureNonNil<T>(arg: T | null | undefined): T {
 	if (arg === null || arg === undefined) {
 		throw new Error("Unexpected null or undefined");
 	}

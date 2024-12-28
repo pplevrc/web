@@ -158,15 +158,15 @@ export const keyframes = defineKeyframes({
 			transform: "scale(var(--large-logo-size))",
 			opacity: "0",
 		},
-		"33%": {
+		"34%": {
 			transform: "scale(1)",
 			opacity: "0",
 		},
-		"33.5%": {
+		"34.5%": {
 			transform: "scale(1)",
 			opacity: "0",
 		},
-		"41%": {
+		"42%": {
 			transform: "scale(1)",
 			opacity: "1",
 		},

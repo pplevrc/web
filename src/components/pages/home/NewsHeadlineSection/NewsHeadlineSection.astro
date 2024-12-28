@@ -1,1 +1,10 @@
-<section></section>;
+---
+import SnapSection from "@components/layouts/Sections/SnapSection.astro";
+import { css } from "@styles/css";
+
+const rootStyle = css({
+  bg: "matcha.bg",
+});
+---
+
+<SnapSection class={rootStyle}> NewsHeadlineSection </SnapSection>

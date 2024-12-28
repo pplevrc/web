@@ -15,9 +15,13 @@ export const tokens = defineTokens({
 			defu<SizesToken, SizesToken[]>(
 				{
 					px: toSizingToken(0.25),
-				},
-				{
 					full: { value: "100%" },
+					screenVH: {
+						value: "100svh",
+					},
+					screenVW: {
+						value: "100svw",
+					},
 				},
 				...sizeNames.map((name) => ({ [name]: toSizingToken(name) })),
 			),
@@ -89,7 +93,7 @@ export const semanticTokens = defineSemanticTokens({
 			value: "{sizes.14}",
 		},
 		bodyVH: {
-			value: "calc(100vh - {sizes.14})",
+			value: "calc(100svh - {sizes.14})",
 		},
 	},
 });

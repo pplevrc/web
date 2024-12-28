@@ -1,0 +1,18 @@
+---
+import SnapSection from "@components/layouts/Sections/SnapSection.astro";
+import { fetchCasts } from "@content/casts";
+
+import { css } from "@styles/css";
+
+const casts = await fetchCasts();
+
+const test = JSON.stringify(casts);
+
+const rootStyle = css({
+  bg: "rose.bg",
+});
+---
+
+<SnapSection class={rootStyle}>
+  {test}
+</SnapSection>

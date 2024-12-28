@@ -7,7 +7,7 @@ import {
 	type FFmpegModule as FFmpeg,
 	default as createFFmpegCore,
 } from "@ffmpeg/core-mt";
-import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNull } from "./utils";
+import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil } from "./utils";
 
 interface TransportArg {
 	media?: "sp" | "pc";
@@ -153,7 +153,7 @@ async function transport(
 		const ffmpeg = await loadFFmpeg();
 		try {
 			const result = await execute(ffmpeg, {
-				src: ensureNonNull(await tryReadFile(sourcePath)),
+				src: ensureNonNil(await tryReadFile(sourcePath)),
 			});
 			await write(cacheFilePath, result);
 			cachedFile = result;

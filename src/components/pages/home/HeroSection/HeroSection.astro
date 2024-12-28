@@ -1,10 +1,7 @@
 ---
+import ScreenFitSection from "@components/layouts/Sections/ScreenFitSection.astro";
 import { css } from "@styles/css";
 import HeroMovie from "./internals/HeroMovie.astro";
-
-const sectionStyle = css({
-  h: "bodyVH",
-});
 
 const videoStyle = css({
   h: "full",
@@ -13,6 +10,6 @@ const videoStyle = css({
 });
 ---
 
-<section class={sectionStyle}>
+<ScreenFitSection>
   <HeroMovie class={videoStyle} />
-</section>
+</ScreenFitSection>

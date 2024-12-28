@@ -1,0 +1,19 @@
+---
+import { css } from "@styles/css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: sectionClass } = Astro.props;
+
+const fitStyle = css({
+  scrollSnapAlign: "center",
+  minH: "102",
+  h: "102",
+});
+---
+
+<section class:list={[fitStyle, sectionClass]}>
+  <slot />
+</section>

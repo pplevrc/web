@@ -7,14 +7,33 @@ import {
 import Header from "@components/layouts/Header/Header.astro";
 import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
 import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
+import { css } from "@styles/css";
+import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
 	headMeta: DescriptionMetaProps;
+	mainStyle?: SystemStyleObject;
 }
 
 const {
 	headMeta: { title, description, keywords },
+	mainStyle,
 } = Astro.props;
+
+const bodyStyle = css({
+	// scrollbar styles
+	"@supports (scrollbar-color: auto)": {
+		scrollbarColor: ["latte.deep", "lavendar.100"],
+	},
+
+	"@supports selector(::webkit-scrollbar)": {
+		"&::-webkit-scrollbar-thumb": {
+			bg: "latte.deep",
+		},
+	},
+});
+
+const mainClass = css(mainStyle);
 ---
 
 <!doctype html>
@@ -24,12 +43,12 @@ const {
 		<ResponsiveScript />
 	</head>
 
-	<body style="height: 300vh">
+	<body class={bodyStyle}>
 		<TemplateDefinition>
 			<slot name="template-definition" />
 		</TemplateDefinition>
 		<Header />
-		<main>
+		<main class={mainClass}>
 			<slot />
 		</main>
 		<Footer />
