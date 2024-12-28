@@ -1,5 +1,6 @@
 ---
-import { GLOBAL_ICON_TEAPOT_ID } from "@lib/constants/ids.generated";
+import { css } from "@/styles/css";
+import { hash } from "ohash";
 
 type Props = {
   /**
@@ -11,25 +12,31 @@ type Props = {
 };
 
 const { definition = false, ...props } = Astro.props;
+
+const id = hash("icon-teapot");
 ---
 
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
   {
     definition ? (
-      <symbol id={GLOBAL_ICON_TEAPOT_ID} viewBox="0 0 24 24">
+      <symbol id={id} viewBox="0 0 24 24">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          class={css({
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            fill: "[currentColor]",
+          })}
           d="M7.75097 8.76033H18.0725C18.0725 8.76033 18.6157 9.22314 18.8572 9.5124C18.8572 9.5124 20.1934 8.964 21.0905 8.99174C22.9616 9.04959 23.8615 10.2557 23.9877 11.7686C24.1085 13.2149 23.3841 15.1818 19.7022 16.1074C19.159 17.3802 16.8653 19 16.8653 19H9.19961C7.44918 17.9587 6.82714 17.538 5.57802 16.281C4.22491 14.9193 3.34471 13.5041 2.43932 12C1.50132 10.4417 0.749245 9.7438 0.0852878 8.87603C-0.0861297 8.652 0.0249287 8.29752 0.206008 8.18182H2.74112C3.40507 8.93388 4.34501 10.5537 5.39694 10.5537C6.44888 10.5537 6.6645 9.22314 7.75097 8.76033ZM20.3058 12.6363C20.2127 12.05 19.8833 11.1322 19.8833 11.1322C21.513 10.0331 22.3086 10.9425 22.2373 12.0579C22.1729 13.0662 21.4526 14.0826 20.3058 14.0826C20.3058 14.0826 20.3945 13.1947 20.3058 12.6363Z"
-          fill="currentColor"
         />
         <path
           d="M11.6744 6.21488C11.6744 6.21488 11.6744 5 12.8212 5C13.968 5 13.968 6.21488 13.968 6.21488C16.2013 6.44628 17.8914 8.12397 17.8914 8.12397H7.93205C7.93205 8.12397 9.13925 6.27273 11.6744 6.21488Z"
-          fill="currentColor"
+          class={css({
+            fill: "[currentColor]",
+          })}
         />
       </symbol>
     ) : (
-      <use xlink:href={`#${GLOBAL_ICON_TEAPOT_ID}`} />
+      <use xlink:href={`#${id}`} />
     )
   }
 </svg>

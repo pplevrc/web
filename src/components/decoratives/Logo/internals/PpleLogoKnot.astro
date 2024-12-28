@@ -1,5 +1,5 @@
 ---
-import { GLOBAL_LOGO_PPLE_KNOT_ID } from "@lib/constants/ids.generated";
+import { hash } from "ohash";
 
 type Props = {
   /**
@@ -11,6 +11,8 @@ type Props = {
 };
 
 const { definition = false, ...props } = Astro.props;
+
+const id = hash("logo-pple-knot");
 ---
 
 <svg
@@ -21,7 +23,7 @@ const { definition = false, ...props } = Astro.props;
 >
   {
     definition ? (
-      <symbol id={GLOBAL_LOGO_PPLE_KNOT_ID} viewBox="0 0 433 457">
+      <symbol id={id} viewBox="0 0 433 457">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -78,7 +80,7 @@ const { definition = false, ...props } = Astro.props;
         />
       </symbol>
     ) : (
-      <use xlink:href={`#${GLOBAL_LOGO_PPLE_KNOT_ID}`} />
+      <use xlink:href={`#${id}`} />
     )
   }
 </svg>

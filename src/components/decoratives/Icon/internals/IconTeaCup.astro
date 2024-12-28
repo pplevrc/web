@@ -1,5 +1,6 @@
 ---
-import { GLOBAL_ICON_TEACUP_ID } from "@lib/constants/ids.generated";
+import { css } from "@/styles/css";
+import { hash } from "ohash";
 
 type Props = {
   /**
@@ -11,25 +12,31 @@ type Props = {
 };
 
 const { definition = false, ...props } = Astro.props;
+
+const id = hash("icon-teacup");
 ---
 
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
   {
     definition ? (
-      <symbol id={GLOBAL_ICON_TEACUP_ID} viewBox="0 0 24 24">
+      <symbol id={id} viewBox="0 0 24 24">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          class={css({
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            fill: "[currentColor]",
+          })}
           d="M5.4902 3C7.37255 2.99998 15.9588 3.00008 22.6667 3C23.2941 3 24 3.83895 24 4.2203C24 6.27959 23.9216 9.94061 23.9216 11.3135C23.9216 13.5528 21.098 16.5763 21.098 16.5763H9.17647C7.68628 15.4322 7.05882 14.2881 6.58823 12.9153H5.01961C2.48107 12.9153 1.15354e-07 10.7812 0 8.18646C-1.79709e-07 4.14407 3.13726 3.00003 5.4902 3ZM2.98039 8.26269C2.98039 7.34739 3.76471 5.21183 6.11765 6.20336V9.78811C4.54902 10.5508 2.98039 9.48427 2.98039 8.26269Z"
-          fill="currentColor"
         />
         <path
           d="M6.03922 18.1017H23.8431V19.6271C23.8431 20.2604 23.45 20.8114 22.7451 20.8475C21.2549 20.9237 11.9216 21 7.68628 21C6.87764 21 6.03922 20.2373 6.03922 19.322V18.1017Z"
-          fill="currentColor"
+          class={css({
+            fill: "[currentColor]",
+          })}
         />
       </symbol>
     ) : (
-      <use xlink:href={`#${GLOBAL_ICON_TEACUP_ID}`} />
+      <use xlink:href={`#${id}`} />
     )
   }
 </svg>
