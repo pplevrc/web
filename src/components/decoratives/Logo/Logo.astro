@@ -1,8 +1,7 @@
 ---
 import PpleLogo from "./internals/PpleLogo.astro";
-import PpleLogoKnot from "./internals/PpleLogoKnot.astro";
 
-type LogoType = "pple" | "pple-knot";
+type LogoType = "pple";
 
 type Props = {
   /**
@@ -26,8 +25,6 @@ const LogoComponent = (() => {
   switch (type) {
     case "pple":
       return PpleLogo;
-    case "pple-knot":
-      return PpleLogoKnot;
     default:
       throw new Error(`Logo type ${type} is not supported`);
   }

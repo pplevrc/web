@@ -1,6 +1,6 @@
 ---
 import Icon from "@/components/decoratives/Icon/Icon.astro";
-import { css, cva } from "@/styles/css";
+import { css } from "@/styles/css";
 
 type Props = {
   label: string;
@@ -12,137 +12,87 @@ const { label, path } = Astro.props;
 const currentRootPath = Astro.url.pathname.split("/")[1];
 const isCurrent = path === `/${currentRootPath}`;
 
-const rootStyle = cva({
-  base: {
-    color: "latte.deep",
+const rootStyle = css({
+  color: "latte.regular",
+  fill: "latte.regular",
 
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDir: "row",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexDir: "row",
 
-    rounded: "xl",
+  w: "64",
+  h: "8",
 
-    w: "64",
-    h: "8",
+  _pc: {
+    w: "20",
+    h: "header",
+    pb: "2",
+    pos: "relative",
+    textStyle: "normal.bold.sm",
+
+    "& span::after": {
+      content: "''",
+      pos: "absolute",
+      left: "0",
+      w: "full",
+      h: "0.5",
+      bg: "latte.regular",
+      bottom: "1",
+      transform: "scale(0, 1)",
+      transformOrigin: "right top",
+      transition: "transform",
+    },
+
+    "&:hover span::after": {
+      transform: "scale(1, 1)",
+      transformOrigin: "left top",
+    },
+
+    "&:hover svg": {
+      animationPlayState: "running",
+    },
+  },
+
+  "& svg": {
+    w: "4",
+    h: "4",
 
     _pc: {
-      w: "20",
-      h: "9",
-      pos: "relative",
-      textStyle: "normal.sm",
+      w: "6",
+      h: "6",
+      pos: "absolute",
+      top: "-3",
+      left: "0",
+      right: "0",
+      margin: "auto",
+      scale: "auto",
+      scaleX: "1",
+      scaleY: "1",
 
-      roundedTop: "none",
-    },
-
-    _active: {
-      _spOnly: {
-        "& span": {
-          borderWidth: "lg",
-          borderColor: "latte.bg",
-        },
-      },
-    },
-
-    _hover: {
-      _pc: {
-        bg: "latte.bg",
-        h: "11",
-
-        "& svg": {
-          top: "-1.5",
-          color: "white/30",
-
-          scale: "auto",
-          scaleX: "2.666667",
-          scaleY: "2.666667",
-
-          animationPlayState: "running",
-        },
-      },
-    },
-
-    "& svg": {
-      color: "latte.lite",
-      w: "4",
-      h: "4",
-
-      _pc: {
-        w: "6",
-        h: "6",
-        color: "latte.regular",
-        pos: "absolute",
-        top: "-3",
-        left: "0",
-        right: "0",
-        margin: "auto",
-        scale: "auto",
-        scaleX: "1",
-        scaleY: "1",
-
-        animation: "rotate",
-        animationDuration: "slower",
-        animationIterationCount: "infinite",
-        animationTimingFunction: "linear",
-        animationPlayState: "paused",
-      },
-    },
-
-    "& span": {
-      w: "52",
-      rounded: "full",
-      textAlign: "center",
-
-      _pc: {
-        alignSelf: "flex-end",
-        w: "full",
-        h: "7",
-        pt: "2",
-      },
+      animation: "rotate",
+      animationDuration: "slower",
+      animationIterationCount: "infinite",
+      animationTimingFunction: "linear",
+      animationPlayState: "paused",
     },
   },
-  variants: {
-    selected: {
-      true: {
-        // selected: true は PC のみでスタイルを定義する
-        _pc: {
-          bg: "latte.regular",
-          color: "latte.lite",
-          textStyle: "normal.bold.sm",
-        },
 
-        "& svg": {
-          _pc: {
-            color: "white/30",
+  "& span": {
+    w: "52",
+    textAlign: "center",
 
-            scale: "auto",
-            scaleX: "2.666667",
-            scaleY: "2.666667",
-          },
-        },
-
-        "& span": {
-          _pc: {
-            color: "white/90",
-            textStyle: "normal.bold.sm",
-
-            _hover: {
-              color: "latte.deep",
-            },
-          },
-        },
-      },
-      false: {},
+    _pc: {
+      alignSelf: "flex-end",
+      w: "full",
+      h: "7",
+      pt: "2",
     },
   },
-}).raw({ selected: isCurrent });
+});
 ---
 
-<a
-  aria-current={isCurrent ? "page" : undefined}
-  href={path}
-  class={css(rootStyle)}
->
+<a aria-current={isCurrent ? "page" : undefined} href={path} class={rootStyle}>
   <Icon type="flower" aria-hidden />
   <span>
     {label}

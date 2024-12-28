@@ -5,24 +5,11 @@ import HeaderNav from "./internals/HeaderNav.astro";
 const headerStyle = css({
   bg: "white",
   h: "header",
+  zIndex: "header",
   shadow: "xs",
 
   position: "sticky",
   top: "0",
-
-  _after: {
-    bgGradient: "latte.dashed",
-    bgSize: "[2rem]",
-    zIndex: "back",
-
-    content: '""',
-    position: "absolute",
-    top: "12",
-    display: "block",
-    overflow: "visible",
-    h: "1",
-    w: "full",
-  },
 });
 ---
 

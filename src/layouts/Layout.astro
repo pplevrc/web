@@ -1,4 +1,5 @@
 ---
+import { GLOBAL_NAVIGATION_EXPANDED_STATE_ID } from "@/lib/constants/ids.generated";
 import Footer from "@components/layouts/Footer/Footer.astro";
 import {
 	type DescriptionMetaProps,
@@ -20,15 +21,10 @@ const {
 	mainStyle,
 } = Astro.props;
 
-const bodyStyle = css({
-	// scrollbar styles
-	"@supports (scrollbar-color: auto)": {
-		scrollbarColor: ["latte.deep", "lavendar.100"],
-	},
-
-	"@supports selector(::webkit-scrollbar)": {
-		"&::-webkit-scrollbar-thumb": {
-			bg: "latte.deep",
+const hideScroll = css({
+	_spOnly: {
+		"&:has(header *:checked)": {
+			overflow: "hidden",
 		},
 	},
 });
@@ -43,7 +39,7 @@ const mainClass = css(mainStyle);
 		<ResponsiveScript />
 	</head>
 
-	<body class={bodyStyle}>
+	<body class={hideScroll}>
 		<TemplateDefinition>
 			<slot name="template-definition" />
 		</TemplateDefinition>

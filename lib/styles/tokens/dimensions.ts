@@ -5,8 +5,8 @@ import { toSizingToken } from "./commons/dimensions";
 export const tokens = defineTokens({
 	sizes: (() => {
 		const sizeNames = [
-			1.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24, 28, 32, 36,
-			39, 43, 48, 52, 56, 60, 64, 72, 80, 96, 102,
+			0.25, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24, 28,
+			32, 36, 39, 43, 48, 52, 56, 60, 64, 72, 80, 96, 102,
 		];
 
 		type SizesToken = NonNullable<Parameters<typeof defineTokens.sizes>[0]>;
@@ -75,10 +75,10 @@ export const tokens = defineTokens({
 		sticky: {
 			value: 100,
 		},
-		overlay: {
+		header: {
 			value: 450,
 		},
-		tooltip: {
+		dialog: {
 			value: 800,
 		},
 		top: {
@@ -90,10 +90,10 @@ export const tokens = defineTokens({
 export const semanticTokens = defineSemanticTokens({
 	sizes: {
 		header: {
-			value: "{sizes.14}",
+			value: "{sizes.12}",
 		},
 		bodyVH: {
-			value: "calc(100svh - {sizes.14})",
+			value: "calc(100svh - {sizes.12})",
 		},
 	},
 });

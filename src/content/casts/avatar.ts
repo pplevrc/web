@@ -64,14 +64,14 @@ export async function toAvatarImages(
 	};
 }
 
-interface TrimmingOption {
+/* interface TrimmingOption {
 	top?: number;
 	left?: number;
 	right?: number;
 	bottom?: number;
-}
+} */
 
-async function trimImage(
-	image: Blob,
-	{ top: t, left: l, right: r, bottom: b }: TrimmingOption,
-): Promise<Blob> {}
+// async function trimImage(
+// 	image: Blob,
+// 	{ top: t, left: l, right: r, bottom: b }: TrimmingOption,
+// ): Promise<Blob> {}

@@ -5,13 +5,12 @@ import {
 } from "@lib/constants/ids.generated";
 import { css } from "@styles/css";
 import HeaderLogo from "./HeaderLogo.astro";
-import HeaderLogoKnot from "./HeaderLogoKnot.astro";
 import HeaderNavItem from "./HeaderNavItem.astro";
 import HumbergerIconButton from "./HumbergerIconButton.astro";
 
 const rootStyle = css({
-  px: "6",
-  h: "14",
+  px: "42",
+  h: "12",
   pos: "relative",
 
   '& [role="button"]': {
@@ -41,6 +40,7 @@ const rootStyle = css({
         display: "flex",
         justifyContent: "center",
         flexDir: "column",
+        zIndex: "header",
 
         placeItems: "center",
         gap: "4",
@@ -55,7 +55,6 @@ const rootStyle = css({
         w: "[100vw]",
         h: "[100vh]",
         bg: "white/80",
-        zIndex: "overlay",
       },
     },
   },
@@ -69,17 +68,9 @@ const logoStyle = css({
 
   top: "1",
   left: "7",
-});
-
-const knotStyle = css({
-  display: "none",
 
   _pc: {
-    display: "block",
-    position: "absolute",
-    right: "2",
-    zIndex: "sticky",
-    top: "10",
+    left: "42",
   },
 });
 ---
@@ -95,7 +86,6 @@ const knotStyle = css({
     inputId={GLOBAL_NAVIGATION_EXPANDED_STATE_ID}
   />
   <HeaderLogo class={logoStyle} />
-  <HeaderLogoKnot class={knotStyle} />
   <ul>
     <li>
       <HeaderNavItem label="ホーム" path="/" />
