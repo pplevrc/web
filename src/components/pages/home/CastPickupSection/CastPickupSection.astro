@@ -6,13 +6,19 @@ import { css } from "@styles/css";
 
 const casts = await fetchCasts();
 
-const test = JSON.stringify(casts);
-
 const rootStyle = css({
   bg: "rose.bg",
 });
 ---
 
 <SnapSection class={rootStyle}>
-  {test}
+  <ul>
+    {
+      casts.map(({ profile: { nickname } }) => (
+        <li>
+          <a href={`/cast/${nickname}`}>{nickname}</a>
+        </li>
+      ))
+    }
+  </ul>
 </SnapSection>

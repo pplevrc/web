@@ -1,0 +1,24 @@
+---
+import { fetchCasts } from "@/content/casts";
+import Layout from "@layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const casts = await fetchCasts();
+
+  return casts.map((cast) => ({
+    params: { nickname: cast.profile.nickname },
+  }));
+}
+
+const { nickname } = Astro.params;
+---
+
+<Layout
+  headMeta={{
+    title: `ロリっ子喫茶ぷぷりえ | キャスト紹介: ${nickname}`,
+    description: "Home page",
+    keywords: ["home", "page"],
+  }}
+>
+  {nickname}
+</Layout>

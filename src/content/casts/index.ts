@@ -6,6 +6,10 @@ import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
 import { type AvatarImage, avatarImageSchema } from "./avatar";
 
 import { createMockCasts } from "./__mock__";
+
+/**
+ *
+ */
 export interface Cast {
 	/**
 	 * 出席番号
@@ -40,6 +44,9 @@ export interface Cast {
 	socialLinks: SocialLink[];
 }
 
+/**
+ *
+ */
 interface VRChatProfile {
 	/**
 	 * @example "外道いろは"
@@ -52,6 +59,9 @@ interface VRChatProfile {
 	userPageURL: URL;
 }
 
+/**
+ *
+ */
 export interface CastProfile {
 	/**
 	 * ひらがな６文字以下で表示する名前
@@ -108,3 +118,14 @@ const castSchema = schemaForType<Cast>(
 		socialLinks: z.array(socialLinkSchema),
 	}),
 );
+
+export async function fetchCastByNickName(nickname: string): Promise<Cast> {
+	const casts = await fetchCasts();
+	const cast = casts.find((cast) => cast.profile.nickname === nickname);
+
+	if (!cast) {
+		throw new Error(`Cast "${nickname}" not found`);
+	}
+
+	return cast;
+}
