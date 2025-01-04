@@ -23,6 +23,7 @@ interface Props {
 
   /**
    * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
    */
   width: number;
 
@@ -64,9 +65,9 @@ const scale =
 
 /**
  * PC_VIEWPORT_WIDTH * 2 を基準に考慮した, props でわたってくる width を rem に変換した値
- * 参考 .. 1rem = 16px
+ * 参考 .. 1rem = 32px
  */
-const widthRem = (width / 16) * scale;
+const widthRem = (width / 32) * (avatar.height / AVATAR_SAME_SCALE_HEIGHT);
 
 const optimizedWidth = DEFAULT_WIDTH * scale;
 
@@ -74,7 +75,10 @@ const optimizedHeight = DEFAULT_HEIGHT * scale;
 
 const optimizedLeftMargin = DEFAULT_LEFT_MERGIN_PX * scale;
 
-const imageRootStyle = css({});
+const imageRootStyle = css({
+  display: "block",
+  w: "[fit-content]",
+});
 
 const imageStyle = {
   objectPosition: `right ${optimizedLeftMargin}px top 0`,

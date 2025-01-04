@@ -16,12 +16,13 @@ const listStyle = css({
   display: "flex",
   flexDir: "row",
   alignItems: "end",
-  gap: "4",
 });
 
 const imageWrapStyle = css({
   w: "64",
-  display: "block",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
 });
 ---
 
@@ -36,7 +37,7 @@ const imageWrapStyle = css({
               avatar={ensureNonNil(avatars[0])}
               type="neutral"
               alt={`${nickname} のアバター`}
-              width={650}
+              width={512}
             />
           </a>
         </li>
