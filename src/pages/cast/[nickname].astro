@@ -1,6 +1,6 @@
 ---
-import { fetchCasts } from "@/content/casts";
 import Layout from "@layouts/Layout.astro";
+import { fetchCasts } from "@lib/contents/casts";
 
 export async function getStaticPaths() {
   const casts = await fetchCasts();

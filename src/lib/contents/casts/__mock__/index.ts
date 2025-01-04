@@ -1,6 +1,6 @@
 import { date } from "@/lib/utils/temporal";
-import type { Cast, FetchedCast } from "@content/casts/types";
-import { sort, toSocialLink } from "@content/commons/SocialLink";
+import { sort, toSocialLink } from "@lib/contents/commons/SocialLink";
+import type { Cast, FetchedCast } from "../types";
 
 import vdcmImg from "./assets/YTJVDCM.png";
 import wimaruImg from "./assets/うぃまる.png";
