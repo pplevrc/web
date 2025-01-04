@@ -1,15 +1,14 @@
 import { date } from "@/lib/utils/temporal";
-import type { Cast } from "@content/casts";
+import type { Cast, FetchedCast } from "@content/casts/types";
 import { sort, toSocialLink } from "@content/commons/SocialLink";
 
-import { toAvatarImages } from "../avatar";
 import vdcmImg from "./assets/YTJVDCM.png";
 import wimaruImg from "./assets/うぃまる.png";
 import usamimikaImg from "./assets/うさみみか.png";
 import oukaImg from "./assets/くるりおうか.png";
 import kokoaImg from "./assets/柚月ここあ.png";
 
-export async function createMockCasts(): Promise<Cast[]> {
+export async function createMockCasts(): Promise<FetchedCast[]> {
 	const casts = [
 		{
 			attendanceId: 44,
@@ -32,7 +31,21 @@ export async function createMockCasts(): Promise<Cast[]> {
 					"https://vrchat.com/home/user/usr_03ca05dc-4bb8-422e-a9dd-72880e6c59d3",
 				),
 			},
-			mainAvatar: await toAvatarImages(wimaruImg.src, 49),
+			avatars: [
+				{
+					images: {
+						neutral: wimaruImg,
+						expression: wimaruImg,
+					},
+					height: 49,
+					assets: [
+						await toSocialLink({
+							url: "https://booth.pm/ja/items/5129661",
+							description: "ぱたにゃこ | しすたーず",
+						}),
+					],
+				},
+			],
 			socialLinks: sort([
 				await toSocialLink({
 					url: "https://x.com/wi_maru",
@@ -56,7 +69,16 @@ export async function createMockCasts(): Promise<Cast[]> {
 				),
 			},
 			themeColor: "berry.lite",
-			mainAvatar: await toAvatarImages(vdcmImg.src, 85),
+			avatars: [
+				{
+					images: {
+						neutral: vdcmImg,
+						expression: vdcmImg,
+					},
+					height: 85,
+					assets: [],
+				},
+			],
 			socialLinks: sort([
 				await toSocialLink({
 					url: "https://mstdn.virtecam.net/@YTJVDCM",
@@ -86,7 +108,17 @@ export async function createMockCasts(): Promise<Cast[]> {
 				),
 			},
 			themeColor: "berry.lite",
-			mainAvatar: await toAvatarImages(usamimikaImg.src, 55),
+			avatars: [
+				{
+					images: {
+						neutral: usamimikaImg,
+						expression: usamimikaImg,
+					},
+					height: 55,
+					assets: [],
+				},
+			],
+
 			socialLinks: sort([
 				await toSocialLink({
 					url: "https://x.com/usamimika_vbn",
@@ -116,7 +148,16 @@ export async function createMockCasts(): Promise<Cast[]> {
 				),
 			},
 			themeColor: "berry.lite",
-			mainAvatar: await toAvatarImages(oukaImg.src, 90),
+			avatars: [
+				{
+					images: {
+						neutral: oukaImg,
+						expression: oukaImg,
+					},
+					height: 90,
+					assets: [],
+				},
+			],
 			socialLinks: sort([
 				await toSocialLink({
 					url: "https://x.com/KurukuruOuka_VR",
@@ -139,7 +180,16 @@ export async function createMockCasts(): Promise<Cast[]> {
 					"https://vrchat.com/home/user/usr_48721cf6-012c-4c00-bde6-73fe348ba62e",
 				),
 			},
-			mainAvatar: await toAvatarImages(kokoaImg.src, 85),
+			avatars: [
+				{
+					images: {
+						neutral: kokoaImg,
+						expression: kokoaImg,
+					},
+					height: 85,
+					assets: [],
+				},
+			],
 			themeColor: "berry.lite",
 			socialLinks: sort([
 				await toSocialLink({
@@ -153,6 +203,27 @@ export async function createMockCasts(): Promise<Cast[]> {
 			]),
 		},
 	] satisfies Cast[];
-	Object.freeze(casts);
-	return casts;
+
+	const fakeCasts = casts.flatMap((cast) => [
+		cast,
+		{
+			...cast,
+			attendanceId: cast.attendanceId * 2,
+			profile: {
+				...cast.profile,
+				nickname: `Fake01 ${cast.profile.nickname}`,
+			},
+		},
+		{
+			...cast,
+			attendanceId: cast.attendanceId * 3,
+			profile: {
+				...cast.profile,
+				nickname: `Fake02 ${cast.profile.nickname}`,
+			},
+		},
+	]);
+
+	Object.freeze(fakeCasts);
+	return fakeCasts;
 }

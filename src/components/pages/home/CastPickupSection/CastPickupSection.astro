@@ -1,4 +1,6 @@
 ---
+import AvatarImage from "@/components/domains/avatar/AvatarImage.astro";
+import { ensureNonNil } from "@/lib/utils/type";
 import SnapSection from "@components/layouts/Sections/SnapSection.astro";
 import { fetchCasts } from "@content/casts";
 
@@ -14,9 +16,16 @@ const rootStyle = css({
 <SnapSection class={rootStyle}>
   <ul>
     {
-      casts.map(({ profile: { nickname } }) => (
+      casts.map(({ profile: { nickname }, avatars }) => (
         <li>
-          <a href={`/cast/${nickname}`}>{nickname}</a>
+          <a href={`/cast/${nickname}`}>
+            <AvatarImage
+              avatar={ensureNonNil(avatars[0])}
+              type="neutral"
+              position="fullBody"
+              alt={`${nickname} のアバター`}
+            />
+          </a>
         </li>
       ))
     }

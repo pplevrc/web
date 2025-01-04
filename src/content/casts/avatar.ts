@@ -2,76 +2,56 @@ import { z } from "astro:content";
 import { schemaForType } from "@/lib/utils/type";
 import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
 
-export interface AvatarImage {
+export interface Avatar {
 	/**
 	 * アバターの身長
 	 */
-	avatarHeight: number;
+	height: number;
 
 	/**
-	 * サムネイル画像
+	 *
 	 */
-	thumbnailImageSrc: string;
-
-	/**
-	 * 全身画像
-	 */
-	fullBodyImageSrc: string;
+	images: AvatarImages;
 
 	/**
 	 * 使用されているアセット情報リスト
 	 */
-	assets: AvatarAsset[];
+	assets: SocialLink[];
 }
 
-export interface AvatarAsset {
+/**
+ * キャストさんの立ち絵
+ */
+export interface AvatarImages {
 	/**
-	 * @example "『シフォン』-Chiffon-【オリジナル3Dモデル】"
+	 * 表情・仕草のない姿の画像
 	 */
-	assetName: string;
+	neutral: ImageMetadata;
 
 	/**
-	 * @example { desciption: "あまとうさぎ | こまど / komado (Booth Store)", url: "https://komado.booth.pm/", type: "pixiv-booth" }
+	 * 何らかの表情・仕草のある画像
 	 */
-	storeLink: SocialLink<"pixiv-booth">;
+	expression: ImageMetadata;
+
+	/**
+	 * 三面図画像
+	 */
+	// threeSided: string;
 }
 
-const avatarAssetSchema = schemaForType<AvatarAsset>(
+const avatarImagesSchema = schemaForType<AvatarImages>(
 	z.object({
-		assetName: z.string(),
-		storeLink: socialLinkSchema as z.ZodType<SocialLink<"pixiv-booth">>,
-	}),
+		newtral: z.unknown(),
+		expression: z.unknown(),
+		// threeSided: z.string(),
+		// biome-ignore lint/suspicious/noExplicitAny: 一時的に対応 (ちょっと面倒だったので)
+	}) as any,
 );
 
-export const avatarImageSchema = schemaForType<AvatarImage>(
+export const avatarSchema = schemaForType<Avatar>(
 	z.object({
-		avatarHeight: z.number(),
-		thumbnailImageSrc: z.string(),
-		fullBodyImageSrc: z.string(),
-		assets: z.array(avatarAssetSchema),
+		height: z.number(),
+		images: avatarImagesSchema,
+		assets: z.array(socialLinkSchema),
 	}),
 );
-
-export async function toAvatarImages(
-	originImageURL: string,
-	avatarHeight: number,
-): Promise<AvatarImage> {
-	return {
-		thumbnailImageSrc: originImageURL,
-		fullBodyImageSrc: originImageURL,
-		avatarHeight,
-		assets: [],
-	};
-}
-
-/* interface TrimmingOption {
-	top?: number;
-	left?: number;
-	right?: number;
-	bottom?: number;
-} */
-
-// async function trimImage(
-// 	image: Blob,
-// 	{ top: t, left: l, right: r, bottom: b }: TrimmingOption,
-// ): Promise<Blob> {}

@@ -105,9 +105,9 @@ const socialLinks = [
 	/// -----------------------------------------------------------------------------------
 	/// EC
 	{
-		// e.g. https://sisters.booth.pm/
+		// e.g. https://sisters.booth.pm/, https://booth.pm/
 		type: "pixiv-booth",
-		urlPatterns: /^https:\/\/.*\.booth\.pm\//,
+		urlPatterns: /^https:\/\/(.*\.)?booth\.pm\//,
 	},
 	{
 		// e.g. https://store.vket.com/ja/shops/1234
