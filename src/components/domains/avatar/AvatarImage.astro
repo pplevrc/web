@@ -1,22 +1,124 @@
 ---
-import { Picture } from "astro:assets";
+import { getImage } from "astro:assets";
+import { css } from "@/styles/css";
 import type { Avatar } from "@lib/contents/casts";
 
 type Type = keyof Avatar["images"];
 
-type AvatarPositionType = "fullBody" | "bustUp";
-
 interface Props {
+  /**
+   *
+   */
   avatar: Avatar;
-  position: AvatarPositionType;
+
+  /**
+   *
+   */
   type: Type;
+
+  /**
+   *
+   */
   alt: string;
+
+  /**
+   * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   */
+  width: number;
+
+  /**
+   *
+   */
+  class?: string;
 }
 
-const { avatar, type, alt } = Astro.props;
+const { avatar, type, alt, width, class: className } = Astro.props;
 
 const src = avatar.images[type];
-// const height = avatar.height;
+
+/**
+ * avatar height が ↓ の値の場合の, 画像を等倍とする
+ */
+const AVATAR_SAME_SCALE_HEIGHT = 90;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の横幅
+ */
+const DEFAULT_WIDTH = 1400;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の空白マージン
+ */
+const DEFAULT_LEFT_MERGIN_PX = 30;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の縦幅
+ */
+const DEFAULT_HEIGHT = 2160;
+
+/**
+ * アバターを高さに応じたサイズに縮小するための倍率
+ */
+const scale =
+  (width / DEFAULT_WIDTH) * (avatar.height / AVATAR_SAME_SCALE_HEIGHT);
+
+/**
+ * PC_VIEWPORT_WIDTH * 2 を基準に考慮した, props でわたってくる width を rem に変換した値
+ * 参考 .. 1rem = 16px
+ */
+const widthRem = (width / 16) * scale;
+
+const optimizedWidth = DEFAULT_WIDTH * scale;
+
+const optimizedHeight = DEFAULT_HEIGHT * scale;
+
+const optimizedLeftMargin = DEFAULT_LEFT_MERGIN_PX * scale;
+
+const imageRootStyle = css({});
+
+const imageStyle = {
+  objectPosition: `right ${optimizedLeftMargin}px top 0`,
+  width: `${widthRem}rem`,
+};
+
+const imagePcPng = await getImage({
+  src,
+  width: optimizedWidth,
+  height: optimizedHeight,
+  fit: "cover",
+  position: "left",
+  format: "png",
+});
+
+const imagePcWebp = await getImage({
+  src,
+  width: optimizedWidth,
+  height: optimizedHeight,
+  fit: "cover",
+  position: "left",
+  format: "webp",
+});
 ---
 
-<Picture src={src} alt={alt} />
+<picture class:list={[imageRootStyle, className]}>
+  <source
+    srcset={imagePcWebp.src}
+    type="image/webp"
+    class={css({
+      objectFit: "cover",
+      objectPosition: "right",
+    })}
+    style={imageStyle}
+  />
+  <img
+    src={imagePcPng.src}
+    alt={alt}
+    class={css({
+      objectFit: "cover",
+      objectPosition: "right",
+    })}
+    style={imageStyle}
+    width={optimizedWidth}
+    height={optimizedHeight}
+  />
+</picture>

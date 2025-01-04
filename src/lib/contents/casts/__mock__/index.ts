@@ -206,22 +206,22 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
 
 	const fakeCasts = casts.flatMap((cast) => [
 		cast,
-		{
-			...cast,
-			attendanceId: cast.attendanceId * 2,
-			profile: {
-				...cast.profile,
-				nickname: `Fake01 ${cast.profile.nickname}`,
-			},
-		},
-		{
-			...cast,
-			attendanceId: cast.attendanceId * 3,
-			profile: {
-				...cast.profile,
-				nickname: `Fake02 ${cast.profile.nickname}`,
-			},
-		},
+		// {
+		// 	...cast,
+		// 	attendanceId: cast.attendanceId * 2,
+		// 	profile: {
+		// 		...cast.profile,
+		// 		nickname: `Fake01 ${cast.profile.nickname}`,
+		// 	},
+		// },
+		// {
+		// 	...cast,
+		// 	attendanceId: cast.attendanceId * 3,
+		// 	profile: {
+		// 		...cast.profile,
+		// 		nickname: `Fake02 ${cast.profile.nickname}`,
+		// 	},
+		// },
 	]);
 
 	Object.freeze(fakeCasts);

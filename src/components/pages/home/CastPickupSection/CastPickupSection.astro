@@ -11,19 +11,32 @@ const casts = await fetchCasts();
 const rootStyle = css({
   bg: "rose.bg",
 });
+
+const listStyle = css({
+  display: "flex",
+  flexDir: "row",
+  alignItems: "end",
+  gap: "4",
+});
+
+const imageWrapStyle = css({
+  w: "64",
+  display: "block",
+});
 ---
 
 <SnapSection class={rootStyle}>
-  <ul>
+  <ul class={listStyle}>
     {
       casts.map(({ profile: { nickname }, avatars }) => (
         <li>
-          <a href={`/cast/${nickname}`}>
+          <a href={`/cast/${nickname}`} class={imageWrapStyle}>
+            {`${avatars[0]!.height} cm`}
             <AvatarImage
               avatar={ensureNonNil(avatars[0])}
               type="neutral"
-              position="fullBody"
               alt={`${nickname} のアバター`}
+              width={650}
             />
           </a>
         </li>
