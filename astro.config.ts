@@ -2,6 +2,10 @@ import { defineConfig } from "astro/config";
 import isWsl from "is-wsl";
 
 export default defineConfig({
+	experimental: {
+		responsiveImages: true,
+	},
+
 	vite: {
 		server: {
 			watch: {
@@ -9,5 +13,6 @@ export default defineConfig({
 			},
 		},
 	},
+
 	cacheDir: "./.cache",
 });
