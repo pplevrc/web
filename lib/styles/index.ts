@@ -1,11 +1,11 @@
 import { definePreset } from "@pandacss/dev";
 import defu from "defu";
+import { bgCheckeredPattern } from "./recipes/background-patterns";
 import * as animations from "./tokens/animations";
 import * as colors from "./tokens/colors";
 import * as dimensions from "./tokens/dimensions";
 import * as transforms from "./tokens/transforms";
 import * as typographies from "./tokens/typography";
-
 export default definePreset({
 	name: "pple-themes",
 	theme: {
@@ -25,6 +25,9 @@ export default definePreset({
 		breakpoints: dimensions.breakpoints,
 		textStyles: typographies.textStyle,
 		keyframes: animations.keyframes,
+		recipes: {
+			bgCheckeredPattern,
+		},
 	},
 	conditions: {
 		extend: {

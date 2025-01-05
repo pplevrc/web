@@ -1,38 +1,46 @@
 ---
-import AvatarImage from "@/components/domains/avatar/AvatarImage.astro";
-import { ensureNonNil } from "@/lib/utils/type";
+import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
+import AvatarImage from "@components/domains/avatar/AvatarImage.astro";
 import SnapSection from "@components/layouts/Sections/SnapSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
+import { ensureNonNil } from "@lib/utils/type";
 
 import { css } from "@styles/css";
+import { bgCheckeredPattern } from "@styles/recipes";
 
 const casts = await fetchCasts();
 
 const rootStyle = css({
-  bg: "rose.bg",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  py: "4",
 });
 
 const listStyle = css({
   display: "flex",
+  bg: "white",
   flexDir: "row",
   alignItems: "end",
 });
 
 const imageWrapStyle = css({
   w: "64",
+  p: "-4",
   display: "flex",
   flexDir: "column",
   alignItems: "center",
 });
 ---
 
-<SnapSection class={rootStyle}>
+<SnapSection class:list={[rootStyle, bgCheckeredPattern({ color: "rose" })]}>
+  <SectionHeading> キャストさんピックアップ </SectionHeading>
+
   <ul class={listStyle}>
     {
       casts.map(({ profile: { nickname }, avatars }) => (
         <li>
           <a href={`/cast/${nickname}`} class={imageWrapStyle}>
-            {`${avatars[0]!.height} cm`}
             <AvatarImage
               avatar={ensureNonNil(avatars[0])}
               type="neutral"

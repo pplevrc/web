@@ -631,7 +631,9 @@ const colorPalettes = {
 	mint,
 } as const;
 
-export const colorNames = Object.keys(colorPalettes);
+export type ColorName = keyof typeof colorPalettes;
+
+export const colorNames = Object.keys(colorPalettes) as ColorName[];
 
 const colorPaletteEntries = Object.entries(colorPalettes) as [
 	string,
