@@ -26,18 +26,50 @@ export interface AvatarImages {
 	/**
 	 * 表情・仕草のない姿の画像
 	 */
-	neutral: ImageMetadata;
+	neutral: string | ImageMetadata;
 
 	/**
 	 * 何らかの表情・仕草のある画像
 	 */
-	expression: ImageMetadata;
+	expression: string | ImageMetadata;
 
 	/**
 	 * 三面図画像
 	 */
 	// threeSided: string;
 }
+
+/**
+ * キャストのアバターを参照するためのインデックス
+ */
+export interface AvatarIndex {
+	/**
+	 * キャストのニックネーム
+	 */
+	nickname: string;
+
+	/**
+	 * アバターのインデックス
+	 * @default 0
+	 */
+	index?: number;
+}
+
+/**
+ * キャストのアバター画像を参照するためのインデックス
+ */
+export interface AvatarImageIndex extends AvatarIndex {
+	/**
+	 * 画像の種類
+	 * @default "neutral"
+	 */
+	type?: keyof AvatarImages;
+}
+
+export const avatarImageIndexDefault = Object.freeze({
+	type: "neutral",
+	index: 0,
+} as const satisfies Required<Pick<AvatarImageIndex, "type" | "index">>);
 
 const avatarImagesSchema = schemaForType<AvatarImages>(
 	z.object({

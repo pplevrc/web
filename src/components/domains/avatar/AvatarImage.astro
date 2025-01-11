@@ -1,23 +1,73 @@
 ---
-import { getImage } from "astro:assets";
-import { css } from "@/styles/css";
+import { Picture } from "astro:assets";
+import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 
 type Type = keyof Avatar["images"];
 
+// biome-ignore lint/suspicious/noExplicitAny: Astro では Image Service を拡張しても, それを利用する Image 系コンポーネントの型を拡張する術がないため, any でエラーを回避している
+const CustomPicture = Picture as any;
+
+/**
+ * avatar height が ↓ の値の場合の, 画像を等倍とする
+ */
+const AVATAR_SAME_SCALE_HEIGHT = 90;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の横幅
+ */
+const DEFAULT_WIDTH = 1400;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の空白マージン
+ */
+const DEFAULT_LEFT_MARGIN_PX = 100;
+
+/**
+ * Avatar Studio で撮影した画像にて, 上部分の空白マージン
+ */
+const DEFAULT_TOP_MARGIN_PX = 400;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の縦幅
+ */
+const DEFAULT_HEIGHT = 2160;
+
+/**
+ * Avatar Studio で撮影した画像にて, 切り取る画像の横幅
+ */
+const CROP_WIDTH = DEFAULT_WIDTH - DEFAULT_LEFT_MARGIN_PX;
+
+/**
+ * Avatar Studio で撮影した画像にて, 切り取る画像の縦幅
+ */
+const CROP_HEIGHT = DEFAULT_HEIGHT - DEFAULT_TOP_MARGIN_PX;
+
+/**
+ * 切り取る画像のアスペクト比
+ */
+const ASPECT_RATIO = CROP_WIDTH / CROP_HEIGHT;
+
 interface Props {
   /**
-   *
+   * 店員さんのニックネーム
    */
-  avatar: Avatar;
+  nickname: string;
 
   /**
-   *
+   * 店員さんアバターの登録順インデックス (0 は 必ず登録される)
+   * @default 0
    */
-  type: Type;
+  avatarIndex?: number;
 
   /**
-   *
+   * アバター画像の表情
+   * @default "neutral"
+   */
+  type?: Type;
+
+  /**
+   * Element に付随する alt 属性
    */
   alt: string;
 
@@ -33,96 +83,48 @@ interface Props {
   class?: string;
 }
 
-const { avatar, type, alt, width, class: className } = Astro.props;
+const {
+  nickname,
+  avatarIndex = 0,
+  type = "neutral",
+  alt,
+  width: baseWidth,
+  class: className,
+} = Astro.props;
 
-const src = avatar.images[type];
-
-/**
- * avatar height が ↓ の値の場合の, 画像を等倍とする
- */
-const AVATAR_SAME_SCALE_HEIGHT = 90;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の横幅
- */
-const DEFAULT_WIDTH = 1400;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の空白マージン
- */
-const DEFAULT_LEFT_MERGIN_PX = 30;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の縦幅
- */
-const DEFAULT_HEIGHT = 2160;
-
-/**
- * アバターを高さに応じたサイズに縮小するための倍率
- */
-const scale =
-  (width / DEFAULT_WIDTH) * (avatar.height / AVATAR_SAME_SCALE_HEIGHT);
-
-/**
- * PC_VIEWPORT_WIDTH * 2 を基準に考慮した, props でわたってくる width を rem に変換した値
- * 参考 .. 1rem = 32px
- */
-const widthRem = (width / 32) * (avatar.height / AVATAR_SAME_SCALE_HEIGHT);
-
-const optimizedWidth = DEFAULT_WIDTH * scale;
-
-const optimizedHeight = DEFAULT_HEIGHT * scale;
-
-const optimizedLeftMargin = DEFAULT_LEFT_MERGIN_PX * scale;
-
-const imageRootStyle = css({
-  display: "block",
-  w: "[fit-content]",
+const { image: src, height: avatarHeight } = await fetchAvatarImage({
+  nickname,
+  index: avatarIndex,
+  type,
 });
+
+const scale = avatarHeight / AVATAR_SAME_SCALE_HEIGHT;
+
+const optimizedWidth = Math.round(baseWidth * scale);
+
+const optimizedHeight = Math.round(optimizedWidth / ASPECT_RATIO);
+
+const optimizedWidthRem = optimizedWidth / 32;
 
 const imageStyle = {
-  objectPosition: `right ${optimizedLeftMargin}px top 0`,
-  width: `${widthRem}rem`,
+  width: `${optimizedWidthRem}rem`,
 };
-
-const imagePcPng = await getImage({
-  src,
-  width: optimizedWidth,
-  height: optimizedHeight,
-  fit: "cover",
-  position: "left",
-  format: "png",
-});
-
-const imagePcWebp = await getImage({
-  src,
-  width: optimizedWidth,
-  height: optimizedHeight,
-  fit: "cover",
-  position: "left",
-  format: "webp",
-});
 ---
 
-<picture class:list={[imageRootStyle, className]}>
-  <source
-    srcset={imagePcWebp.src}
-    type="image/webp"
-    class={css({
-      objectFit: "cover",
-      objectPosition: "right",
-    })}
-    style={imageStyle}
-  />
-  <img
-    src={imagePcPng.src}
-    alt={alt}
-    class={css({
-      objectFit: "cover",
-      objectPosition: "right",
-    })}
-    style={imageStyle}
-    width={optimizedWidth}
-    height={optimizedHeight}
-  />
-</picture>
+<CustomPicture
+  src={src}
+  class={className}
+  alt={alt}
+  crop={{
+    width: CROP_WIDTH,
+    height: CROP_HEIGHT,
+    left: DEFAULT_LEFT_MARGIN_PX,
+    top: DEFAULT_TOP_MARGIN_PX,
+  }}
+  width={optimizedWidth}
+  widths={[optimizedWidth, optimizedWidth * 2, optimizedWidth * 4]}
+  height={optimizedHeight}
+  fit="cover"
+  formats={["png", "webp", "avif"]}
+  pictureAttributes={{ style: imageStyle }}
+/>

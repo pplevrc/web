@@ -5449,6 +5449,7 @@ __metadata:
     jiti: "npm:^2.4.0"
     lefthook: "npm:^1.7.18"
     ohash: "npm:^1.1.4"
+    sharp: "npm:^0.33.3"
     typescript: "npm:^5.7.2"
     vitest: "npm:^3.0.0-beta.3"
   languageName: unknown

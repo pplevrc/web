@@ -133,7 +133,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
 		{
 			attendanceId: 63,
 			profile: {
-				nickname: "おうか",
+				nickname: "くるりおうか",
 
 				introduction: `
 くるり おうか です！はじめまして！

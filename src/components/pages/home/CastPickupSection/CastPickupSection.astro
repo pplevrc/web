@@ -3,7 +3,6 @@ import SectionHeading from "@components/decoratives/Headings/SectionHeading.astr
 import AvatarImage from "@components/domains/avatar/AvatarImage.astro";
 import SnapSection from "@components/layouts/Sections/SnapSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
-import { ensureNonNil } from "@lib/utils/type";
 
 import { css } from "@styles/css";
 import { bgCheckeredPattern } from "@styles/recipes";
@@ -38,12 +37,13 @@ const imageWrapStyle = css({
 
   <ul class={listStyle}>
     {
-      casts.map(({ profile: { nickname }, avatars }) => (
+      casts.map(({ profile: { nickname } }) => (
         <li>
           <a href={`/cast/${nickname}`} class={imageWrapStyle}>
             <AvatarImage
-              avatar={ensureNonNil(avatars[0])}
+              nickname={nickname}
               type="neutral"
+              avatarIndex={0}
               alt={`${nickname} のアバター`}
               width={512}
             />

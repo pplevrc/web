@@ -1,13 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { fetchCasts } from "@lib/contents/casts";
+import { fetchCastNickNames } from "@lib/contents/casts";
 
 export async function getStaticPaths() {
-  const casts = await fetchCasts();
+  const castNickNames = await fetchCastNickNames();
 
-  return casts.map((cast) => ({
-    params: { nickname: cast.profile.nickname },
-  }));
+  return castNickNames.map((nickname) => ({ params: { nickname } }));
 }
 
 const { nickname } = Astro.params;

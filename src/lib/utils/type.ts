@@ -17,3 +17,13 @@ export function schemaForType<
 >(arg: S): S {
 	return arg;
 }
+
+export function toArrayBuffer(buf: Buffer): ArrayBuffer {
+	const ab = new ArrayBuffer(buf.length);
+	const view = new Uint8Array(ab);
+	for (let i = 0; i < buf.length; ++i) {
+		// biome-ignore lint/style/noNonNullAssertion: あるのが保証されているため
+		view[i] = buf[i]!;
+	}
+	return ab;
+}
