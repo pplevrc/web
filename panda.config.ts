@@ -5,25 +5,25 @@ import { removeUnusedCssVars } from "lib/cleanup/remove-unused-variables";
 import ppleThemePreset from "./lib/styles";
 
 export default defineConfig({
-	preflight: true,
-	include: ["./src/**/*.{ts,tsx,js,jsx,astro}"],
-	outdir: "./src/styles",
-	presets: [ppleThemePreset],
+  preflight: true,
+  include: ["./src/**/*.{ts,tsx,js,jsx,astro}"],
+  outdir: "./src/styles",
+  presets: [ppleThemePreset],
 
-	strictTokens: true,
-	strictPropertyValues: true,
+  strictTokens: true,
+  strictPropertyValues: true,
 
-	hooks: {
-		"cssgen:done": ({ artifact, content }) => {
-			if (artifact === "styles.css") {
-				return removeUnusedCssVars(removeUnusedKeyframes(content));
-			}
+  hooks: {
+    "cssgen:done": ({ artifact, content }) => {
+      if (artifact === "styles.css") {
+        return removeUnusedCssVars(removeUnusedKeyframes(content));
+      }
 
-			return content;
-		},
-	},
+      return content;
+    },
+  },
 
-	hash: true,
+  hash: true,
 
-	poll: isWsl,
+  poll: isWsl,
 });

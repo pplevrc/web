@@ -6,22 +6,22 @@ import Layout from "@layouts/Layout.astro";
 import { css } from "@styles/css";
 
 const mainStyle = css.raw({
-	display: "flex",
-	flexDir: "column",
-	scrollSnapType: "y",
-	scrollSnapStrictness: "proximity",
+  display: "flex",
+  flexDir: "column",
+  scrollSnapType: "y",
+  scrollSnapStrictness: "proximity",
 });
 ---
 
 <Layout
-	headMeta={{
-		title: "ロリっ子喫茶ぷぷりえ | ホーム",
-		description: "Home page",
-		keywords: ["home", "page"],
-	}}
-	mainStyle={mainStyle}
+  headMeta={{
+    title: "ロリっ子喫茶ぷぷりえ | ホーム",
+    description: "Home page",
+    keywords: ["home", "page"],
+  }}
+  mainStyle={mainStyle}
 >
-	<HeroSection />
-	<NewsHeadlineSection />
-	<CastPickupSection />
+  <HeroSection />
+  <NewsHeadlineSection />
+  <CastPickupSection />
 </Layout>

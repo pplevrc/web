@@ -1,15 +1,15 @@
 @layer reset;
 
 @layer base {
-	html {
-		overflow: hidden;
-		height: 100%;
-		width: 100%;
-	}
+  html {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
 
-	body {
-		overflow-y: auto;
-	}
+  body {
+    overflow-y: auto;
+  }
 }
 
 @layer tokens, recipes, utilities;

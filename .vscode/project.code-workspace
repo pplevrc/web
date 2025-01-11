@@ -1,46 +1,46 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		}
-	],
-	"extensions": {
-		"recommendations": ["biomejs.biome", "astro-build.astro-vscode"],
-		"unwantedRecommendations": ["eslint.vscode-eslint", "prettier.prettier"]
-	},
-	"settings": {
-		"[javascript]": {
-			"editor.defaultFormatter": "biomejs.biome"
-		},
-		"[typescript]": {
-			"editor.defaultFormatter": "biomejs.biome"
-		},
-		"[astro]": {
-			"editor.defaultFormatter": "astro-build.astro-vscode"
-		},
-		"[json]": {
-			"editor.defaultFormatter": "biomejs.biome"
-		},
+  "folders": [
+    {
+      "path": ".."
+    }
+  ],
+  "extensions": {
+    "recommendations": ["biomejs.biome", "astro-build.astro-vscode"],
+    "unwantedRecommendations": ["eslint.vscode-eslint", "prettier.prettier"]
+  },
+  "settings": {
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[astro]": {
+      "editor.defaultFormatter": "astro-build.astro-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
 
-		"editor.codeActionsOnSave": {
-			"quickfix.biome": "explicit",
-			"source.organizeImports.biome": "explicit"
-		},
+    "editor.codeActionsOnSave": {
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
 
-		"editor.formatOnSave": true,
+    "editor.formatOnSave": true,
 
-		"liveServer.settings.root": "./dist"
-	},
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"command": "./node_modules/.bin/astro dev",
-				"name": "Development server",
-				"request": "launch",
-				"type": "node-terminal"
-			}
-		],
-		"compounds": []
-	}
+    "liveServer.settings.root": "./dist"
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "command": "./node_modules/.bin/astro dev",
+        "name": "Development server",
+        "request": "launch",
+        "type": "node-terminal"
+      }
+    ],
+    "compounds": []
+  }
 }

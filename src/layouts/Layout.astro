@@ -1,8 +1,8 @@
 ---
 import Footer from "@components/layouts/Footer/Footer.astro";
 import {
-	type DescriptionMetaProps,
-	default as HeadMeta,
+  type DescriptionMetaProps,
+  default as HeadMeta,
 } from "@components/layouts/HeadMeta/index.ts";
 import Header from "@components/layouts/Header/Header.astro";
 import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
@@ -11,21 +11,21 @@ import { css } from "@styles/css";
 import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
-	headMeta: DescriptionMetaProps;
-	mainStyle?: SystemStyleObject;
+  headMeta: DescriptionMetaProps;
+  mainStyle?: SystemStyleObject;
 }
 
 const {
-	headMeta: { title, description, keywords },
-	mainStyle,
+  headMeta: { title, description, keywords },
+  mainStyle,
 } = Astro.props;
 
 const hideScroll = css({
-	_spOnly: {
-		"&:has(header *:checked)": {
-			overflow: "hidden",
-		},
-	},
+  _spOnly: {
+    "&:has(header *:checked)": {
+      overflow: "hidden",
+    },
+  },
 });
 
 const mainClass = css(mainStyle);
@@ -33,19 +33,19 @@ const mainClass = css(mainStyle);
 
 <!doctype html>
 <html lang="ja" dir="ltr">
-	<head>
-		<HeadMeta title={title} description={description} keywords={keywords} />
-		<ResponsiveScript />
-	</head>
+  <head>
+    <HeadMeta title={title} description={description} keywords={keywords} />
+    <ResponsiveScript />
+  </head>
 
-	<body class={hideScroll}>
-		<TemplateDefinition>
-			<slot name="template-definition" />
-		</TemplateDefinition>
-		<Header />
-		<main class={mainClass}>
-			<slot />
-		</main>
-		<Footer />
-	</body>
+  <body class={hideScroll}>
+    <TemplateDefinition>
+      <slot name="template-definition" />
+    </TemplateDefinition>
+    <Header />
+    <main class={mainClass}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>

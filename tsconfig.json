@@ -1,21 +1,21 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "astro/tsconfigs/strictest",
-	"compilerOptions": {
-		"exactOptionalPropertyTypes": false,
-		"skipLibCheck": true,
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"],
-			"@assets/*": ["src/assets/*"],
-			"@content/*": ["src/content/*"],
-			"@components/*": ["src/components/*"],
-			"@layouts/*": ["src/layouts/*"],
-			"@styles/*": ["src/styles/*"],
-			"@lib/*": ["src/lib/*"],
-			"#test/*": ["tests/*"]
-		}
-	},
-	"include": [".astro/types.d.ts", "**/*"],
-	"exclude": ["dist", "**/*.test.ts"]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@content/*": ["src/content/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles/*": ["src/styles/*"],
+      "@lib/*": ["src/lib/*"],
+      "#test/*": ["tests/*"]
+    }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "**/*.test.ts"]
 }

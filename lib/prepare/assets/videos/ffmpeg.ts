@@ -3,19 +3,19 @@ import { createReadStream, createWriteStream, existsSync } from "node:fs";
 import { mkdir, readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import {
-	type Data,
-	type FFmpegModule as FFmpeg,
-	default as createFFmpegCore,
+  type Data,
+  type FFmpegModule as FFmpeg,
+  default as createFFmpegCore,
 } from "@ffmpeg/core-mt";
 import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil } from "./utils";
 
 interface TransportArg {
-	media?: "sp" | "pc";
+  media?: "sp" | "pc";
 }
 
 interface TransportOptions extends TransportArg {
-	extension: string;
-	execute: TransportExecutor;
+  extension: string;
+  execute: TransportExecutor;
 }
 
 let ffmpeg: FFmpeg | null = null;
@@ -25,21 +25,21 @@ let ffmpeg: FFmpeg | null = null;
  * @returns
  */
 async function loadFFmpeg(): Promise<FFmpeg> {
-	if (!ffmpeg) {
-		ffmpeg = await createFFmpegCore();
+  if (!ffmpeg) {
+    ffmpeg = await createFFmpegCore();
 
-		ffmpeg.setTimeout(-1);
-		ffmpeg.setLogger(({ message }) => {
-			if (!message) return;
-			console.info(message);
-		});
-		ffmpeg.setProgress(({ message }) => {
-			if (!message) return;
-			console.info(message);
-		});
-	}
+    ffmpeg.setTimeout(-1);
+    ffmpeg.setLogger(({ message }) => {
+      if (!message) return;
+      console.info(message);
+    });
+    ffmpeg.setProgress(({ message }) => {
+      if (!message) return;
+      console.info(message);
+    });
+  }
 
-	return ffmpeg;
+  return ffmpeg;
 }
 
 const cacheDir = resolve(process.cwd(), ".cache/videos");
@@ -50,36 +50,36 @@ const cacheDir = resolve(process.cwd(), ".cache/videos");
  * @returns
  */
 export function toWebMP4(filePath: string, opt: TransportArg): Promise<string> {
-	return transport(filePath, {
-		...opt,
-		extension: ".mp4",
-		execute: async (ffmpeg, { src }) => {
-			const { media } = opt;
+  return transport(filePath, {
+    ...opt,
+    extension: ".mp4",
+    execute: async (ffmpeg, { src }) => {
+      const { media } = opt;
 
-			await ffmpeg.FS.writeFile("source.mp4", src);
+      await ffmpeg.FS.writeFile("source.mp4", src);
 
-			await ffmpeg.exec(
-				"-i",
-				"source.mp4",
-				"-c:v",
-				"libx264",
-				"-crf",
-				"32",
-				"-vf",
-				`scale=${media === "pc" ? UXGA_WIDTH : SVGA_WIDTH}:-2`,
-				"-preset",
-				"veryslow",
-				"-movflags",
-				"faststart",
-				"-an",
-				"dist.mp4",
-			);
+      await ffmpeg.exec(
+        "-i",
+        "source.mp4",
+        "-c:v",
+        "libx264",
+        "-crf",
+        "32",
+        "-vf",
+        `scale=${media === "pc" ? UXGA_WIDTH : SVGA_WIDTH}:-2`,
+        "-preset",
+        "veryslow",
+        "-movflags",
+        "faststart",
+        "-an",
+        "dist.mp4",
+      );
 
-			return await ffmpeg.FS.readFile("dist.mp4", {
-				encoding: "binary",
-			});
-		},
-	});
+      return await ffmpeg.FS.readFile("dist.mp4", {
+        encoding: "binary",
+      });
+    },
+  });
 }
 
 /**
@@ -88,41 +88,41 @@ export function toWebMP4(filePath: string, opt: TransportArg): Promise<string> {
  * @returns
  */
 export function snapshotPoster(filePath: string): Promise<string> {
-	return transport(filePath, {
-		extension: ".png",
-		execute: async (ffmpeg, { src }) => {
-			await ffmpeg.FS.writeFile("source.mp4", src);
+  return transport(filePath, {
+    extension: ".png",
+    execute: async (ffmpeg, { src }) => {
+      await ffmpeg.FS.writeFile("source.mp4", src);
 
-			await ffmpeg.exec(
-				"-i",
-				"source.mp4",
-				"-ss",
-				"0",
-				"-t",
-				"1",
-				"-r",
-				"1",
-				"-f",
-				"image2",
-				"dist.png",
-			);
+      await ffmpeg.exec(
+        "-i",
+        "source.mp4",
+        "-ss",
+        "0",
+        "-t",
+        "1",
+        "-r",
+        "1",
+        "-f",
+        "image2",
+        "dist.png",
+      );
 
-			return await ffmpeg.FS.readFile("dist.png", {
-				encoding: "binary",
-			});
-		},
-	});
+      return await ffmpeg.FS.readFile("dist.png", {
+        encoding: "binary",
+      });
+    },
+  });
 }
 
 interface TransportContext {
-	src: Data;
+  src: Data;
 }
 
 type Awaitable<T> = T | Promise<T>;
 
 type TransportExecutor = (
-	ffmpeg: FFmpeg,
-	context: TransportContext,
+  ffmpeg: FFmpeg,
+  context: TransportContext,
 ) => Awaitable<Data>;
 
 /**
@@ -133,52 +133,52 @@ type TransportExecutor = (
  * @returns
  */
 async function transport(
-	sourcePath: string,
-	opt: TransportOptions,
+  sourcePath: string,
+  opt: TransportOptions,
 ): Promise<string> {
-	await prepareCacheDir();
+  await prepareCacheDir();
 
-	const { media, extension, execute } = opt;
+  const { media, extension, execute } = opt;
 
-	const sourceDir = resolve(sourcePath, "..");
-	const distPath = resolve(
-		sourceDir,
-		`${extractFileName(sourcePath)}${media ? `-${media}` : ""}.generated${extension}`,
-	).replace(`${process.cwd()}/`, "");
+  const sourceDir = resolve(sourcePath, "..");
+  const distPath = resolve(
+    sourceDir,
+    `${extractFileName(sourcePath)}${media ? `-${media}` : ""}.generated${extension}`,
+  ).replace(`${process.cwd()}/`, "");
 
-	const cacheFilePath = await toCacheFile(sourcePath, opt);
-	let cachedFile: Data | undefined = await tryReadFile(cacheFilePath);
+  const cacheFilePath = await toCacheFile(sourcePath, opt);
+  let cachedFile: Data | undefined = await tryReadFile(cacheFilePath);
 
-	if (!cachedFile) {
-		const ffmpeg = await loadFFmpeg();
-		try {
-			const result = await execute(ffmpeg, {
-				src: ensureNonNil(await tryReadFile(sourcePath)),
-			});
-			await write(cacheFilePath, result);
-			cachedFile = result;
-		} catch (e) {
-			if (e instanceof Error) {
-				console.error(e.message);
-				console.error(e.stack);
-			} else {
-				console.error(e);
-			}
+  if (!cachedFile) {
+    const ffmpeg = await loadFFmpeg();
+    try {
+      const result = await execute(ffmpeg, {
+        src: ensureNonNil(await tryReadFile(sourcePath)),
+      });
+      await write(cacheFilePath, result);
+      cachedFile = result;
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message);
+        console.error(e.stack);
+      } else {
+        console.error(e);
+      }
 
-			process.exit(1);
-		} finally {
-			ffmpeg.reset();
-		}
-	} else {
-		console.log(`Using cached file: ${distPath}`);
-	}
+      process.exit(1);
+    } finally {
+      ffmpeg.reset();
+    }
+  } else {
+    console.log(`Using cached file: ${distPath}`);
+  }
 
-	if (!cachedFile) {
-		throw new Error(`Failed to generate cached file: ${cacheFilePath}`);
-	}
+  if (!cachedFile) {
+    throw new Error(`Failed to generate cached file: ${cacheFilePath}`);
+  }
 
-	await write(distPath, cachedFile);
-	return distPath;
+  await write(distPath, cachedFile);
+  return distPath;
 }
 
 let prepared = false;
@@ -188,17 +188,17 @@ let prepared = false;
  * @returns
  */
 async function prepareCacheDir(): Promise<void> {
-	if (prepared) {
-		return;
-	}
+  if (prepared) {
+    return;
+  }
 
-	try {
-		await mkdir(cacheDir, { recursive: true });
-		prepared = true;
-	} catch (error) {
-		console.error(`Error preparing cache dir: ${cacheDir}`);
-		console.error(error);
-	}
+  try {
+    await mkdir(cacheDir, { recursive: true });
+    prepared = true;
+  } catch (error) {
+    console.error(`Error preparing cache dir: ${cacheDir}`);
+    console.error(error);
+  }
 }
 
 /**
@@ -208,14 +208,14 @@ async function prepareCacheDir(): Promise<void> {
  * @returns
  */
 async function toCacheFile(
-	sourcePath: string,
-	{ extension, media }: TransportOptions,
+  sourcePath: string,
+  { extension, media }: TransportOptions,
 ): Promise<string> {
-	const contentHash = await hashByFile(sourcePath);
-	return resolve(
-		cacheDir,
-		`${contentHash}${media ? `-${media}` : ""}${extension}`,
-	).replace(`${process.cwd()}/`, "");
+  const contentHash = await hashByFile(sourcePath);
+  return resolve(
+    cacheDir,
+    `${contentHash}${media ? `-${media}` : ""}${extension}`,
+  ).replace(`${process.cwd()}/`, "");
 }
 
 /**
@@ -224,33 +224,33 @@ async function toCacheFile(
  * @returns
  */
 async function tryReadFile(targetPath: string): Promise<Data | undefined> {
-	async function checkIsFile() {
-		if (!existsSync(targetPath)) {
-			return false;
-		}
+  async function checkIsFile() {
+    if (!existsSync(targetPath)) {
+      return false;
+    }
 
-		const cachedFileStat = await stat(targetPath);
-		return cachedFileStat.isFile();
-	}
+    const cachedFileStat = await stat(targetPath);
+    return cachedFileStat.isFile();
+  }
 
-	if (await checkIsFile()) {
-		const raw = await readFile(targetPath);
-		return raw as unknown as Uint8Array;
-	}
-	return undefined;
+  if (await checkIsFile()) {
+    const raw = await readFile(targetPath);
+    return raw as unknown as Uint8Array;
+  }
+  return undefined;
 }
 
 async function write(distFilePath: string, raw: Data): Promise<void> {
-	const stream = createWriteStream(distFilePath, {
-		encoding: "binary",
-		flags: "w",
-	});
-	try {
-		stream.write(raw);
-		stream.end();
-	} finally {
-		stream.close();
-	}
+  const stream = createWriteStream(distFilePath, {
+    encoding: "binary",
+    flags: "w",
+  });
+  try {
+    stream.write(raw);
+    stream.end();
+  } finally {
+    stream.close();
+  }
 }
 
 /**
@@ -258,14 +258,14 @@ async function write(distFilePath: string, raw: Data): Promise<void> {
  * /path/to/foo/bar.mp4 -> bar
  */
 function extractFileName(filePath: string): string {
-	const parts = filePath.split("/");
-	const lastPart = parts[parts.length - 1];
-	if (!lastPart) {
-		throw new Error(`Invalid file path: ${filePath}`);
-	}
+  const parts = filePath.split("/");
+  const lastPart = parts[parts.length - 1];
+  if (!lastPart) {
+    throw new Error(`Invalid file path: ${filePath}`);
+  }
 
-	const lastDotIndex = lastPart.lastIndexOf(".");
-	return lastPart.slice(0, lastDotIndex);
+  const lastDotIndex = lastPart.lastIndexOf(".");
+  return lastPart.slice(0, lastDotIndex);
 }
 
 /**
@@ -275,23 +275,23 @@ function extractFileName(filePath: string): string {
  * @returns
  */
 async function hashByFile(
-	sourcePath: string,
-	rootDir = process.cwd(),
+  sourcePath: string,
+  rootDir = process.cwd(),
 ): Promise<string> {
-	const hash = createHash("sha256");
+  const hash = createHash("sha256");
 
-	const stream = createReadStream(resolve(rootDir, sourcePath));
-	try {
-		const fullsizeHash = await new Promise<string>((resolve, reject) => {
-			stream.on("error", reject);
+  const stream = createReadStream(resolve(rootDir, sourcePath));
+  try {
+    const fullsizeHash = await new Promise<string>((resolve, reject) => {
+      stream.on("error", reject);
 
-			stream.on("data", (chunk: string) => hash.update(chunk));
+      stream.on("data", (chunk: string) => hash.update(chunk));
 
-			stream.on("end", () => resolve(hash.digest("hex")));
-		});
+      stream.on("end", () => resolve(hash.digest("hex")));
+    });
 
-		return fullsizeHash.slice(0, 16);
-	} finally {
-		stream?.close();
-	}
+    return fullsizeHash.slice(0, 16);
+  } finally {
+    stream?.close();
+  }
 }

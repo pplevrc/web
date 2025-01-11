@@ -9,7 +9,7 @@ const globalCacheMap = new WeakMap<AnyFunction, Map<string, unknown>>();
 // const CACHE_DIR = resolve(__dirname, "../../.cache");
 
 interface MemoizeOption {
-	debug?: boolean;
+  debug?: boolean;
 }
 
 /**
@@ -18,49 +18,49 @@ interface MemoizeOption {
  * @returns
  */
 export function memoize<F extends AnyFunction>(
-	fn: F,
-	opt: MemoizeOption = {},
+  fn: F,
+  opt: MemoizeOption = {},
 ): F {
-	return ((...args: unknown[]) => {
-		const key = hash(args);
+  return ((...args: unknown[]) => {
+    const key = hash(args);
 
-		if (opt.debug) {
-			console.log("args", JSON.stringify(args));
-			console.log("key", key);
-		}
+    if (opt.debug) {
+      console.log("args", JSON.stringify(args));
+      console.log("key", key);
+    }
 
-		if (!globalCacheMap.has(fn)) {
-			if (opt.debug) {
-				console.log("create new cache map");
-			}
-			globalCacheMap.set(fn, new Map<string, unknown>());
-		}
+    if (!globalCacheMap.has(fn)) {
+      if (opt.debug) {
+        console.log("create new cache map");
+      }
+      globalCacheMap.set(fn, new Map<string, unknown>());
+    }
 
-		const cacheMap = ensureNonNil(globalCacheMap.get(fn));
-		if (cacheMap.has(key)) {
-			if (opt.debug) {
-				console.log("cache hit");
-				console.log("result (cached)", cacheMap.get(key));
-			}
-			return cacheMap.get(key);
-		}
+    const cacheMap = ensureNonNil(globalCacheMap.get(fn));
+    if (cacheMap.has(key)) {
+      if (opt.debug) {
+        console.log("cache hit");
+        console.log("result (cached)", cacheMap.get(key));
+      }
+      return cacheMap.get(key);
+    }
 
-		const result = fn(...args);
+    const result = fn(...args);
 
-		if (result instanceof Promise) {
-			return result.then((value) => {
-				cacheMap.set(key, value);
-				if (opt.debug) {
-					console.log("result", value);
-				}
-				return value;
-			});
-		}
+    if (result instanceof Promise) {
+      return result.then((value) => {
+        cacheMap.set(key, value);
+        if (opt.debug) {
+          console.log("result", value);
+        }
+        return value;
+      });
+    }
 
-		if (opt.debug) {
-			console.log("result", result);
-		}
-		cacheMap.set(key, result);
-		return result;
-	}) as F;
+    if (opt.debug) {
+      console.log("result", result);
+    }
+    cacheMap.set(key, result);
+    return result;
+  }) as F;
 }

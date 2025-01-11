@@ -1,5 +1,5 @@
 export interface DescriptionMetaProps {
-	title: string;
-	description: string;
-	keywords: string[];
+  title: string;
+  description: string;
+  keywords: string[];
 }
