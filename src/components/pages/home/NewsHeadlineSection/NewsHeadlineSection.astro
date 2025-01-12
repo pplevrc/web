@@ -1,10 +1,13 @@
 ---
 import SnapSection from "@components/layouts/Sections/SnapSection.astro";
 import { css } from "@styles/css";
+import { bgPattern } from "@styles/recipes";
 
-const rootStyle = css({
-  bg: "matcha.bg",
-});
+const rootStyle = css({});
 ---
 
-<SnapSection class={rootStyle}> NewsHeadlineSection </SnapSection>
+<SnapSection
+  class:list={[rootStyle, bgPattern({ color: "matcha", pattern: "checkered" })]}
+>
+  NewsHeadlineSection
+</SnapSection>

@@ -3,9 +3,9 @@ import SectionHeading from "@components/decoratives/Headings/SectionHeading.astr
 import AvatarImage from "@components/domains/avatar/AvatarImage.astro";
 import SnapSection from "@components/layouts/Sections/SnapSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
+import { bgPattern } from "@styles/recipes";
 
 import { css } from "@styles/css";
-import { bgCheckeredPattern } from "@styles/recipes";
 
 const casts = await fetchCasts();
 
@@ -32,7 +32,9 @@ const imageWrapStyle = css({
 });
 ---
 
-<SnapSection class:list={[rootStyle, bgCheckeredPattern({ color: "rose" })]}>
+<SnapSection
+  class:list={[rootStyle, bgPattern({ color: "rose", pattern: "checkered" })]}
+>
   <SectionHeading> キャストさんピックアップ </SectionHeading>
 
   <ul class={listStyle}>

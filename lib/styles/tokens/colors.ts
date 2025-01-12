@@ -402,7 +402,7 @@ const latte = {
   },
 } as const satisfies TokenFragment;
 
-const lavendar = {
+const lavender = {
   tokens: {
     50: {
       value: "#D8D4E9",
@@ -437,16 +437,16 @@ const lavendar = {
   },
   semanticTokens: {
     bg: {
-      value: "{colors.lavendar.50}",
+      value: "{colors.lavender.50}",
     },
     lite: {
-      value: "{colors.lavendar.100}",
+      value: "{colors.lavender.100}",
     },
     regular: {
-      value: "{colors.lavendar.400}",
+      value: "{colors.lavender.400}",
     },
     deep: {
-      value: "{colors.lavendar.700}",
+      value: "{colors.lavender.700}",
     },
   },
 } as const satisfies TokenFragment;
@@ -625,7 +625,7 @@ const colorPalettes = {
   rose,
   matcha,
   latte,
-  lavendar,
+  lavender,
   carrot,
   ice,
   mint,
