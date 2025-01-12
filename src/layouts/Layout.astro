@@ -6,17 +6,22 @@ import {
 } from "@components/layouts/HeadMeta/index.ts";
 import Header from "@components/layouts/Header/Header.astro";
 import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
-import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
+import {
+  type SVGDependencies,
+  default as TemplateDefinition,
+} from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 import { css } from "@styles/css";
 import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
   headMeta: DescriptionMetaProps;
+  use: SVGDependencies;
   mainStyle?: SystemStyleObject;
 }
 
 const {
   headMeta: { title, description, keywords },
+  use,
   mainStyle,
 } = Astro.props;
 
@@ -39,7 +44,7 @@ const mainClass = css(mainStyle);
   </head>
 
   <body class={hideScroll}>
-    <TemplateDefinition>
+    <TemplateDefinition use={use}>
       <slot name="template-definition" />
     </TemplateDefinition>
     <Header />

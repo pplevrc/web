@@ -1,16 +1,33 @@
 ---
-import Icon from "@components/decoratives/Icon/Icon.astro";
+import { default as Icon } from "@components/decoratives/Icon/Icon.astro";
+import type { IconType } from "@components/decoratives/Icon/types";
 import Logo from "@components/decoratives/Logo/Logo.astro";
+
+export interface SVGDependencies {
+  icon: IconType[];
+}
+
+interface Props {
+  use: SVGDependencies;
+}
+
+const {
+  use: { icon: icons },
+} = Astro.props;
+
+function hasIcon(icon: IconType) {
+  return icons.includes(icon);
+}
 ---
 
 <div aria-hidden role="presentation" hidden>
-  <Icon definition type="flower" />
-  <Icon definition type="flower-outline" />
-  <Icon definition type="plum" />
-  <Icon definition type="cherry-blossom" />
-  <Icon definition type="teacup" />
-  <Icon definition type="teapot" />
-  <Icon definition type="pancake" />
+  {hasIcon("flower") && <Icon definition type="flower" />}
+  {hasIcon("flower-outline") && <Icon definition type="flower-outline" />}
+  {hasIcon("plum") && <Icon definition type="plum" />}
+  {hasIcon("cherry-blossom") && <Icon definition type="cherry-blossom" />}
+  {hasIcon("teacup") && <Icon definition type="teacup" />}
+  {hasIcon("teapot") && <Icon definition type="teapot" />}
+  {hasIcon("pancake") && <Icon definition type="pancake" />}
 
   <Logo definition type="pple" />
   <slot />

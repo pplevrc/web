@@ -4,6 +4,23 @@ import type { DescriptionMetaProps } from "../types";
 interface Props extends DescriptionMetaProps {}
 
 const { description, keywords = [], title } = Astro.props;
+
+const commonKeywords = [
+  "ロリっ子喫茶ぷぷりえ",
+  "ロリ",
+  "ぷぷりえ",
+  "ププリエ",
+  "pple",
+  "VRChat",
+  "VRC",
+  "VRChat Event",
+  "VRChat Community",
+  "VRChat イベント",
+  "VRChat コミュニティ",
+  "喫茶イベント",
+  "RP",
+  "ロールプレイ",
+];
 ---
 
 <meta charset="UTF-8" />
@@ -11,6 +28,6 @@ const { description, keywords = [], title } = Astro.props;
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <meta name="description" content={description} />
-<meta name="keywords" content={keywords.join(", ")} />
+<meta name="keywords" content={[...commonKeywords, ...keywords].join(", ")} />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>

@@ -13,9 +13,12 @@ const { nickname } = Astro.params;
 
 <Layout
   headMeta={{
-    title: `ロリっ子喫茶ぷぷりえ | キャスト紹介: ${nickname}`,
-    description: "Home page",
-    keywords: ["home", "page"],
+    title: `キャスト紹介: ${nickname} | ロリっ子喫茶ぷぷりえ`,
+    description: `ロリっ子喫茶ぷぷりえのキャスト (${nickname}) を紹介するページです.`,
+    keywords: [nickname],
+  }}
+  use={{
+    icon: ["flower"],
   }}
 >
   {nickname}

@@ -15,12 +15,14 @@ import type { DescriptionMetaProps } from "./types";
 interface Props extends DescriptionMetaProps {}
 
 const props = Astro.props;
+
+const isProduction = import.meta.env.MODE === "production";
 ---
 
 <DescriptionMeta {...props} />
 <OgpMeta />
 <GtmMEta />
 <FaviconMeta />
-<SecurityMeta />
+{isProduction ? <SecurityMeta /> : null}
 
 <ClientRouter fallback="animate" />
