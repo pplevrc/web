@@ -1,3 +1,1 @@
-import { bgPattern } from "./background-patterns";
-
-export { bgPattern };
+export { bgPattern } from "./background-patterns";

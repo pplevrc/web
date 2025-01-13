@@ -24,9 +24,18 @@ function checkeredPattern(colorName: ColorName): string {
   ].join(",");
 }
 
+function stripePattern(colorName: ColorName | "white"): string {
+  const colorToken =
+    colorName === "white" ? "{colors.white/60}" : `{colors.${colorName}.bg/60}`;
+
+  return `repeating-linear-gradient(45deg, ${colorToken}, ${colorToken} 16rem, transparent 16rem)`;
+}
+
 export const bgPattern = defineRecipe({
   className: "background-pattern",
   compoundVariants: [
+    ///
+    /// チェック柄
     ...colorNames.map((colorName) => ({
       pattern: "checkered",
       color: colorName,
@@ -35,5 +44,22 @@ export const bgPattern = defineRecipe({
         bgImage: checkeredPattern(colorName),
       },
     })),
+
+    ///
+    /// ストライプ
+    ...colorNames.map((colorName) => ({
+      pattern: "stripe",
+      color: colorName,
+      css: {
+        bgImage: stripePattern(colorName),
+      },
+    })),
+    {
+      pattern: "stripe",
+      color: "white",
+      css: {
+        bgImage: stripePattern("white"),
+      },
+    },
   ],
 });

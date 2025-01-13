@@ -1,0 +1,63 @@
+---
+import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { fetchCast } from "@lib/contents/casts";
+import { pickColorBase } from "@lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
+// biome-ignore lint/style/useImportType: なぜか Biome がエラーにしてくるので回避
+import AvatarImage from "../AvatarImage/AvatarImage.astro";
+import StripeCapsule from "./internals/StripeCapsule.astro";
+
+type AvatarImageProps = Parameters<typeof AvatarImage>[0];
+
+interface Props extends AvatarImageProps {
+  class?: string;
+}
+
+const { class: className, ...avatarImageProps } = Astro.props;
+
+const { nickname } = avatarImageProps;
+
+const { themeColor } = await fetchCast(nickname);
+
+if (!themeColor) {
+  throw new Error(
+    `themeColor is required, but cast data of ${nickname} has no themeColor`,
+  );
+}
+
+const rootStyle = css({
+  w: "[inherit]",
+  h: "full",
+  overflow: "visible",
+
+  "& *": {
+    pointerEvents: "none",
+  },
+});
+
+const figureRoot = css({
+  w: "[inherit]",
+  h: "[inherit]",
+  pos: "relative",
+});
+
+const imageStyle = css({
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+  display: "block",
+});
+---
+
+<a
+  class:list={[rootStyle, className]}
+  href={`/cast/${nickname}`}
+  aria-label={`${nickname} の紹介ページ`}
+>
+  <figure class={figureRoot}>
+    <OrigamiShape />
+    <StripeCapsule theme={pickColorBase(themeColor)} aria-hidden />
+    <AvatarImage {...avatarImageProps} class={imageStyle} />
+  </figure>
+</a>

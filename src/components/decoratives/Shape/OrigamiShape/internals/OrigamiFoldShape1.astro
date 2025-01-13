@@ -1,0 +1,36 @@
+---
+import { css } from "@styles/css";
+import { hash } from "ohash";
+
+type Props = {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+};
+
+const { definition = false, ...props } = Astro.props;
+
+const id = hash("origami-fold-shape-1");
+---
+
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" {...props}>
+  {
+    definition ? (
+      <symbol id={id} viewBox="0 0 512 512">
+        <path
+          class={css({
+            fillRule: "evenodd",
+            clipRule: "evenodd",
+            fill: "[currentColor]",
+          })}
+          d="M1 0L257 0L257 512H1L1 0Z"
+        />
+      </symbol>
+    ) : (
+      <use xlink:href={`#${id}`} />
+    )
+  }
+</svg>

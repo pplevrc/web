@@ -9,19 +9,21 @@ interface Props {
 const { class: className } = Astro.props;
 
 const rootStyle = css({
-  textStyle: "normal.bold.sm",
+  textStyle: "normal.bold.xl",
+  color: "latte.deep",
 });
 
 const iconStyle = css({
-  w: "4",
-  h: "4",
-  fill: "latte.regular",
+  w: "6",
+  h: "6",
+  fill: "latte.deep",
   display: "inline-block",
+  verticalAlign: "[-0.25rem]",
 });
 ---
 
 <h2 class:list={[rootStyle, className]}>
-  <Icon type="flower" class={iconStyle} />
+  <Icon type="flower" class={iconStyle} aria-hidden />
   <slot />
-  <Icon type="flower" class={iconStyle} />
+  <Icon type="flower" class={iconStyle} aria-hidden />
 </h2>

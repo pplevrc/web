@@ -1,0 +1,45 @@
+---
+import DecorativeLink from "@/components/decoratives/Links/DecorativeLink.astro";
+import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
+import { css } from "@styles/css";
+
+interface Props {
+  class?: string;
+  title: string;
+  link: {
+    label: string;
+    href: string;
+  };
+}
+
+const { class: sectionClass, title, link } = Astro.props;
+
+const fitStyle = css({
+  scrollSnapAlign: "center",
+  minH: "160",
+  h: "160",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "16",
+});
+
+const contentStyle = css({
+  h: "96",
+  w: "256",
+  // bg: "white",
+  rounded: "2xl",
+  // borderStyle: "dashed",
+  // borderWidth: "lg",
+  // borderColor: "latte.regular",
+});
+---
+
+<section class:list={[fitStyle, sectionClass]}>
+  <SectionHeading>{title}</SectionHeading>
+  <div class={contentStyle}>
+    <slot />
+  </div>
+  <DecorativeLink href={link.href} position="left">{link.label}</DecorativeLink>
+</section>

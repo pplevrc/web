@@ -6,6 +6,7 @@ import vdcmImg from "./assets/YTJVDCM.png";
 import wimaruImg from "./assets/うぃまる.png";
 import usamimikaImg from "./assets/うさみみか.png";
 import oukaImg from "./assets/くるりおうか.png";
+import rinneImg from "./assets/星月りんね.png";
 import kokoaImg from "./assets/柚月ここあ.png";
 
 export async function createMockCasts(): Promise<FetchedCast[]> {
@@ -24,7 +25,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
 
         birthday: date(2, 11),
       },
-      themeColor: "berry.lite",
+      themeColor: "soda.lite",
       vrchat: {
         userId: "うぃまる（wimaru）",
         userPageURL: new URL(
@@ -68,7 +69,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           "https://vrchat.com/home/user/usr_63e7fc11-c859-444d-b157-5dfe79d831a7",
         ),
       },
-      themeColor: "berry.lite",
+      themeColor: "ice.lite",
       avatars: [
         {
           images: {
@@ -107,7 +108,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           "https://vrchat.com/home/user/usr_2f8f1ce1-49cf-4f8c-9f42-8e214b78c4a5",
         ),
       },
-      themeColor: "berry.lite",
+      themeColor: "honey.lite",
       avatars: [
         {
           images: {
@@ -166,6 +167,34 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
       ]),
     },
     {
+      attendanceId: 64,
+      profile: {
+        nickname: "りんね",
+        introduction: `
+テストテストテストテスト
+テストテストテスト
+		`,
+      },
+      vrchat: {
+        userId: "星月りんね",
+        userPageURL: new URL(
+          "https://vrchat.com/home/user/usr_514f4a26-61ff-419f-9f12-de0aa3bee373",
+        ),
+      },
+      themeColor: "lavender.regular",
+      avatars: [
+        {
+          images: {
+            neutral: rinneImg,
+            expression: rinneImg,
+          },
+          height: 110,
+          assets: [],
+        },
+      ],
+      socialLinks: [],
+    },
+    {
       attendanceId: 65,
       profile: {
         nickname: "ここあ",
@@ -190,7 +219,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           assets: [],
         },
       ],
-      themeColor: "berry.lite",
+      themeColor: "rose.lite",
       socialLinks: sort([
         await toSocialLink({
           url: "https://x.com/kokoa_vr",

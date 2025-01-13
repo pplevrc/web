@@ -1,14 +1,35 @@
 import { z } from "astro:content";
 import { schemaForType } from "@lib/utils/type";
 import type { ColorToken } from "@styles/tokens";
+import { colorNames } from "lib/styles/tokens/colors";
 
 type PickToken<T extends string> = T extends `${infer _}.${infer Type}`
   ? Type extends `${number}`
     ? never
-    : T
+    : T extends `colorPalette.${infer _}`
+      ? never
+      : T
   : never;
 
-export type ColorTheme = PickToken<ColorToken>;
+type OmitBG<T extends ColorToken> = T extends `${infer _}.bg` ? never : T;
+
+type OmitSemantic<T extends ColorToken> = T extends `${infer R}.${infer _}`
+  ? R
+  : never;
+
+export type ColorTheme = OmitBG<PickToken<ColorToken>>;
+
+export type ColorThemeBase = OmitSemantic<PickToken<ColorTheme>>;
+
+export function pickColorBase(theme: ColorTheme): ColorThemeBase {
+  const colorName = colorNames.find((name) => theme.startsWith(name));
+
+  if (!colorName) {
+    throw new Error(`Invalid color theme: ${theme}`);
+  }
+
+  return colorName;
+}
 
 export const colorThemeSchema = schemaForType<ColorTheme>(
   z.union([
@@ -36,9 +57,9 @@ export const colorThemeSchema = schemaForType<ColorTheme>(
     z.literal("latte.lite"),
     z.literal("latte.regular"),
     z.literal("latte.deep"),
-    z.literal("lavendar.lite"),
-    z.literal("lavendar.regular"),
-    z.literal("lavendar.deep"),
+    z.literal("lavender.lite"),
+    z.literal("lavender.regular"),
+    z.literal("lavender.deep"),
     z.literal("carrot.lite"),
     z.literal("carrot.regular"),
     z.literal("carrot.deep"),

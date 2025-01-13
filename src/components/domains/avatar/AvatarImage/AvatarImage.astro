@@ -1,0 +1,141 @@
+---
+import { Picture } from "astro:assets";
+import { fetchAvatarImage } from "@lib/contents/casts";
+import type { Avatar } from "@lib/contents/casts";
+import { css } from "@styles/css";
+
+type Type = keyof Avatar["images"];
+
+// biome-ignore lint/suspicious/noExplicitAny: Astro では Image Service を拡張しても, それを利用する Image 系コンポーネントの型を拡張する術がないため, any でエラーを回避している
+const CustomPicture = Picture as any;
+
+/**
+ * avatar height が ↓ の値の場合の, 画像を等倍とする
+ */
+const AVATAR_SAME_SCALE_HEIGHT = 110;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の横幅
+ */
+const DEFAULT_WIDTH = 1400;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の空白マージン
+ */
+const DEFAULT_LEFT_MARGIN_PX = 100;
+
+/**
+ * Avatar Studio で撮影した画像にて, 上部分の空白マージン
+ */
+const DEFAULT_TOP_MARGIN_PX = 400;
+
+/**
+ * Avatar Studio で撮影した画像にて, 左部分の縦幅
+ */
+const DEFAULT_HEIGHT = 2160;
+
+/**
+ * Avatar Studio で撮影した画像にて, 切り取る画像の横幅
+ */
+const CROP_WIDTH = DEFAULT_WIDTH - DEFAULT_LEFT_MARGIN_PX;
+
+/**
+ * Avatar Studio で撮影した画像にて, 切り取る画像の縦幅
+ */
+const CROP_HEIGHT = DEFAULT_HEIGHT - DEFAULT_TOP_MARGIN_PX;
+
+/**
+ * 切り取る画像のアスペクト比
+ */
+const ASPECT_RATIO = CROP_WIDTH / CROP_HEIGHT;
+
+interface Props {
+  /**
+   * 店員さんのニックネーム
+   */
+  nickname: string;
+
+  /**
+   * 店員さんアバターの登録順インデックス (0 は 必ず登録される)
+   * @default 0
+   */
+  avatarIndex?: number;
+
+  /**
+   * アバター画像の表情
+   * @default "neutral"
+   */
+  type?: Type;
+
+  /**
+   * Element に付随する alt 属性
+   */
+  alt: string;
+
+  /**
+   * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
+   */
+  width: number;
+
+  /**
+   *
+   */
+  class?: string;
+}
+
+const {
+  nickname,
+  avatarIndex = 0,
+  type = "neutral",
+  alt,
+  width: baseWidth,
+  class: className,
+} = Astro.props;
+
+const { image: src, height: avatarHeight } = await fetchAvatarImage({
+  nickname,
+  index: avatarIndex,
+  type,
+});
+
+const scale = avatarHeight / AVATAR_SAME_SCALE_HEIGHT;
+
+const optimizedWidth = Math.round(baseWidth * scale);
+
+const optimizedHeight = Math.round(optimizedWidth / ASPECT_RATIO);
+
+const optimizedWidthRem = optimizedWidth / 32;
+
+const imageStyle = {
+  width: `${optimizedWidthRem}rem`,
+};
+
+const sizingStyle = css({
+  height: "[fit-content]",
+
+  "& > *": {
+    w: "[inherit]",
+  },
+});
+---
+
+<CustomPicture
+  src={src}
+  alt={alt}
+  crop={{
+    width: CROP_WIDTH,
+    height: CROP_HEIGHT,
+    left: DEFAULT_LEFT_MARGIN_PX,
+    top: DEFAULT_TOP_MARGIN_PX,
+  }}
+  width={optimizedWidth}
+  widths={[optimizedWidth, optimizedWidth * 2, optimizedWidth * 4]}
+  height={optimizedHeight}
+  fit="cover"
+  formats={["png", "webp", "avif"]}
+  pictureAttributes={{
+    style: imageStyle,
+    class: [sizingStyle, className].join(" "),
+  }}
+/>

@@ -1,10 +1,10 @@
 import { ensureNonNil } from "./type";
 
-export function randomPick<T>(array: T[], pickCount: 1): T;
+export function randomPick<T>(array: T[], pickCount?: 1): T;
 
 export function randomPick<T>(array: T[], pickCount: number): T[];
 
-export function randomPick<T>(array: T[], pickCount: number): T | T[] {
+export function randomPick<T>(array: T[], pickCount = 1): T | T[] {
   const result: T[] = [];
   for (let i = 0; i < pickCount; i++) {
     const index = Math.floor(Math.random() * array.length);

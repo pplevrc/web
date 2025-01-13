@@ -1,0 +1,16 @@
+---
+import OrigamiShapeDefinition from "./OrigamiShape/OrigamiShapeDefinition.astro";
+import type { VectorShapeType } from "./types";
+
+interface Props {
+  use: VectorShapeType[];
+}
+
+const { use } = Astro.props;
+
+function hasShape(shape: VectorShapeType) {
+  return use.includes(shape);
+}
+---
+
+{hasShape("origami") && <OrigamiShapeDefinition />}

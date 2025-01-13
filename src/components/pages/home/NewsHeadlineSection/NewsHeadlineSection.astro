@@ -1,13 +1,18 @@
 ---
-import SnapSection from "@components/layouts/Sections/SnapSection.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
 import { css } from "@styles/css";
 import { bgPattern } from "@styles/recipes";
 
 const rootStyle = css({});
 ---
 
-<SnapSection
+<HomePickupSection
+  title="News Headline"
   class:list={[rootStyle, bgPattern({ color: "matcha", pattern: "checkered" })]}
+  link={{
+    label: "News Headline",
+    href: "/articles",
+  }}
 >
-  NewsHeadlineSection
-</SnapSection>
+  <p>News Headline</p>
+</HomePickupSection>

@@ -1,7 +1,6 @@
 ---
-import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
-import AvatarImage from "@components/domains/avatar/AvatarImage.astro";
-import SnapSection from "@components/layouts/Sections/SnapSection.astro";
+import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
 import { bgPattern } from "@styles/recipes";
 
@@ -9,49 +8,51 @@ import { css } from "@styles/css";
 
 const casts = await fetchCasts();
 
-const rootStyle = css({
-  display: "flex",
-  flexDir: "column",
-  alignItems: "center",
-  py: "4",
-});
-
 const listStyle = css({
   display: "flex",
-  bg: "white",
   flexDir: "row",
   alignItems: "end",
+  justifyContent: "center",
+  h: "full",
 });
 
 const imageWrapStyle = css({
-  w: "64",
+  w: "43",
   p: "-4",
+  h: "full",
   display: "flex",
   flexDir: "column",
   alignItems: "center",
 });
+
+const sizeFit = css({
+  w: "[max-content]",
+  h: "full",
+});
 ---
 
-<SnapSection
-  class:list={[rootStyle, bgPattern({ color: "rose", pattern: "checkered" })]}
+<HomePickupSection
+  title="店員さんピックアップ"
+  class={bgPattern({ color: "rose", pattern: "checkered" })}
+  link={{
+    label: "すべての店員さんをみる",
+    href: "/cast",
+  }}
 >
-  <SectionHeading> キャストさんピックアップ </SectionHeading>
-
   <ul class={listStyle}>
     {
       casts.map(({ profile: { nickname } }) => (
-        <li>
-          <a href={`/cast/${nickname}`} class={imageWrapStyle}>
-            <AvatarImage
-              nickname={nickname}
-              type="neutral"
-              avatarIndex={0}
-              alt={`${nickname} のアバター`}
-              width={512}
-            />
-          </a>
+        <li class={sizeFit}>
+          <DecorativeAvatarLink
+            class={imageWrapStyle}
+            nickname={nickname}
+            type="neutral"
+            avatarIndex={0}
+            alt={`${nickname} のアバター`}
+            width={512}
+          />
         </li>
       ))
     }
   </ul>
-</SnapSection>
+</HomePickupSection>

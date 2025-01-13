@@ -1,0 +1,132 @@
+---
+import { randomPick } from "@/lib/utils/random";
+import { cva } from "@/styles/css/cva.mjs";
+import OrigamiFoldShape1 from "./internals/OrigamiFoldShape1.astro";
+import OrigamiFoldShape2 from "./internals/OrigamiFoldShape2.astro";
+import OrigamiFoldShape3 from "./internals/OrigamiFoldShape3.astro";
+import OrigamiFoldShape4 from "./internals/OrigamiFoldShape4.astro";
+import OrigamiFoldShape5 from "./internals/OrigamiFoldShape5.astro";
+import OrigamiFoldShape6 from "./internals/OrigamiFoldShape6.astro";
+import OrigamiFoldShape7 from "./internals/OrigamiFoldShape7.astro";
+import OrigamiFoldShape8 from "./internals/OrigamiFoldShape8.astro";
+import OrigamiFoldShape9 from "./internals/OrigamiFoldShape9.astro";
+
+/**
+ * 1 ~ 9 まである
+ * 1 は長方形, 9 は直角三角形. 間はそれぞれに近くなる
+ * 折り紙を１回折ったときの形状.
+ */
+const shapeTypes = [
+  "fold-1",
+  "fold-2",
+  "fold-3",
+  "fold-4",
+  "fold-5",
+  "fold-6",
+  "fold-7",
+  "fold-8",
+  "fold-9",
+];
+
+type ShapeType = (typeof shapeTypes)[number];
+
+// 30 度ずつ回転
+const rotateTypes = [
+  "0",
+  "30",
+  "60",
+  "90",
+  "120",
+  "150",
+  "180",
+  "210",
+  "240",
+  "270",
+  "300",
+  "330",
+];
+
+type RotateType = (typeof rotateTypes)[number];
+
+interface Props {
+  /**
+   * @default random
+   */
+  type?: ShapeType;
+
+  /**
+   * @default random
+   */
+  rotate?: RotateType;
+
+  /**
+   * @default random
+   */
+  inverse?: boolean;
+}
+
+const {
+  type = randomPick(shapeTypes),
+  rotate = randomPick(rotateTypes),
+  inverse = randomPick([true, false]),
+} = Astro.props;
+
+const ShapeMap = {
+  "fold-1": OrigamiFoldShape1,
+  "fold-2": OrigamiFoldShape2,
+  "fold-3": OrigamiFoldShape3,
+  "fold-4": OrigamiFoldShape4,
+  "fold-5": OrigamiFoldShape5,
+  "fold-6": OrigamiFoldShape6,
+  "fold-7": OrigamiFoldShape7,
+  "fold-8": OrigamiFoldShape8,
+  "fold-9": OrigamiFoldShape9,
+};
+
+const Shape = ShapeMap[type];
+
+const rotateStyle = cva({
+  variants: {
+    rotate: {
+      "0": {
+        transform: "rotate(0deg)",
+      },
+      "30": {
+        transform: "rotate(30deg)",
+      },
+      "60": {
+        transform: "rotate(60deg)",
+      },
+      "90": {
+        transform: "rotate(90deg)",
+      },
+      "120": {
+        transform: "rotate(120deg)",
+      },
+      "150": {
+        transform: "rotate(150deg)",
+      },
+      "180": {
+        transform: "rotate(180deg)",
+      },
+      "210": {
+        transform: "rotate(210deg)",
+      },
+      "240": {
+        transform: "rotate(240deg)",
+      },
+      "270": {
+        transform: "rotate(270deg)",
+      },
+      "300": {
+        transform: "rotate(300deg)",
+      },
+      "330": {
+        transform: "rotate(330deg)",
+      },
+    },
+  },
+});
+---
+
+<Shape class={rotateStyle({ rotate })} />
