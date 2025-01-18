@@ -1,14 +1,15 @@
 ---
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
 import { css } from "@styles/css";
-import { bgPattern } from "@styles/recipes";
 
-const rootStyle = css({});
+const rootStyle = css({
+  bgGradient: "matcha.checkered",
+});
 ---
 
 <HomePickupSection
   title="News Headline"
-  class:list={[rootStyle, bgPattern({ color: "matcha", pattern: "checkered" })]}
+  class={rootStyle}
   link={{
     label: "News Headline",
     href: "/articles",

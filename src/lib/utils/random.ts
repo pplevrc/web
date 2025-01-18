@@ -1,19 +1,93 @@
-import { ensureNonNil } from "./type";
+import { hash } from "ohash";
+import type { UnionArrayIndex } from "./arithmetic-types";
 
-export function randomPick<T>(array: T[], pickCount?: 1): T;
+export type Randomizer = Generator<number, never, unknown>;
 
-export function randomPick<T>(array: T[], pickCount: number): T[];
+/**
+ * Math.random による乱数生成器
+ */
+export function* defaultRandom(): Randomizer {
+  while (true) {
+    yield Math.random();
+  }
+}
 
-export function randomPick<T>(array: T[], pickCount = 1): T | T[] {
-  const result: T[] = [];
+/**
+ * シードを指定して乱数生成器を生成
+ */
+export function* seedRandom(seed: unknown): Randomizer {
+  if (seed == null) {
+    throw new Error("seed is required");
+  }
+
+  // string を hash 化
+  const seedHash = hash(seed);
+
+  // hash string の文字コードを整数に変換
+  const seedNumberStr = seedHash
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), "");
+  const seedNumber = Number(seedNumberStr);
+
+  // ※ AI 生成
+  let x = seedNumber;
+  while (true) {
+    x = (x ^ (x << 13)) >>> 0;
+    x = (x ^ (x << 17)) >>> 0;
+    x = (x ^ (x << 5)) >>> 0;
+    yield x / 4294967296;
+  }
+}
+
+/**
+ *
+ * @param pickCount
+ * @param array
+ * @param createRandom
+ */
+export function randomPick<T extends unknown[] | readonly unknown[]>(
+  pickCount: 1,
+  array: T | T,
+  createRandom?: Randomizer,
+): T[number];
+
+/**
+ *
+ * @param pickCount
+ * @param array
+ * @param createRandom
+ */
+export function randomPick<T extends unknown[] | readonly unknown[]>(
+  pickCount: UnionArrayIndex<T>,
+  array: T,
+  createRandom?: Randomizer,
+): T[number][];
+
+export function randomPick(
+  pickCount: number,
+  array: unknown[],
+  random: Randomizer = defaultRandom(),
+): unknown | unknown[] {
+  if (pickCount === array.length) {
+    return [...array];
+  }
+
+  const sourceArray = [...array];
+
+  const result: unknown[] = [];
   for (let i = 0; i < pickCount; i++) {
-    const index = Math.floor(Math.random() * array.length);
-    result.push(ensureNonNil(array[index]));
-    array.splice(index, 1);
+    if (sourceArray.length === 0) {
+      break;
+    }
+
+    const index = Math.floor(random.next().value * sourceArray.length);
+    result.push(sourceArray[index]);
+    sourceArray.splice(index, 1);
   }
 
   if (pickCount === 1) {
-    return ensureNonNil(result[0]);
+    // biome-ignore lint/style/noNonNullAssertion: あることが保証されている
+    return result[0]!;
   }
   return result;
 }

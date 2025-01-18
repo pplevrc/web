@@ -1,5 +1,4 @@
 import { defineTokens } from "@pandacss/dev";
-import type { Gradient } from "@pandacss/types";
 import defu from "defu";
 import { toRem } from "./commons/dimensions";
 
@@ -640,6 +639,26 @@ const colorPaletteEntries = Object.entries(colorPalettes) as [
   (typeof colorPalettes)[keyof typeof colorPalettes],
 ][];
 
+/**
+ * Semantic Token から Semantic Token に参照することができないため, semantic color token を参照する用に、定義から直に値を取り出す
+ */
+function pickSemanticTokenValue(
+  colorName: ColorName,
+  variant: "bg" | "lite" | "regular" | "deep",
+) {
+  const colorRef = colorPalettes[colorName].semanticTokens[variant].value;
+  // omit `{` and `}`
+  return colorRef.replace(/[{}]/g, "");
+}
+
+/**
+ * 文字列の空白を削除する
+ */
+function omitWhiteSpace(value: string) {
+  // 改行、タブ、スペースを削除 ただし, 連続しないスペースは削除しない
+  return value.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
+}
+
 export const tokens = defineTokens({
   colors: defineTokens.colors(
     (
@@ -660,31 +679,68 @@ export const semanticTokens = defineTokens({
     ),
   ),
   gradients: defineTokens.gradients(
-    colorPaletteEntries.reduce<Token>(
-      (acc, [name, color]) =>
-        defu(acc, {
-          [name]: {
-            DEFAULT: {
-              value: {
-                type: "linear",
-                placement: "to bottom",
-                stops: (() => {
-                  const { bg, lite } = color.semanticTokens;
-
-                  return [bg.value, lite.value];
-                })(),
-              } satisfies Gradient,
-            },
-            dashed: {
-              value: (() => {
-                const { lite } = color.semanticTokens;
-
-                return `linear-gradient(to right, ${lite.value} 1rem, transparent 1rem)`;
-              })(),
-            },
-          },
-        }),
+    defu(
       {},
+      // default gradient
+      ...colorNames.map((name) => ({
+        [name]: {
+          DEFAULT: {
+            value: `linear-gradient(to bottom, {${pickSemanticTokenValue(name, "bg")}}, {${pickSemanticTokenValue(name, "lite")}})`,
+          },
+        },
+      })),
+
+      // checkered pattern
+      ...colorNames.map((name) => ({
+        [name]: {
+          checkered: {
+            value: (() => {
+              const pxToRem = (px: number) => `${px / 16}rem`;
+
+              return omitWhiteSpace(`
+                repeating-linear-gradient(0deg,
+                  {${pickSemanticTokenValue(name, "bg")}/100} 0 ${pxToRem(1)},
+                  {colors.white/50} ${pxToRem(1)} ${pxToRem(21)},
+                  {${pickSemanticTokenValue(name, "bg")}/50} ${pxToRem(21)} ${pxToRem(61)},
+                  {colors.white/50} ${pxToRem(61)} ${pxToRem(81)}
+                ),
+                repeating-linear-gradient(90deg,
+                  {${pickSemanticTokenValue(name, "bg")}/100} 0 ${pxToRem(1)},
+                  {colors.white/50} ${pxToRem(1)} ${pxToRem(21)},
+                  {${pickSemanticTokenValue(name, "bg")}/50} ${pxToRem(21)} ${pxToRem(61)},
+                  {colors.white/50} ${pxToRem(61)} ${pxToRem(81)}
+              )`);
+            })(),
+          },
+        },
+      })),
+
+      // stripe pattern
+      ...colorNames.map((name) => ({
+        [name]: {
+          stripe: {
+            value: omitWhiteSpace(
+              `repeating-linear-gradient(-45deg,
+                {${pickSemanticTokenValue(name, "bg")}/60} 0 0.5rem,
+                transparent 0.5rem 1rem
+              )`,
+            ),
+          },
+        },
+      })),
+      {
+        // white stripe pattern
+        white: {
+          stripe: {
+            value: omitWhiteSpace(
+              `repeating-linear-gradient(-45deg,
+                {colors.white/60} 0 0.5rem,
+                transparent 0.5rem 1rem
+              )`,
+            ),
+          },
+        },
+      },
     ),
   ),
   shadows: {
@@ -695,7 +751,7 @@ export const semanticTokens = defineTokens({
       value: `0 ${toRem(0.25)} ${toRem(0.25)} 0 {colors.black/15}`,
     },
     sm: {
-      value: `0, ${toRem(0.25)} ${toRem(0.5)} 0 {colors.black}`,
+      value: `0 ${toRem(0.25)} ${toRem(0.5)} 0 {colors.black}`,
     },
   },
 });

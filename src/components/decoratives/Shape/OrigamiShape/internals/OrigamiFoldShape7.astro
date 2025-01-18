@@ -1,15 +1,9 @@
 ---
 import { css } from "@styles/css";
 import { hash } from "ohash";
+import type { CommonProps } from "./types";
 
-type Props = {
-  /**
-   * SVG を `<symbol>` として定義するかどうか.
-   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
-   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
-   */
-  definition?: boolean;
-};
+type Props = CommonProps;
 
 const { definition = false, ...props } = Astro.props;
 

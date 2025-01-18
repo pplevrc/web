@@ -1,13 +1,14 @@
 ---
 import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { randomPick, seedRandom } from "@/lib/utils/random";
 import { fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { css } from "@styles/css";
 // biome-ignore lint/style/useImportType: なぜか Biome がエラーにしてくるので回避
 import AvatarImage from "../AvatarImage/AvatarImage.astro";
-import StripeCapsule from "./internals/StripeCapsule.astro";
+import StripeCircle from "./internals/StripeCircle.astro";
 
-type AvatarImageProps = Parameters<typeof AvatarImage>[0];
+type AvatarImageProps = Omit<Parameters<typeof AvatarImage>[0], "alt">;
 
 interface Props extends AvatarImageProps {
   class?: string;
@@ -48,6 +49,20 @@ const imageStyle = css({
   transform: "[translate(-50%, 0)]",
   display: "block",
 });
+
+const random = seedRandom(nickname);
+
+const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
+
+const rotateType = randomPick(
+  1,
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const,
+  random,
+);
+
+const inverse = randomPick(1, [true, false] as const, random);
+
+const colorName = pickColorBase(themeColor);
 ---
 
 <a
@@ -56,8 +71,18 @@ const imageStyle = css({
   aria-label={`${nickname} の紹介ページ`}
 >
   <figure class={figureRoot}>
-    <OrigamiShape />
-    <StripeCapsule theme={pickColorBase(themeColor)} aria-hidden />
-    <AvatarImage {...avatarImageProps} class={imageStyle} />
+    <OrigamiShape
+      type={shapeType}
+      rotate={rotateType}
+      inverse={inverse}
+      color={colorName}
+    />
+    <StripeCircle aria-hidden />
+    <AvatarImage
+      {...avatarImageProps}
+      class={imageStyle}
+      alt={`${nickname} のアバター`}
+      aria-hidden
+    />
   </figure>
 </a>

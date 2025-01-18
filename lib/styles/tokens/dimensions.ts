@@ -56,6 +56,7 @@ export const tokens = defineTokens({
   }),
   borderWidths: defineTokens.borderWidths({
     none: toSizingToken(0),
+    sm: toSizingToken(0.125),
     md: toSizingToken(0.25),
     lg: toSizingToken(0.5),
     xl: toSizingToken(1),

@@ -1,6 +1,6 @@
 ---
-import { randomPick } from "@/lib/utils/random";
-import { cva } from "@/styles/css/cva.mjs";
+import type { UnionArrayIndex } from "@/lib/utils/arithmetic-types";
+import type { ColorName } from "lib/styles/tokens/colors";
 import OrigamiFoldShape1 from "./internals/OrigamiFoldShape1.astro";
 import OrigamiFoldShape2 from "./internals/OrigamiFoldShape2.astro";
 import OrigamiFoldShape3 from "./internals/OrigamiFoldShape3.astro";
@@ -26,9 +26,11 @@ const shapeTypes = [
   "fold-7",
   "fold-8",
   "fold-9",
-];
+] as const;
 
 type ShapeType = (typeof shapeTypes)[number];
+
+type ShapeIndex = UnionArrayIndex<typeof shapeTypes>;
 
 // 30 度ずつ回転
 const rotateTypes = [
@@ -44,32 +46,35 @@ const rotateTypes = [
   "270",
   "300",
   "330",
-];
+] as const;
 
 type RotateType = (typeof rotateTypes)[number];
 
+type RotateIndex = UnionArrayIndex<typeof rotateTypes>;
+
 interface Props {
   /**
-   * @default random
+   *
    */
-  type?: ShapeType;
+  type: ShapeType | ShapeIndex;
 
   /**
-   * @default random
+   *
    */
-  rotate?: RotateType;
+  rotate: RotateType | RotateIndex;
 
   /**
    * @default random
    */
   inverse?: boolean;
+
+  /**
+   *
+   */
+  color?: ColorName;
 }
 
-const {
-  type = randomPick(shapeTypes),
-  rotate = randomPick(rotateTypes),
-  inverse = randomPick([true, false]),
-} = Astro.props;
+const { type, rotate, inverse, color } = Astro.props;
 
 const ShapeMap = {
   "fold-1": OrigamiFoldShape1,
@@ -83,50 +88,32 @@ const ShapeMap = {
   "fold-9": OrigamiFoldShape9,
 };
 
-const Shape = ShapeMap[type];
+const Shape =
+  typeof type === "string"
+    ? ShapeMap[type as ShapeType]
+    : ShapeMap[shapeTypes[type] as ShapeType];
 
-const rotateStyle = cva({
-  variants: {
-    rotate: {
-      "0": {
-        transform: "rotate(0deg)",
-      },
-      "30": {
-        transform: "rotate(30deg)",
-      },
-      "60": {
-        transform: "rotate(60deg)",
-      },
-      "90": {
-        transform: "rotate(90deg)",
-      },
-      "120": {
-        transform: "rotate(120deg)",
-      },
-      "150": {
-        transform: "rotate(150deg)",
-      },
-      "180": {
-        transform: "rotate(180deg)",
-      },
-      "210": {
-        transform: "rotate(210deg)",
-      },
-      "240": {
-        transform: "rotate(240deg)",
-      },
-      "270": {
-        transform: "rotate(270deg)",
-      },
-      "300": {
-        transform: "rotate(300deg)",
-      },
-      "330": {
-        transform: "rotate(330deg)",
-      },
-    },
-  },
-});
+if (!Shape) {
+  throw new Error(`Invalid shape type: ${type}`);
+}
+
+// @ts-ignore TODO
+const rotateType = typeof rotate === "string" ? rotate : rotateTypes[rotate];
+
+// const rotateStyle = origamiStyle({ rotate: rotateType, inverse, color });
+
+const rotateStyle = "";
+
+console.log(
+  "rotate: ",
+  rotate,
+  "inverse: ",
+  inverse,
+  "color: ",
+  color,
+  "class: ",
+  rotateStyle,
+);
 ---
 
-<Shape class={rotateStyle({ rotate })} />
+<Shape class={rotateStyle} />

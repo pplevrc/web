@@ -2,7 +2,6 @@
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
-import { bgPattern } from "@styles/recipes";
 
 import { css } from "@styles/css";
 
@@ -29,11 +28,15 @@ const sizeFit = css({
   w: "[max-content]",
   h: "full",
 });
+
+const homeBg = css({
+  bgGradient: "rose.checkered",
+});
 ---
 
 <HomePickupSection
   title="店員さんピックアップ"
-  class={bgPattern({ color: "rose", pattern: "checkered" })}
+  class={homeBg}
   link={{
     label: "すべての店員さんをみる",
     href: "/cast",
@@ -48,7 +51,6 @@ const sizeFit = css({
             nickname={nickname}
             type="neutral"
             avatarIndex={0}
-            alt={`${nickname} のアバター`}
             width={512}
           />
         </li>

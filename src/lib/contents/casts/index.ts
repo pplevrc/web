@@ -1,6 +1,5 @@
 import { memoize } from "@lib/utils/cache";
 
-import type { ColorTheme } from "../commons/ColorToken";
 import { createMockCasts } from "./__mock__";
 import {
   type Avatar,

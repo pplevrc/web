@@ -3,6 +3,8 @@ import { Picture } from "astro:assets";
 import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import defu from "defu";
 
 type Type = keyof Avatar["images"];
 
@@ -49,7 +51,7 @@ const CROP_HEIGHT = DEFAULT_HEIGHT - DEFAULT_TOP_MARGIN_PX;
  */
 const ASPECT_RATIO = CROP_WIDTH / CROP_HEIGHT;
 
-interface Props {
+interface Props extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
   /**
    * 店員さんのニックネーム
    */
@@ -68,29 +70,24 @@ interface Props {
   type?: Type;
 
   /**
-   * Element に付随する alt 属性
+   * Picture Component に指定する alt 属性
    */
-  alt: string;
+  alt?: string;
 
   /**
    * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
    * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
    */
   width: number;
-
-  /**
-   *
-   */
-  class?: string;
 }
 
 const {
   nickname,
   avatarIndex = 0,
   type = "neutral",
-  alt,
   width: baseWidth,
-  class: className,
+  alt = "",
+  ...attrs
 } = Astro.props;
 
 const { image: src, height: avatarHeight } = await fetchAvatarImage({
@@ -118,24 +115,30 @@ const sizingStyle = css({
     w: "[inherit]",
   },
 });
+
+const pictureAttributes = defu(
+  {
+    style: imageStyle,
+    class: [sizingStyle, attrs.class].join(" "),
+  },
+  attrs,
+);
 ---
 
 <CustomPicture
   src={src}
-  alt={alt}
   crop={{
     width: CROP_WIDTH,
     height: CROP_HEIGHT,
     left: DEFAULT_LEFT_MARGIN_PX,
     top: DEFAULT_TOP_MARGIN_PX,
   }}
+  alt={alt}
   width={optimizedWidth}
   widths={[optimizedWidth, optimizedWidth * 2, optimizedWidth * 4]}
+  sizes={`${optimizedWidthRem}rem`}
   height={optimizedHeight}
   fit="cover"
-  formats={["png", "webp", "avif"]}
-  pictureAttributes={{
-    style: imageStyle,
-    class: [sizingStyle, className].join(" "),
-  }}
+  formats={["avif", "webp", "png"]}
+  pictureAttributes={pictureAttributes}
 />
