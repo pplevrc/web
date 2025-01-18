@@ -68,16 +68,16 @@ const colorName = pickColorBase(themeColor);
 <a
   class:list={[rootStyle, className]}
   href={`/cast/${nickname}`}
-  aria-label={`${nickname} の紹介ページ`}
+  aria-label={`店員"${nickname}"の紹介ページ`}
 >
   <figure class={figureRoot}>
     <OrigamiShape
-      type={shapeType}
+      shape={shapeType}
       rotate={rotateType}
       inverse={inverse}
       color={colorName}
     />
-    <StripeCircle aria-hidden />
+    <StripeCircle />
     <AvatarImage
       {...avatarImageProps}
       class={imageStyle}

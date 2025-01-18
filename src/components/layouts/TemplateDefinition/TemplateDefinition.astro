@@ -2,12 +2,9 @@
 import IconDefinition from "@components/decoratives/Icon/IconDefinition.astro";
 import type { IconType } from "@components/decoratives/Icon/types";
 import Logo from "@components/decoratives/Logo/Logo.astro";
-import ShapeDefinition from "@components/decoratives/Shape/ShapeDefinition.astro";
-import type { VectorShapeType } from "@components/decoratives/Shape/types";
 
 export interface SVGDependencies {
   icon?: IconType[];
-  shape?: VectorShapeType[];
 }
 
 interface Props {
@@ -15,14 +12,12 @@ interface Props {
 }
 
 const {
-  use: { icon = [], shape = [] },
+  use: { icon = [] },
 } = Astro.props;
 ---
 
 <div aria-hidden role="presentation" hidden>
   <IconDefinition use={icon} />
-
-  <ShapeDefinition use={shape} />
   <Logo definition type="pple" />
   <slot />
 </div>

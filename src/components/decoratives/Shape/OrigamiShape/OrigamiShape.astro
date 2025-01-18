@@ -1,108 +1,227 @@
 ---
 import type { UnionArrayIndex } from "@/lib/utils/arithmetic-types";
+import { css, cva } from "@styles/css";
 import type { ColorName } from "lib/styles/tokens/colors";
-import OrigamiFoldShape1 from "./internals/OrigamiFoldShape1.astro";
-import OrigamiFoldShape2 from "./internals/OrigamiFoldShape2.astro";
-import OrigamiFoldShape3 from "./internals/OrigamiFoldShape3.astro";
-import OrigamiFoldShape4 from "./internals/OrigamiFoldShape4.astro";
-import OrigamiFoldShape5 from "./internals/OrigamiFoldShape5.astro";
-import OrigamiFoldShape6 from "./internals/OrigamiFoldShape6.astro";
-import OrigamiFoldShape7 from "./internals/OrigamiFoldShape7.astro";
-import OrigamiFoldShape8 from "./internals/OrigamiFoldShape8.astro";
-import OrigamiFoldShape9 from "./internals/OrigamiFoldShape9.astro";
 
 /**
- * 1 ~ 9 まである
- * 1 は長方形, 9 は直角三角形. 間はそれぞれに近くなる
- * 折り紙を１回折ったときの形状.
+ * 0 .. 長方形
+ * 8 .. 直角三角形
+ * その間はそれぞれに近くなる
  */
-const shapeTypes = [
-  "fold-1",
-  "fold-2",
-  "fold-3",
-  "fold-4",
-  "fold-5",
-  "fold-6",
-  "fold-7",
-  "fold-8",
-  "fold-9",
-] as const;
-
-type ShapeType = (typeof shapeTypes)[number];
-
-type ShapeIndex = UnionArrayIndex<typeof shapeTypes>;
+type ShapeType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 // 30 度ずつ回転
 const rotateTypes = [
-  "0",
-  "30",
-  "60",
-  "90",
-  "120",
-  "150",
-  "180",
-  "210",
-  "240",
-  "270",
-  "300",
-  "330",
+  0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330,
 ] as const;
-
-type RotateType = (typeof rotateTypes)[number];
 
 type RotateIndex = UnionArrayIndex<typeof rotateTypes>;
 
 interface Props {
   /**
-   *
+   * 0 .. 長方形
+   * 8 .. 直角三角形
+   * その間はそれぞれに近くなる
    */
-  type: ShapeType | ShapeIndex;
+  shape: ShapeType;
 
   /**
-   *
+   * 30 * value
    */
-  rotate: RotateType | RotateIndex;
+  rotate: RotateIndex;
 
   /**
-   * @default random
+   * @default false
    */
   inverse?: boolean;
 
   /**
    *
    */
-  color?: ColorName;
+  color: ColorName;
 }
 
-const { type, rotate, inverse, color } = Astro.props;
+const { shape, rotate, inverse, color } = Astro.props;
 
-const ShapeMap = {
-  "fold-1": OrigamiFoldShape1,
-  "fold-2": OrigamiFoldShape2,
-  "fold-3": OrigamiFoldShape3,
-  "fold-4": OrigamiFoldShape4,
-  "fold-5": OrigamiFoldShape5,
-  "fold-6": OrigamiFoldShape6,
-  "fold-7": OrigamiFoldShape7,
-  "fold-8": OrigamiFoldShape8,
-  "fold-9": OrigamiFoldShape9,
-};
+const rootStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    transform: "[translate(-50%, -50%)]",
+    left: "[50%]",
+    top: "[50%]",
+  },
+  variants: {
+    inverse: {
+      true: {
+        transform: "[translate(-50%, -50%) scale(-1, 1)]",
+      },
+    },
+  },
+});
 
-const Shape =
-  typeof type === "string"
-    ? ShapeMap[type as ShapeType]
-    : ShapeMap[shapeTypes[type] as ShapeType];
+const origamiStyleRecipe = cva({
+  base: {
+    w: "43",
+    h: "43",
 
-if (!Shape) {
-  throw new Error(`Invalid shape type: ${type}`);
-}
+    _before: {
+      content: "''",
+      pos: "absolute",
+      inset: "[-10%]",
+    },
+  },
+  variants: {
+    rotate: {
+      0: {
+        transform: "[rotate(0deg)]",
+      },
+      30: {
+        transform: "[rotate(30deg)]",
+      },
+      60: {
+        transform: "[rotate(60deg)]",
+      },
+      90: {
+        transform: "[rotate(90deg)]",
+      },
+      120: {
+        transform: "[rotate(120deg)]",
+      },
+      150: {
+        transform: "[rotate(150deg)]",
+      },
+      180: {
+        transform: "[rotate(180deg)]",
+      },
+      210: {
+        transform: "[rotate(210deg)]",
+      },
+      240: {
+        transform: "[rotate(240deg)]",
+      },
+      270: {
+        transform: "[rotate(270deg)]",
+      },
+      300: {
+        transform: "[rotate(300deg)]",
+      },
+      330: {
+        transform: "[rotate(330deg)]",
+      },
+    },
+    shape: {
+      0: {
+        clipPath: "[polygon(25% 0, 75% 0, 75% 100%, 25% 100%)]",
+      },
+      1: {
+        clipPath: "[polygon(21.875% 0, 65.625% 0, 78.125% 100%, 21.875% 100%)]",
+      },
+      2: {
+        clipPath: "[polygon(18.75% 0, 56.25% 0, 81.25% 100%, 18.75% 100%)]",
+      },
+      3: {
+        clipPath: "[polygon(15.625% 0, 46.875% 0, 84.375% 100%, 15.625% 100%)]",
+      },
+      4: {
+        clipPath: "[polygon(12.5% 0, 37.5% 0, 87.5% 100%, 12.5% 100%)]",
+      },
+      5: {
+        clipPath: "[polygon(9.375% 0, 28.125% 0, 90.625% 100%, 9.375% 100%)]",
+      },
+      6: {
+        clipPath: "[polygon(6.25% 0, 18.75% 0, 93.75% 100%, 6.25% 100%)]",
+      },
+      7: {
+        clipPath: "[polygon(3.125% 0, 9.375% 0, 96.875% 100%, 3.125% 100%)]",
+      },
+      8: {
+        clipPath: "[polygon(0% 0, 100% 100%, 0% 100%)]",
+      },
+    },
+    color: {
+      smoke: {
+        _before: {
+          bgGradient: "smoke",
+        },
+      },
+      olive: {
+        _before: {
+          bgGradient: "olive",
+        },
+      },
+      berry: {
+        _before: {
+          bgGradient: "berry",
+        },
+      },
+      honey: {
+        _before: {
+          bgGradient: "honey",
+        },
+      },
+      soda: {
+        _before: {
+          bgGradient: "soda",
+        },
+      },
+      rose: {
+        _before: {
+          bgGradient: "rose",
+        },
+      },
+      matcha: {
+        _before: {
+          bgGradient: "matcha",
+        },
+      },
+      latte: {
+        _before: {
+          bgGradient: "latte",
+        },
+      },
+      lavender: {
+        _before: {
+          bgGradient: "lavender",
+        },
+      },
+      carrot: {
+        _before: {
+          bgGradient: "carrot",
+        },
+      },
+      ice: {
+        _before: {
+          bgGradient: "ice",
+        },
+      },
+      mint: {
+        _before: {
+          bgGradient: "mint",
+        },
+      },
+    },
+  },
+});
 
-// @ts-ignore TODO
-const rotateType = typeof rotate === "string" ? rotate : rotateTypes[rotate];
+const rootStyle = rootStyleRecipe({
+  inverse,
+});
 
-// const rotateStyle = origamiStyle({ rotate: rotateType, inverse, color });
+const origamiStyle = origamiStyleRecipe({
+  color,
+  shape,
+  rotate: rotateTypes[rotate],
+});
 
-const rotateStyle = "";
+const vectorStyle = css({
+  pos: "absolute",
+  left: "[50%]",
+  top: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+  w: "43",
+  h: "43",
+  opacity: "none",
+});
 
 console.log(
   "rotate: ",
@@ -112,8 +231,10 @@ console.log(
   "color: ",
   color,
   "class: ",
-  rotateStyle,
+  vectorStyle,
 );
 ---
 
-<Shape class={rotateStyle} />
+<div class={rootStyle} aria-hidden>
+  <div class={origamiStyle}></div>
+</div>
