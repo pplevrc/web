@@ -1,12 +1,11 @@
 ---
 import { css } from "@/styles/css";
+import type { HTMLAttributes } from "astro/types";
 import Icon from "../Icon/Icon.astro";
 
-interface Props {
-  class?: string;
-}
+interface Props extends HTMLAttributes<"h2"> {}
 
-const { class: className } = Astro.props;
+const props = Astro.props;
 
 const rootStyle = css({
   textStyle: "normal.bold.xl",
@@ -22,7 +21,7 @@ const iconStyle = css({
 });
 ---
 
-<h2 class:list={[rootStyle, className]}>
+<h2 {...props} class:list={[rootStyle, props.class]}>
   <Icon type="flower" class={iconStyle} aria-hidden />
   <slot />
   <Icon type="flower" class={iconStyle} aria-hidden />

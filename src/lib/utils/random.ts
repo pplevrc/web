@@ -12,6 +12,8 @@ export function* defaultRandom(): Randomizer {
   }
 }
 
+const seedCache = new Map<string, number>();
+
 /**
  * シードを指定して乱数生成器を生成
  */
@@ -32,9 +34,17 @@ export function* seedRandom(seed: unknown): Randomizer {
   // ※ AI 生成
   let x = seedNumber;
   while (true) {
+    const cached = seedCache.get(seedHash);
+    if (cached) {
+      x = cached;
+    }
+
     x = (x ^ (x << 13)) >>> 0;
     x = (x ^ (x << 17)) >>> 0;
     x = (x ^ (x << 5)) >>> 0;
+
+    seedCache.set(seedHash, x);
+
     yield x / 4294967296;
   }
 }
@@ -90,4 +100,11 @@ export function randomPick(
     return result[0]!;
   }
   return result;
+}
+
+/**
+ *
+ */
+export function randomId(): string {
+  return hash(Math.random().toString());
 }

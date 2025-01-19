@@ -630,9 +630,37 @@ const colorPalettes = {
   mint,
 } as const;
 
+/**
+ * 色の種類名
+ */
 export type ColorName = keyof typeof colorPalettes;
 
+/**
+ * 色の種類名の配列
+ */
 export const colorNames = Object.keys(colorPalettes) as ColorName[];
+
+/**
+ * Semantic Token の名前
+ * @example "smoke.bg" | "smoke.lite" | "smoke.regular" | "smoke.deep"
+ */
+export type ColorTokenName =
+  `${ColorName}.${keyof (typeof colorPalettes)[ColorName]["semanticTokens"]}`;
+
+/**
+ * Semantic Token の名前の配列
+ */
+export const colorTokenNames: ColorTokenName[] = Object.entries(
+  colorPalettes as Record<
+    ColorName,
+    { semanticTokens: Record<string, unknown> }
+  >,
+).flatMap(([name, { semanticTokens }]) => {
+  const tokenNames = Object.keys(semanticTokens);
+  return tokenNames.map(
+    (tokenName) => `${name}.${tokenName}` as ColorTokenName,
+  );
+});
 
 const colorPaletteEntries = Object.entries(colorPalettes) as [
   string,

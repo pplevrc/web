@@ -12,7 +12,21 @@ const listStyle = css({
   flexDir: "row",
   alignItems: "end",
   justifyContent: "center",
-  h: "64",
+  gap: "4",
+  pb: "8",
+
+  h: "96",
+  w: "256",
+  bg: "white",
+  rounded: "2xl",
+  borderStyle: "dashed",
+  borderWidth: "lg",
+  borderColor: "latte.regular",
+});
+
+const listItemStyle = css({
+  w: "28",
+  h: "[inherit]",
 });
 
 const imageWrapStyle = css({
@@ -22,11 +36,6 @@ const imageWrapStyle = css({
   display: "flex",
   flexDir: "column",
   alignItems: "center",
-});
-
-const sizeFit = css({
-  w: "[max-content]",
-  h: "full",
 });
 
 const homeBg = css({
@@ -45,7 +54,7 @@ const homeBg = css({
   <ul class={listStyle}>
     {
       casts.map(({ profile: { nickname } }) => (
-        <li class={sizeFit}>
+        <li class={listItemStyle}>
           <DecorativeAvatarLink
             class={imageWrapStyle}
             nickname={nickname}

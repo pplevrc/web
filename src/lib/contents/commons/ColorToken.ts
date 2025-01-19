@@ -1,7 +1,6 @@
 import { z } from "astro:content";
 import { schemaForType } from "@lib/utils/type";
 import type { ColorToken } from "@styles/tokens";
-import { colorNames } from "lib/styles/tokens/colors";
 
 type PickToken<T extends string> = T extends `${infer _}.${infer Type}`
   ? Type extends `${number}`
@@ -20,6 +19,21 @@ type OmitSemantic<T extends ColorToken> = T extends `${infer R}.${infer _}`
 export type ColorTheme = OmitBG<PickToken<ColorToken>>;
 
 export type ColorThemeBase = OmitSemantic<PickToken<ColorTheme>>;
+
+const colorNames = [
+  "smoke",
+  "olive",
+  "berry",
+  "honey",
+  "soda",
+  "rose",
+  "matcha",
+  "latte",
+  "lavender",
+  "carrot",
+  "ice",
+  "mint",
+] as const satisfies ColorThemeBase[];
 
 export function pickColorBase(theme: ColorTheme): ColorThemeBase {
   const colorName = colorNames.find((name) => theme.startsWith(name));

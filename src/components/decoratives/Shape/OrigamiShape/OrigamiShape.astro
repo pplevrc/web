@@ -1,7 +1,8 @@
 ---
+import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
 import type { UnionArrayIndex } from "@/lib/utils/arithmetic-types";
-import { css, cva } from "@styles/css";
-import type { ColorName } from "lib/styles/tokens/colors";
+import { cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
 
 /**
  * 0 .. 長方形
@@ -17,7 +18,7 @@ const rotateTypes = [
 
 type RotateIndex = UnionArrayIndex<typeof rotateTypes>;
 
-interface Props {
+interface Props extends HTMLAttributes<"div"> {
   /**
    * 0 .. 長方形
    * 8 .. 直角三角形
@@ -38,31 +39,15 @@ interface Props {
   /**
    *
    */
-  color: ColorName;
+  color: ColorThemeBase;
 }
 
-const { shape, rotate, inverse, color } = Astro.props;
-
-const rootStyleRecipe = cva({
-  base: {
-    pos: "absolute",
-    transform: "[translate(-50%, -50%)]",
-    left: "[50%]",
-    top: "[50%]",
-  },
-  variants: {
-    inverse: {
-      true: {
-        transform: "[translate(-50%, -50%) scale(-1, 1)]",
-      },
-    },
-  },
-});
+const { shape, rotate, inverse, color, ...attrs } = Astro.props;
 
 const origamiStyleRecipe = cva({
   base: {
-    w: "43",
-    h: "43",
+    w: "36",
+    h: "36",
 
     _before: {
       content: "''",
@@ -72,42 +57,22 @@ const origamiStyleRecipe = cva({
   },
   variants: {
     rotate: {
-      0: {
-        transform: "[rotate(0deg)]",
-      },
-      30: {
-        transform: "[rotate(30deg)]",
-      },
-      60: {
-        transform: "[rotate(60deg)]",
-      },
-      90: {
-        transform: "[rotate(90deg)]",
-      },
-      120: {
-        transform: "[rotate(120deg)]",
-      },
-      150: {
-        transform: "[rotate(150deg)]",
-      },
-      180: {
-        transform: "[rotate(180deg)]",
-      },
-      210: {
-        transform: "[rotate(210deg)]",
-      },
-      240: {
-        transform: "[rotate(240deg)]",
-      },
-      270: {
-        transform: "[rotate(270deg)]",
-      },
-      300: {
-        transform: "[rotate(300deg)]",
-      },
-      330: {
-        transform: "[rotate(330deg)]",
-      },
+      0: {},
+      30: {},
+      60: {},
+      90: {},
+      120: {},
+      150: {},
+      180: {},
+      210: {},
+      240: {},
+      270: {},
+      300: {},
+      330: {},
+    },
+    inverse: {
+      true: {},
+      false: {},
     },
     shape: {
       0: {
@@ -201,40 +166,168 @@ const origamiStyleRecipe = cva({
       },
     },
   },
-});
-
-const rootStyle = rootStyleRecipe({
-  inverse,
+  compoundVariants: [
+    {
+      rotate: 30,
+      css: {
+        transform: "[rotate(30deg)]",
+      },
+    },
+    {
+      rotate: 60,
+      css: {
+        transform: "[rotate(60deg)]",
+      },
+    },
+    {
+      rotate: 90,
+      css: {
+        transform: "[rotate(90deg)]",
+      },
+    },
+    {
+      rotate: 120,
+      css: {
+        transform: "[rotate(120deg)]",
+      },
+    },
+    {
+      rotate: 150,
+      css: {
+        transform: "[rotate(150deg)]",
+      },
+    },
+    {
+      rotate: 180,
+      css: {
+        transform: "[rotate(180deg)]",
+      },
+    },
+    {
+      rotate: 210,
+      css: {
+        transform: "[rotate(210deg)]",
+      },
+    },
+    {
+      rotate: 240,
+      css: {
+        transform: "[rotate(240deg)]",
+      },
+    },
+    {
+      rotate: 270,
+      css: {
+        transform: "[rotate(270deg)]",
+      },
+    },
+    {
+      rotate: 300,
+      css: {
+        transform: "[rotate(300deg)]",
+      },
+    },
+    {
+      rotate: 330,
+      css: {
+        transform: "[rotate(330deg)]",
+      },
+    },
+    {
+      rotate: 0,
+      inverse: true,
+      css: {
+        transform: "[scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 30,
+      inverse: true,
+      css: {
+        transform: "[rotate(30deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 60,
+      inverse: true,
+      css: {
+        transform: "[rotate(60deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 90,
+      inverse: true,
+      css: {
+        transform: "[rotate(90deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 120,
+      inverse: true,
+      css: {
+        transform: "[rotate(120deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 150,
+      inverse: true,
+      css: {
+        transform: "[rotate(150deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 180,
+      inverse: true,
+      css: {
+        transform: "[rotate(180deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 210,
+      inverse: true,
+      css: {
+        transform: "[rotate(210deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 240,
+      inverse: true,
+      css: {
+        transform: "[rotate(240deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 270,
+      inverse: true,
+      css: {
+        transform: "[rotate(270deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 300,
+      inverse: true,
+      css: {
+        transform: "[rotate(300deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 330,
+      inverse: true,
+      css: {
+        transform: "[rotate(330deg) scale(-1, 1)]",
+      },
+    },
+  ],
 });
 
 const origamiStyle = origamiStyleRecipe({
   color,
   shape,
   rotate: rotateTypes[rotate],
-});
-
-const vectorStyle = css({
-  pos: "absolute",
-  left: "[50%]",
-  top: "[50%]",
-  transform: "[translate(-50%, -50%)]",
-  w: "43",
-  h: "43",
-  opacity: "none",
-});
-
-console.log(
-  "rotate: ",
-  rotate,
-  "inverse: ",
   inverse,
-  "color: ",
-  color,
-  "class: ",
-  vectorStyle,
-);
+});
 ---
 
-<div class={rootStyle} aria-hidden>
+<div {...attrs} aria-hidden>
   <div class={origamiStyle}></div>
 </div>

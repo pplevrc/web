@@ -1,4 +1,5 @@
 ---
+import NameSeal from "@/components/decoratives/Shape/NameSeals/NameSeals.astro";
 import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import { randomPick, seedRandom } from "@/lib/utils/random";
 import { fetchCast } from "@lib/contents/casts";
@@ -10,9 +11,7 @@ import StripeCircle from "./internals/StripeCircle.astro";
 
 type AvatarImageProps = Omit<Parameters<typeof AvatarImage>[0], "alt">;
 
-interface Props extends AvatarImageProps {
-  class?: string;
-}
+interface Props extends AvatarImageProps {}
 
 const { class: className, ...avatarImageProps } = Astro.props;
 
@@ -27,7 +26,7 @@ if (!themeColor) {
 }
 
 const rootStyle = css({
-  w: "[inherit]",
+  w: "32",
   h: "full",
   overflow: "visible",
 
@@ -42,6 +41,13 @@ const figureRoot = css({
   pos: "relative",
 });
 
+const origamiStyle = css({
+  pos: "absolute",
+  transform: "[translate(-50%, -50%)]",
+  left: "[50%]",
+  top: "[50%]",
+});
+
 const imageStyle = css({
   pos: "absolute",
   bottom: "0",
@@ -50,13 +56,32 @@ const imageStyle = css({
   display: "block",
 });
 
+const circleStyle = css({
+  pos: "absolute",
+  left: "[50%]",
+  top: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+});
+
+const nameStyle = css({
+  pos: "absolute",
+  left: "[50%]",
+  top: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+});
+
 const random = seedRandom(nickname);
 
 const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
 
 const rotateType = randomPick(
   1,
-  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const,
+  /**
+   * 90, 270 度以外の角度の比重を重くする (3, 9)
+   */
+  [
+    0, 0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 10, 11, 11,
+  ] as const,
   random,
 );
 
@@ -76,13 +101,15 @@ const colorName = pickColorBase(themeColor);
       rotate={rotateType}
       inverse={inverse}
       color={colorName}
+      class={origamiStyle}
     />
-    <StripeCircle />
+    <StripeCircle class={circleStyle} />
     <AvatarImage
       {...avatarImageProps}
       class={imageStyle}
       alt={`${nickname} のアバター`}
       aria-hidden
     />
+    <NameSeal class={nameStyle} color={themeColor} name={nickname} />
   </figure>
 </a>

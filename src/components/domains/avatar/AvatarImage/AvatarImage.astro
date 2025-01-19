@@ -2,6 +2,7 @@
 import { Picture } from "astro:assets";
 import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
+import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
@@ -136,7 +137,7 @@ const pictureAttributes = defu(
   alt={alt}
   width={optimizedWidth}
   widths={[optimizedWidth, optimizedWidth * 2, optimizedWidth * 4]}
-  sizes={`${optimizedWidthRem}rem`}
+  sizes={`${remToSizePercent(optimizedWidthRem) * 100}%`}
   height={optimizedHeight}
   fit="cover"
   formats={["avif", "webp", "png"]}

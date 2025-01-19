@@ -1,5 +1,6 @@
 ---
 import DecorativeLink from "@/components/decoratives/Links/DecorativeLink.astro";
+import { randomId } from "@/lib/utils/random";
 import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
 import { css } from "@styles/css";
 
@@ -25,21 +26,11 @@ const fitStyle = css({
   gap: "16",
 });
 
-const contentStyle = css({
-  h: "96",
-  w: "256",
-  // bg: "white",
-  rounded: "2xl",
-  // borderStyle: "dashed",
-  // borderWidth: "lg",
-  // borderColor: "latte.regular",
-});
+const id = randomId();
 ---
 
-<section class:list={[fitStyle, sectionClass]}>
-  <SectionHeading>{title}</SectionHeading>
-  <div class={contentStyle}>
-    <slot />
-  </div>
+<nav class:list={[fitStyle, sectionClass]} aria-labelledby={id}>
+  <SectionHeading id={id}>{title}</SectionHeading>
+  <slot />
   <DecorativeLink href={link.href} position="left">{link.label}</DecorativeLink>
-</section>
+</nav>

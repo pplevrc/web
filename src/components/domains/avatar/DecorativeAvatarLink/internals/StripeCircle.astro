@@ -1,20 +1,21 @@
 ---
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {}
+
+const props = Astro.props;
 
 const shapeStyle = css({
-  pos: "absolute",
-  left: "[50%]",
-  top: "[50%]",
-  transform: "[translate(-50%, -50%)]",
   rounded: "full",
-  w: "36",
-  h: "36",
+  w: "24",
+  h: "24",
 
   borderWidth: "sm",
   borderStyle: "solid",
   borderImage:
     "[linear-gradient(-45deg, {colors.smoke.bg}, {colors.smoke.lite})]",
-  bgGradient: "white.stripe",
+  bgGradient: "smoke.stripe",
   opacity: "[0.9]",
 });
 
@@ -26,6 +27,6 @@ const circleStyle = css({
 });
 ---
 
-<div class={shapeStyle} aria-hidden>
+<div class:list={[shapeStyle, props.class]} aria-hidden {...props}>
   <div class={circleStyle}></div>
 </div>
