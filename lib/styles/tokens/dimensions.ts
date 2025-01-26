@@ -70,7 +70,13 @@ export const tokens = defineTokens({
     base: {
       value: 0,
     },
-    dropdown: {
+    front: {
+      value: 1,
+    },
+    float: {
+      value: 10,
+    },
+    overlay: {
       value: 50,
     },
     sticky: {

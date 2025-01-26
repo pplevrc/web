@@ -3,12 +3,22 @@ import type { UnionArrayIndex } from "./arithmetic-types";
 
 export type Randomizer = Generator<number, never, unknown>;
 
+const isProduction = import.meta.env.MODE === "production";
+
 /**
  * Math.random による乱数生成器
+ * 開発時はシードを固定して乱数を生成する
  */
 export function* defaultRandom(): Randomizer {
+  if (isProduction) {
+    while (true) {
+      yield Math.random();
+    }
+  }
+
+  const random = seedRandom("development");
   while (true) {
-    yield Math.random();
+    yield random.next().value;
   }
 }
 

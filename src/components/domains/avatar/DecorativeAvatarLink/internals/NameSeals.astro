@@ -1,0 +1,241 @@
+---
+import type { IconType } from "@/components/decoratives/Icon/types";
+import Icon from "@components/decoratives/Icon/Icon.astro";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  /**
+   *
+   */
+  name: string;
+
+  /**
+   *
+   */
+  color: ColorThemeBase;
+
+  /**
+   *
+   */
+  icon: IconType;
+}
+
+const { name, color, icon, ...attrs } = Astro.props;
+
+const rootStyleRecipe = cva({
+  base: {
+    bgColor: "white",
+    textStyle: "decorative.bold.base",
+    color: "black",
+    display: "inline-block",
+    w: "28",
+    h: "7",
+    borderRadius: "xs",
+    overflow: "hidden",
+    shadow: "xs",
+
+    _before: {
+      content: "''",
+      pos: "absolute",
+      borderRadius: "xs",
+
+      width: "full",
+      height: "full",
+
+      borderWidth: "sm",
+      borderTopWidth: "2xl",
+    },
+  },
+  variants: {
+    color: {
+      smoke: {
+        _before: {
+          borderColor: "smoke.bg",
+        },
+      },
+      olive: {
+        _before: {
+          borderColor: "olive.bg",
+        },
+      },
+      berry: {
+        _before: {
+          borderColor: "berry.bg",
+        },
+      },
+      honey: {
+        _before: {
+          borderColor: "honey.bg",
+        },
+      },
+      soda: {
+        _before: {
+          borderColor: "soda.bg",
+        },
+      },
+      rose: {
+        _before: {
+          borderColor: "rose.bg",
+        },
+      },
+      matcha: {
+        _before: {
+          borderColor: "matcha.bg",
+        },
+      },
+      latte: {
+        _before: {
+          borderColor: "latte.bg",
+        },
+      },
+      lavender: {
+        _before: {
+          borderColor: "lavender.bg",
+        },
+      },
+      carrot: {
+        _before: {
+          borderColor: "carrot.bg",
+        },
+      },
+      ice: {
+        _before: {
+          borderColor: "ice.bg",
+        },
+      },
+      mint: {
+        _before: {
+          borderColor: "mint.bg",
+        },
+      },
+    },
+  },
+});
+
+const rootStyle = rootStyleRecipe({ color });
+
+const iconWrapStyle = css({
+  w: "full",
+  h: "7",
+  overflow: "hidden",
+});
+
+const iconStyleRecipe = cva({
+  base: {
+    color: "white",
+    w: "10",
+    h: "10",
+    pos: "absolute",
+    top: "[50%]",
+    left: "1",
+    transform: "[translate(0, -50%) rotate(40deg)]",
+  },
+  variants: {
+    color: {
+      smoke: {
+        color: "smoke.lite",
+      },
+      olive: {
+        color: "olive.lite",
+      },
+      berry: {
+        color: "berry.lite",
+      },
+      honey: {
+        color: "honey.lite",
+      },
+      soda: {
+        color: "soda.lite",
+      },
+      rose: {
+        color: "rose.lite",
+      },
+      matcha: {
+        color: "matcha.lite",
+      },
+      latte: {
+        color: "latte.lite",
+      },
+      lavender: {
+        color: "lavender.lite",
+      },
+      carrot: {
+        color: "carrot.lite",
+      },
+      ice: {
+        color: "ice.lite",
+      },
+      mint: {
+        color: "mint.lite",
+      },
+    },
+  },
+});
+
+const iconStyle = iconStyleRecipe({ color });
+
+const textStyleRecipe = cva({
+  base: {
+    display: "inline-block",
+    pos: "absolute",
+    w: "full",
+    h: "full",
+    textAlign: "center",
+    top: "[0]",
+    paddingTop: "1",
+  },
+  variants: {
+    color: {
+      smoke: {
+        color: "smoke.deep",
+      },
+      olive: {
+        color: "olive.deep",
+      },
+      berry: {
+        color: "berry.deep",
+      },
+      honey: {
+        color: "honey.deep",
+      },
+      soda: {
+        color: "soda.deep",
+      },
+      rose: {
+        color: "rose.deep",
+      },
+      matcha: {
+        color: "matcha.deep",
+      },
+      latte: {
+        color: "latte.deep",
+      },
+      lavender: {
+        color: "lavender.deep",
+      },
+      carrot: {
+        color: "carrot.deep",
+      },
+      ice: {
+        color: "ice.deep",
+      },
+      mint: {
+        color: "mint.deep",
+      },
+    },
+  },
+});
+
+const textStyle = textStyleRecipe({ color });
+---
+
+<figcaption class:list={[rootStyle, attrs.class]} {...attrs}>
+  <div class={iconWrapStyle}>
+    <Icon type={icon} class={iconStyle} aria-hidden />
+  </div>
+  <span class={textStyle} translate="no">
+    {name}
+  </span>
+</figcaption>

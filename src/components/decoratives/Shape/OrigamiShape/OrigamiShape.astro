@@ -46,8 +46,9 @@ const { shape, rotate, inverse, color, ...attrs } = Astro.props;
 
 const origamiStyleRecipe = cva({
   base: {
-    w: "36",
-    h: "36",
+    pos: "absolute",
+    w: "full",
+    h: "full",
 
     _before: {
       content: "''",

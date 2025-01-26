@@ -1,12 +1,13 @@
 ---
-import NameSeal from "@/components/decoratives/Shape/NameSeals/NameSeals.astro";
+import { iconTypes } from "@/components/decoratives/Icon/types";
 import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import { randomPick, seedRandom } from "@/lib/utils/random";
-import { fetchCast } from "@lib/contents/casts";
+import { fetchAvatar, fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
-import { css } from "@styles/css";
+import { css, cva } from "@styles/css";
 // biome-ignore lint/style/useImportType: なぜか Biome がエラーにしてくるので回避
 import AvatarImage from "../AvatarImage/AvatarImage.astro";
+import NameSeal from "./internals/NameSeals.astro";
 import StripeCircle from "./internals/StripeCircle.astro";
 
 type AvatarImageProps = Omit<Parameters<typeof AvatarImage>[0], "alt">;
@@ -19,6 +20,8 @@ const { nickname } = avatarImageProps;
 
 const { themeColor } = await fetchCast(nickname);
 
+const { height: avatarHeight } = await fetchAvatar({ nickname });
+
 if (!themeColor) {
   throw new Error(
     `themeColor is required, but cast data of ${nickname} has no themeColor`,
@@ -26,8 +29,6 @@ if (!themeColor) {
 }
 
 const rootStyle = css({
-  w: "32",
-  h: "full",
   overflow: "visible",
 
   "& *": {
@@ -36,58 +37,152 @@ const rootStyle = css({
 });
 
 const figureRoot = css({
-  w: "[inherit]",
+  w: "32",
   h: "[inherit]",
   pos: "relative",
 });
 
-const origamiStyle = css({
-  pos: "absolute",
-  transform: "[translate(-50%, -50%)]",
-  left: "[50%]",
-  top: "[50%]",
+const origamiStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    transform: "[translate(-50%, -50%)]",
+    left: "[50%]",
+    bottom: "[30%]",
+
+    w: "32",
+    h: "32",
+  },
+  variants: {
+    position: {
+      low: {
+        bottom: "[10%]",
+      },
+      middle: {
+        bottom: "[17.5%]",
+      },
+      high: {
+        bottom: "[25%]",
+      },
+    },
+  },
+});
+
+const position = (() => {
+  if (avatarHeight > 80) {
+    return "high";
+  }
+
+  if (avatarHeight > 60) {
+    return "middle";
+  }
+
+  return "low";
+})();
+
+const origamiStyle = origamiStyleRecipe({
+  position,
 });
 
 const imageStyle = css({
   pos: "absolute",
-  bottom: "0",
+  bottom: "[10%]",
   left: "[50%]",
   transform: "[translate(-50%, 0)]",
   display: "block",
+  zIndex: "front",
 });
 
 const circleStyle = css({
   pos: "absolute",
-  left: "[50%]",
+  left: "[40%]",
   top: "[50%]",
   transform: "[translate(-50%, -50%)]",
 });
 
-const nameStyle = css({
-  pos: "absolute",
-  left: "[50%]",
-  top: "[50%]",
-  transform: "[translate(-50%, -50%)]",
+const nameStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    left: "[50%]",
+    bottom: "[10%]",
+
+    textStyle: "decorative.bold.lg",
+    textDecorationStyle: "solid",
+    color: "white",
+    zIndex: "float",
+  },
+  variants: {
+    position: {
+      low: {
+        bottom: "[10%]",
+      },
+      middle: {
+        bottom: "[17.5%]",
+      },
+      high: {
+        bottom: "[25%]",
+      },
+    },
+    rotate: {
+      "0": {
+        transform: "[translate(-50%, -50%)]",
+      },
+      "5": {
+        transform: "[translate(-50%, -50%) rotate(5deg)]",
+      },
+      "10": {
+        transform: "[translate(-50%, -50%) rotate(10deg)]",
+      },
+      "15": {
+        transform: "[translate(-50%, -50%) rotate(15deg)]",
+      },
+      "20": {
+        transform: "[translate(-50%, -50%) rotate(20deg)]",
+      },
+      "-5": {
+        transform: "[translate(-50%, -50%) rotate(-5deg)]",
+      },
+      "-10": {
+        transform: "[translate(-50%, -50%) rotate(-10deg)]",
+      },
+      "-15": {
+        transform: "[translate(-50%, -50%) rotate(-15deg)]",
+      },
+      "-20": {
+        transform: "[translate(-50%, -50%) rotate(-20deg)]",
+      },
+    },
+  },
 });
 
 const random = seedRandom(nickname);
 
 const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
 
-const rotateType = randomPick(
+const origamiRotateType = randomPick(
   1,
   /**
-   * 90, 270 度以外の角度の比重を重くする (3, 9)
+   * 60, 120, 240, 300 度のみにする
    */
-  [
-    0, 0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 10, 11, 11,
-  ] as const,
+  [2, 4, 8, 10] as const,
   random,
 );
 
 const inverse = randomPick(1, [true, false] as const, random);
 
 const colorName = pickColorBase(themeColor);
+
+const icon = randomPick(1, iconTypes, random);
+
+const nameRotateType = randomPick(
+  1,
+  ["0", "5", "10", "15", "20", "-5", "-10", "-15", "-20"] as const,
+  random,
+);
+
+const nameStyle = nameStyleRecipe({
+  rotate: nameRotateType,
+  position,
+});
 ---
 
 <a
@@ -98,7 +193,7 @@ const colorName = pickColorBase(themeColor);
   <figure class={figureRoot}>
     <OrigamiShape
       shape={shapeType}
-      rotate={rotateType}
+      rotate={origamiRotateType}
       inverse={inverse}
       color={colorName}
       class={origamiStyle}
@@ -110,6 +205,12 @@ const colorName = pickColorBase(themeColor);
       alt={`${nickname} のアバター`}
       aria-hidden
     />
-    <NameSeal class={nameStyle} color={themeColor} name={nickname} />
+    <NameSeal
+      name={nickname}
+      color={colorName}
+      icon={icon}
+      rotate={nameRotateType}
+      class={nameStyle}
+    />
   </figure>
 </a>

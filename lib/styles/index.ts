@@ -1,6 +1,5 @@
 import { definePreset } from "@pandacss/dev";
 import defu from "defu";
-import * as recipes from "./recipes";
 import * as animations from "./tokens/animations";
 import * as colors from "./tokens/colors";
 import * as dimensions from "./tokens/dimensions";
@@ -26,7 +25,6 @@ export default definePreset({
     breakpoints: dimensions.breakpoints,
     textStyles: typographies.textStyle,
     keyframes: animations.keyframes,
-    recipes,
   },
   conditions: {
     extend: {
