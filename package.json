@@ -26,9 +26,9 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@ffmpeg/core-mt": "^0.12.6",
-    "@pandacss/dev": "^0.47.0",
+    "@pandacss/dev": "^0.51.1",
     "@types/ejs": "^3.1.5",
-    "astro": "^5.1.2",
+    "astro": "^5.1.9",
     "defu": "^6.1.4",
     "ejs": "^3.1.10",
     "globby": "^14.0.2",
@@ -39,11 +39,11 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.3",
-    "@vitest/ui": "^3.0.0-beta.3",
+    "@biomejs/biome": "^1.9.4",
+    "@vitest/ui": "^3.0.4",
     "concurrently": "^9.0.1",
     "lefthook": "^1.7.18",
-    "vitest": "^3.0.0-beta.3"
+    "vitest": "^3.0.4"
   },
   "packageManager": "yarn@4.5.0",
   "volta": {
