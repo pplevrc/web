@@ -1,0 +1,65 @@
+---
+import { randomId } from "@/lib/utils/random";
+import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink.astro";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import type { ThemeColor } from "./type";
+
+interface Props extends HTMLAttributes<"nav"> {
+  themeColor: ThemeColor;
+  title: string;
+  hrefViewMore: string;
+}
+
+const {
+  class: className,
+  title,
+  hrefViewMore,
+  themeColor,
+  ...attrs
+} = Astro.props;
+
+const bgStyleRecipe = cva({
+  base: {},
+  variants: {
+    themeColor: {
+      rose: {
+        bgGradient: "rose.checkered",
+      },
+      matcha: {
+        bgGradient: "matcha.checkered",
+      },
+    },
+  },
+});
+
+const bgStyle = bgStyleRecipe({
+  themeColor,
+});
+
+const fitStyle = css({
+  scrollSnapAlign: "center",
+  minH: "160",
+  h: "160",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "16",
+});
+
+const id = randomId();
+---
+
+<nav
+  class:list={[fitStyle, bgStyle, className]}
+  aria-labelledby={id}
+  {...attrs}
+>
+  <SectionHeading id={id}>{title}</SectionHeading>
+  <slot />
+  <DecorativeLink themeColor={themeColor} href={hrefViewMore}>
+    もっとみる
+  </DecorativeLink>
+</nav>

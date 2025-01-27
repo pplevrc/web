@@ -1,6 +1,6 @@
 ---
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
-import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
 import { fetchCasts } from "@lib/contents/casts";
 
 import { css } from "@styles/css";
@@ -22,6 +22,21 @@ const listStyle = css({
   borderStyle: "dashed",
   borderWidth: "lg",
   borderColor: "latte.regular",
+
+  // デバイス側でアニメーションを有効にしない人には可愛く見えない呪い .. motionSafe
+  _motionSafe: {
+    "& > li": {
+      transformOrigin: "center",
+      transition: ["transform", "opacity"],
+    },
+
+    _hover: {
+      "& > li:not(:hover)": {
+        opacity: "[0.25]",
+        transform: "[scale(0.9) rotate(1deg)]",
+      },
+    },
+  },
 });
 
 const listItemStyle = css({
@@ -41,19 +56,12 @@ const imageWrapStyle = css({
   flexDir: "column",
   alignItems: "center",
 });
-
-const homeBg = css({
-  bgGradient: "rose.checkered",
-});
 ---
 
 <HomePickupSection
   title="店員さんピックアップ"
-  class={homeBg}
-  link={{
-    label: "すべての店員さんをみる",
-    href: "/cast",
-  }}
+  themeColor="rose"
+  hrefViewMore="/cast"
 >
   <ul class={listStyle}>
     {

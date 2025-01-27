@@ -1,5 +1,5 @@
 ---
-import HomePickupSection from "@components/layouts/Sections/HomePickupSection.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
 import { css } from "@styles/css";
 
 const rootStyle = css({
@@ -8,12 +8,10 @@ const rootStyle = css({
 ---
 
 <HomePickupSection
-  title="News Headline"
+  title="おしらせ"
   class={rootStyle}
-  link={{
-    label: "News Headline",
-    href: "/articles",
-  }}
+  hrefViewMore="/articles"
+  themeColor="matcha"
 >
   <p>News Headline</p>
 </HomePickupSection>

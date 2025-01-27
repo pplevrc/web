@@ -1,16 +1,72 @@
 ---
-import { cva } from "@styles/css";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import Icon from "../Icon/Icon.astro";
 
-interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
-  class?: string;
-  position: "left" | "right" | "center";
+/**
+ * ※ 最低限用意する
+ */
+type ThemeColor = "rose" | "matcha";
+
+interface Props extends HTMLAttributes<"a"> {
+  themeColor: ThemeColor;
 }
 
-const { class: className, position, ...rest } = Astro.props;
+const { class: className, themeColor, ...rest } = Astro.props;
 
-const linkStyle = cva({});
+const linkStyleRecipe = cva({
+  base: {
+    rounded: "2xl",
+    w: "48",
+    h: "10",
+    shadow: "xs",
+    color: "white",
+    p: "1",
+    textStyle: "normal.bold.base",
+  },
+  variants: {
+    themeColor: {
+      rose: {
+        bg: "rose.regular",
+      },
+      matcha: {
+        bg: "matcha.regular",
+      },
+    },
+  },
+});
+
+const linkStyle = linkStyleRecipe({
+  themeColor,
+});
+
+const insideStyle = css({
+  borderColor: "white",
+  borderWidth: "sm",
+  borderStyle: "dashed",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  rounded: "xl",
+  width: "full",
+  height: "full",
+  px: "4",
+  gap: "4",
+});
+
+const iconStyle = css({
+  w: "6",
+  h: "6",
+  fill: "white",
+  display: "inline-block",
+});
 ---
 
 <a class:list={[linkStyle, className]} {...rest}>
-  <slot />
+  <span class={insideStyle}>
+    <Icon type="flower" class={iconStyle} />
+    <slot />
+    <Icon type="flower" class={iconStyle} />
+  </span>
 </a>
