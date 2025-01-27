@@ -8,20 +8,29 @@ import { css } from "@styles/css";
 const casts = await fetchCasts();
 
 const listStyle = css({
-  display: "flex",
-  flexDir: "row",
-  alignItems: "end",
-  justifyContent: "center",
-  gap: "4",
-  pb: "8",
-
-  h: "96",
-  w: "256",
   bg: "white",
   rounded: "2xl",
   borderStyle: "dashed",
   borderWidth: "lg",
   borderColor: "latte.regular",
+
+  // SP
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: "2",
+  p: "4",
+
+  _pc: {
+    display: "flex",
+    flexDir: "row",
+    alignItems: "end",
+    justifyContent: "center",
+    gap: "4",
+    pb: "8",
+
+    h: "96",
+    w: "256",
+  },
 
   // デバイス側でアニメーションを有効にしない人には可愛く見えない呪い .. motionSafe
   _motionSafe: {
@@ -40,12 +49,17 @@ const listStyle = css({
 });
 
 const listItemStyle = css({
-  w: "28",
-  h: "72",
-
   display: "flex",
   flexDir: "column",
   alignItems: "center",
+
+  // SP
+  w: "full",
+  h: "72",
+
+  _pc: {
+    w: "28",
+  },
 });
 
 const imageWrapStyle = css({

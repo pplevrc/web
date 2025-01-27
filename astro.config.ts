@@ -13,10 +13,12 @@ export default defineConfig({
   },
 
   vite: {
+    // only dev mode
     server: {
       watch: {
         usePolling: isWsl,
       },
+      allowedHosts: true,
     },
   },
 

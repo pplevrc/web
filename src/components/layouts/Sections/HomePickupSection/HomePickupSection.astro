@@ -40,13 +40,20 @@ const bgStyle = bgStyleRecipe({
 
 const fitStyle = css({
   scrollSnapAlign: "center",
-  minH: "160",
-  h: "160",
   display: "flex",
   flexDir: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: "16",
+
+  // SP
+  minH: "256",
+  h: "256",
+
+  _pc: {
+    minH: "160",
+    h: "160",
+  },
 });
 
 const id = randomId();
