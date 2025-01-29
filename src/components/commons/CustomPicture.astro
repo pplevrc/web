@@ -7,9 +7,9 @@ export interface Props extends CustomImageTransform {}
 const isProduction = import.meta.env.MODE === "production";
 
 const props = (() => {
-  // if (isProduction) {
-  return Astro.props;
-  // }
+  if (isProduction) {
+    return Astro.props;
+  }
 
   // 開発モードでは cache を使わずに常に SSR で画像が変換されてしまうので, 重くなる要因を排除したオプションに変更する
   const p = { ...Astro.props };
