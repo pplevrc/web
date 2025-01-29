@@ -1,5 +1,5 @@
 ---
-import { Picture } from "astro:assets";
+import CustomPicture from "@/components/commons/CustomPicture.astro";
 import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 import { remToSizePercent } from "@lib/utils/image";
@@ -8,9 +8,6 @@ import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
 
 type Type = keyof Avatar["images"];
-
-// biome-ignore lint/suspicious/noExplicitAny: Astro では Image Service を拡張しても, それを利用する Image 系コンポーネントの型を拡張する術がないため, any でエラーを回避している
-const CustomPicture = Picture as any;
 
 /**
  * avatar height が ↓ の値の場合の, 画像を等倍とする
@@ -133,6 +130,9 @@ const pictureAttributes = defu(
     height: CROP_HEIGHT,
     left: DEFAULT_LEFT_MARGIN_PX,
     top: DEFAULT_TOP_MARGIN_PX,
+  }}
+  outline={{
+    thickness: "5px",
   }}
   alt={alt}
   width={optimizedWidth}
