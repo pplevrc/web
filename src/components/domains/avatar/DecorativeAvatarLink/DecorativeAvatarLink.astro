@@ -1,12 +1,12 @@
 ---
-import { iconTypes } from "@/components/decoratives/Icon/types";
+import { iconTypes } from "@/components/decoratives/Vectors/Icon/types";
 import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import { randomPick, seedRandom } from "@/lib/utils/random";
 import { fetchAvatar, fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { css, cva } from "@styles/css";
 // biome-ignore lint/style/useImportType: なぜか Biome がエラーにしてくるので回避
-import AvatarImage from "../AvatarImage/AvatarImage.astro";
+import AvatarImage from "../images/AvatarImage.astro";
 import NameSeal from "./internals/NameSeals.astro";
 import StripeCircle from "./internals/StripeCircle.astro";
 

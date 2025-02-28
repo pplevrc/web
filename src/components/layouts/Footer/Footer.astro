@@ -1,10 +1,55 @@
 ---
 import { css } from "@styles/css";
+import FooterBorder from "./internals/FooterBorder.astro";
+import Logo from "@/components/decoratives/Vectors/Logo/Logo.astro";
 
 const rootStyle = css({
-  h: "32",
-  minH: "32",
+  h: "64",
+});
+
+const contentStyle = css({
+  bgGradient:
+    "[linear-gradient(to bottom, {colors.latte.deep}, {colors.latte.900})]",
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  px: "4",
+  py: "2",
+  h: "full",
+  color: "white",
+});
+
+const copyrightSetStyle = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  textAlign: "center",
+  gap: "2",
+  w: "36",
+
+  _pc: {
+    w: "64",
+  },
+});
+
+const logoStyle = css({
+  w: "20",
 });
 ---
 
-<footer class={rootStyle}></footer>
+<footer class={rootStyle}>
+  <FooterBorder />
+  <div class={contentStyle}>
+    <div class={copyrightSetStyle}>
+      <Logo type="pple" class={logoStyle} />
+      <small
+        >Copyright © 2021 ロリっ子喫茶ぷぷりえ. <br /> All rights reserved.</small
+      >
+    </div>
+
+    <div class={copyrightSetStyle}>
+      <Logo type="vrchat" class={logoStyle} />
+      <small>This event will be held on the VRChat platform.</small>
+    </div>
+  </div>
+</footer>

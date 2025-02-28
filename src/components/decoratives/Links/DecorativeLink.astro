@@ -1,7 +1,7 @@
 ---
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import Icon from "../Icon/Icon.astro";
+import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
 
 /**
  * ※ 最低限用意する
@@ -17,7 +17,7 @@ const { class: className, themeColor, ...rest } = Astro.props;
 const linkStyleRecipe = cva({
   base: {
     rounded: "2xl",
-    w: "48",
+    w: "52",
     h: "10",
     shadow: "xs",
     color: "white",

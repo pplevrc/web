@@ -20,24 +20,6 @@ const {
   ...attrs
 } = Astro.props;
 
-const bgStyleRecipe = cva({
-  base: {},
-  variants: {
-    themeColor: {
-      rose: {
-        bgGradient: "rose.checkered",
-      },
-      matcha: {
-        bgGradient: "matcha.checkered",
-      },
-    },
-  },
-});
-
-const bgStyle = bgStyleRecipe({
-  themeColor,
-});
-
 const fitStyle = css({
   scrollSnapAlign: "center",
   display: "flex",
@@ -59,11 +41,7 @@ const fitStyle = css({
 const id = randomId();
 ---
 
-<nav
-  class:list={[fitStyle, bgStyle, className]}
-  aria-labelledby={id}
-  {...attrs}
->
+<nav class:list={[fitStyle, className]} aria-labelledby={id} {...attrs}>
   <SectionHeading id={id}>{title}</SectionHeading>
   <slot />
   <DecorativeLink themeColor={themeColor} href={hrefViewMore}>

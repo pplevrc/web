@@ -1,4 +1,7 @@
 ---
+import CastHeroDevider from "@components/pages/cast/CastHeroSection/CastHeroDevider.astro";
+import CastHeroSection from "@components/pages/cast/CastHeroSection/CastHeroSection.astro";
+import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchCastNickNames } from "@lib/contents/casts";
 
@@ -17,9 +20,8 @@ const { nickname } = Astro.params;
     description: `ロリっ子喫茶ぷぷりえのキャスト (${nickname}) を紹介するページです.`,
     keywords: [nickname],
   }}
-  use={{
-    icon: ["flower"],
-  }}
 >
-  {nickname}
+  <CastHeroSection nickname={nickname} />
+  <CastHeroDevider />
+  <CastProfileSection />
 </Layout>

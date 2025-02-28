@@ -1,0 +1,69 @@
+---
+import CustomPicture from "@/components/commons/CustomPicture.astro";
+import { fetchAvatarImage } from "@lib/contents/casts";
+import type { Avatar } from "@lib/contents/casts";
+import { toWidths } from "./common";
+
+type Type = keyof Avatar["images"];
+
+interface Props {
+  /**
+   * 店員さんのニックネーム
+   */
+  nickname: string;
+
+  /**
+   * アバター画像の登録順インデックス (0 は 必ず登録される)
+   * @default 0
+   */
+  avatarIndex?: number;
+
+  /**
+   * アバター画像の表情
+   * @default "neutral"
+   */
+  type?: Type;
+
+  /**
+   * Picture Component に指定する alt 属性
+   */
+  alt?: string;
+
+  /**
+   * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
+   */
+  width: number;
+}
+
+const FRONTAL_FACE_CROP_WIDTH = 1000;
+
+const FRONTAL_FACE_CROP_HEIGHT = 1000;
+
+const FRONTAL_FACE_CROP_MARGIN_LEFT =
+  3840 / 2 - FRONTAL_FACE_CROP_WIDTH / 2 + 100;
+
+const FRONTAL_FACE_CROP_MARGIN_TOP =
+  2160 / 2 - FRONTAL_FACE_CROP_HEIGHT / 2 - 200;
+
+const { nickname, avatarIndex, type, alt, width } = Astro.props;
+
+const { image: src } = await fetchAvatarImage({
+  nickname,
+  index: avatarIndex,
+  type,
+});
+---
+
+<CustomPicture
+  src={src}
+  alt={alt}
+  width={width}
+  widths={toWidths(width)}
+  crop={{
+    left: FRONTAL_FACE_CROP_MARGIN_LEFT,
+    top: FRONTAL_FACE_CROP_MARGIN_TOP,
+    width: FRONTAL_FACE_CROP_WIDTH,
+    height: FRONTAL_FACE_CROP_HEIGHT,
+  }}
+/>

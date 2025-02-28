@@ -1,23 +1,13 @@
 ---
-import IconDefinition from "@components/decoratives/Icon/IconDefinition.astro";
-import type { IconType } from "@components/decoratives/Icon/types";
-import Logo from "@components/decoratives/Logo/Logo.astro";
-
-export interface SVGDependencies {
-  icon?: IconType[];
-}
-
-interface Props {
-  use: SVGDependencies;
-}
-
-const {
-  use: { icon = [] },
-} = Astro.props;
+import IconDefinition from "@components/decoratives/Vectors/Icon/IconDefinition.astro";
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import FooterDivision from "@components/decoratives/Vectors/FooterDivision/FooterDivision.astro";
 ---
 
 <div aria-hidden role="presentation" hidden>
-  <IconDefinition use={icon} />
+  <IconDefinition />
   <Logo definition type="pple" />
+  <Logo definition type="vrchat" />
+  <FooterDivision definition />
   <slot />
 </div>

@@ -1,6 +1,6 @@
-const REM_TO_PX_IN_VIEWPORT_WIDE_PC = 32;
+import { PC_VIEWPORT_WIDTH } from "../browsers/breakpoint";
 
-const VIEWPORT_WIDTH_WIDE_PC = 2880;
+const REM_TO_PX_IN_VIEWPORT_WIDE_PC = 32;
 
 /**
  *
@@ -8,5 +8,6 @@ const VIEWPORT_WIDTH_WIDE_PC = 2880;
  * @returns
  */
 export function remToSizePercent(rem: number): number {
-  return (rem * REM_TO_PX_IN_VIEWPORT_WIDE_PC) / VIEWPORT_WIDTH_WIDE_PC;
+  const result = (rem * REM_TO_PX_IN_VIEWPORT_WIDE_PC) / PC_VIEWPORT_WIDTH / 2;
+  return Number(result.toFixed(2));
 }

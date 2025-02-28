@@ -10,6 +10,10 @@
   body {
     overflow-y: auto;
   }
+
+  p, small {
+    word-break: keep-all;
+  }
 }
 
 @layer tokens, recipes, utilities;

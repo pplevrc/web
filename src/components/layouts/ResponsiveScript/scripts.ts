@@ -1,5 +1,6 @@
 import {
   PC_VIEWPORT_WIDTH,
+  SP_ROOT_FONT_SCALE,
   getViewportWidth,
   isSP,
 } from "@lib/browsers/breakpoint";
@@ -26,7 +27,9 @@ export function calculateRootFontSize({
   viewportWidth = getViewportWidth(),
 }: CalculateFontSizeOptions = {}): number {
   return (
-    (viewportWidth / PC_VIEWPORT_WIDTH) * defaultRootFontSize * (isSP() ? 3 : 1)
+    (viewportWidth / PC_VIEWPORT_WIDTH) *
+    defaultRootFontSize *
+    (isSP() ? SP_ROOT_FONT_SCALE : 1)
   );
 }
 

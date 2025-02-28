@@ -1,11 +1,13 @@
 ---
 import CustomPicture from "@/components/commons/CustomPicture.astro";
+import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@/lib/browsers/breakpoint";
 import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
+import { toWidths } from "./common";
 
 type Type = keyof Avatar["images"];
 
@@ -121,6 +123,8 @@ const pictureAttributes = defu(
   },
   attrs,
 );
+
+const sizes = `${remToSizePercent(baseWidth)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(baseWidth) * SP_ROOT_FONT_SCALE}%`;
 ---
 
 <CustomPicture
@@ -136,8 +140,8 @@ const pictureAttributes = defu(
   }}
   alt={alt}
   width={optimizedWidth}
-  widths={[optimizedWidth, optimizedWidth * 2]}
-  sizes={`${remToSizePercent(optimizedWidthRem) * 100}%`}
+  widths={toWidths(optimizedWidth)}
+  sizes={sizes}
   height={optimizedHeight}
   fit="cover"
   formats={["avif", "webp", "png"]}

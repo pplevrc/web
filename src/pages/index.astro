@@ -11,6 +11,10 @@ const mainStyle = css.raw({
   scrollSnapType: "y",
   scrollSnapStrictness: "proximity",
 });
+
+const rootStyle = css({
+  bgGradient: "rose.checkered",
+});
 ---
 
 <Layout
@@ -19,18 +23,8 @@ const mainStyle = css.raw({
     description: "ロリっ子喫茶ぷぷりえのホームページです.",
     keywords: [],
   }}
-  use={{
-    icon: [
-      "flower",
-      "flower-outline",
-      "plum",
-      "cherry-blossom",
-      "teacup",
-      "teapot",
-      "pancake",
-    ],
-  }}
   mainStyle={mainStyle}
+  rootStyle={rootStyle}
 >
   <HeroSection />
   <NewsHeadlineSection />

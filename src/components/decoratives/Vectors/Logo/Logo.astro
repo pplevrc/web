@@ -1,7 +1,7 @@
 ---
 import PpleLogo from "./internals/PpleLogo.astro";
-
-type LogoType = "pple";
+import VRChatLogo from "./internals/VRChatLogo.astro";
+type LogoType = "pple" | "vrchat";
 
 type Props = {
   /**
@@ -25,6 +25,8 @@ const LogoComponent = (() => {
   switch (type) {
     case "pple":
       return PpleLogo;
+    case "vrchat":
+      return VRChatLogo;
     default:
       throw new Error(`Logo type ${type} is not supported`);
   }

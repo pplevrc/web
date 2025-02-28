@@ -1,0 +1,16 @@
+---
+import Icon from "./Icon.astro";
+import type { IconType } from "./types";
+
+const icons = [
+  "cherry-blossom",
+  "flower",
+  "pancake",
+  "plum",
+  "teacup",
+  "teapot",
+  "flower-outline",
+] satisfies IconType[];
+---
+
+{icons.map((type) => <Icon type={type} definition />)}

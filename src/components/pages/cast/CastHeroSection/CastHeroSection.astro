@@ -1,0 +1,19 @@
+---
+import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+---
+
+<section>
+  <figure>
+    <AvatarFaceImage
+      nickname={nickname}
+      width={2880}
+      alt={`店員 ${nickname} の表情アップ`}
+    />
+  </figure>
+</section>
