@@ -26,24 +26,24 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@ffmpeg/core-mt": "^0.12.6",
-    "@pandacss/dev": "^0.51.1",
+    "@pandacss/dev": "^0.53.0",
     "@types/ejs": "^3.1.5",
-    "astro": "^5.1.9",
+    "astro": "^5.4.1",
     "defu": "^6.1.4",
     "ejs": "^3.1.10",
-    "globby": "^14.0.2",
+    "globby": "^14.1.0",
     "is-wsl": "^3.1.0",
-    "jiti": "^2.4.0",
-    "ohash": "^1.1.4",
-    "sharp": "^0.33.3",
-    "typescript": "^5.7.2"
+    "jiti": "^2.4.2",
+    "ohash": "^2.0.7",
+    "sharp": "^0.33.5",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@vitest/ui": "^3.0.4",
-    "concurrently": "^9.0.1",
-    "lefthook": "^1.7.18",
-    "vitest": "^3.0.4"
+    "@vitest/ui": "^3.0.7",
+    "concurrently": "^9.1.2",
+    "lefthook": "^1.11.2",
+    "vitest": "^3.0.7"
   },
   "packageManager": "yarn@4.5.0",
   "volta": {
@@ -51,7 +51,7 @@
     "yarn": "4.5.0"
   },
   "engines": {
-    "node": "20.18.0",
+    "node": "22.11.0",
     "yarn": "4.5.0"
   }
 }
