@@ -20,31 +20,73 @@ const {
   ...attrs
 } = Astro.props;
 
+const createSectionBgStyle = cva({
+  base: {
+    pos: "relative",
+    _before: {
+      content: "''",
+      pos: "absolute",
+      inset: "0",
+      mixBlendMode: "color",
+      zIndex: "backgroundBlend",
+    },
+  },
+  variants: {
+    themeColor: {
+      matcha: {
+        _before: {
+          bg: "matcha.lite/50",
+        },
+      },
+      rose: {
+        _before: {
+          bg: "rose.lite/50",
+        },
+      },
+    },
+  },
+});
+
+const sectionBgStyle = createSectionBgStyle({ themeColor });
+
 const fitStyle = css({
   scrollSnapAlign: "center",
   display: "flex",
   flexDir: "column",
   alignItems: "center",
   justifyContent: "center",
-  gap: "16",
 
   // SP
+  gap: "16",
   minH: "256",
   h: "256",
 
   _pc: {
+    gap: "4",
     minH: "160",
     h: "160",
   },
 });
 
+const content = css({
+  display: "contents",
+});
+
 const id = randomId();
 ---
 
-<nav class:list={[fitStyle, className]} aria-labelledby={id} {...attrs}>
-  <SectionHeading id={id}>{title}</SectionHeading>
+<nav
+  class:list={[fitStyle, className, sectionBgStyle]}
+  aria-labelledby={id}
+  {...attrs}
+>
+  <header class={content}>
+    <SectionHeading id={id}>{title}</SectionHeading>
+  </header>
   <slot />
-  <DecorativeLink themeColor={themeColor} href={hrefViewMore}>
-    もっとみる
-  </DecorativeLink>
+  <footer class={content}>
+    <DecorativeLink themeColor={themeColor} href={hrefViewMore}>
+      もっとみる
+    </DecorativeLink>
+  </footer>
 </nav>

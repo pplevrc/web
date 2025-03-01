@@ -5,6 +5,14 @@ import Logo from "@/components/decoratives/Vectors/Logo/Logo.astro";
 
 const rootStyle = css({
   h: "64",
+  pos: "relative",
+});
+
+const footerPositionStyle = css({
+  pos: "absolute",
+  bottom: "[100%]",
+  w: "full",
+  h: "[fit-content]",
 });
 
 const contentStyle = css({
@@ -38,7 +46,7 @@ const logoStyle = css({
 ---
 
 <footer class={rootStyle}>
-  <FooterBorder />
+  <FooterBorder class={footerPositionStyle} />
   <div class={contentStyle}>
     <div class={copyrightSetStyle}>
       <Logo type="pple" class={logoStyle} />

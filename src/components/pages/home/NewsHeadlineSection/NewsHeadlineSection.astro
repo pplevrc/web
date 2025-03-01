@@ -2,16 +2,15 @@
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
 import { css } from "@styles/css";
 
-const rootStyle = css({
-  bgGradient: "matcha.checkered",
+const listStyle = css({
+  h: "96",
 });
 ---
 
 <HomePickupSection
   title="おしらせ"
-  class={rootStyle}
   hrefViewMore="/articles"
   themeColor="matcha"
 >
-  <p>News Headline</p>
+  <p class={listStyle}>News Headline</p>
 </HomePickupSection>

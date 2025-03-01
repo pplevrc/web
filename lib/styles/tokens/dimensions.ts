@@ -64,6 +64,12 @@ export const tokens = defineTokens({
     "3xl": toSizingToken(4),
   }),
   zIndex: defineTokens.zIndex({
+    backgroundBase: {
+      value: -200,
+    },
+    backgroundBlend: {
+      value: -100,
+    },
     back: {
       value: -1,
     },

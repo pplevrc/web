@@ -30,7 +30,25 @@ const hideScroll = css({
   },
 });
 
+const backgroundClass = css({
+  pos: "relative",
+
+  _before: {
+    content: "''",
+    pos: "absolute",
+    top: "0",
+    left: "0",
+    width: "full",
+    height: "full",
+    bgGradient: "smoke.checkered",
+    bgSize: "[5.0625rem, 5.0625rem]",
+    zIndex: "backgroundBase",
+  },
+});
+
 const mainClass = css(mainStyle);
+
+const rootClass = css(rootStyle);
 ---
 
 <!doctype html>
@@ -40,12 +58,12 @@ const mainClass = css(mainStyle);
     <ResponsiveScript />
   </head>
 
-  <body class:list={[hideScroll, rootStyle]}>
+  <body class:list={[hideScroll, rootClass]}>
     <TemplateDefinition>
       <slot name="template-definition" />
     </TemplateDefinition>
     <Header />
-    <main class={mainClass}>
+    <main class:list={[backgroundClass, mainClass]}>
       <slot />
     </main>
     <Footer />

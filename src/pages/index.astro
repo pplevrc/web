@@ -11,10 +11,6 @@ const mainStyle = css.raw({
   scrollSnapType: "y",
   scrollSnapStrictness: "proximity",
 });
-
-const rootStyle = css({
-  bgGradient: "rose.checkered",
-});
 ---
 
 <Layout
@@ -24,7 +20,6 @@ const rootStyle = css({
     keywords: [],
   }}
   mainStyle={mainStyle}
-  rootStyle={rootStyle}
 >
   <HeroSection />
   <NewsHeadlineSection />

@@ -1,6 +1,11 @@
 ---
 import FooterDivision from "@components/decoratives/Vectors/FooterDivision/FooterDivision.astro";
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {}
+
+const { class: className, ...rest } = Astro.props;
 
 const wrapperStyle = css({
   w: "full",
@@ -20,7 +25,12 @@ const pcOnly = css({
 });
 ---
 
-<div class={wrapperStyle} aria-hidden role="presentation">
+<div
+  class:list={[wrapperStyle, className]}
+  aria-hidden
+  role="presentation"
+  {...rest}
+>
   <FooterDivision class:list={[divisionStyle]} />
   <FooterDivision class:list={[divisionStyle, pcOnly]} />
   <FooterDivision class:list={[divisionStyle, pcOnly]} />
