@@ -1,4 +1,5 @@
 ---
+import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
 import Footer from "@components/layouts/Footer/Footer.astro";
 import {
   type DescriptionMetaProps,
@@ -7,19 +8,21 @@ import {
 import Header from "@components/layouts/Header/Header.astro";
 import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
-import { css } from "@styles/css";
+import { css, cva } from "@styles/css";
 import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
   headMeta: DescriptionMetaProps;
   rootStyle?: SystemStyleObject;
   mainStyle?: SystemStyleObject;
+  themeColor?: ColorThemeBase;
 }
 
 const {
   headMeta: { title, description, keywords },
   rootStyle,
   mainStyle,
+  themeColor,
 } = Astro.props;
 
 const hideScroll = css({
@@ -30,21 +33,91 @@ const hideScroll = css({
   },
 });
 
-const backgroundClass = css({
-  pos: "relative",
+const backgroundClassRecipe = cva({
+  base: {
+    pos: "relative",
 
-  _before: {
-    content: "''",
-    pos: "absolute",
-    top: "0",
-    left: "0",
-    width: "full",
-    height: "full",
-    bgGradient: "smoke.checkered",
-    bgSize: "[5.0625rem, 5.0625rem]",
-    zIndex: "backgroundBase",
+    _before: {
+      content: "''",
+      pos: "absolute",
+      top: "0",
+      left: "0",
+      width: "full",
+      height: "full",
+      bgSize: "[5.0625rem, 5.0625rem]",
+      zIndex: "backgroundBase",
+    },
+  },
+  variants: {
+    color: {
+      smoke: {
+        _before: {
+          bgGradient: "smoke.checkered",
+        },
+      },
+      olive: {
+        _before: {
+          bgGradient: "olive.checkered",
+        },
+      },
+      berry: {
+        _before: {
+          bgGradient: "berry.checkered",
+        },
+      },
+      honey: {
+        _before: {
+          bgGradient: "honey.checkered",
+        },
+      },
+      soda: {
+        _before: {
+          bgGradient: "soda.checkered",
+        },
+      },
+      rose: {
+        _before: {
+          bgGradient: "rose.checkered",
+        },
+      },
+      matcha: {
+        _before: {
+          bgGradient: "matcha.checkered",
+        },
+      },
+      latte: {
+        _before: {
+          bgGradient: "latte.checkered",
+        },
+      },
+      lavender: {
+        _before: {
+          bgGradient: "lavender.checkered",
+        },
+      },
+      carrot: {
+        _before: {
+          bgGradient: "carrot.checkered",
+        },
+      },
+      ice: {
+        _before: {
+          bgGradient: "ice.checkered",
+        },
+      },
+      mint: {
+        _before: {
+          bgGradient: "mint.checkered",
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    color: "smoke",
   },
 });
+
+const backgroundClass = backgroundClassRecipe({ color: themeColor });
 
 const mainClass = css(mainStyle);
 

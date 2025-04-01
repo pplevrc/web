@@ -1,0 +1,34 @@
+---
+import DecorativeAvatar from "@/components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
+import { css } from "@styles/css";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const rootStyle = css({
+  h: "160",
+  w: "full",
+  pos: "relative",
+});
+
+const avatarStyle = css({
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+});
+---
+
+<section class={rootStyle}>
+  <DecorativeAvatar
+    size="large"
+    class={avatarStyle}
+    nickname={nickname}
+    type="neutral"
+    avatarIndex={0}
+    width={1024}
+  />
+</section>

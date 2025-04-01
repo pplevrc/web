@@ -41,4 +41,13 @@ export default definePreset({
     },
   },
   globalVars: defu({}, animations.globalVars),
+  staticCss: {
+    css: [
+      {
+        properties: {
+          colorPalette: colors.colorNames,
+        },
+      },
+    ],
+  },
 });

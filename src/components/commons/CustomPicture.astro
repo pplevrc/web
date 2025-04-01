@@ -2,25 +2,43 @@
 import { Picture } from "astro:assets";
 import type { CustomImageTransform } from "@lib/services/custom-sharp";
 
-export interface Props extends CustomImageTransform {}
+export interface Props extends CustomImageTransform {
+  /**
+   * 画像の読み込みが完了したことを示す aria-属性 ("aria-busy") を追加するかどうか
+   */
+  trackLoad?: true;
+}
+
+type PictureProps = Parameters<typeof Picture>[0];
 
 const isProduction = import.meta.env.MODE === "production";
 
-const props = (() => {
+const { trackLoad, ...props } = Astro.props;
+
+const pictureProps = toPictureProps(props);
+
+function toPictureProps(props: CustomImageTransform): PictureProps {
   if (isProduction) {
-    return Astro.props;
+    return props as PictureProps;
   }
 
   // 開発モードでは cache を使わずに常に SSR で画像が変換されてしまうので, 重くなる要因を排除したオプションに変更する
-  const p = { ...Astro.props };
+  const p = { ...props };
   p.widths = undefined;
   p.sizes = undefined;
   p.formats = ["png"];
-  return p;
-})();
 
-// biome-ignore lint/suspicious/noExplicitAny: Astro では Image Service を拡張しても, それを利用する Image 系コンポーネントの型を拡張する術がないため, any でエラーを回避している
-const WrappedPicture = Picture as any;
+  if (trackLoad) {
+    p.pictureAttributes = {
+      ...p.pictureAttributes,
+      "aria-busy": "true",
+      "data-budy-watch": "true",
+    };
+  }
+
+  return p as PictureProps;
+}
 ---
 
-<WrappedPicture {...props} />
+<Picture {...pictureProps} />
+{trackLoad && <script>import "@lib/browsers/sync";</script>}

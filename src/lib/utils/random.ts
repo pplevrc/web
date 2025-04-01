@@ -36,21 +36,14 @@ export function* seedRandom(seed: unknown): Randomizer {
   const seedHash = hash(seed);
 
   // hash string の文字コードを整数に変換
-  const seedNumberStr = seedHash
+  const seedNumber = seedHash
     .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), "");
-  const seedNumber = Number(seedNumberStr);
+    .reduce((acc, char) => ((acc << 5) - acc + char.charCodeAt(0)) >>> 0, 0);
 
-  // ※ AI 生成
   let x = seedNumber;
   while (true) {
-    const cached = seedCache.get(seedHash);
-    if (cached) {
-      x = cached;
-    }
-
     x = (x ^ (x << 13)) >>> 0;
-    x = (x ^ (x << 17)) >>> 0;
+    x = (x ^ (x >> 17)) >>> 0;
     x = (x ^ (x << 5)) >>> 0;
 
     seedCache.set(seedHash, x);

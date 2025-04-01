@@ -1,0 +1,18 @@
+---
+import Large from "./large/Large.astro";
+import Medium from "./medium/Medium.astro";
+import type { CommonProps } from "./type";
+
+interface Props extends CommonProps {
+  size: "medium" | "large";
+}
+
+const { size, ...avatarImageProps } = Astro.props;
+
+const Component = {
+  medium: Medium,
+  large: Large,
+}[size];
+---
+
+<Component {...avatarImageProps} />

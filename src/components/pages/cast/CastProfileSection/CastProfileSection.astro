@@ -1,0 +1,23 @@
+---
+import { fetchCast } from "@lib/contents/casts";
+import { pickColorBase } from "@lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const { themeColor, profile } = await fetchCast(nickname);
+
+const rootStyle = css({
+  h: "160",
+  bg: "colorPalette.50/70",
+  colorPalette: pickColorBase(themeColor),
+});
+---
+
+<section class={rootStyle}>
+  <p>{profile.introduction}</p>
+</section>

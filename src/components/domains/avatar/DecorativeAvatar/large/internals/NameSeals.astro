@@ -1,0 +1,110 @@
+---
+import { css } from "@styles/css";
+import CharSeal from "./CharSeal.astro";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import type { HTMLAttributes } from "astro/types";
+import { randomPick, seedRandom } from "@/lib/utils/random";
+
+interface Props extends HTMLAttributes<"figcaption"> {
+  /**
+   *
+   */
+  name: string;
+
+  /**
+   *
+   */
+  color: ColorThemeBase;
+}
+
+const { name, color, ...attrs } = Astro.props;
+
+const length = name.length;
+
+const captionRootStyle = css({
+  display: "contents",
+});
+
+const rootStyle = css({
+  pos: "relative",
+  w: "full",
+  h: "full",
+});
+
+const charStyle = css({
+  "--radius": "20rem",
+  "--angle-step": `calc((120 * var(--pi) / 180) / (var(--l) - 1))`,
+  "--offset": `calc((var(--l) - 1) / 2)`,
+  "--angle": `calc(var(--i) - var(--offset) * var(--angle-step))`,
+
+  pos: "absolute",
+  top: "[calc(50% - var(--radius) * sin(var(--angle)))]",
+  left: "[calc(50% - var(--radius) * cos(var(--angle)))]",
+  transform: "translate(-50%, -50%)",
+});
+
+const random = seedRandom(name);
+---
+
+<figcaption {...attrs} class={captionRootStyle}>
+  {/* a11y 用 */}
+  <p hidden translate="no">
+    {name}
+  </p>
+
+  {/* 視覚用 */}
+  <p class={rootStyle}>
+    {
+      Array.from({ length }).map((_, index) => {
+        const char = name[index];
+        /**
+         * 1, 2, 3 の発生確率を下げる
+         */
+        const variant = randomPick(1, [0, 0, 0, 0, 1, 2, 3] as const, random);
+
+        const variables = {
+          "--i": index + 1,
+          "--l": length,
+        };
+
+        switch (variant) {
+          case 0:
+            return (
+              <CharSeal color={color} class={charStyle} style={variables}>
+                {char}
+              </CharSeal>
+            );
+          case 1:
+            return (
+              <CharSeal
+                color={color}
+                folded
+                class={charStyle}
+                style={variables}
+              >
+                {char}
+              </CharSeal>
+            );
+          case 2:
+            return (
+              <CharSeal color={color} deep class={charStyle} style={variables}>
+                {char}
+              </CharSeal>
+            );
+          case 3:
+            return (
+              <CharSeal
+                color={color}
+                folded
+                deep
+                class={charStyle}
+                style={variables}
+              >
+                {char}
+              </CharSeal>
+            );
+        }
+      })
+    }
+  </p>
+</figcaption>

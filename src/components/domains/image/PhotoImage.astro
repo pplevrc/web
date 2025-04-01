@@ -1,0 +1,109 @@
+---
+import CustomPicture from "@/components/commons/CustomPicture.astro";
+import type { HTMLAttributes } from "astro/types";
+import { css, cva } from "@styles/css";
+
+type Size = "small" | "medium" | "large";
+
+interface Props extends HTMLAttributes<"picture"> {
+  /**
+   * 表示するキャプション
+   */
+  label?: string;
+
+  /**
+   * 画像の src 属性
+   */
+  src: string | ImageMetadata;
+
+  /**
+   * Picture Component に指定する alt 属性
+   */
+  alt: string;
+
+  /**
+   * 画像のサイズ
+   */
+  size: Size;
+}
+
+const { label, src, alt, size, class: className, ...rest } = Astro.props;
+
+const widthSet = {
+  small: 120,
+  medium: 168,
+  large: 264,
+};
+
+const width = widthSet[size];
+
+const simple = label === undefined;
+
+const rootStyleRecipe = cva({
+  base: {
+    pos: "relative",
+    bg: "white",
+    h: "56",
+    pt: "5",
+    pb: "10",
+    px: "3",
+  },
+  variants: {
+    size: {
+      small: {
+        w: "36",
+      },
+      medium: {
+        w: "48",
+      },
+      large: {
+        w: "72",
+      },
+    },
+  },
+});
+
+const rootStyle = rootStyleRecipe({ size });
+
+const imageStyle = css({
+  "& img": {
+    w: "full",
+    h: "full",
+    objectFit: "cover",
+  },
+});
+
+const captionStyle = css({
+  fontSize: "12",
+  lineHeight: "1.5",
+});
+---
+
+{
+  simple ? (
+    <div class:list={[rootStyle, className]}>
+      <CustomPicture
+        src={src}
+        alt={alt}
+        width={width}
+        pictureAttributes={{
+          ...rest,
+          class: imageStyle,
+        }}
+      />
+    </div>
+  ) : (
+    <figure class:list={[rootStyle, className]}>
+      <CustomPicture
+        src={src}
+        alt={alt}
+        width={width}
+        pictureAttributes={{
+          ...rest,
+          class: imageStyle,
+        }}
+      />
+      {label && <figcaption class={captionStyle}>{label}</figcaption>}
+    </figure>
+  )
+}

@@ -1,0 +1,98 @@
+---
+import { fetchCast } from "@lib/contents/casts";
+import AvatarImage from "@/components/domains/avatar/images/AvatarImage.astro";
+import type { CommonProps } from "../type";
+import { css } from "@styles/css";
+import StripeCircle from "../medium/internals/StripeCircle.astro";
+import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { randomPick, seedRandom } from "@/lib/utils/random";
+import { pickColorBase } from "@/lib/contents/commons/ColorToken";
+import ShopFrontImage from "@/assets/images/shop-front.png";
+import PhotoImage from "@/components/domains/image/PhotoImage.astro";
+import NameSeals from "./internals/NameSeals.astro";
+
+interface Props extends CommonProps {}
+
+const { class: className, ...avatarImageProps } = Astro.props;
+
+const { nickname } = avatarImageProps;
+
+const rootStyle = css({
+  w: "128",
+  h: "128",
+});
+
+const imageStyle = css({
+  display: "block",
+  zIndex: "front",
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0) rotate(4deg)]",
+});
+
+const photoStype = css({
+  pos: "absolute",
+  top: "42",
+  left: "-4",
+  rotate: "[-12deg]",
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "128",
+  h: "128",
+  bottom: "0",
+  left: "26",
+  transform: "[translate(-50%, -10%)]",
+});
+
+const origamiStyle = css({
+  pos: "absolute",
+  top: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+
+  w: "128",
+  h: "128",
+});
+
+const { themeColor } = await fetchCast(nickname);
+
+const random = seedRandom(nickname);
+
+const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
+
+const origamiRotateType = randomPick(
+  1,
+  /**
+   * 60, 120, 240, 300 度のみにする
+   */
+  [2, 4, 8, 10] as const,
+  random,
+);
+
+const inverse = randomPick(1, [true, false] as const, random);
+
+const colorName = pickColorBase(themeColor);
+---
+
+<figure class:list={[className, rootStyle]}>
+  <OrigamiShape
+    shape={shapeType}
+    rotate={origamiRotateType}
+    inverse={inverse}
+    color={colorName}
+    class={origamiStyle}
+  />
+  <PhotoImage src={ShopFrontImage} size="large" alt="" class={photoStype} />
+  <StripeCircle class={circleStyle} />
+  <AvatarImage
+    {...avatarImageProps}
+    class={imageStyle}
+    outline="strong"
+    alt={`${nickname} のアバター`}
+    aria-hidden
+  />
+  <NameSeals name={nickname} color={colorName} />
+</figure>

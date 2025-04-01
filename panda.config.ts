@@ -13,6 +13,35 @@ export default defineConfig({
   strictTokens: true,
   strictPropertyValues: true,
 
+  globalVars: {
+    "--radius": {
+      syntax: "<length>",
+      inherits: false,
+      initialValue: "0px",
+    },
+    "--angle-step": {
+      syntax: "<number>",
+      inherits: false,
+      initialValue: "0",
+    },
+    "--offset": {
+      syntax: "<number>",
+      inherits: false,
+      initialValue: "0",
+    },
+    "--angle": {
+      syntax: "<number>",
+      inherits: false,
+      initialValue: "0",
+    },
+    // constants
+    "--pi": {
+      syntax: "<number>",
+      inherits: false,
+      initialValue: "3.14159265",
+    },
+  },
+
   hooks: {
     "cssgen:done": ({ artifact, content }) => {
       if (artifact === "styles.css") {

@@ -3,10 +3,16 @@ import CustomPicture from "@/components/commons/CustomPicture.astro";
 import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 import { toWidths } from "./common";
+import type { HTMLAttributes } from "astro/types";
 
 type Type = keyof Avatar["images"];
 
-interface Props {
+interface Props extends HTMLAttributes<"picture"> {
+  /**
+   * 画像の読み込みが完了したことを示す aria-属性 ("aria-busy") を追加するかどうか
+   */
+  trackLoad?: true;
+
   /**
    * 店員さんのニックネーム
    */
@@ -46,7 +52,8 @@ const FRONTAL_FACE_CROP_MARGIN_LEFT =
 const FRONTAL_FACE_CROP_MARGIN_TOP =
   2160 / 2 - FRONTAL_FACE_CROP_HEIGHT / 2 - 200;
 
-const { nickname, avatarIndex, type, alt, width } = Astro.props;
+const { nickname, avatarIndex, type, alt, width, trackLoad, ...rest } =
+  Astro.props;
 
 const { image: src } = await fetchAvatarImage({
   nickname,
@@ -66,4 +73,6 @@ const { image: src } = await fetchAvatarImage({
     width: FRONTAL_FACE_CROP_WIDTH,
     height: FRONTAL_FACE_CROP_HEIGHT,
   }}
+  trackLoad={trackLoad}
+  pictureAttributes={rest}
 />

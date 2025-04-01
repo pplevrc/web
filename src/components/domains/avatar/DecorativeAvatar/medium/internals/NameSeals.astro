@@ -1,0 +1,89 @@
+---
+import type { IconType } from "@/components/decoratives/Vectors/Icon/types";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  /**
+   *
+   */
+  name: string;
+
+  /**
+   *
+   */
+  color: ColorThemeBase;
+
+  /**
+   *
+   */
+  icon: IconType;
+}
+
+const { name, color, icon, ...attrs } = Astro.props;
+
+const rootStyle = css({
+  bgColor: "white",
+  textStyle: "decorative.bold.base",
+  color: "colorPalette.bg",
+  colorPalette: color,
+  display: "inline-block",
+  w: "28",
+  h: "7",
+  borderRadius: "xs",
+  overflow: "hidden",
+  shadow: "xs",
+
+  _before: {
+    content: "''",
+    pos: "absolute",
+    borderRadius: "xs",
+
+    width: "full",
+    height: "full",
+
+    borderWidth: "sm",
+    borderTopWidth: "2xl",
+  },
+});
+
+const iconWrapStyle = css({
+  w: "full",
+  h: "7",
+  overflow: "hidden",
+});
+
+const iconStyle = css({
+  color: "colorPalette.lite",
+  colorPalette: color,
+  w: "10",
+  h: "10",
+  pos: "absolute",
+  top: "[50%]",
+  left: "1",
+  transform: "[translate(0, -50%) rotate(40deg)]",
+});
+
+const textStyle = css({
+  display: "inline-block",
+  color: "colorPalette.deep",
+  colorPalette: color,
+  pos: "absolute",
+  w: "full",
+  h: "full",
+  textAlign: "center",
+  top: "[0]",
+  paddingTop: "1",
+});
+---
+
+<figcaption class:list={[rootStyle, attrs.class]} {...attrs}>
+  <div class={iconWrapStyle}>
+    <Icon type={icon} class={iconStyle} aria-hidden />
+  </div>
+  <span class={textStyle} translate="no">
+    {name}
+  </span>
+</figcaption>

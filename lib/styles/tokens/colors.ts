@@ -1,4 +1,4 @@
-import { defineTokens } from "@pandacss/dev";
+import { defineRecipe, defineTokens } from "@pandacss/dev";
 import defu from "defu";
 import { toRem } from "./commons/dimensions";
 
