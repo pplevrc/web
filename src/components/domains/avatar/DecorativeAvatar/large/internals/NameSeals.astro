@@ -39,33 +39,86 @@ const rootStyle = css({
 const charStyleRecipe = cva({
   base: {
     /**
-     * 最小 2 文字で 45 deg (pi / 4)
-     * 最大 6 文字で 90 deg (pi / 2)
+     * 文字間角度
      */
-    "--total-angle":
-      "calc((var(--pi) / 4) + (clamp(0, var(--l) - 2, 3) / 3 * (var(--pi) / 4)))",
     "--angle-step": `calc(var(--total-angle) / (var(--l) - 1))`,
+
     /**
-     *
+     * 各文字の角度位置
      */
-    "--offset": "calc(var(--pi) / 2.5 - var(--total-angle) / 2)",
     "--angle": `calc(var(--i) * var(--angle-step) + var(--offset))`,
 
-    pos: "absolute",
+    /**
+     * 1 文字目の始点角度
+     */
+    "--offset": {
+      /**
+       * 180 deg を中心に扇形に広げる
+       */
+      base: "calc(var(--pi) / 2 - var(--total-angle) / 2)",
+      /**
+       * pc の場合は少し始点を左の角度にずらす
+       */
+      _pc: "calc(var(--pi) / 2.5 - var(--total-angle) / 2)",
+    },
+
+    /**
+     * 最初の文字から最後の文字までの角度
+     */
+    "--total-angle": {
+      /**
+       * mobile
+       * 最小 2 文字で 60 deg (pi / 3)
+       * 最大 9 文字で 90 deg (pi / 2)
+       */
+      base: "calc((var(--pi) / 3) + (clamp(0, var(--l) - 2 / 7, 1) * ((var(--pi) / 4) - (var(--pi) / 3))))",
+      /**
+       * PC
+       * 最小 2 文字で 40 deg (pi / 4.5)
+       * 最大 9 文字で 105 deg
+       */
+      _pc: "calc((var(--pi) / 4.5) + (clamp(0, (var(--l) - 2) / 7, 1) * ((var(--pi) * 0.583) - (var(--pi) / 4.5))))",
+    },
+
+    /**
+     * 半径 (18rem 固定)
+     */
+    "--radius": "22rem",
+
+    /**
+     * 中心座標
+     */
+    "--center-x": "50%",
+    "--center-y": {
+      base: "30%",
+      _pc: "50%",
+    },
+
+    /**
+     * 円の中心
+     */
     top: "[calc(50% - var(--radius) * sin(var(--angle)))]",
     left: "[calc(50% - var(--radius) * cos(var(--angle)))]",
+
+    pos: "absolute",
     transform: "translate(-50%, -50%)",
   },
   variants: {
     radius: {
       short: {
-        "--radius": "15rem",
+        _pc: {
+          "--radius": "15rem",
+        },
       },
       medium: {
-        "--radius": "17.5rem",
+        _pc: {
+          "--radius": "17.5rem",
+        },
       },
       long: {
-        "--radius": "20rem",
+        _pc: {
+          "--radius": "20rem",
+        },
       },
     },
   },
@@ -74,6 +127,8 @@ const charStyleRecipe = cva({
 const charStyle = charStyleRecipe({ radius });
 
 const random = seedRandom(name);
+
+const size = name.length > 6 ? "small" : "regular";
 ---
 
 <figcaption {...attrs} class={captionRootStyle}>
@@ -83,7 +138,7 @@ const random = seedRandom(name);
   </p>
 
   {/* 視覚用 */}
-  <p class={rootStyle}>
+  <p class={rootStyle} aria-hidden>
     {
       Array.from({ length }).map((_, index) => {
         const char = name[index];
@@ -100,7 +155,12 @@ const random = seedRandom(name);
         switch (variant) {
           case 0:
             return (
-              <CharSeal color={color} class={charStyle} style={variables}>
+              <CharSeal
+                color={color}
+                size={size}
+                class={charStyle}
+                style={variables}
+              >
                 {char}
               </CharSeal>
             );
@@ -108,6 +168,7 @@ const random = seedRandom(name);
             return (
               <CharSeal
                 color={color}
+                size={size}
                 folded
                 class={charStyle}
                 style={variables}
@@ -117,7 +178,13 @@ const random = seedRandom(name);
             );
           case 2:
             return (
-              <CharSeal color={color} deep class={charStyle} style={variables}>
+              <CharSeal
+                color={color}
+                size={size}
+                deep
+                class={charStyle}
+                style={variables}
+              >
                 {char}
               </CharSeal>
             );
@@ -125,6 +192,7 @@ const random = seedRandom(name);
             return (
               <CharSeal
                 color={color}
+                size={size}
                 folded
                 deep
                 class={charStyle}

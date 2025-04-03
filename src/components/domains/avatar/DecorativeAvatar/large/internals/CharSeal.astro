@@ -18,24 +18,31 @@ interface Props extends HTMLAttributes<"span"> {
    * 深い色かどうか
    */
   deep?: boolean;
+
+  /**
+   * サイズ
+   */
+  size: "regular" | "small";
 }
 
-const { color, folded, deep, ...attrs } = Astro.props;
+const { color, folded, deep, size, ...attrs } = Astro.props;
 
 const rootStyleRecipe = cva({
   base: {
-    w: "12",
-    h: "12",
     zIndex: "front",
     display: "flex",
     justifyContent: "center",
-
-    textStyle: "decorative.bold.4xl",
 
     color: "white",
 
     rounded: "full",
     shadow: "xs",
+
+    _pc: {
+      w: "12",
+      h: "12",
+      textStyle: "decorative.bold.4xl",
+    },
   },
   variants: {
     deep: {
@@ -52,14 +59,27 @@ const rootStyleRecipe = cva({
       true: {},
       false: {},
     },
+    size: {
+      regular: {
+        w: "16",
+        h: "16",
+        textStyle: "decorative.bold.5xl",
+      },
+      small: {
+        w: "12",
+        h: "12",
+        textStyle: "decorative.bold.3xl",
+      },
+    },
   },
   defaultVariants: {
     deep: false,
     folded: false,
+    size: "regular",
   },
 });
 
-const rootStyle = rootStyleRecipe({ deep, folded });
+const rootStyle = rootStyleRecipe({ deep, folded, size });
 ---
 
 <span class:list={[rootStyle, attrs.class]} {...attrs} translate="no">

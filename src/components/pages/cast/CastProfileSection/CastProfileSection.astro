@@ -13,11 +13,26 @@ const { themeColor, profile } = await fetchCast(nickname);
 
 const rootStyle = css({
   h: "160",
+
   bg: "colorPalette.50/70",
   colorPalette: pickColorBase(themeColor),
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+});
+
+const profileStyle = css({
+  w: "full",
+
+  _pc: {
+    w: "256",
+    h: "20",
+  },
 });
 ---
 
 <section class={rootStyle}>
-  <p>{profile.introduction}</p>
+  <p class={profileStyle}>{profile.introduction}</p>
 </section>

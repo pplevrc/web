@@ -39,6 +39,16 @@ export default defineConfig({
       inherits: false,
       initialValue: "0",
     },
+    "--center-x": {
+      syntax: "<percentage>",
+      inherits: false,
+      initialValue: "50%",
+    },
+    "--center-y": {
+      syntax: "<percentage>",
+      inherits: false,
+      initialValue: "50%",
+    },
     // constants
     "--pi": {
       syntax: "<number>",

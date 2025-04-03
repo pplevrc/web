@@ -9,9 +9,13 @@ interface Props {
 const { nickname } = Astro.props;
 
 const rootStyle = css({
-  h: "160",
+  h: {
+    base: "192",
+    _pc: "160",
+  },
   w: "full",
   pos: "relative",
+  zIndex: "back",
 });
 
 const avatarStyle = css({

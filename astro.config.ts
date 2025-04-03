@@ -18,7 +18,7 @@ export default defineConfig({
       watch: {
         usePolling: isWsl,
       },
-      allowedHosts: true,
+      allowedHosts: [".ngrok-free.app"],
     },
   },
 
