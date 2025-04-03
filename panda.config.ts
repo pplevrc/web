@@ -34,6 +34,11 @@ export default defineConfig({
       inherits: false,
       initialValue: "0",
     },
+    "--total-angle": {
+      syntax: "<number>",
+      inherits: false,
+      initialValue: "0",
+    },
     // constants
     "--pi": {
       syntax: "<number>",

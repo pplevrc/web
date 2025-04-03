@@ -1,5 +1,5 @@
 ---
-import { css } from "@styles/css";
+import { css, cva } from "@styles/css";
 import CharSeal from "./CharSeal.astro";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import type { HTMLAttributes } from "astro/types";
@@ -15,9 +15,14 @@ interface Props extends HTMLAttributes<"figcaption"> {
    *
    */
   color: ColorThemeBase;
+
+  /**
+   *
+   */
+  radius: "short" | "medium" | "long";
 }
 
-const { name, color, ...attrs } = Astro.props;
+const { name, color, radius, ...attrs } = Astro.props;
 
 const length = name.length;
 
@@ -31,17 +36,42 @@ const rootStyle = css({
   h: "full",
 });
 
-const charStyle = css({
-  "--radius": "20rem",
-  "--angle-step": `calc((120 * var(--pi) / 180) / (var(--l) - 1))`,
-  "--offset": `calc((var(--l) - 1) / 2)`,
-  "--angle": `calc(var(--i) - var(--offset) * var(--angle-step))`,
+const charStyleRecipe = cva({
+  base: {
+    /**
+     * 最小 2 文字で 45 deg (pi / 4)
+     * 最大 6 文字で 90 deg (pi / 2)
+     */
+    "--total-angle":
+      "calc((var(--pi) / 4) + (clamp(0, var(--l) - 2, 3) / 3 * (var(--pi) / 4)))",
+    "--angle-step": `calc(var(--total-angle) / (var(--l) - 1))`,
+    /**
+     *
+     */
+    "--offset": "calc(var(--pi) / 2.5 - var(--total-angle) / 2)",
+    "--angle": `calc(var(--i) * var(--angle-step) + var(--offset))`,
 
-  pos: "absolute",
-  top: "[calc(50% - var(--radius) * sin(var(--angle)))]",
-  left: "[calc(50% - var(--radius) * cos(var(--angle)))]",
-  transform: "translate(-50%, -50%)",
+    pos: "absolute",
+    top: "[calc(50% - var(--radius) * sin(var(--angle)))]",
+    left: "[calc(50% - var(--radius) * cos(var(--angle)))]",
+    transform: "translate(-50%, -50%)",
+  },
+  variants: {
+    radius: {
+      short: {
+        "--radius": "15rem",
+      },
+      medium: {
+        "--radius": "17.5rem",
+      },
+      long: {
+        "--radius": "20rem",
+      },
+    },
+  },
 });
+
+const charStyle = charStyleRecipe({ radius });
 
 const random = seedRandom(name);
 ---
@@ -63,7 +93,7 @@ const random = seedRandom(name);
         const variant = randomPick(1, [0, 0, 0, 0, 1, 2, 3] as const, random);
 
         const variables = {
-          "--i": index + 1,
+          "--i": index,
           "--l": length,
         };
 

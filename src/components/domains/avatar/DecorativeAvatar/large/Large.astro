@@ -57,7 +57,9 @@ const origamiStyle = css({
   h: "128",
 });
 
-const { themeColor } = await fetchCast(nickname);
+const { themeColor, avatars } = await fetchCast(nickname);
+
+const { height } = avatars[0]!;
 
 const random = seedRandom(nickname);
 
@@ -75,6 +77,22 @@ const origamiRotateType = randomPick(
 const inverse = randomPick(1, [true, false] as const, random);
 
 const colorName = pickColorBase(themeColor);
+
+const nameSealsRadius = (() => {
+  // 身長 55 cm 未満 .. short
+  // 身長 55 cm 以上 80 cm 未満 .. medium
+  // 身長 80 cm 以上 .. long
+
+  if (height < 55) {
+    return "short";
+  }
+
+  if (height < 80) {
+    return "medium";
+  }
+
+  return "long";
+})();
 ---
 
 <figure class:list={[className, rootStyle]}>
@@ -94,5 +112,5 @@ const colorName = pickColorBase(themeColor);
     alt={`${nickname} のアバター`}
     aria-hidden
   />
-  <NameSeals name={nickname} color={colorName} />
+  <NameSeals name={nickname} color={colorName} radius={nameSealsRadius} />
 </figure>
