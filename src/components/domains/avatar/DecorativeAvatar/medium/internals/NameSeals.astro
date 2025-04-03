@@ -2,7 +2,7 @@
 import type { IconType } from "@/components/decoratives/Vectors/Icon/types";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import { css } from "@styles/css";
+import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"div"> {
@@ -26,7 +26,6 @@ const { name, color, icon, ...attrs } = Astro.props;
 
 const rootStyle = css({
   bgColor: "white",
-  textStyle: "decorative.bold.base",
   color: "colorPalette.bg",
   colorPalette: color,
   display: "inline-block",
@@ -66,17 +65,34 @@ const iconStyle = css({
   transform: "[translate(0, -50%) rotate(40deg)]",
 });
 
-const textStyle = css({
-  display: "inline-block",
-  color: "colorPalette.deep",
-  colorPalette: color,
-  pos: "absolute",
-  w: "full",
-  h: "full",
-  textAlign: "center",
-  top: "[0]",
-  paddingTop: "1",
+const textSize = name.length > 6 ? "small" : "regular";
+
+const textStyleRecipe = cva({
+  base: {
+    display: "inline-block",
+    color: "colorPalette.deep",
+    colorPalette: color,
+    pos: "absolute",
+    w: "full",
+    h: "full",
+    textAlign: "center",
+    top: "[0]",
+  },
+  variants: {
+    textSize: {
+      small: {
+        textStyle: "decorative.bold.sm",
+        paddingTop: "2",
+      },
+      regular: {
+        textStyle: "decorative.bold.base",
+        paddingTop: "1",
+      },
+    },
+  },
 });
+
+const textStyle = textStyleRecipe({ textSize });
 ---
 
 <figcaption class:list={[rootStyle, attrs.class]} {...attrs}>
