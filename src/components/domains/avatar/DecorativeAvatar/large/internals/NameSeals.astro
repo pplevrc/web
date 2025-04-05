@@ -1,9 +1,9 @@
 ---
-import { css, cva } from "@styles/css";
-import CharSeal from "./CharSeal.astro";
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import type { HTMLAttributes } from "astro/types";
 import { randomPick, seedRandom } from "@/lib/utils/random";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import CharSeal from "./CharSeal.astro";
 
 interface Props extends HTMLAttributes<"figcaption"> {
   /**
@@ -41,12 +41,12 @@ const charStyleRecipe = cva({
     /**
      * 文字間角度
      */
-    "--angle-step": `calc(var(--total-angle) / (var(--l) - 1))`,
+    "--angle-step": "calc(var(--total-angle) / (var(--l) - 1))",
 
     /**
      * 各文字の角度位置
      */
-    "--angle": `calc(var(--i) * var(--angle-step) + var(--offset))`,
+    "--angle": "calc(var(--i) * var(--angle-step) + var(--offset))",
 
     /**
      * 1 文字目の始点角度
@@ -138,7 +138,7 @@ const size = name.length > 6 ? "small" : "regular";
   </p>
 
   {/* 視覚用 */}
-  <p class={rootStyle} aria-hidden>
+  <p class={rootStyle} aria-hidden role="presentation">
     {
       Array.from({ length }).map((_, index) => {
         const char = name[index];

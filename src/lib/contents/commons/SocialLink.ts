@@ -28,7 +28,7 @@ const socialLinks = [
   /// SNS
   {
     // e.g. https://twitter.com/sotomiti_iroha, https://x.com/sotomiti_iroha
-    type: "twitter",
+    type: "x",
     urlPatterns: [/^https:\/\/twitter\.com\/[^/]+/, /^https:\/\/x\.com\/[^/]+/],
     // twitter host は x に置き換える
     replace(url) {
@@ -96,6 +96,7 @@ const socialLinks = [
 
   /// -----------------------------------------------------------------------------------
   /// Patrons
+  /// e.g. funtia, creatia-frontier
   {
     // e.g. https://www.fanbox.cc/@rikusu3
     type: "pixiv-fanbox",
@@ -109,14 +110,9 @@ const socialLinks = [
     type: "pixiv-booth",
     urlPatterns: /^https:\/\/(.*\.)?booth\.pm\//,
   },
-  {
-    // e.g. https://store.vket.com/ja/shops/1234
-    type: "vket-store",
-    urlPatterns: /^https:\/\/store\.vket\.com\//,
-  },
 
   /// -----------------------------------------------------------------------------------
-  /// Commision
+  /// Comission Service
   {
     // e.g. https://skeb.jp/@rikusu_vrc
     type: "skeb",
@@ -193,7 +189,7 @@ export const socialLinkSchema = schemaForType<SocialLink>(
  * @param url
  * @returns
  */
-async function detectType(url: URL): Promise<SocialLinkType> {
+export async function detectType(url: URL): Promise<SocialLinkType> {
   // さきに正規表現だけで判定できるものを判定する
   const regexPatternLinks = socialLinks.filter(
     (link): link is typeof link & { urlPatterns: RegExp | RegExp[] } =>

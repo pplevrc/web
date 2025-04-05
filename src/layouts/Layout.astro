@@ -1,5 +1,6 @@
 ---
 import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
+import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
 import Footer from "@components/layouts/Footer/Footer.astro";
 import {
   type DescriptionMetaProps,
@@ -13,6 +14,7 @@ import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
   headMeta: DescriptionMetaProps;
+  defineIcons?: OptionalIconType[];
   rootStyle?: SystemStyleObject;
   mainStyle?: SystemStyleObject;
   themeColor?: ColorThemeBase;
@@ -20,6 +22,7 @@ interface Props {
 
 const {
   headMeta: { title, description, keywords },
+  defineIcons,
   rootStyle,
   mainStyle,
   themeColor,
@@ -132,7 +135,7 @@ const rootClass = css(rootStyle);
   </head>
 
   <body class:list={[hideScroll, rootClass]}>
-    <TemplateDefinition>
+    <TemplateDefinition defineIcons={defineIcons}>
       <slot name="template-definition" />
     </TemplateDefinition>
     <Header />

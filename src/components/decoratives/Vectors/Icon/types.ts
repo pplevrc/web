@@ -5,9 +5,21 @@ export type IconType =
   | "cherry-blossom"
   | "teacup"
   | "teapot"
+  | "pancake"
+  | "link";
+
+type PpleIconType =
+  | "flower"
+  | "flower-outline"
+  | "plum"
+  | "cherry-blossom"
+  | "teacup"
+  | "teapot"
   | "pancake";
 
-export const iconTypes = [
+export type OptionalIconType = Omit<IconType, PpleIconType>;
+
+export const ppleIconTypes = [
   "flower",
   "flower-outline",
   "plum",
@@ -15,4 +27,4 @@ export const iconTypes = [
   "teacup",
   "teapot",
   "pancake",
-] as const satisfies IconType[];
+] as const satisfies PpleIconType[];

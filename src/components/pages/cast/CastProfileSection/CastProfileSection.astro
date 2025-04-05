@@ -1,4 +1,8 @@
 ---
+import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
+import Paper from "@components/decoratives/Paper/Paper.astro";
+import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
+import NameStickerList from "@components/decoratives/Sticker/NameStickerList.astro";
 import { fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { css } from "@styles/css";
@@ -9,30 +13,38 @@ interface Props {
 
 const { nickname } = Astro.props;
 
-const { themeColor, profile } = await fetchCast(nickname);
+const {
+  themeColor,
+  profile,
+  socialLinks,
+  vrchat: { userId },
+} = await fetchCast(nickname);
+
+const themeColorName = pickColorBase(themeColor);
 
 const rootStyle = css({
   h: "160",
 
   bg: "colorPalette.50/70",
-  colorPalette: pickColorBase(themeColor),
+  colorPalette: themeColorName,
 
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "flex-start",
 });
-
-const profileStyle = css({
-  w: "full",
-
-  _pc: {
-    w: "256",
-    h: "20",
-  },
-});
 ---
 
 <section class={rootStyle}>
-  <p class={profileStyle}>{profile.introduction}</p>
+  <Paper>
+    <NameStickerList slot="sticker">
+      <NameSticker key="VRChat ID" value={userId} themeColor={themeColorName} />
+    </NameStickerList>
+
+    <Fragment>
+      {profile.introduction}
+      <br />
+      <SocialLinks links={socialLinks} />
+    </Fragment>
+  </Paper>
 </section>

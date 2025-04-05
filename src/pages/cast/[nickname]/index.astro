@@ -1,6 +1,7 @@
 ---
-import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
+import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
+import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchCast, fetchCastNickNames } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
@@ -19,6 +20,7 @@ const colorName = pickColorBase(themeColor);
 ---
 
 <Layout
+  defineIcons={["link"]}
   headMeta={{
     title: `キャスト紹介: ${nickname} | ロリっ子喫茶ぷぷりえ`,
     description: `ロリっ子喫茶ぷぷりえのキャスト (${nickname}) を紹介するページです.`,
@@ -28,4 +30,5 @@ const colorName = pickColorBase(themeColor);
 >
   <CastImageSection nickname={nickname} />
   <CastProfileSection nickname={nickname} />
+  <CastNavigator nickname={nickname} />
 </Layout>

@@ -1,14 +1,14 @@
 ---
-import { iconTypes } from "@/components/decoratives/Vectors/Icon/types";
 import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { ppleIconTypes } from "@/components/decoratives/Vectors/Icon/types";
+import AvatarImage from "@/components/domains/avatar/images/AvatarImage.astro";
 import { randomPick, seedRandom } from "@/lib/utils/random";
 import { fetchAvatar, fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { css, cva } from "@styles/css";
-import AvatarImage from "@/components/domains/avatar/images/AvatarImage.astro";
+import type { CommonProps } from "../type";
 import NameSeal from "./internals/NameSeals.astro";
 import StripeCircle from "./internals/StripeCircle.astro";
-import type { CommonProps } from "../type";
 
 interface Props extends CommonProps {}
 
@@ -169,7 +169,7 @@ const inverse = randomPick(1, [true, false] as const, random);
 
 const colorName = pickColorBase(themeColor);
 
-const icon = randomPick(1, iconTypes, random);
+const icon = randomPick(1, ppleIconTypes, random);
 
 const nameRotateType = randomPick(
   1,
@@ -204,8 +204,10 @@ const nameStyle = nameStyleRecipe({
     inverse={inverse}
     color={colorName}
     class={origamiStyle}
+    aria-hidden
+    role="presentation"
   />
-  <StripeCircle class={circleStyle} />
+  <StripeCircle class={circleStyle} aria-hidden role="presentation" />
   <AvatarImage
     {...avatarImageProps}
     class={imageStyle}

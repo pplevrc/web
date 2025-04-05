@@ -96,8 +96,8 @@ const textStyle = textStyleRecipe({ textSize });
 ---
 
 <figcaption class:list={[rootStyle, attrs.class]} {...attrs}>
-  <div class={iconWrapStyle}>
-    <Icon type={icon} class={iconStyle} aria-hidden />
+  <div class={iconWrapStyle} aria-hidden role="presentation">
+    <Icon type={icon} class={iconStyle} />
   </div>
   <span class={textStyle} translate="no">
     {name}

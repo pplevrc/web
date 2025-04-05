@@ -1,16 +1,14 @@
 ---
 import Icon from "./Icon.astro";
-import type { IconType } from "./types";
+import { type OptionalIconType, ppleIconTypes } from "./types";
 
-const icons = [
-  "cherry-blossom",
-  "flower",
-  "pancake",
-  "plum",
-  "teacup",
-  "teapot",
-  "flower-outline",
-] satisfies IconType[];
+interface Props {
+  icons: OptionalIconType[];
+}
+
+const { icons } = Astro.props;
+
+const definiteIcons = [...icons, ...ppleIconTypes];
 ---
 
-{icons.map((type) => <Icon type={type} definition />)}
+{definiteIcons.map((type) => <Icon type={type} definition />)}

@@ -1,14 +1,16 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import IconCherryBlossom from "./internals/IconCherryBlossom.astro";
 import IconFlower from "./internals/IconFlower.astro";
 import IconFlowerOutline from "./internals/IconFlowerOutline.astro";
+import IconLink from "./internals/IconLink.astro";
 import IconPancake from "./internals/IconPancake.astro";
 import IconPlum from "./internals/IconPlum.astro";
 import IconTeaCup from "./internals/IconTeaCup.astro";
 import IconTeaPot from "./internals/IconTeaPot.astro";
 import type { IconType } from "./types";
 
-type Props = {
+interface Props extends HTMLAttributes<"svg"> {
   /**
    * SVG を `<symbol>` として定義するかどうか.
    * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
@@ -25,7 +27,7 @@ type Props = {
    *
    */
   class?: string;
-};
+}
 
 const { type, ...rest } = Astro.props;
 
@@ -45,6 +47,8 @@ const IconComponent = (() => {
       return IconPlum;
     case "cherry-blossom":
       return IconCherryBlossom;
+    case "link":
+      return IconLink;
     default:
       throw new Error(`Icon type ${type} is not supported`);
   }

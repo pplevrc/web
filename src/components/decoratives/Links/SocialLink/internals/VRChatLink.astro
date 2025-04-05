@@ -1,0 +1,14 @@
+---
+import { css } from "@/styles/css";
+import IconLinkBase, {
+  type Props as BaseProps,
+} from "./commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {}
+
+const { url, description } = Astro.props;
+
+const style = css({});
+---
+
+<IconLinkBase url={url} description={description} class={style} />

@@ -1,11 +1,18 @@
 ---
-import IconDefinition from "@components/decoratives/Vectors/Icon/IconDefinition.astro";
-import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
 import FooterDivision from "@components/decoratives/Vectors/FooterDivision/FooterDivision.astro";
+import IconDefinition from "@components/decoratives/Vectors/Icon/IconDefinition.astro";
+import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+
+interface Props {
+  defineIcons?: OptionalIconType[];
+}
+
+const { defineIcons = [] } = Astro.props;
 ---
 
 <div aria-hidden role="presentation" hidden>
-  <IconDefinition />
+  <IconDefinition icons={defineIcons} />
   <Logo definition type="pple" />
   <Logo definition type="vrchat" />
   <FooterDivision definition />

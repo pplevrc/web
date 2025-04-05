@@ -1,0 +1,23 @@
+---
+import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
+import type { SocialLink as SocialLinkType } from "@lib/contents/commons/SocialLink";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"nav"> {
+  links: SocialLinkType[];
+}
+
+const { links, ...rest } = Astro.props;
+---
+
+<nav {...rest}>
+  <ul>
+    {
+      links.map((link) => (
+        <li>
+          <SocialLink {...link} />
+        </li>
+      ))
+    }
+  </ul>
+</nav>

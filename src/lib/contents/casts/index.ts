@@ -47,6 +47,44 @@ export const fetchCast = memoize(async (nickname: string): Promise<Cast> => {
   return cast;
 });
 
+export const fetchNextCast = memoize(
+  async (nickname: string): Promise<Cast> => {
+    const casts = await fetchCasts();
+    const currentIndex = casts.findIndex(
+      (cast) => cast.profile.nickname === nickname,
+    );
+
+    const nextIndex = (currentIndex + 1) % casts.length;
+
+    const result = casts[nextIndex];
+
+    if (!result) {
+      throw new Error("[Illegal State] Next cast not found");
+    }
+
+    return result;
+  },
+);
+
+export const fetchPrevCast = memoize(
+  async (nickname: string): Promise<Cast> => {
+    const casts = await fetchCasts();
+    const currentIndex = casts.findIndex(
+      (cast) => cast.profile.nickname === nickname,
+    );
+
+    const prevIndex = (currentIndex - 1 + casts.length) % casts.length;
+
+    const result = casts[prevIndex];
+
+    if (!result) {
+      throw new Error("[Illegal State] Previous cast not found");
+    }
+
+    return result;
+  },
+);
+
 export const fetchAvatar = memoize(
   async ({
     nickname,

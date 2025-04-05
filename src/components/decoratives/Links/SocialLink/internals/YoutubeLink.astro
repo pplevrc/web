@@ -1,0 +1,20 @@
+---
+import { css } from "@/styles/css";
+import OtherLink from "./OtherLink.astro";
+import type { Props as BaseProps } from "./commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {}
+
+const { url, description } = Astro.props;
+
+const style = css({});
+---
+
+{
+  /*
+  <IconLinkBase url={url} description={description} class={style} >
+    <Icon type="youtube" />
+  </IconLinkBase>
+  */
+}
+<OtherLink url={url} description={description} />
