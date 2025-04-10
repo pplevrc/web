@@ -14,15 +14,23 @@ export interface Props extends HTMLAttributes<"a"> {
   description: string;
 }
 
-const linkStyle = css({});
+const linkStyle = css({
+  rounded: "full",
+  shadow: "xs",
+  w: "8",
+  h: "8",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
 
-const { url, description, ...rest } = Astro.props;
+const { url, description, class: className, ...rest } = Astro.props;
 ---
 
 <a
   href={url}
   aria-label={description}
-  class:list={[linkStyle, rest.class]}
+  class:list={[linkStyle, className]}
   {...rest}
 >
   <slot />

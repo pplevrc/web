@@ -8,7 +8,7 @@ export type IconType =
   | "pancake"
   | "link";
 
-type PpleIconType =
+export type PpleIconType =
   | "flower"
   | "flower-outline"
   | "plum"

@@ -1,24 +1,138 @@
 ---
-import { css } from "@styles/css";
+import { randomPick } from "@/lib/utils/random";
+import {
+  type PpleIconType,
+  ppleIconTypes,
+} from "@components/decoratives/Vectors/Icon/types";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import type { ColorName } from "lib/styles/tokens/colors";
+import Logo from "../Vectors/Logo/Logo.astro";
 
-const profileStyle = css({
-  w: "full",
+interface Props extends HTMLAttributes<"article"> {
+  icon?: PpleIconType;
 
-  _pc: {
-    w: "256",
-    h: "20",
+  size: "short" | "full";
+
+  themeColor?: ColorName;
+}
+
+const {
+  icon = randomPick(1, ppleIconTypes),
+  size,
+  themeColor = "smoke",
+  ...props
+} = Astro.props;
+
+const rootStyleRecipe = cva({
+  base: {
+    pos: "relative",
+
+    w: {
+      base: "full",
+      _pc: "128",
+    },
   },
+  variants: {
+    size: {
+      short: {
+        h: "64",
+      },
+      full: {
+        h: "128",
+      },
+    },
+  },
+});
+
+const rootStyle = rootStyleRecipe({ size });
+
+const paperStyle = css({
+  pos: "absolute",
+  inset: {
+    base: "2",
+    _pc: "0",
+  },
+
+  borderColor: "colorPalette.bg",
+  borderWidth: "[0.5rem]",
+  colorPalette: themeColor,
+  bg: "white",
+  bgImage:
+    "[linear-gradient(to_bottom, transparent 20rem, {colors.smoke} 0.1rem)]",
+  bgSize: "[100% 40rem]",
+  shadow: "xs",
+  transform: "[rotate(2deg)]",
+});
+
+const iconStampStyle = css({
+  pos: "absolute",
+  right: "3",
+  bottom: "3",
+  w: "32",
+
+  transform: "[rotate(-8deg)]",
+  opacity: "[0.15]",
+  filter: "[grayscale(100%)]",
+});
+
+const contentStyle = css({
+  pos: "relative",
+  h: "full",
+  w: "full",
+  px: "4",
+  zIndex: "base",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+});
+
+const hasHeader = Astro.slots.has("header");
+
+const headerStyle = css({
+  h: "24",
+  w: "full",
+  pos: "relative",
+});
+
+const mainStyle = css({
+  textStyle: "normal.lg",
+});
+
+const hasFooter = Astro.slots.has("footer");
+
+const footerStyle = css({
+  h: "24",
+  w: "full",
+  pos: "relative",
 });
 ---
 
-<div>
-  {/* 紙を背景に貼るシール */}
-  <div>
-    <slot name="sticker" />
+<article class={rootStyle} {...props}>
+  <div class={paperStyle} aria-hidden role="presentation">
+    <Logo type="pple" class={iconStampStyle} />
   </div>
 
-  <p class={profileStyle}>
-    {/* 紙の内容 */}
-    <slot />
-  </p>
-</div>
+  <div class={contentStyle}>
+    {
+      hasHeader && (
+        <header class={headerStyle}>
+          <slot name="header" />
+        </header>
+      )
+    }
+
+    <p class={mainStyle}>
+      {/* 紙の内容 */}
+      <slot />
+    </p>
+
+    {
+      hasFooter && (
+        <footer class={footerStyle}>
+          <slot name="footer" />
+        </footer>
+      )
+    }
+  </div>
+</article>

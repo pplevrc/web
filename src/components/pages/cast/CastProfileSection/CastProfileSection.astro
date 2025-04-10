@@ -24,6 +24,7 @@ const themeColorName = pickColorBase(themeColor);
 
 const rootStyle = css({
   h: "160",
+  py: "12",
 
   bg: "colorPalette.50/70",
   colorPalette: themeColorName,
@@ -33,18 +34,33 @@ const rootStyle = css({
   alignItems: "center",
   justifyContent: "flex-start",
 });
+
+const stickerStyle = css({
+  pt: "12",
+});
+
+const linksStyle = css({
+  pt: "12",
+});
 ---
 
 <section class={rootStyle}>
-  <Paper>
-    <NameStickerList slot="sticker">
+  <Paper size="short" themeColor={themeColorName}>
+    <NameStickerList slot="header" class={stickerStyle}>
       <NameSticker key="VRChat ID" value={userId} themeColor={themeColorName} />
     </NameStickerList>
 
-    <Fragment>
-      {profile.introduction}
-      <br />
-      <SocialLinks links={socialLinks} />
-    </Fragment>
+    {profile.introduction}
+
+    {
+      socialLinks.length > 0 && (
+        <SocialLinks
+          slot="footer"
+          links={socialLinks}
+          class={linksStyle}
+          label={`${nickname}のソーシャルリンク一覧`}
+        />
+      )
+    }
   </Paper>
 </section>

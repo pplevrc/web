@@ -1,6 +1,7 @@
 ---
 import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
 import { randomPick, seedRandom } from "@/lib/utils/random";
+import { countDisplayWidth } from "@/lib/utils/string";
 import { css, cva } from "@styles/css";
 import type { ColorName } from "lib/styles/tokens/colors";
 import { ppleIconTypes } from "../Vectors/Icon/types";
@@ -15,7 +16,7 @@ interface Props {
 
 const { key, value, themeColor = "smoke" } = Astro.props;
 
-const valueLength = value.length > 8 ? "long" : "regular";
+const valueLength = countDisplayWidth(value) > 12 ? "long" : "regular";
 
 const rootStyleRecipe = cva({
   base: {

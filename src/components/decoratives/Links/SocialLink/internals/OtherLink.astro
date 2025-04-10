@@ -1,6 +1,8 @@
 ---
-import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
-import { css } from "@/styles/css";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { css } from "@styles/css";
+import { colorNames } from "lib/styles/tokens/colors";
 import IconLinkBase, {
   type Props as BaseProps,
 } from "./commons/IconLinkBase.astro";
@@ -9,7 +11,16 @@ export interface Props extends BaseProps {}
 
 const { url, description } = Astro.props;
 
-const style = css({});
+const seed = seedRandom(url);
+
+const colorPalette = randomPick(1, colorNames, seed);
+
+const style = css({
+  bg: "colorPalette.bg",
+  color: "colorPalette.regular",
+  colorPalette,
+  p: "2",
+});
 ---
 
 <IconLinkBase url={url} description={description} class={style}>

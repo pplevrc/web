@@ -11,8 +11,13 @@
     overflow-y: auto;
   }
 
-  p, small {
+  p,
+  small {
     word-break: keep-all;
+
+    @supports (word-wrap: pretty) {
+      word-wrap: pretty;
+    }
   }
 }
 
