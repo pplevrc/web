@@ -7,7 +7,6 @@ import {
   default as HeadMeta,
 } from "@components/layouts/HeadMeta/index.ts";
 import Header from "@components/layouts/Header/Header.astro";
-import ResponsiveScript from "@components/layouts/ResponsiveScript/ResponsiveScript.astro";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 import { css, cva } from "@styles/css";
 import type { SystemStyleObject } from "@styles/types";
@@ -131,7 +130,6 @@ const rootClass = css(rootStyle);
 <html lang="ja" dir="ltr">
   <head>
     <HeadMeta title={title} description={description} keywords={keywords} />
-    <ResponsiveScript />
   </head>
 
   <body class:list={[hideScroll, rootClass]}>

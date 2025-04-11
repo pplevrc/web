@@ -5,9 +5,17 @@
     overflow: hidden;
     height: 100%;
     width: 100%;
+
+    font-size: calc(100vw / 1440 * 48);
+
+    @media screen and (min-width: 1440px) {
+      font-size: calc(100vw / 1440 * 16);
+    }
   }
 
   body {
+    width: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
   }
 
