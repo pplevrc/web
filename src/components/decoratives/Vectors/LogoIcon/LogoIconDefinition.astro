@@ -1,9 +1,10 @@
 ---
+import { fetchOfficialSocialLinks } from "@/lib/contents/official/social";
+import { unique } from "@lib/utils/array";
 import LogoIcon from "./LogoIcon.astro";
 import {
   type LogoIconType,
   type OptionalLogoIconType,
-  commonLogoIconTypes,
   isSupportedLogo,
 } from "./types";
 
@@ -13,9 +14,14 @@ interface Props {
 
 const { logos = [] } = Astro.props;
 
-const definiteLogos = (
-  [...logos, ...commonLogoIconTypes] as LogoIconType[]
-).filter(isSupportedLogo);
+const ppleCommonSocialLinkTypes = (await fetchOfficialSocialLinks()).map(
+  (link) => link.type,
+);
+
+const definiteLogos = unique([
+  ...logos,
+  ...ppleCommonSocialLinkTypes,
+] as LogoIconType[]).map((type) => (isSupportedLogo(type) ? type : "other"));
 ---
 
 {definiteLogos.map((type) => <LogoIcon type={type} definition />)}

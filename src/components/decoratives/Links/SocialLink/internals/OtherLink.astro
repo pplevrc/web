@@ -1,5 +1,5 @@
 ---
-import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import LogoIcon from "@/components/decoratives/Vectors/LogoIcon/LogoIcon.astro";
 import { randomColorBase } from "@lib/contents/commons/ColorToken";
 import { seedRandom } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
@@ -45,5 +45,5 @@ const style = styleRecipe({ variant });
   variant={variant}
   class={style}
 >
-  <Icon type="link" class={logoStyle} />
+  <LogoIcon type="other" class={logoStyle} />
 </IconLinkBase>

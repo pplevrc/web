@@ -4,6 +4,7 @@ import BlueskyLogo from "./internals/BlueSkyLogo.astro";
 import GitHubLogo from "./internals/GitHubLogo.astro";
 import MastodonLogo from "./internals/MastodonLogo.astro";
 import MisskeyLogo from "./internals/MisskeyLogo.astro";
+import OtherLinkIcon from "./internals/OtherLinkIcon.astro";
 import PixivBoothLogo from "./internals/PixivBoothLogo.astro";
 import PixivFanboxLogo from "./internals/PixivFanboxLogo.astro";
 import PixivVRoidHubLogo from "./internals/PixivVRoidHubLogo.astro";
@@ -47,6 +48,8 @@ const LogoIconComponent = (() => {
       return PixivFanboxLogo;
     case "vrchat":
       return VRChatLogo;
+    case "other":
+      return OtherLinkIcon;
     default:
       throw new Error(`LogoIcon type ${type} is not supported`);
   }

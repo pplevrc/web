@@ -1,7 +1,7 @@
 ---
 import SocialLinks from "@/components/decoratives/Links/SocialLink/SocialLinks.astro";
 import Logo from "@/components/decoratives/Vectors/Logo/Logo.astro";
-import type { SocialLink } from "@/lib/contents/commons/SocialLink";
+import { fetchOfficialSocialLinks } from "@/lib/contents/official/social";
 import { css } from "@styles/css";
 import FooterBorder from "./internals/FooterBorder.astro";
 
@@ -46,24 +46,7 @@ const logoStyle = css({
   w: "20",
 });
 
-const ppleSocialLinks = [
-  {
-    type: "x",
-    url: new URL("https://x.com/pplevrc"),
-    description: "ロリっ子喫茶ぷぷりえ公式Xアカウント",
-  },
-  {
-    type: "youtube",
-    url: new URL("https://www.youtube.com/@pplech"),
-    description:
-      "ロリっ子喫茶ぷぷりえ公式 YouTube チャンネル | ぷぷりえちゃんねる",
-  },
-  {
-    type: "pixiv-booth",
-    url: new URL("https://pple.booth.pm/"),
-    description: "ロリっ子喫茶ぷぷりえ公式 Booth ストア",
-  },
-] as const satisfies SocialLink[];
+const ppleSocialLinks = await fetchOfficialSocialLinks();
 ---
 
 <footer class={rootStyle}>

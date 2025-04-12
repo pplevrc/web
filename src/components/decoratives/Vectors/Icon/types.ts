@@ -5,17 +5,9 @@ export type IconType =
   | "cherry-blossom"
   | "teacup"
   | "teapot"
-  | "pancake"
-  | "link";
-
-export type PpleIconType =
-  | "flower"
-  | "flower-outline"
-  | "plum"
-  | "cherry-blossom"
-  | "teacup"
-  | "teapot"
   | "pancake";
+
+export type PpleIconType = IconType;
 
 export type OptionalIconType = Omit<IconType, PpleIconType>;
 

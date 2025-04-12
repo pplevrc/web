@@ -7,11 +7,6 @@ export type CommonLogoIconType = ("x" | "youtube") & LogoIconType;
 export type OptionalLogoIconType = Omit<LogoIconType, CommonLogoIconType> &
   SocialLinkType;
 
-export const commonLogoIconTypes = [
-  "x",
-  // "youtube",
-] as const satisfies CommonLogoIconType[];
-
 const notSupportedLogos = [
   "youtube",
   "skeb",

@@ -3,7 +3,6 @@ import type { HTMLAttributes } from "astro/types";
 import IconCherryBlossom from "./internals/IconCherryBlossom.astro";
 import IconFlower from "./internals/IconFlower.astro";
 import IconFlowerOutline from "./internals/IconFlowerOutline.astro";
-import IconLink from "./internals/IconLink.astro";
 import IconPancake from "./internals/IconPancake.astro";
 import IconPlum from "./internals/IconPlum.astro";
 import IconTeaCup from "./internals/IconTeaCup.astro";
@@ -47,8 +46,6 @@ const IconComponent = (() => {
       return IconPlum;
     case "cherry-blossom":
       return IconCherryBlossom;
-    case "link":
-      return IconLink;
     default:
       throw new Error(`Icon type ${type} is not supported`);
   }

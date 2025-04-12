@@ -13,5 +13,3 @@ export const teacupId = hash("icon-teacup");
 export const teapotId = hash("icon-teapot");
 
 export const flowerOutlineId = hash("icon-flower-outline");
-
-export const linkId = hash("icon-link");
