@@ -6,7 +6,10 @@ import { css } from "@styles/css";
 import FooterBorder from "./internals/FooterBorder.astro";
 
 const rootStyle = css({
-  h: "64",
+  h: {
+    base: "128",
+    _pc: "64",
+  },
   pos: "relative",
 });
 
@@ -21,6 +24,10 @@ const contentStyle = css({
   bgGradient:
     "[linear-gradient(to bottom, {colors.latte.deep}, {colors.latte.900})]",
   display: "flex",
+  flexDir: {
+    base: "column",
+    _pc: "row",
+  },
   justifyContent: "space-evenly",
   alignItems: "center",
   px: "4",
