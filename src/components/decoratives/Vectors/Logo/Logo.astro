@@ -1,9 +1,10 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import PpleLogo from "./internals/PpleLogo.astro";
 import VRChatLogo from "./internals/VRChatLogo.astro";
-type LogoType = "pple" | "vrchat";
+import type { LogoType } from "./types";
 
-type Props = {
+interface Props extends HTMLAttributes<"svg"> {
   /**
    * SVG を `<symbol>` として定義するかどうか.
    * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
@@ -15,9 +16,7 @@ type Props = {
    * ロゴの種類.
    */
   type: LogoType;
-
-  class?: string;
-};
+}
 
 const { type, ...props } = Astro.props;
 

@@ -1,7 +1,9 @@
 ---
+import SocialLinks from "@/components/decoratives/Links/SocialLink/SocialLinks.astro";
+import Logo from "@/components/decoratives/Vectors/Logo/Logo.astro";
+import type { SocialLink } from "@/lib/contents/commons/SocialLink";
 import { css } from "@styles/css";
 import FooterBorder from "./internals/FooterBorder.astro";
-import Logo from "@/components/decoratives/Vectors/Logo/Logo.astro";
 
 const rootStyle = css({
   h: "64",
@@ -43,21 +45,50 @@ const copyrightSetStyle = css({
 const logoStyle = css({
   w: "20",
 });
+
+const ppleSocialLinks = [
+  {
+    type: "x",
+    url: new URL("https://x.com/pplevrc"),
+    description: "ロリっ子喫茶ぷぷりえ公式Xアカウント",
+  },
+  {
+    type: "youtube",
+    url: new URL("https://www.youtube.com/@pplech"),
+    description:
+      "ロリっ子喫茶ぷぷりえ公式 YouTube チャンネル | ぷぷりえちゃんねる",
+  },
+  {
+    type: "pixiv-booth",
+    url: new URL("https://pple.booth.pm/"),
+    description: "ロリっ子喫茶ぷぷりえ公式 Booth ストア",
+  },
+] as const satisfies SocialLink[];
 ---
 
 <footer class={rootStyle}>
   <FooterBorder class={footerPositionStyle} />
   <div class={contentStyle}>
     <div class={copyrightSetStyle}>
-      <Logo type="pple" class={logoStyle} />
-      <small
-        >Copyright © 2021 ロリっ子喫茶ぷぷりえ. <br /> All rights reserved.</small
-      >
+      <figure class={css({ display: "contents" })}>
+        <Logo type="pple" class={logoStyle} />
+        <figcaption>
+          <small>
+            Copyright © <time datetime="2021">2021</time> ロリっ子喫茶ぷぷりえ.
+            <br /> All rights reserved.
+          </small>
+        </figcaption>
+      </figure>
+      <nav>
+        <SocialLinks links={ppleSocialLinks} variant="vector-only" />
+      </nav>
     </div>
 
-    <div class={copyrightSetStyle}>
+    <figure class={copyrightSetStyle}>
       <Logo type="vrchat" class={logoStyle} />
-      <small>This event will be held on the VRChat platform.</small>
-    </div>
+      <figcaption>
+        <small>This event will be held on the VRChat platform.</small>
+      </figcaption>
+    </figure>
   </div>
 </footer>

@@ -1,5 +1,9 @@
 import { date } from "@/lib/utils/temporal";
-import { sort, toSocialLink } from "@lib/contents/commons/SocialLink";
+import {
+  type SocialLink,
+  sort,
+  toSocialLink,
+} from "@lib/contents/commons/SocialLink";
 import type { Cast, FetchedCast } from "../types";
 
 import vdcmImg from "./assets/YTJVDCM.png";
@@ -48,10 +52,26 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
         },
       ],
       socialLinks: sort([
-        await toSocialLink({
-          url: "https://x.com/wi_maru",
-          description: "Twitter",
-        }),
+        {
+          type: "x",
+          url: new URL("https://www.google.co.jp"),
+          description: "うぃまるの X プロフィール",
+        },
+        {
+          type: "bluesky",
+          url: new URL("https://www.google.co.jp"),
+          description: "うぃまるの Bluesky プロフィール",
+        },
+        {
+          type: "misskey",
+          url: new URL("https://www.google.co.jp"),
+          description: "うぃまるの Misskey プロフィール",
+        },
+        {
+          type: "mastodon",
+          url: new URL("https://www.google.co.jp"),
+          description: "うぃまるの Mastodon プロフィール",
+        },
       ]),
     },
     {
@@ -81,14 +101,26 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
         },
       ],
       socialLinks: sort([
-        await toSocialLink({
-          url: "https://mstdn.virtecam.net/@YTJVDCM",
-          description: "ビデカメさん (Mastodon Profile)",
-        }),
-        await toSocialLink({
-          url: "https://virtualkemomimi.net/@YTJVDCM",
-          description: "ビデカメさん(けもみみ) (バーチャルケモミミ | Misskey)",
-        }),
+        {
+          type: "youtube",
+          url: new URL("https://www.google.co.jp"),
+          description: "ビデカメの YouTube チャンネル",
+        },
+        {
+          type: "pixiv-fanbox",
+          url: new URL("https://www.google.co.jp"),
+          description: "ビデカメの Pixiv Fanbox",
+        },
+        {
+          type: "creatia-frontier",
+          url: new URL("https://www.google.co.jp"),
+          description: "ビデカメの Creatia Frontier",
+        },
+        {
+          type: "pixiv-booth",
+          url: new URL("https://www.google.co.jp"),
+          description: "ビデカメの Pixiv Booth ストア",
+        },
       ]),
     },
     {
@@ -121,14 +153,21 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
       ],
 
       socialLinks: sort([
-        await toSocialLink({
-          url: "https://x.com/usamimika_vbn",
-          description: "Twitter",
-        }),
-        await toSocialLink({
-          url: "https://www.youtube.com/channel/UCzg5j8j2Kp4T0cQrRJyZT8Q",
-          description: "卯沙美みか (Youtube Channel)",
-        }),
+        {
+          type: "skeb",
+          url: new URL("https://www.google.co.jp"),
+          description: "うさみみかの Skeb",
+        },
+        {
+          type: "pixiv-vroid-hub",
+          url: new URL("https://www.google.co.jp"),
+          description: "うさみみかの VRoidアバター",
+        },
+        {
+          type: "github",
+          url: new URL("https://www.google.co.jp"),
+          description: "うさみみかの GitHub",
+        },
       ]),
     },
     {
@@ -159,12 +198,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           assets: [],
         },
       ],
-      socialLinks: sort([
-        await toSocialLink({
-          url: "https://x.com/KurukuruOuka_VR",
-          description: "Twitter",
-        }),
-      ]),
+      socialLinks: [],
     },
     {
       attendanceId: 64,
@@ -220,16 +254,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
         },
       ],
       themeColor: "rose.lite",
-      socialLinks: sort([
-        await toSocialLink({
-          url: "https://x.com/kokoa_vr",
-          description: "Twitter",
-        }),
-        await toSocialLink({
-          url: "https://www.youtube.com/@yuzuki_kokoa",
-          description: "ここあちゃんねる／柚月ここあ (Youtube Channel)",
-        }),
-      ]),
+      socialLinks: [],
     },
   ] satisfies Cast[];
 

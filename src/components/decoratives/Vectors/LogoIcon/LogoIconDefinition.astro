@@ -1,0 +1,21 @@
+---
+import LogoIcon from "./LogoIcon.astro";
+import {
+  type LogoIconType,
+  type OptionalLogoIconType,
+  commonLogoIconTypes,
+  isSupportedLogo,
+} from "./types";
+
+interface Props {
+  logos?: OptionalLogoIconType[];
+}
+
+const { logos = [] } = Astro.props;
+
+const definiteLogos = (
+  [...logos, ...commonLogoIconTypes] as LogoIconType[]
+).filter(isSupportedLogo);
+---
+
+{definiteLogos.map((type) => <LogoIcon type={type} definition />)}

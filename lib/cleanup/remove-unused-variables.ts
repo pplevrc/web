@@ -70,12 +70,10 @@ export const removeUnusedCssVars = (css: string): string => {
     }
   });
 
-  //   console.log(records)
   // Remove unused variables
   for (const { uses, declarations } of records.values()) {
     if (uses === 0) {
       for (const decl of declarations) {
-        // console.log(decl.parent)
         if (decl.parent?.nodes.length === 1) decl.parent?.remove();
         else decl.remove();
       }

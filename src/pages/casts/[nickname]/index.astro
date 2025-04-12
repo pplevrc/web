@@ -1,4 +1,5 @@
 ---
+import type { SocialLinkType } from "@/lib/contents/commons/SocialLink";
 import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
 import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
 import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
@@ -14,13 +15,19 @@ export async function getStaticPaths() {
 
 const { nickname } = Astro.params;
 
-const { themeColor } = await fetchCast(nickname);
+const { themeColor, socialLinks } = await fetchCast(nickname);
 
 const colorName = pickColorBase(themeColor);
+
+const defineLogos = [
+  ...socialLinks.map((link) => link.type),
+  "vrchat",
+] as const satisfies SocialLinkType[];
 ---
 
 <Layout
   defineIcons={["link"]}
+  defineLogos={defineLogos}
   headMeta={{
     title: `キャスト紹介: ${nickname} | ロリっ子喫茶ぷぷりえ`,
     description: `ロリっ子喫茶ぷぷりえのキャスト (${nickname}) を紹介するページです.`,

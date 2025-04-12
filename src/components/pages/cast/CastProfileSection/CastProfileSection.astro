@@ -1,4 +1,5 @@
 ---
+import type { SocialLink } from "@/lib/contents/commons/SocialLink";
 import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
 import Paper from "@components/decoratives/Paper/Paper.astro";
 import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
@@ -17,8 +18,17 @@ const {
   themeColor,
   profile,
   socialLinks,
-  vrchat: { userId },
+  vrchat: { userId, userPageURL },
 } = await fetchCast(nickname);
+
+const links = [
+  {
+    url: userPageURL,
+    description: "VRChat ユーザーページ",
+    type: "vrchat",
+  } as const satisfies SocialLink,
+  ...socialLinks,
+];
 
 const themeColorName = pickColorBase(themeColor);
 
@@ -53,10 +63,11 @@ const linksStyle = css({
     {profile.introduction}
 
     {
-      socialLinks.length > 0 && (
+      links.length > 0 && (
         <SocialLinks
           slot="footer"
-          links={socialLinks}
+          variant="sticker"
+          links={links}
           class={linksStyle}
           label={`${nickname}のソーシャルリンク一覧`}
         />

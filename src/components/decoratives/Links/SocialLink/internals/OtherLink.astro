@@ -1,28 +1,49 @@
 ---
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
-import { randomPick, seedRandom } from "@lib/utils/random";
-import { css } from "@styles/css";
-import { colorNames } from "lib/styles/tokens/colors";
+import { randomColorBase } from "@lib/contents/commons/ColorToken";
+import { seedRandom } from "@lib/utils/random";
+import { css, cva } from "@styles/css";
 import IconLinkBase, {
   type Props as BaseProps,
 } from "./commons/IconLinkBase.astro";
 
 export interface Props extends BaseProps {}
 
-const { url, description } = Astro.props;
+const { url, description, variant } = Astro.props;
 
 const seed = seedRandom(url);
 
-const colorPalette = randomPick(1, colorNames, seed);
+const colorPalette = randomColorBase(seed);
 
-const style = css({
-  bg: "colorPalette.bg",
-  color: "colorPalette.regular",
-  colorPalette,
-  p: "2",
+const styleRecipe = cva({
+  base: {},
+  variants: {
+    variant: {
+      sticker: {
+        colorPalette,
+        bg: "colorPalette.bg",
+        color: "colorPalette.regular",
+      },
+      "vector-only": {
+        color: "white",
+      },
+    },
+  },
 });
+
+const logoStyle = css({
+  w: "5",
+  h: "5",
+});
+
+const style = styleRecipe({ variant });
 ---
 
-<IconLinkBase url={url} description={description} class={style}>
-  <Icon type="link" />
+<IconLinkBase
+  url={url}
+  description={description}
+  variant={variant}
+  class={style}
+>
+  <Icon type="link" class={logoStyle} />
 </IconLinkBase>

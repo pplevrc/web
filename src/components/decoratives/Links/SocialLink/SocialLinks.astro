@@ -1,5 +1,7 @@
 ---
-import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
+import SocialLink, {
+  type Props as SocialLinkProps,
+} from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import type { SocialLink as SocialLinkType } from "@lib/contents/commons/SocialLink";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
@@ -8,19 +10,18 @@ interface Props extends HTMLAttributes<"nav"> {
   links: SocialLinkType[];
 
   label?: string;
+
+  variant?: SocialLinkProps["variant"];
 }
 
-const { links, label, ...rest } = Astro.props;
+const { links, label, variant, ...rest } = Astro.props;
 
 const listStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "left",
-  gap: {
-    base: "2",
-    _pc: "4",
-  },
+  gap: "4",
   transform: "[rotate(-1deg)]",
 });
 ---
@@ -30,7 +31,7 @@ const listStyle = css({
     {
       links.map((link) => (
         <li>
-          <SocialLink {...link} />
+          <SocialLink {...link} variant={variant} />
         </li>
       ))
     }

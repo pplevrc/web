@@ -1,20 +1,24 @@
 ---
+import type { SocialLinkType } from "@/lib/contents/commons/SocialLink";
 import FooterDivision from "@components/decoratives/Vectors/FooterDivision/FooterDivision.astro";
 import IconDefinition from "@components/decoratives/Vectors/Icon/IconDefinition.astro";
 import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
-import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import LogoDefinition from "@components/decoratives/Vectors/Logo/LogoDefinition.astro";
+import LogoIconDefinition from "@components/decoratives/Vectors/LogoIcon/LogoIconDefinition.astro";
 
 interface Props {
   defineIcons?: OptionalIconType[];
+
+  defineLogos?: SocialLinkType[];
 }
 
-const { defineIcons = [] } = Astro.props;
+const { defineIcons, defineLogos } = Astro.props;
 ---
 
 <div aria-hidden role="presentation" hidden>
   <IconDefinition icons={defineIcons} />
-  <Logo definition type="pple" />
-  <Logo definition type="vrchat" />
+  <LogoDefinition />
+  <LogoIconDefinition logos={defineLogos} />
   <FooterDivision definition />
   <slot />
 </div>

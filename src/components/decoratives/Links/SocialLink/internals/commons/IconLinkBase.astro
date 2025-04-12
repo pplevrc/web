@@ -1,7 +1,7 @@
 ---
-import { css } from "@styles/css";
+import { cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-
+import type { SocialLinkVariant } from "../type";
 export interface Props extends HTMLAttributes<"a"> {
   /**
    *
@@ -12,17 +12,35 @@ export interface Props extends HTMLAttributes<"a"> {
    *
    */
   description: string;
+
+  /**
+   *
+   */
+  variant: SocialLinkVariant;
 }
 
-const linkStyle = css({
-  rounded: "full",
-  shadow: "xs",
-  w: "8",
-  h: "8",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+const { variant } = Astro.props;
+
+const linkStyleRecipe = cva({
+  base: {
+    w: "7",
+    h: "7",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  variants: {
+    variant: {
+      sticker: {
+        rounded: "full",
+        shadow: "xs",
+      },
+      "vector-only": {},
+    },
+  },
 });
+
+const linkStyle = linkStyleRecipe({ variant });
 
 const { url, description, class: className, ...rest } = Astro.props;
 ---

@@ -3,61 +3,47 @@ import {
   type SocialLinkType,
   detectType,
 } from "@lib/contents/commons/SocialLink";
-import AmazonWishlistLink from "./internals/AmazonWishListLink.astro";
 import BlueSkyLink from "./internals/BlueSkyLink.astro";
-import DiscordLink from "./internals/DiscordLink.astro";
 import GitHubLink from "./internals/GitHubLink.astro";
 import MastodonLink from "./internals/MastodonLink.astro";
 import MisskeyLink from "./internals/MisskeyLink.astro";
 import OtherLink from "./internals/OtherLink.astro";
 import PixivBoothLink from "./internals/PixivBoothLink.astro";
-import PixivBoothWishlistLink from "./internals/PixivBoothWishListLink.astro";
 import PixivFanboxLink from "./internals/PixivFanboxLink.astro";
 import PixivVroidHubLink from "./internals/PixivVroidHubLink.astro";
-import SkebLink from "./internals/SkebLink.astro";
-import SteamLink from "./internals/SteamLink.astro";
 import VRChatLink from "./internals/VRChatLink.astro";
 import XLink from "./internals/XLink.astro";
-import YoutubeLink from "./internals/YoutubeLink.astro";
+import type { Props as BaseProps } from "./internals/commons/IconLinkBase.astro";
 
-interface Props {
+export interface Props extends BaseProps {
   /**
    *
    */
   type?: SocialLinkType;
-  /**
-   *
-   */
-  url: string | URL;
-
-  /**
-   *
-   */
-  description: string;
 }
 
-const { type, url, description } = Astro.props;
+const { type, url, description, variant } = Astro.props;
 
 const fixedUrl = url instanceof URL ? url : new URL(url);
 
 const fixedType = type ?? (await detectType(fixedUrl));
 
 const componentMap = {
-  youtube: YoutubeLink,
+  // TODO: Youtube に申請しないとアイコンを使えない
+  youtube: OtherLink,
   x: XLink,
   mastodon: MastodonLink,
   misskey: MisskeyLink,
   bluesky: BlueSkyLink,
-  discord: DiscordLink,
   "pixiv-fanbox": PixivFanboxLink,
   "pixiv-booth": PixivBoothLink,
-  skeb: SkebLink,
+  // TODO: ロゴ取得が大変
+  skeb: OtherLink,
   "pixiv-vroid-hub": PixivVroidHubLink,
-  steam: SteamLink,
   github: GitHubLink,
-  "amazon-wishlist": AmazonWishlistLink,
-  "pixiv-booth-wishlist": PixivBoothWishlistLink,
   vrchat: VRChatLink,
+  // TODO: ロゴ取得が大変
+  "creatia-frontier": OtherLink,
   other: OtherLink,
   // biome-ignore lint/suspicious/noExplicitAny: 汎用的な型としての利用のため一旦許容. あと Component の正しい型がわからない
 } as const satisfies Record<SocialLinkType, (props: any) => any>;
@@ -65,4 +51,4 @@ const componentMap = {
 const Component = componentMap[fixedType];
 ---
 
-<Component url={fixedUrl} description={description} />
+<Component url={fixedUrl} description={description} variant={variant} />

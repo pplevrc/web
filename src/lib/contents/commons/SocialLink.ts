@@ -87,20 +87,17 @@ const socialLinks = [
   // e.g. cluster
 
   /// -----------------------------------------------------------------------------------
-  /// Chat Service
-  {
-    // e.g. https://discordapp.com/users/230296946353373184
-    type: "discord",
-    urlPatterns: /^https:\/\/discordapp\.com\//,
-  },
-
-  /// -----------------------------------------------------------------------------------
   /// Patrons
   /// e.g. funtia, creatia-frontier
   {
     // e.g. https://www.fanbox.cc/@rikusu3
     type: "pixiv-fanbox",
     urlPatterns: /^https:\/\/www\.fanbox\.cc\//,
+  },
+  {
+    // e.g. https://frontier.creatia.cc/fanclubs/1234
+    type: "creatia-frontier",
+    urlPatterns: /^https:\/\/frontier\.creatia\.cc\//,
   },
 
   /// -----------------------------------------------------------------------------------
@@ -112,7 +109,7 @@ const socialLinks = [
   },
 
   /// -----------------------------------------------------------------------------------
-  /// Comission Service
+  /// Commission Service
   {
     // e.g. https://skeb.jp/@rikusu_vrc
     type: "skeb",
@@ -126,11 +123,6 @@ const socialLinks = [
     type: "pixiv-vroid-hub",
     urlPatterns: /^https:\/\/hub\.vroid\.com\//,
   },
-  {
-    // e.g. https://steamcommunity.com/profiles/76561198304239235
-    type: "steam",
-    urlPatterns: /^https:\/\/steamcommunity\.com\//,
-  },
 
   /// -----------------------------------------------------------------------------------
   /// Development Profile
@@ -138,19 +130,6 @@ const socialLinks = [
     // e.g. https://github.com/mew-ton
     type: "github",
     urlPatterns: /^https:\/\/github\.com\//,
-  },
-
-  /// -----------------------------------------------------------------------------------
-  /// Wish List
-  {
-    // e.g. https://www.amazon.co.jp/registry/wishlist/1VKAFH0RUKTHF
-    type: "amazon-wishlist",
-    urlPatterns: /^https:\/\/www\.amazon\.co.jp\/registry\/wishlist\//,
-  },
-  {
-    // e.g. https://booth.pm/wish_list_names/xxxxxxxx
-    type: "pixiv-booth-wishlist",
-    urlPatterns: /^https:\/\/booth\.pm\/wish_list_names\//,
   },
 ] as const satisfies SocialLinkStrategy[];
 

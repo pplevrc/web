@@ -1,4 +1,5 @@
 import { z } from "astro:content";
+import { type Randomizer, randomPick } from "@/lib/utils/random";
 import { schemaForType } from "@lib/utils/type";
 import type { ColorToken } from "@styles/tokens";
 
@@ -43,6 +44,10 @@ export function pickColorBase(theme: ColorTheme): ColorThemeBase {
   }
 
   return colorName;
+}
+
+export function randomColorBase(seed: Randomizer): ColorThemeBase {
+  return randomPick(1, colorNames, seed);
 }
 
 export const colorThemeSchema = schemaForType<ColorTheme>(
