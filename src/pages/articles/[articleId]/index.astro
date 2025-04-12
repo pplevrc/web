@@ -1,6 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
 
+export async function getStaticPaths() {
+  return [
+    {
+      params: { articleId: "1" },
+    },
+  ];
+}
+
 const articleTitle = "お知らせタイトル";
 
 const description = "お知らせの概要";

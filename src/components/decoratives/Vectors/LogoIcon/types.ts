@@ -11,7 +11,7 @@ const notSupportedLogos = [
   "youtube",
   "skeb",
   "creatia-frontier",
-] as const satisfies LogoIconType[];
+] as LogoIconType[];
 
 export function isSupportedLogo(logo: LogoIconType): boolean {
   return !notSupportedLogos.includes(logo);

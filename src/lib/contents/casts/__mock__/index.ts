@@ -1,9 +1,5 @@
 import { date } from "@/lib/utils/temporal";
-import {
-  type SocialLink,
-  sort,
-  toSocialLink,
-} from "@lib/contents/commons/SocialLink";
+import { sort, toSocialLink } from "@lib/contents/commons/SocialLink";
 import type { Cast, FetchedCast } from "../types";
 
 import vdcmImg from "./assets/YTJVDCM.png";

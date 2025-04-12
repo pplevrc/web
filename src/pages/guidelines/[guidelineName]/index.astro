@@ -1,6 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
 
+export async function getStaticPaths() {
+  return [
+    {
+      params: { guidelineName: "ガイドライン名" },
+    },
+  ];
+}
+
 const guidelineName = "ガイドライン名";
 
 const description = "ガイドラインの概要";
