@@ -1,3 +1,6 @@
-import type AvatarImage from "../images/AvatarImage.astro";
+import type { HTMLAttributes } from "astro/types";
+import type { Props } from "../images/AvatarImage.astro";
 
-export type CommonProps = Omit<Parameters<typeof AvatarImage>[0], "alt">;
+export interface CommonProps extends Omit<Props, "alt"> {
+  rootAttributes: HTMLAttributes<"figure">;
+}

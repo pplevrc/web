@@ -1,9 +1,10 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import Large from "./large/Large.astro";
 import Medium from "./medium/Medium.astro";
 import type { CommonProps } from "./type";
 
-interface Props extends CommonProps {
+interface Props extends CommonProps, HTMLAttributes<"figure"> {
   size: "medium" | "large";
 }
 

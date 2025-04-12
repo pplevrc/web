@@ -26,8 +26,11 @@ const avatarStyle = css({
 });
 ---
 
-<section class={rootStyle}>
+<section class={rootStyle} aria-label={`${nickname}の立ち絵`}>
   <DecorativeAvatar
+    rootAttributes={{
+      "aria-label": `${nickname}の立ち絵`,
+    }}
     size="large"
     class={avatarStyle}
     nickname={nickname}

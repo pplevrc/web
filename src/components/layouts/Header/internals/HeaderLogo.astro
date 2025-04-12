@@ -35,6 +35,14 @@ const logoStyle = cva({
 }).raw({ home: isHome });
 ---
 
-<a href="/" {...props}>
-  <Logo type="pple" class={css(logoStyle)} />
+<a
+  href="/"
+  {...props}
+  aria-label="ロリっ子喫茶ぷぷりえのホームページへのリンク"
+>
+  <Logo
+    type="pple"
+    class={css(logoStyle)}
+    aria-label="ロリっ子喫茶ぷぷりえのロゴ画像"
+  />
 </a>

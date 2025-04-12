@@ -53,22 +53,32 @@ const ppleSocialLinks = await fetchOfficialSocialLinks();
   <FooterBorder class={footerPositionStyle} />
   <div class={contentStyle}>
     <div class={copyrightSetStyle}>
-      <figure class={css({ display: "contents" })}>
-        <Logo type="pple" class={logoStyle} />
+      <figure
+        class={css({ display: "contents" })}
+        aria-label="ロリっ子喫茶ぷぷりえの著作権情報"
+      >
+        <Logo
+          type="pple"
+          class={logoStyle}
+          aria-label="ロリっ子喫茶ぷぷりえのロゴ画像"
+        />
         <figcaption>
           <small>
-            Copyright © <time datetime="2021">2021</time> ロリっ子喫茶ぷぷりえ.
+            Copyright © <time datetime="2021-10-14">2021</time> ロリっ子喫茶ぷぷりえ.
             <br /> All rights reserved.
           </small>
         </figcaption>
       </figure>
-      <nav>
+      <nav aria-label="ロリっ子喫茶ぷぷりえの公式ソーシャルリンク一覧">
         <SocialLinks links={ppleSocialLinks} variant="vector-only" />
       </nav>
     </div>
 
-    <figure class={copyrightSetStyle}>
-      <Logo type="vrchat" class={logoStyle} />
+    <figure
+      class={copyrightSetStyle}
+      aria-label="ロリっ子喫茶ぷぷりえの開催プラットフォーム情報"
+    >
+      <Logo type="vrchat" class={logoStyle} aria-label="VRChatのロゴ画像" />
       <figcaption>
         <small>This event will be held on the VRChat platform.</small>
       </figcaption>

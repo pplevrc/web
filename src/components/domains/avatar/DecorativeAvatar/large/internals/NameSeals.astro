@@ -5,7 +5,7 @@ import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import CharSeal from "./CharSeal.astro";
 
-interface Props extends HTMLAttributes<"figcaption"> {
+interface Props extends HTMLAttributes<"p"> {
   /**
    *
    */
@@ -25,10 +25,6 @@ interface Props extends HTMLAttributes<"figcaption"> {
 const { name, color, radius, ...attrs } = Astro.props;
 
 const length = name.length;
-
-const captionRootStyle = css({
-  display: "contents",
-});
 
 const rootStyle = css({
   pos: "relative",
@@ -131,78 +127,74 @@ const random = seedRandom(name);
 const size = name.length > 6 ? "small" : "regular";
 ---
 
-<figcaption {...attrs} class={captionRootStyle}>
-  {/* a11y 用 */}
-  <p hidden translate="no">
-    {name}
-  </p>
+<p class={rootStyle} {...attrs} aria-hidden>
+  {
+    Array.from({ length }).map((_, index) => {
+      const char = name[index];
+      /**
+       * 1, 2, 3 の発生確率を下げる
+       */
+      const variant = randomPick(1, [0, 0, 0, 0, 1, 2, 3] as const, random);
 
-  {/* 視覚用 */}
-  <p class={rootStyle} aria-hidden role="presentation">
-    {
-      Array.from({ length }).map((_, index) => {
-        const char = name[index];
-        /**
-         * 1, 2, 3 の発生確率を下げる
-         */
-        const variant = randomPick(1, [0, 0, 0, 0, 1, 2, 3] as const, random);
+      const variables = {
+        "--i": index,
+        "--l": length,
+      };
 
-        const variables = {
-          "--i": index,
-          "--l": length,
-        };
-
-        switch (variant) {
-          case 0:
-            return (
-              <CharSeal
-                color={color}
-                size={size}
-                class={charStyle}
-                style={variables}
-              >
-                {char}
-              </CharSeal>
-            );
-          case 1:
-            return (
-              <CharSeal
-                color={color}
-                size={size}
-                folded
-                class={charStyle}
-                style={variables}
-              >
-                {char}
-              </CharSeal>
-            );
-          case 2:
-            return (
-              <CharSeal
-                color={color}
-                size={size}
-                deep
-                class={charStyle}
-                style={variables}
-              >
-                {char}
-              </CharSeal>
-            );
-          case 3:
-            return (
-              <CharSeal
-                color={color}
-                size={size}
-                folded
-                deep
-                class={charStyle}
-                style={variables}
-              >
-                {char}
-              </CharSeal>
-            );
-        }
-      })
-    }
-  </p>
-</figcaption>
+      switch (variant) {
+        case 0:
+          return (
+            <CharSeal
+              color={color}
+              size={size}
+              class={charStyle}
+              style={variables}
+              aria-hidden
+            >
+              {char}
+            </CharSeal>
+          );
+        case 1:
+          return (
+            <CharSeal
+              color={color}
+              size={size}
+              folded
+              class={charStyle}
+              style={variables}
+              aria-hidden
+            >
+              {char}
+            </CharSeal>
+          );
+        case 2:
+          return (
+            <CharSeal
+              color={color}
+              size={size}
+              deep
+              class={charStyle}
+              style={variables}
+              aria-hidden
+            >
+              {char}
+            </CharSeal>
+          );
+        case 3:
+          return (
+            <CharSeal
+              color={color}
+              size={size}
+              folded
+              deep
+              class={charStyle}
+              style={variables}
+              aria-hidden
+            >
+              {char}
+            </CharSeal>
+          );
+      }
+    })
+  }
+</p>

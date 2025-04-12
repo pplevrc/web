@@ -12,7 +12,7 @@ import StripeCircle from "./internals/StripeCircle.astro";
 
 interface Props extends CommonProps {}
 
-const { class: className, ...avatarImageProps } = Astro.props;
+const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 
 const { nickname } = avatarImageProps;
 
@@ -197,7 +197,7 @@ const nameStyle = nameStyleRecipe({
 });
 ---
 
-<figure class={figureRoot}>
+<figure class={figureRoot} {...rootAttributes}>
   <OrigamiShape
     shape={shapeType}
     rotate={origamiRotateType}
@@ -205,9 +205,8 @@ const nameStyle = nameStyleRecipe({
     color={colorName}
     class={origamiStyle}
     aria-hidden
-    role="presentation"
   />
-  <StripeCircle class={circleStyle} aria-hidden role="presentation" />
+  <StripeCircle class={circleStyle} aria-hidden />
   <AvatarImage
     {...avatarImageProps}
     class={imageStyle}

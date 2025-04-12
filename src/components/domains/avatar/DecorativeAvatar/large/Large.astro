@@ -13,7 +13,7 @@ import NameSeals from "./internals/NameSeals.astro";
 
 interface Props extends CommonProps {}
 
-const { class: className, ...avatarImageProps } = Astro.props;
+const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 
 const { nickname } = avatarImageProps;
 
@@ -96,7 +96,7 @@ const nameSealsRadius = (() => {
 })();
 ---
 
-<figure class:list={[className, rootStyle]}>
+<figure class:list={[className, rootStyle]} {...rootAttributes}>
   <OrigamiShape
     shape={shapeType}
     rotate={origamiRotateType}
@@ -104,7 +104,6 @@ const nameSealsRadius = (() => {
     color={colorName}
     class={origamiStyle}
     aria-hidden
-    role="presentation"
   />
   <PhotoImage
     src={ShopFrontImage}
@@ -112,9 +111,8 @@ const nameSealsRadius = (() => {
     alt=""
     class={photoStype}
     aria-hidden
-    role="presentation"
   />
-  <StripeCircle class={circleStyle} aria-hidden role="presentation" />
+  <StripeCircle class={circleStyle} aria-hidden />
   <AvatarImage
     {...avatarImageProps}
     class={imageStyle}

@@ -24,7 +24,7 @@ const {
 const links = [
   {
     url: userPageURL,
-    description: "VRChat ユーザーページ",
+    description: `VRChat: ${nickname}のユーザーページ`,
     type: "vrchat",
   } as const satisfies SocialLink,
   ...socialLinks,
@@ -54,7 +54,7 @@ const linksStyle = css({
 });
 ---
 
-<section class={rootStyle}>
+<section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
   <Paper size="short" themeColor={themeColorName}>
     <NameStickerList slot="header" class={stickerStyle}>
       <NameSticker key="VRChat ID" value={userId} themeColor={themeColorName} />

@@ -51,7 +51,8 @@ const CROP_HEIGHT = DEFAULT_HEIGHT - DEFAULT_TOP_MARGIN_PX;
  */
 const ASPECT_RATIO = CROP_WIDTH / CROP_HEIGHT;
 
-interface Props extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
+export interface Props
+  extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
   /**
    * 店員さんのニックネーム
    */

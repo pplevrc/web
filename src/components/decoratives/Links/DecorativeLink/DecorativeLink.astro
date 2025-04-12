@@ -1,7 +1,7 @@
 ---
+import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
 
 /**
  * ※ 最低限用意する
@@ -65,8 +65,8 @@ const iconStyle = css({
 
 <a class:list={[linkStyle, className]} {...rest}>
   <span class={insideStyle}>
-    <Icon type="flower" class={iconStyle} />
+    <Icon type="flower" class={iconStyle} aria-hidden />
     <slot />
-    <Icon type="flower" class={iconStyle} />
+    <Icon type="flower" class={iconStyle} aria-hidden />
   </span>
 </a>

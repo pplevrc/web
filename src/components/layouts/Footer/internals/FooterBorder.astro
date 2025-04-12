@@ -25,13 +25,8 @@ const pcOnly = css({
 });
 ---
 
-<div
-  class:list={[wrapperStyle, className]}
-  aria-hidden
-  role="presentation"
-  {...rest}
->
-  <FooterDivision class:list={[divisionStyle]} />
-  <FooterDivision class:list={[divisionStyle, pcOnly]} />
-  <FooterDivision class:list={[divisionStyle, pcOnly]} />
+<div class:list={[wrapperStyle, className]} aria-hidden {...rest}>
+  <FooterDivision class:list={[divisionStyle]} aria-hidden />
+  <FooterDivision class:list={[divisionStyle, pcOnly]} aria-hidden />
+  <FooterDivision class:list={[divisionStyle, pcOnly]} aria-hidden />
 </div>
