@@ -7,7 +7,7 @@ import { fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
-import StripeCircle from "../medium/internals/StripeCircle.astro";
+import StripeCircle from "../common/internals/StripeCircle.astro";
 import type { CommonProps } from "../type";
 import NameSeals from "./internals/NameSeals.astro";
 
@@ -31,7 +31,7 @@ const imageStyle = css({
   transform: "[translate(-50%, 0) rotate(4deg)]",
 });
 
-const photoStype = css({
+const photoStyle = css({
   pos: "absolute",
   top: "42",
   left: "-4",
@@ -103,22 +103,19 @@ const nameSealsRadius = (() => {
     inverse={inverse}
     color={colorName}
     class={origamiStyle}
-    aria-hidden
   />
   <PhotoImage
     src={ShopFrontImage}
     size="large"
-    alt=""
-    class={photoStype}
-    aria-hidden
+    alt={`${nickname} の写真`}
+    class={photoStyle}
   />
-  <StripeCircle class={circleStyle} aria-hidden />
+  <StripeCircle class={circleStyle} />
   <AvatarImage
     {...avatarImageProps}
     class={imageStyle}
     outline="strong"
     alt={`${nickname} のアバター`}
-    aria-hidden
   />
   <NameSeals name={nickname} color={colorName} radius={nameSealsRadius} />
 </figure>

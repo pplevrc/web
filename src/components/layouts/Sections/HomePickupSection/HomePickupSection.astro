@@ -1,13 +1,13 @@
 ---
+import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
 import { randomId } from "@/lib/utils/random";
 import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
-import { css, cva } from "@styles/css";
+import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import type { ThemeColor } from "./type";
 
 interface Props extends HTMLAttributes<"nav"> {
-  themeColor: ThemeColor;
+  themeColor: ColorThemeBase;
   title: string;
   hrefViewMore: string;
 }
@@ -20,34 +20,18 @@ const {
   ...attrs
 } = Astro.props;
 
-const createSectionBgStyle = cva({
-  base: {
-    pos: "relative",
-    _before: {
-      content: "''",
-      pos: "absolute",
-      inset: "0",
-      mixBlendMode: "color",
-      zIndex: "backgroundBlend",
-    },
+const sectionBgStyle = css({
+  pos: "relative",
+  _before: {
+    content: "''",
+    pos: "absolute",
+    inset: "0",
+    mixBlendMode: "color",
+    zIndex: "backgroundBlend",
+    bg: "colorPalette.lite/50",
   },
-  variants: {
-    themeColor: {
-      matcha: {
-        _before: {
-          bg: "matcha.lite/50",
-        },
-      },
-      rose: {
-        _before: {
-          bg: "rose.lite/50",
-        },
-      },
-    },
-  },
+  colorPalette: themeColor,
 });
-
-const sectionBgStyle = createSectionBgStyle({ themeColor });
 
 const fitStyle = css({
   scrollSnapAlign: "center",

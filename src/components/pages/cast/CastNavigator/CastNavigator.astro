@@ -1,18 +1,69 @@
 ---
-// import { fetchNextCast, fetchPrevCast } from "@lib/contents/casts";
+import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import { fetchNextCast, fetchPrevCast } from "@lib/contents/casts";
+import { css } from "@styles/css";
 
-// /**
-//  * 次, 前, 戻る
-//  */
+interface Props {
+  nickname: string;
 
-// interface Props {
-//   nickname: string;
-// }
+  themeColor: ColorThemeBase;
+}
 
-// const { nickname } = Astro.props;
+const { nickname, themeColor } = Astro.props;
 
-// const prevCast = await fetchPrevCast(nickname);
-// const nextCast = await fetchNextCast(nickname);
+const prevCast = await fetchPrevCast(nickname);
+const nextCast = await fetchNextCast(nickname);
+
+const rootStyle = css({
+  h: "112",
+  py: "12",
+
+  bg: "colorPalette.50/70",
+  colorPalette: themeColor,
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "space-around",
+});
+
+const listStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+
+  gap: {
+    base: "8",
+    _pc: "16",
+  },
+});
 ---
 
-<nav aria-label="他のキャストへのナビゲーション"></nav>
+<nav class={rootStyle} aria-label="他のキャストへのナビゲーション">
+  <ul class={listStyle}>
+    <li>
+      <DecorativeAvatarLink
+        size="small"
+        nickname={prevCast.profile.nickname}
+        type="neutral"
+        avatarIndex={0}
+        width={120}
+      />
+    </li>
+    <li>
+      <DecorativeAvatarLink
+        size="small"
+        nickname={nextCast.profile.nickname}
+        type="neutral"
+        avatarIndex={0}
+        width={120}
+      />
+    </li>
+  </ul>
+  <DecorativeLink themeColor={themeColor} href="/casts">
+    一覧にもどる
+  </DecorativeLink>
+</nav>

@@ -1,43 +1,25 @@
 ---
 import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
-import { css, cva } from "@styles/css";
+import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
-/**
- * ※ 最低限用意する
- */
-type ThemeColor = "rose" | "matcha";
-
 interface Props extends HTMLAttributes<"a"> {
-  themeColor: ThemeColor;
+  themeColor: ColorThemeBase;
 }
 
 const { class: className, themeColor, ...rest } = Astro.props;
 
-const linkStyleRecipe = cva({
-  base: {
-    rounded: "2xl",
-    w: "52",
-    h: "10",
-    shadow: "xs",
-    color: "white",
-    p: "1",
-    textStyle: "normal.bold.base",
-  },
-  variants: {
-    themeColor: {
-      rose: {
-        bg: "rose.regular",
-      },
-      matcha: {
-        bg: "matcha.regular",
-      },
-    },
-  },
-});
-
-const linkStyle = linkStyleRecipe({
-  themeColor,
+const linkStyle = css({
+  rounded: "2xl",
+  w: "52",
+  h: "10",
+  shadow: "xs",
+  color: "white",
+  p: "1",
+  textStyle: "normal.bold.base",
+  bg: "colorPalette.regular",
+  colorPalette: themeColor,
 });
 
 const insideStyle = css({

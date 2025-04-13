@@ -1,6 +1,6 @@
 ---
-import type { IconType } from "@/components/decoratives/Vectors/Icon/types";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import type { IconType } from "@components/decoratives/Vectors/Icon/types";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
@@ -20,33 +20,51 @@ interface Props extends HTMLAttributes<"div"> {
    *
    */
   icon: IconType;
+
+  /**
+   *
+   */
+  width: "short" | "medium";
 }
 
-const { name, color, icon, ...attrs } = Astro.props;
+const { name, color, icon, width, ...attrs } = Astro.props;
 
-const rootStyle = css({
-  bgColor: "white",
-  color: "colorPalette.bg",
-  colorPalette: color,
-  display: "inline-block",
-  w: "28",
-  h: "7",
-  borderRadius: "xs",
-  overflow: "hidden",
-  shadow: "xs",
-
-  _before: {
-    content: "''",
-    pos: "absolute",
+const rootStyleRecipe = cva({
+  base: {
+    bgColor: "white",
+    color: "colorPalette.bg",
+    colorPalette: color,
+    display: "inline-block",
+    h: "7",
     borderRadius: "xs",
+    overflow: "hidden",
+    shadow: "xs",
 
-    width: "full",
-    height: "full",
+    _before: {
+      content: "''",
+      pos: "absolute",
+      borderRadius: "xs",
 
-    borderWidth: "sm",
-    borderTopWidth: "2xl",
+      width: "full",
+      height: "full",
+
+      borderWidth: "sm",
+      borderTopWidth: "2xl",
+    },
+  },
+  variants: {
+    width: {
+      short: {
+        w: "28",
+      },
+      medium: {
+        w: "32",
+      },
+    },
   },
 });
+
+const rootStyle = rootStyleRecipe({ width });
 
 const iconWrapStyle = css({
   w: "full",
@@ -96,8 +114,8 @@ const textStyle = textStyleRecipe({ textSize });
 ---
 
 <figcaption class:list={[rootStyle, attrs.class]} {...attrs}>
-  <div class={iconWrapStyle} aria-hidden>
-    <Icon type={icon} class={iconStyle} />
+  <div class={iconWrapStyle}>
+    <Icon type={icon} class={iconStyle} aria-hidden />
   </div>
   <span class={textStyle} translate="no">
     {name}

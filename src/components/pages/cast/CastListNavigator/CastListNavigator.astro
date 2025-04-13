@@ -1,0 +1,33 @@
+---
+import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
+import CastList from "@components/domains/cast/CastList/CastList.astro";
+import { randomId } from "@lib/utils/random";
+import { css } from "@styles/css";
+
+const fitStyle = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+
+  py: "26",
+  gap: {
+    base: "16",
+    _pc: "4",
+  },
+});
+
+const content = css({
+  display: "contents",
+});
+
+const id = randomId();
+---
+
+<nav aria-label="キャスト一覧" aria-labelledby={id} class={fitStyle}>
+  <header class={content}>
+    <SectionHeading id={id}> ぷぷりえキャスト一覧 </SectionHeading>
+  </header>
+  <CastList />
+  {/* TODO: スタッフの一覧へ */}
+</nav>

@@ -1,14 +1,14 @@
 ---
-import OrigamiShape from "@/components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
-import { ppleIconTypes } from "@/components/decoratives/Vectors/Icon/types";
-import AvatarImage from "@/components/domains/avatar/images/AvatarImage.astro";
-import { randomPick, seedRandom } from "@/lib/utils/random";
+import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { ppleIconTypes } from "@components/decoratives/Vectors/Icon/types";
+import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
+import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import { fetchAvatar, fetchCast } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
+import { randomPick, seedRandom } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
-import type { CommonProps } from "../type";
-import NameSeal from "./internals/NameSeals.astro";
-import StripeCircle from "./internals/StripeCircle.astro";
+import NameSeal from "../common/internals/NameSeals.astro";
+import StripeCircle from "../common/internals/StripeCircle.astro";
 
 interface Props extends CommonProps {}
 
@@ -204,14 +204,18 @@ const nameStyle = nameStyleRecipe({
     inverse={inverse}
     color={colorName}
     class={origamiStyle}
-    aria-hidden
   />
-  <StripeCircle class={circleStyle} aria-hidden />
+  <StripeCircle class={circleStyle} />
   <AvatarImage
     {...avatarImageProps}
     class={imageStyle}
     alt={`${nickname} のアバター`}
-    aria-hidden
   />
-  <NameSeal name={nickname} color={colorName} icon={icon} class={nameStyle} />
+  <NameSeal
+    name={nickname}
+    color={colorName}
+    icon={icon}
+    width="short"
+    class={nameStyle}
+  />
 </figure>

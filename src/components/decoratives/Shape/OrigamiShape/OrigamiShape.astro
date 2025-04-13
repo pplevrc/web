@@ -1,6 +1,6 @@
 ---
-import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
-import type { UnionArrayIndex } from "@/lib/utils/arithmetic-types";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import type { UnionArrayIndex } from "@lib/utils/arithmetic-types";
 import { cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -329,6 +329,6 @@ const origamiStyle = origamiStyleRecipe({
 });
 ---
 
-<div {...attrs} aria-hidden>
+<div {...attrs}>
   <div class={origamiStyle}></div>
 </div>

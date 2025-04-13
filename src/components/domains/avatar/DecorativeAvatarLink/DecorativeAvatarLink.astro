@@ -1,10 +1,12 @@
 ---
+import DecorativeAvatar, {
+  type Props as BaseProps,
+} from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
 import { css } from "@styles/css";
-import DecorativeAvatar from "../DecorativeAvatar/DecorativeAvatar.astro";
 
-type AvatarImageProps = Omit<Parameters<typeof DecorativeAvatar>[0], "alt">;
-
-interface Props extends AvatarImageProps {}
+interface Props extends Omit<BaseProps, "nickname"> {
+  nickname: string;
+}
 
 const { class: className, ...avatarImageProps } = Astro.props;
 

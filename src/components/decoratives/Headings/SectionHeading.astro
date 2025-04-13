@@ -1,15 +1,19 @@
 ---
-import { css } from "@/styles/css";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import Icon from "@/components/decoratives/Vectors/Icon/Icon.astro";
 
-interface Props extends HTMLAttributes<"h2"> {}
+interface Props extends HTMLAttributes<"hgroup"> {}
 
 const props = Astro.props;
 
 const rootStyle = css({
   textStyle: "normal.bold.xl",
   color: "latte.deep",
+
+  display: "flex",
+  alignItems: "center",
+  gap: "4",
 });
 
 const iconStyle = css({
@@ -21,8 +25,10 @@ const iconStyle = css({
 });
 ---
 
-<h2 {...props} class:list={[rootStyle, props.class]}>
+<hgroup {...props} class:list={[rootStyle, props.class]}>
   <Icon type="flower" class={iconStyle} aria-hidden />
-  <slot />
+  <h2>
+    <slot />
+  </h2>
   <Icon type="flower" class={iconStyle} aria-hidden />
-</h2>
+</hgroup>

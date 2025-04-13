@@ -33,7 +33,10 @@ const links = [
 const themeColorName = pickColorBase(themeColor);
 
 const rootStyle = css({
-  h: "160",
+  h: {
+    base: "80",
+    _pc: "80",
+  },
   py: "12",
 
   bg: "colorPalette.50/70",

@@ -1,0 +1,106 @@
+---
+import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import { type Cast, fetchCasts } from "@lib/contents/casts";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"ul"> {}
+
+const { class: className, ...props } = Astro.props;
+
+const _casts = await fetchCasts();
+
+const casts = [..._casts, ..._casts, ..._casts, ..._casts, ..._casts];
+
+const rootListStyle = css({
+  display: "flex",
+  flexDir: {
+    base: "row",
+    _pc: "column",
+  },
+  alignItems: "center",
+  justifyContent: "center",
+
+  _spOnly: {
+    flexWrap: "wrap",
+  },
+
+  px: {
+    base: "8",
+    _pc: "12",
+  },
+  gap: {
+    base: "8",
+    _pc: "16",
+  },
+});
+
+const contentOnSP = css({
+  _spOnly: {
+    display: "contents",
+  },
+});
+
+const listStyle = css({
+  display: "flex",
+  flexDir: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "16",
+
+  px: "12",
+});
+
+/**
+ * 見た目のために, Cast[][] 構造にしながら、その中身を length = 5, 4, 5, 4, ... とする
+ */
+const LONG_ROW_LENGTH = 5;
+const SHORT_ROW_LENGTH = 4;
+
+const castRows = (() => {
+  const rows: Cast[][] = [];
+  let currentRow: Cast[] = [];
+  let targetLength = SHORT_ROW_LENGTH;
+
+  for (const cast of casts) {
+    currentRow.push(cast);
+
+    if (currentRow.length === targetLength) {
+      rows.push(currentRow);
+      currentRow = [];
+      targetLength =
+        targetLength === LONG_ROW_LENGTH ? SHORT_ROW_LENGTH : LONG_ROW_LENGTH;
+    }
+  }
+
+  // 最後の行が空でない場合、追加
+  if (currentRow.length > 0) {
+    rows.push(currentRow);
+  }
+
+  return rows;
+})();
+---
+
+<ul {...props} class:list={[rootListStyle, className]}>
+  {
+    castRows.map((casts) => (
+      <li class={contentOnSP} role="presentation">
+        <ul class:list={[listStyle, contentOnSP]} role="presentation">
+          {casts.map((cast) => (
+            <li>
+              <DecorativeAvatarLink
+                size="small"
+                nickname={cast.profile.nickname}
+                type="neutral"
+                avatarIndex={0}
+                width={120}
+              />
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))
+  }
+</ul>

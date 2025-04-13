@@ -4,10 +4,10 @@ import {
   type PpleIconType,
   ppleIconTypes,
 } from "@components/decoratives/Vectors/Icon/types";
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import type { ColorName } from "lib/styles/tokens/colors";
-import Logo from "../Vectors/Logo/Logo.astro";
 
 interface Props extends HTMLAttributes<"article"> {
   icon?: PpleIconType;
@@ -109,7 +109,7 @@ const footerStyle = css({
 ---
 
 <article class={rootStyle} {...props}>
-  <div class={paperStyle} aria-hidden>
+  <div class={paperStyle}>
     <Logo type="pple" class={iconStampStyle} aria-hidden />
   </div>
 
