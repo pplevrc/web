@@ -1,0 +1,77 @@
+---
+import CustomPicture from "@components/commons/CustomPicture.astro";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
+import { remToSizePercent } from "@lib/utils/image";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"header"> {
+  img: ImageMetadata;
+}
+
+const { img, ...props } = Astro.props;
+
+const width = 1440;
+
+const widths = [
+  width,
+  Math.round(width * 2),
+  Math.round(width / 2),
+  Math.round(width / 3),
+];
+
+const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
+
+const rootStyle = css({
+  w: "full",
+  h: "80",
+  position: "relative",
+  textStyle: "normal.bold.xl",
+  color: "latte.deep",
+});
+
+const imageStyle = css({
+  pos: "absolute",
+  w: "full",
+  h: "full",
+  objectFit: "cover",
+});
+
+const titleStyle = css({
+  pos: "absolute",
+  bg: "white/90",
+  top: "[70%]",
+  left: "[50%]",
+  transform: "translate(-50%, -50%)",
+  p: "4",
+  rounded: "2xl",
+  display: "flex",
+  alignItems: "center",
+  gap: "4",
+});
+
+const iconStyle = css({
+  w: "6",
+  h: "6",
+  fill: "latte.deep",
+  display: "inline-block",
+  verticalAlign: "[-0.25rem]",
+});
+---
+
+<hgroup class:list={[rootStyle, props.class]} {...props}>
+  <CustomPicture
+    src={img}
+    alt=""
+    aria-hidden
+    class={imageStyle}
+    widths={widths}
+    sizes={sizes}
+  />
+  <h2 class={titleStyle}>
+    <Icon type="flower" class={iconStyle} aria-hidden />
+    <slot />
+    <Icon type="flower" class={iconStyle} aria-hidden />
+  </h2>
+</hgroup>

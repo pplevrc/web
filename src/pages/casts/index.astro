@@ -1,6 +1,10 @@
 ---
 import CastListNavigator from "@/components/pages/cast/CastListNavigator/CastListNavigator.astro";
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import Layout from "@layouts/Layout.astro";
+import { fetchPageHeaderImage } from "@lib/contents/assets";
+
+const headerImage = await fetchPageHeaderImage("casts");
 ---
 
 <Layout
@@ -10,5 +14,6 @@ import Layout from "@layouts/Layout.astro";
     keywords: [],
   }}
 >
+  <PageHeading img={headerImage}> ぷぷりえキャスト一覧 </PageHeading>
   <CastListNavigator />
 </Layout>

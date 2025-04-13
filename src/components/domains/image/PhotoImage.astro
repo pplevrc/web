@@ -1,5 +1,7 @@
 ---
+import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@/lib/browsers/breakpoint";
 import CustomPicture from "@components/commons/CustomPicture.astro";
+import { remToSizePercent } from "@lib/utils/image";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -29,6 +31,9 @@ interface Props extends HTMLAttributes<"picture"> {
 
 const { label, src, alt, size, class: className, ...rest } = Astro.props;
 
+/**
+ * VIEWPORT 1440 の場合での画像幅
+ */
 const widthSet = {
   small: 120,
   medium: 168,
@@ -36,6 +41,10 @@ const widthSet = {
 };
 
 const width = widthSet[size];
+
+const widths = [width, Math.round(width * 2), Math.round(width * 3)];
+
+const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
 
 const simple = label === undefined;
 
@@ -86,6 +95,8 @@ const captionStyle = css({
         src={src}
         alt={alt}
         width={width}
+        widths={widths}
+        sizes={sizes}
         pictureAttributes={{
           ...rest,
           class: imageStyle,
@@ -98,6 +109,8 @@ const captionStyle = css({
         src={src}
         alt={alt}
         width={width}
+        widths={widths}
+        sizes={sizes}
         pictureAttributes={{
           ...rest,
           class: imageStyle,
