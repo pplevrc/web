@@ -27,8 +27,6 @@ const rootStyle = css({
   w: "full",
   h: "80",
   position: "relative",
-  textStyle: "normal.bold.xl",
-  color: "latte.deep",
 });
 
 const imageStyle = css({
@@ -39,6 +37,14 @@ const imageStyle = css({
 });
 
 const titleStyle = css({
+  textStyle: {
+    base: "normal.bold.base",
+    _pc: "normal.bold.xl",
+  },
+  w: "[fit-content]",
+  wordBreak: "keep-all",
+
+  color: "latte.deep",
   pos: "absolute",
   bg: "white/90",
   top: "[70%]",
