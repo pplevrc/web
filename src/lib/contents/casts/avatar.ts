@@ -20,7 +20,7 @@ export interface Avatar {
 }
 
 /**
- * キャストさんの立ち絵
+ * 店員さんの立ち絵
  */
 export interface AvatarImages {
   /**
@@ -40,11 +40,11 @@ export interface AvatarImages {
 }
 
 /**
- * キャストのアバターを参照するためのインデックス
+ * 店員さんのアバターを参照するためのインデックス
  */
 export interface AvatarIndex {
   /**
-   * キャストのニックネーム
+   * 店員さんのニックネーム
    */
   nickname: string;
 
@@ -56,7 +56,7 @@ export interface AvatarIndex {
 }
 
 /**
- * キャストのアバター画像を参照するためのインデックス
+ * 店員さんのアバター画像を参照するためのインデックス
  */
 export interface AvatarImageIndex extends AvatarIndex {
   /**

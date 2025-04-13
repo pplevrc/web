@@ -15,7 +15,7 @@ export interface Cast {
   attendanceId: number;
 
   /**
-   * キャストのプロフィール
+   * 店員さんのプロフィール
    */
   profile: CastProfile;
 
@@ -42,7 +42,7 @@ export interface Cast {
 }
 
 /**
- * キャストさんの VRChat のプロフィール
+ * 店員さんの VRChat のプロフィール
  */
 export interface VRChatProfile {
   /**
@@ -57,7 +57,7 @@ export interface VRChatProfile {
 }
 
 /**
- * キャストさんのプロフィール
+ * 店員さんのプロフィール
  */
 export interface CastProfile {
   /**
