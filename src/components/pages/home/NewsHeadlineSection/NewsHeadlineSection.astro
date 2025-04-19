@@ -5,12 +5,22 @@ import { fetchNewArticles } from "@lib/contents/articles";
 import { css } from "@styles/css";
 
 const listStyle = css({
-  h: "96",
-  display: "flex",
-  flexDir: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "26",
+  // SP
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "2",
+  p: "4",
+
+  _pc: {
+    display: "flex",
+    flexDir: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "9",
+
+    h: "96",
+    w: "256",
+  },
 });
 
 const listItemStyle = css({

@@ -69,6 +69,10 @@ const icon = randomPick(1, targetIcons, seed);
 const footerStyle = css({
   w: "full",
   h: "12",
+  px: {
+    base: "4",
+    _pc: "2",
+  },
   display: "flex",
   flexDir: "column",
   justifyContent: "space-around",
@@ -144,6 +148,13 @@ const letterStyle = css({
   rotate: "[5deg]",
 });
 
+const imageRootStyle = css({
+  scale: "[0.8]",
+  _pc: {
+    scale: "auto",
+  },
+});
+
 const imageStyle = css({
   pos: "absolute",
 
@@ -175,7 +186,7 @@ const titleStyle = css({
 
 <a href={href} class={rootStyle} aria-labelledby={labelId}>
   <article class={contentStyle}>
-    <figure class={contentStyle}>
+    <figure class:list={[contentStyle, imageRootStyle]}>
       <LetterShape class={letterStyle} theme={theme} />
       <div class={iconWrapStyle}>
         <Icon type={icon} class={iconStyle} />
