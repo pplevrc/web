@@ -27,22 +27,35 @@ interface Props extends HTMLAttributes<"picture"> {
    * 画像のサイズ
    */
   size: Size;
+
+  /**
+   *
+   */
+  scale?: number;
 }
 
-const { label, src, alt, size, class: className, ...rest } = Astro.props;
+const {
+  label,
+  src,
+  alt,
+  size,
+  class: className,
+  scale = 1,
+  ...rest
+} = Astro.props;
 
 /**
  * VIEWPORT 1440 の場合での画像幅
  */
 const widthSet = {
-  small: 120,
-  medium: 168,
-  large: 264,
+  small: 240,
+  medium: 336,
+  large: 528,
 };
 
-const width = widthSet[size];
+const width = widthSet[size] * scale;
 
-const widths = [width, Math.round(width * 2), Math.round(width * 3)];
+const widths = [width, Math.round(width * 2), Math.round(width / 2)];
 
 const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
 
@@ -86,11 +99,13 @@ const captionStyle = css({
   fontSize: "12",
   lineHeight: "1.5",
 });
+
+const scaleStyle = scale !== 1 ? { scale } : {};
 ---
 
 {
   simple ? (
-    <div class:list={[rootStyle, className]}>
+    <div class:list={[rootStyle, className]} style={scaleStyle}>
       <CustomPicture
         src={src}
         alt={alt}
@@ -104,7 +119,7 @@ const captionStyle = css({
       />
     </div>
   ) : (
-    <figure class:list={[rootStyle, className]}>
+    <figure class:list={[rootStyle, className]} style={scaleStyle}>
       <CustomPicture
         src={src}
         alt={alt}

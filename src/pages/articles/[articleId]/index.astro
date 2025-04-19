@@ -1,12 +1,13 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { fetchArticleIds } from "@lib/contents/articles";
 
 export async function getStaticPaths() {
-  return [
-    {
-      params: { articleId: "1" },
-    },
-  ];
+  const articleIds = await fetchArticleIds();
+
+  return articleIds.map((articleId) => ({
+    params: { articleId },
+  }));
 }
 
 const articleTitle = "お知らせタイトル";

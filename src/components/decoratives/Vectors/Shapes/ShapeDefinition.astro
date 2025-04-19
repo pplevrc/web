@@ -1,0 +1,26 @@
+---
+import LetterShapes from "./LetterShapes.astro";
+import type { ShapeType } from "./types";
+
+interface Props {
+  /**
+   *
+   */
+  shapes?: ShapeType[];
+}
+
+const { shapes = [] } = Astro.props;
+
+const component = (type: ShapeType) => {
+  switch (type) {
+    case "letter":
+      return LetterShapes;
+    default:
+      throw new Error(`Shape type ${type} is not supported`);
+  }
+};
+
+const components = shapes.map((type) => component(type));
+---
+
+{components.map((Component) => <Component definition />)}

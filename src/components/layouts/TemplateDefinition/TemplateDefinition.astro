@@ -5,20 +5,25 @@ import IconDefinition from "@components/decoratives/Vectors/Icon/IconDefinition.
 import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
 import LogoDefinition from "@components/decoratives/Vectors/Logo/LogoDefinition.astro";
 import LogoIconDefinition from "@components/decoratives/Vectors/LogoIcon/LogoIconDefinition.astro";
+import ShapeDefinition from "@components/decoratives/Vectors/Shapes/ShapeDefinition.astro";
+import type { ShapeType } from "@components/decoratives/Vectors/Shapes/types";
 
 interface Props {
   defineIcons?: OptionalIconType[];
 
   defineLogos?: SocialLinkType[];
+
+  defineShapes?: ShapeType[];
 }
 
-const { defineIcons, defineLogos } = Astro.props;
+const { defineIcons, defineLogos, defineShapes } = Astro.props;
 ---
 
 <div aria-hidden hidden>
   <IconDefinition icons={defineIcons} />
   <LogoDefinition />
   <LogoIconDefinition logos={defineLogos} />
+  <ShapeDefinition shapes={defineShapes} />
   <FooterDivision definition />
   <slot />
 </div>

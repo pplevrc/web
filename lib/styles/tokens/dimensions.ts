@@ -6,7 +6,8 @@ export const tokens = defineTokens({
   sizes: (() => {
     const sizeNames = [
       0.25, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24, 28,
-      32, 36, 39, 43, 48, 52, 56, 60, 64, 72, 80, 96, 112, 128, 160, 192, 256,
+      32, 36, 39, 40, 43, 48, 52, 56, 60, 64, 72, 80, 96, 112, 128, 160, 192,
+      256,
     ];
 
     type SizesToken = NonNullable<Parameters<typeof defineTokens.sizes>[0]>;
@@ -29,7 +30,7 @@ export const tokens = defineTokens({
   })(),
   spacing: (() => {
     const spacingNames = [
-      0, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 26, 42,
+      0, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 26, 42,
     ];
 
     type SpacingToken = NonNullable<Parameters<typeof defineTokens.spacing>[0]>;

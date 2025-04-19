@@ -1,10 +1,24 @@
 ---
+import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
+import { fetchNewArticles } from "@lib/contents/articles";
 import { css } from "@styles/css";
 
 const listStyle = css({
   h: "96",
+  display: "flex",
+  flexDir: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "26",
 });
+
+const listItemStyle = css({
+  w: "[fit-content]",
+  h: "[fit-content]",
+});
+
+const newArticles = await fetchNewArticles();
 ---
 
 <HomePickupSection
@@ -12,5 +26,19 @@ const listStyle = css({
   hrefViewMore="/articles"
   themeColor="matcha"
 >
-  <p class={listStyle}>News Headline</p>
+  <ul class={listStyle}>
+    {
+      newArticles.map(({ id, title, thumbnail, thumbnailAlt, publishedAt }) => (
+        <li class={listItemStyle}>
+          <LetterLink
+            href={`/articles/${id}`}
+            title={title}
+            thumbnail={thumbnail}
+            thumbnailAlt={thumbnailAlt}
+            publishedAt={publishedAt}
+          />
+        </li>
+      ))
+    }
+  </ul>
 </HomePickupSection>
