@@ -1,4 +1,4 @@
-import { hash } from "ohash";
+import { hash } from "@lib/utils/random";
 
 export const cherryBlossomId = hash("icon-cherry-blossom");
 

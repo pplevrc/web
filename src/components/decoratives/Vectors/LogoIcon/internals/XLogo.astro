@@ -1,7 +1,7 @@
 ---
+import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import { hash } from "ohash";
 interface Props extends HTMLAttributes<"svg"> {
   /**
    * SVG を `<symbol>` として定義するかどうか.

@@ -1,6 +1,6 @@
 ---
+import { hash } from "@lib/utils/random";
 import type { HTMLAttributes } from "astro/types";
-import { hash } from "ohash";
 
 interface Props extends HTMLAttributes<"svg"> {
   definition?: boolean;

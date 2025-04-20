@@ -1,4 +1,4 @@
-import { hash } from "ohash";
+import { hash as ohash } from "ohash";
 import type { UnionArrayIndex } from "./arithmetic-types";
 
 export type Randomizer = Generator<number, never, unknown>;
@@ -109,5 +109,13 @@ export function randomPick(
  *
  */
 export function randomId(): string {
-  return hash(Math.random().toString());
+  return hash(new Date().getTime());
+}
+
+/**
+ * ohash の出力のうち先頭 8 文字のみ切り出す
+ * @param source
+ */
+export function hash(source: unknown): string {
+  return ohash(source).slice(0, 8);
 }

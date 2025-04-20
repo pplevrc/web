@@ -1,8 +1,8 @@
 ---
 import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
+import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import { hash } from "ohash";
 
 interface Props extends HTMLAttributes<"svg"> {
   /**

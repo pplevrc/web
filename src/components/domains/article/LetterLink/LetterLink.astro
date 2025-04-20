@@ -8,8 +8,8 @@ import LetterShape from "@components/decoratives/Vectors/Shapes/LetterShapes.ast
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
 import { randomColorBase } from "@lib/contents/commons/ColorToken";
 import { randomPick, seedRandom } from "@lib/utils/random";
+import { hash } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
-import { hash } from "ohash";
 
 export interface Props {
   /**

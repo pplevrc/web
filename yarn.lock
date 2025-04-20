@@ -3145,6 +3145,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"happy-dom@npm:^17.4.4":
+  version: 17.4.4
+  resolution: "happy-dom@npm:17.4.4"
+  dependencies:
+    webidl-conversions: "npm:^7.0.0"
+    whatwg-mimetype: "npm:^3.0.0"
+  checksum: 10c0/a84d36fc633ab5e5a36ae55d82b8955d1e65394242b4dba551ab447579e47f8565de61c361920c248ed2823883715dfa513ce46666800ad53c21dbde858048c2
+  languageName: node
+  linkType: hard
+
 "has-flag@npm:^4.0.0":
   version: 4.0.0
   resolution: "has-flag@npm:4.0.0"
@@ -3775,7 +3785,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss@npm:1.25.1":
+"lightningcss@npm:1.25.1, lightningcss@npm:^1.25.1":
   version: 1.25.1
   resolution: "lightningcss@npm:1.25.1"
   dependencies:
@@ -5103,9 +5113,11 @@ __metadata:
     defu: "npm:^6.1.4"
     ejs: "npm:^3.1.10"
     globby: "npm:^14.1.0"
+    happy-dom: "npm:^17.4.4"
     is-wsl: "npm:^3.1.0"
     jiti: "npm:^2.4.2"
     lefthook: "npm:^1.11.10"
+    lightningcss: "npm:^1.25.1"
     ohash: "npm:^2.0.11"
     sharp: "npm:^0.34.1"
     typescript: "npm:^5.8.3"
@@ -6892,6 +6904,20 @@ __metadata:
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
   checksum: 10c0/5612d5f3e54760a797052eb4927f0ddc01383550f542ccd33d5238cfd65aeed392a45ad38364970d0a0f4fea32e1f4d231b3d8dac4a3bdd385e5cf802ae097db
+  languageName: node
+  linkType: hard
+
+"webidl-conversions@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "webidl-conversions@npm:7.0.0"
+  checksum: 10c0/228d8cb6d270c23b0720cb2d95c579202db3aaf8f633b4e9dd94ec2000a04e7e6e43b76a94509cdb30479bd00ae253ab2371a2da9f81446cc313f89a4213a2c4
+  languageName: node
+  linkType: hard
+
+"whatwg-mimetype@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "whatwg-mimetype@npm:3.0.0"
+  checksum: 10c0/323895a1cda29a5fb0b9ca82831d2c316309fede0365047c4c323073e3239067a304a09a1f4b123b9532641ab604203f33a1403b5ca6a62ef405bcd7a204080f
   languageName: node
   linkType: hard
 
