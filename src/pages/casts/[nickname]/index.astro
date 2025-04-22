@@ -1,11 +1,11 @@
 ---
-import type { SocialLinkType } from "@/lib/contents/commons/SocialLink";
 import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
 import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
 import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchCast, fetchCastNickNames } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
+import type { SocialLinkType } from "@lib/contents/commons/SocialLink";
 
 export async function getStaticPaths() {
   const castNickNames = await fetchCastNickNames();

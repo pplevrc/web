@@ -29,7 +29,13 @@
 
     "editor.formatOnSave": true,
 
-    "liveServer.settings.root": "./dist"
+    "liveServer.settings.root": "./dist",
+
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "tsconfig.json": "tsconfig.*.json",
+      "package.json": "yarn.lock, .yarn, .yarnrc.yml, *.config.ts, *.config.cjs, biome.json, lefthook.yml"
+    }
   },
   "launch": {
     "version": "0.2.0",

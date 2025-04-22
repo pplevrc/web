@@ -1,4 +1,4 @@
-import { PC_VIEWPORT_WIDTH } from "@/lib/browsers/breakpoint";
+import { PC_VIEWPORT_WIDTH } from "@lib/browsers/breakpoint";
 
 export function toWidths(width: number): number[] {
   if (width >= PC_VIEWPORT_WIDTH) {

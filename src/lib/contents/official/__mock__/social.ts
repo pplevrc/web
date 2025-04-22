@@ -1,4 +1,4 @@
-import type { SocialLink } from "@/lib/contents/commons/SocialLink";
+import type { SocialLink } from "@lib/contents/commons/SocialLink";
 
 export const ppleSocialLinks = [
   {

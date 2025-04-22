@@ -1,15 +1,15 @@
 ---
-import type { OptionalLogoIconType } from "@/components/decoratives/Vectors/LogoIcon/types";
-import type { ShapeType } from "@/components/decoratives/Vectors/Shapes/types";
-import type { ColorThemeBase } from "@/lib/contents/commons/ColorToken";
 import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
+import type { OptionalLogoIconType } from "@components/decoratives/Vectors/LogoIcon/types";
+import type { ShapeType } from "@components/decoratives/Vectors/Shapes/types";
 import Footer from "@components/layouts/Footer/Footer.astro";
 import {
   type DescriptionMetaProps,
   default as HeadMeta,
-} from "@components/layouts/HeadMeta/index.ts";
+} from "@components/layouts/HeadMeta";
 import Header from "@components/layouts/Header/Header.astro";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { css, cva } from "@styles/css";
 import type { SystemStyleObject } from "@styles/types";
 

@@ -1,9 +1,9 @@
-import type { TextStyle } from "@/styles/types/composition";
 import {
   type TextStyles,
   defineGlobalFontface,
   defineTextStyles,
 } from "@pandacss/dev";
+import type { TextStyle } from "@styles/types/composition";
 import defu from "defu";
 import { toRem } from "./commons/dimensions";
 

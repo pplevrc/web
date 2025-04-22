@@ -1,5 +1,5 @@
 import { z } from "astro:content";
-import { schemaForType } from "@/lib/utils/type";
+import { schemaForType } from "@lib/utils/type";
 import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
 
 export interface Avatar {

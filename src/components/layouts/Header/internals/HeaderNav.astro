@@ -1,12 +1,9 @@
 ---
-import {
-  GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
-  GLOBAL_NAVIGATION_ID,
-} from "@lib/constants/ids.generated";
+import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
+import HamburgerIconButton from "./HamburgerIconButton.astro";
 import HeaderLogo from "./HeaderLogo.astro";
 import HeaderNavItem from "./HeaderNavItem.astro";
-import HumbergerIconButton from "./HumbergerIconButton.astro";
 
 const rootStyle = css({
   px: "42",
@@ -72,17 +69,20 @@ const logoStyle = css({
     left: "42",
   },
 });
+
+const navigationId = hash("global-navigation");
 ---
 
 <nav
   class={rootStyle}
   aria-label="グローバルナビゲーション"
-  id={GLOBAL_NAVIGATION_ID}
+  id={navigationId}
+  data-auto-expanded="target"
 >
-  <HumbergerIconButton
+  <HamburgerIconButton
     aria-label="グローバルナビゲーションを開く"
-    aria-controls={GLOBAL_NAVIGATION_ID}
-    inputId={GLOBAL_NAVIGATION_EXPANDED_STATE_ID}
+    aria-controls={navigationId}
+    data-auto-expanded="source"
   />
   <HeaderLogo class={logoStyle} />
   <ul>
@@ -100,31 +100,36 @@ const logoStyle = css({
     </li>
   </ul>
   <script>
-    import {
-      GLOBAL_NAVIGATION_ID,
-      GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
-    } from "@lib/constants/ids.generated";
-    import { isPC } from "@lib/browsers/breakpoint";
+    const expandedStateEls = document.querySelectorAll(
+      "[data-auto-expanded='source']",
+    );
+    const targetEls = document.querySelectorAll(
+      "[data-auto-expanded='target']",
+    );
 
-    const checkboxEl = document.getElementById(
-      GLOBAL_NAVIGATION_EXPANDED_STATE_ID,
-    )! as HTMLInputElement;
-    const navigationEl = document.getElementById(GLOBAL_NAVIGATION_ID)!;
-
-    checkboxEl.addEventListener("change", updateAriaExpanded);
-    window.addEventListener("resize", updateAriaExpanded);
-
-    function updateAriaExpanded() {
-      const pc = isPC();
-      navigationEl.ariaExpanded = pc
-        ? "undefined"
-        : (!!checkboxEl.checked).toString();
-
-      if (pc) {
-        checkboxEl.checked = false;
-      }
+    for (const inputEl of expandedStateEls) {
+      inputEl.addEventListener("change", updateAriaExpanded);
     }
 
-    updateAriaExpanded();
+    window.addEventListener("resize", updateAriaExpanded);
+
+    function updateAriaExpanded(event: Event) {
+      const opened = (event.target as HTMLInputElement).checked;
+      const pc = window.innerWidth >= 1440;
+
+      const newState = pc ? "undefined" : opened.toString();
+
+      for (const targetEl of targetEls) {
+        targetEl.ariaExpanded = newState;
+      }
+
+      const newChecked = pc ? false : opened;
+
+      for (const inputEl of expandedStateEls) {
+        if (inputEl !== event.target) {
+          (inputEl as HTMLInputElement).checked = newChecked;
+        }
+      }
+    }
   </script>
 </nav>

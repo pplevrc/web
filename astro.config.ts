@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import isWsl from "is-wsl";
-import { purgeInlineCss } from "./lib/cleanup/purge-inline-css";
+import { purgeInlineCss } from "./lib/cleanup/purge-inline-css.js";
 
 export default defineConfig({
   output: "static",

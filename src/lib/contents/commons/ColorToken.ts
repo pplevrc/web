@@ -1,5 +1,5 @@
 import { z } from "astro:content";
-import { type Randomizer, randomPick } from "@/lib/utils/random";
+import { type Randomizer, randomPick } from "@lib/utils/random";
 import { schemaForType } from "@lib/utils/type";
 import type { ColorToken } from "@styles/tokens";
 

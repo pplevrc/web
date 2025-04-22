@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/strictest/tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "composite": true,
+
+    "exactOptionalPropertyTypes": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "lib/**/*.ts",
+    "astro.config.ts",
+    "vite.config.ts",
+    "panda.config.ts"
+  ],
+  "exclude": ["dist", "src", "**/*.test.ts"]
+}

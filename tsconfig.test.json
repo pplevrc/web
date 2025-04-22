@@ -1,19 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "./tsconfig.json",
+  "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "composite": true,
+
     "types": ["vitest"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
       "@assets/*": ["src/assets/*"],
       "@content/*": ["src/content/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@styles/*": ["src/styles/*"],
       "@lib/*": ["src/lib/*"],
-      "#test/*": ["tests/*"]
+      "@test/*": ["tests/*"]
     }
   },
-  "include": ["**/*"]
+  "include": ["**/*.test.ts"]
 }

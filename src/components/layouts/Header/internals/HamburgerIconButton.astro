@@ -1,13 +1,10 @@
 ---
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
 
-interface BaseProps {
-  inputId: string;
-}
+interface Props extends HTMLAttributes<"label"> {}
 
-type Props = BaseProps & Record<string, string>;
-
-const { inputId, ...props } = Astro.props;
+const { ...props } = Astro.props;
 
 const iconStyle = css({
   cursor: "pointer",
@@ -64,7 +61,7 @@ const iconStyle = css({
 ---
 
 <label role="button" class={iconStyle} tabindex="-1" {...props}>
-  <input aria-hidden type="checkbox" id={inputId} />
+  <input aria-hidden type="checkbox" data-auto-expanded="source" />
   <p aria-hidden>
     <span></span>
     <span></span>
