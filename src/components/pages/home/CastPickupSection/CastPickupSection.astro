@@ -32,15 +32,15 @@ const listStyle = css({
     w: "256",
   },
 
-  // デバイス側でアニメーションを有効にしない人には可愛く見えない呪い .. motionSafe
   _motionSafe: {
-    "& > li": {
+    "& > *": {
       transformOrigin: "center",
-      transition: ["transform", "opacity"],
+      transition: "[transform opacity]",
+      transitionDuration: "faster",
     },
 
-    _hover: {
-      "& > li:not(:hover)": {
+    _supportHover: {
+      "&:hover > *:not(:hover)": {
         opacity: "[0.25]",
         transform: "[scale(0.9) rotate(1deg)]",
       },
@@ -53,7 +53,6 @@ const listItemStyle = css({
   flexDir: "column",
   alignItems: "center",
 
-  // SP
   w: "28",
   h: "72",
 });
