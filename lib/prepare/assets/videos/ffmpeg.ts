@@ -7,7 +7,7 @@ import {
   type FFmpegModule as FFmpeg,
   default as createFFmpegCore,
 } from "@ffmpeg/core-mt";
-import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil } from "./utils";
+import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil } from "./utils.js";
 
 interface TransportArg {
   media?: "sp" | "pc";
