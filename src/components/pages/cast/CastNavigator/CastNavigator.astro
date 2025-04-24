@@ -40,28 +40,35 @@ const listStyle = css({
     _pc: "16",
   },
 });
+
+const listItemStyle = css({
+  _motionSafe: {
+    _hover: {
+      transition: "transform",
+      transitionDuration: "faster",
+      transform: "[scale(1.1)]",
+    },
+  },
+});
+
+const navItems = [prevCast, nextCast];
 ---
 
 <nav class={rootStyle} aria-label="他の店員さんへのナビゲーション">
   <ul class={listStyle}>
-    <li>
-      <DecorativeAvatarLink
-        size="small"
-        nickname={prevCast.profile.nickname}
-        type="neutral"
-        avatarIndex={0}
-        width={120}
-      />
-    </li>
-    <li>
-      <DecorativeAvatarLink
-        size="small"
-        nickname={nextCast.profile.nickname}
-        type="neutral"
-        avatarIndex={0}
-        width={120}
-      />
-    </li>
+    {
+      navItems.map(({ profile: { nickname } }) => (
+        <li class={listItemStyle}>
+          <DecorativeAvatarLink
+            size="small"
+            nickname={nickname}
+            type="neutral"
+            avatarIndex={0}
+            width={120}
+          />
+        </li>
+      ))
+    }
   </ul>
   <DecorativeLink themeColor={themeColor} href="/casts">
     一覧にもどる

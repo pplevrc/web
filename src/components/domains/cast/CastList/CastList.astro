@@ -52,6 +52,16 @@ const listStyle = css({
   px: "12",
 });
 
+const listItemStyle = css({
+  _motionSafe: {
+    _hover: {
+      transition: "transform",
+      transitionDuration: "faster",
+      transform: "[scale(1.1)]",
+    },
+  },
+});
+
 /**
  * 見た目のために, Cast[][] 構造にしながら、その中身を length = 5, 4, 5, 4, ... とする
  */
@@ -89,7 +99,7 @@ const castRows = (() => {
       <li class={contentOnSP} role="presentation">
         <ul class:list={[listStyle, contentOnSP]} role="presentation">
           {casts.map((cast) => (
-            <li>
+            <li class={listItemStyle}>
               <DecorativeAvatarLink
                 size="small"
                 nickname={cast.profile.nickname}

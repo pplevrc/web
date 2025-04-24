@@ -20,6 +20,15 @@ const linkStyle = css({
   textStyle: "normal.bold.base",
   bg: "colorPalette.regular",
   colorPalette: themeColor,
+
+  _motionSafe: {
+    transition: "[transform]",
+    transitionDuration: "faster",
+
+    _hover: {
+      transform: "[scale(1.05)]",
+    },
+  },
 });
 
 const insideStyle = css({

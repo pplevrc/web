@@ -33,12 +33,6 @@ const listStyle = css({
   },
 
   _motionSafe: {
-    "& > *": {
-      transformOrigin: "center",
-      transition: "[transform opacity]",
-      transitionDuration: "faster",
-    },
-
     _supportHover: {
       "&:hover > *:not(:hover)": {
         opacity: "[0.25]",
@@ -55,6 +49,12 @@ const listItemStyle = css({
 
   w: "28",
   h: "72",
+
+  _motionSafe: {
+    transformOrigin: "center",
+    transition: "[transform opacity]",
+    transitionDuration: "faster",
+  },
 });
 
 const imageWrapStyle = css({
