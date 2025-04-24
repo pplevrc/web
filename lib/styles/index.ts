@@ -1,10 +1,10 @@
 import { definePreset } from "@pandacss/dev";
-import defu from "defu";
-import * as animations from "./tokens/animations";
-import * as colors from "./tokens/colors";
-import * as dimensions from "./tokens/dimensions";
-import * as transforms from "./tokens/transforms";
-import * as typographies from "./tokens/typography";
+import { defu } from "defu";
+import * as animations from "./tokens/animations.js";
+import * as colors from "./tokens/colors.js";
+import * as dimensions from "./tokens/dimensions.js";
+import * as transforms from "./tokens/transforms.js";
+import * as typographies from "./tokens/typography.js";
 
 export default definePreset({
   name: "pple-themes",

@@ -1,7 +1,13 @@
-import { defineSemanticTokens, defineTokens } from "@pandacss/dev";
-import { defineKeyframes } from "@pandacss/dev";
+import {
+  type CssKeyframes,
+  type SemanticTokens,
+  type Tokens,
+  defineKeyframes,
+  defineSemanticTokens,
+  defineTokens,
+} from "@pandacss/dev";
 
-export const tokens = defineTokens({
+export const tokens: Tokens = defineTokens({
   easings: {
     linear: {
       value: [0, 0, 1, 1],
@@ -130,9 +136,9 @@ export const tokens = defineTokens({
   animations: {},
 });
 
-export const semanticTokens = defineSemanticTokens({});
+export const semanticTokens: SemanticTokens = defineSemanticTokens({});
 
-export const keyframes = defineKeyframes({
+export const keyframes: CssKeyframes = defineKeyframes({
   fadeIn: {
     from: { opacity: "0" },
     to: { opacity: "1" },

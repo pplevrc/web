@@ -1,12 +1,12 @@
-import { defineTokens } from "@pandacss/dev";
-import defu from "defu";
-import { toRem } from "./commons/dimensions";
+import { type SemanticTokens, type Tokens, defineTokens } from "@pandacss/dev";
+import { defu } from "defu";
+import { toRem } from "./commons/dimensions.js";
 
-type Token = NonNullable<Parameters<typeof defineTokens.colors>[0]>;
+type ColorToken = NonNullable<Parameters<typeof defineTokens.colors>[0]>;
 
 interface TokenFragment {
-  tokens: Token;
-  semanticTokens: Token;
+  tokens: ColorToken;
+  semanticTokens: ColorToken;
 }
 
 const smoke = {
@@ -687,21 +687,21 @@ function omitWhiteSpace(value: string) {
   return value.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
 }
 
-export const tokens = defineTokens({
+export const tokens: Tokens = defineTokens({
   colors: defineTokens.colors(
     (
       [...colorPaletteEntries, ["white", white], ["black", black]] as const
-    ).reduce<Token>(
+    ).reduce<ColorToken>(
       (acc, [name, color]) => defu(acc, { [name]: color.tokens }),
       {},
     ),
   ),
 });
-export const semanticTokens = defineTokens({
+export const semanticTokens: SemanticTokens = defineTokens({
   colors: defineTokens.colors(
     (
       [...colorPaletteEntries, ["white", white], ["black", black]] as const
-    ).reduce<Token>(
+    ).reduce<ColorToken>(
       (acc, [name, color]) => defu(acc, { [name]: color.semanticTokens }),
       {},
     ),

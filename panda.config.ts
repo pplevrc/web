@@ -1,6 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
 import isWsl from "is-wsl";
-import ppleThemePreset from "./lib/styles";
+import ppleThemePreset from "./lib/styles/index.js";
 
 export default defineConfig({
   preflight: true,

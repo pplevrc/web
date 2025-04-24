@@ -1,6 +1,6 @@
-import { defineTokens } from "@pandacss/dev";
+import { type Tokens, defineTokens } from "@pandacss/dev";
 
-export const tokens = defineTokens({
+export const tokens: Tokens = defineTokens({
   opacity: {
     none: {
       value: 100,

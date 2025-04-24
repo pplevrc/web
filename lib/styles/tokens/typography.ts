@@ -1,11 +1,7 @@
-import {
-  type TextStyles,
-  defineGlobalFontface,
-  defineTextStyles,
-} from "@pandacss/dev";
-import type { TextStyle } from "@styles/types/composition";
-import defu from "defu";
-import { toRem } from "./commons/dimensions";
+import { defineGlobalFontface, defineTextStyles } from "@pandacss/dev";
+import type { TextStyle, TextStyles } from "@pandacss/types";
+import { defu } from "defu";
+import { toRem } from "./commons/dimensions.js";
 
 type FontSizeSet = [fontSize: number, lineHeight: number];
 

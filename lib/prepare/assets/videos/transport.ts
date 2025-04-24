@@ -1,5 +1,5 @@
 import { globby } from "globby";
-import { snapshotPoster, toWebMP4 } from "./ffmpeg";
+import { snapshotPoster, toWebMP4 } from "./ffmpeg.js";
 
 async function main() {
   await generate();

@@ -1,8 +1,13 @@
-import { defineSemanticTokens, defineTokens } from "@pandacss/dev";
-import defu from "defu";
-import { toSizingToken } from "./commons/dimensions";
+import {
+  type SemanticTokens,
+  type Tokens,
+  defineSemanticTokens,
+  defineTokens,
+} from "@pandacss/dev";
+import { defu } from "defu";
+import { toSizingToken } from "./commons/dimensions.js";
 
-export const tokens = defineTokens({
+export const tokens: Tokens = defineTokens({
   sizes: (() => {
     const sizeNames = [
       0.25, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24, 28,
@@ -101,7 +106,7 @@ export const tokens = defineTokens({
   }),
 });
 
-export const semanticTokens = defineSemanticTokens({
+export const semanticTokens: SemanticTokens = defineSemanticTokens({
   sizes: {
     header: {
       value: "{sizes.12}",
