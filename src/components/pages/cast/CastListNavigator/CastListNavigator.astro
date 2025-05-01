@@ -1,5 +1,6 @@
 ---
 import CastList from "@components/domains/cast/CastList/CastList.astro";
+import { fetchCasts } from "@lib/contents/casts";
 import { css } from "@styles/css";
 
 const fitStyle = css({
@@ -14,9 +15,13 @@ const fitStyle = css({
     _pc: "4",
   },
 });
+
+const _casts = await fetchCasts();
+
+const casts = [..._casts, ..._casts, ..._casts, ..._casts, ..._casts];
 ---
 
 <nav aria-label="店員さん一覧" class={fitStyle}>
-  <CastList />
+  <CastList casts={casts} />
   {/* TODO: スタッフの一覧へ */}
 </nav>

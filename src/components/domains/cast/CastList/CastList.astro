@@ -1,16 +1,17 @@
 ---
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
-import { type Cast, fetchCasts } from "@lib/contents/casts";
+import type { Cast } from "@lib/contents/casts";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<"ul"> {}
+interface Props extends HTMLAttributes<"ul"> {
+  /**
+   *
+   */
+  casts: Cast[];
+}
 
-const { class: className, ...props } = Astro.props;
-
-const _casts = await fetchCasts();
-
-const casts = [..._casts, ..._casts, ..._casts, ..._casts, ..._casts];
+const { class: className, casts, ...props } = Astro.props;
 
 const rootListStyle = css({
   display: "flex",
@@ -99,7 +100,7 @@ const castRows = (() => {
       <li class={contentOnSP} role="presentation">
         <ul class:list={[listStyle, contentOnSP]} role="presentation">
           {casts.map((cast) => (
-            <li class={listItemStyle}>
+            <li class={listItemStyle} role="listitem">
               <DecorativeAvatarLink
                 size="small"
                 nickname={cast.profile.nickname}

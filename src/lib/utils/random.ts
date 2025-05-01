@@ -119,3 +119,17 @@ export function randomId(): string {
 export function hash(source: unknown): string {
   return ohash(source).slice(0, 8);
 }
+
+interface RandomDateOptions {
+  start: Date;
+  end: Date;
+  createRandom?: Randomizer;
+}
+
+export function randomDate({ start, end, createRandom }: RandomDateOptions) {
+  const random = createRandom ?? defaultRandom();
+  const randomValue = random.next().value;
+  const timeDiff = end.getTime() - start.getTime();
+  const randomTime = start.getTime() + Math.floor(randomValue * timeDiff);
+  return new Date(randomTime);
+}

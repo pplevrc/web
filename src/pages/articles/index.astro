@@ -1,5 +1,81 @@
 ---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
+import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import Layout from "@layouts/Layout.astro";
+import { type Article, fetchArticles } from "@lib/contents/articles";
+import { fetchPageHeaderImage } from "@lib/contents/assets";
+import { defaultRandom, randomDate } from "@lib/utils/random";
+import { css } from "@styles/css";
+
+const headerImage = await fetchPageHeaderImage("articles");
+
+const _articles = await fetchArticles();
+
+// テスト用に article の内容を 20 倍にして, 日付を 2 年前からランダムに振り直す
+
+const random = defaultRandom();
+
+const articles = [
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+  ..._articles,
+]
+  .map((article): Article => {
+    const date = randomDate({
+      start: new Date("2023-04-25"),
+      end: new Date("2025-04-25"),
+      createRandom: random,
+    });
+    return {
+      ...article,
+      publishedAt: date,
+      updatedAt: date,
+    };
+  })
+  .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+
+// 2023-04 のような年月のリストを取り出す
+const dateShortcuts = articles
+  .map((article): `${number}-${number}` => {
+    return `${article.publishedAt.getFullYear()}-${article.publishedAt.getMonth() + 1}`;
+  })
+  .filter((date, index, self) => {
+    return index === self.findIndex((t) => t === date);
+  });
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const fitStyle = css({
+  // grid にする. list がメインで、 date shortcut は aside になる
+  display: "grid",
+  w: "256",
+  gridTemplateColumns: "4fr 1fr",
+  gap: "26",
+  pt: "16",
+  pb: "26",
+});
 ---
 
 <Layout
@@ -8,11 +84,16 @@ import Layout from "@layouts/Layout.astro";
     description: "ロリっ子喫茶ぷぷりえのお知らせ一覧です.",
     keywords: [],
   }}
+  defineShapes={["letter"]}
+  mainClass={mainClass}
 >
-  <main>
-    <section>
-      <h1>お知らせ一覧</h1>
-      <p>お知らせ一覧のコンテンツがここに入ります</p>
-    </section>
-  </main>
+  <PageHeading img={headerImage}> お知らせ一覧 </PageHeading>
+  <section class={fitStyle}>
+    <ArticleList
+      articles={articles}
+      yearMonths={dateShortcuts}
+      aria-label="お知らせ一覧"
+    />
+    <ArticleDateShortcut yearMonths={dateShortcuts} aria-label="公開年月一覧" />
+  </section>
 </Layout>

@@ -1,0 +1,98 @@
+---
+import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
+import type { Article } from "@lib/contents/articles";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"nav"> {
+  articles: Article[];
+  yearMonths: `${number}-${number}`[];
+}
+
+const { articles, yearMonths, ...props } = Astro.props;
+
+function findArticlesByYm(yearMonth: `${number}-${number}`): Article[] {
+  return articles.filter((article) => {
+    return (
+      `${article.publishedAt.getFullYear()}-${article.publishedAt.getMonth() + 1}` ===
+      yearMonth
+    );
+  });
+}
+
+// biome-ignore lint/style/useConst: DOM 側で使用している
+let counter = 0;
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+});
+
+const intermediateStyle = css({
+  display: "contents",
+});
+
+const contentStyle = css({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "flex-start",
+  columnGap: "8",
+  width: "full",
+
+  "& li[role='listitem']": {
+    "&[data-pos='2']": {
+      pt: "[4rem]",
+    },
+
+    "&[data-pos='3']": {
+      pt: "[8rem]",
+    },
+  },
+});
+
+const itemStyle = css({});
+---
+
+<nav {...props} class:list={[rootStyle, props.class]}>
+  <ul class={contentStyle}>
+    {
+      yearMonths.map((ym) => {
+        const articles = findArticlesByYm(ym);
+        return (
+          <li class={intermediateStyle} role="presentation">
+            <ul class={intermediateStyle} role="presentation">
+              {articles.map(
+                (
+                  { id, title, publishedAt, thumbnail, thumbnailAlt },
+                  index,
+                ) => {
+                  const pos = (counter % 3) + 1;
+                  counter++;
+
+                  // id .. 記事の最初に id をつけることでページ内ジャンプを実現
+                  // counter .. 3 記事ごとにインデントをつけるためのカウンター
+                  return (
+                    <li
+                      class={itemStyle}
+                      role="listitem"
+                      data-pos={pos}
+                      id={index === 0 ? `articles-${ym}` : undefined}
+                    >
+                      <LetterLink
+                        title={title}
+                        href={`/article/${id}`}
+                        publishedAt={publishedAt}
+                        thumbnail={thumbnail}
+                        thumbnailAlt={thumbnailAlt}
+                      />
+                    </li>
+                  );
+                },
+              )}
+            </ul>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

@@ -11,16 +11,18 @@ import Header from "@components/layouts/Header/Header.astro";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { css, cva } from "@styles/css";
-import type { SystemStyleObject } from "@styles/types";
 
 interface Props {
   headMeta: DescriptionMetaProps;
   defineIcons?: OptionalIconType[];
   defineLogos?: OptionalLogoIconType[];
   defineShapes?: ShapeType[];
-  rootStyle?: SystemStyleObject;
-  mainStyle?: SystemStyleObject;
   themeColor?: ColorThemeBase;
+
+  mainClass?: string;
+  "mainClass:list"?: string[];
+  rootClass?: string;
+  "rootClass:list"?: string[];
 }
 
 const {
@@ -28,8 +30,10 @@ const {
   defineIcons,
   defineLogos,
   defineShapes,
-  rootStyle,
-  mainStyle,
+  mainClass,
+  "mainClass:list": mainClassList = [],
+  rootClass,
+  "rootClass:list": rootClassList = [],
   themeColor,
 } = Astro.props;
 
@@ -126,10 +130,6 @@ const backgroundClassRecipe = cva({
 });
 
 const backgroundClass = backgroundClassRecipe({ color: themeColor });
-
-const mainClass = css(mainStyle);
-
-const rootClass = css(rootStyle);
 ---
 
 <!doctype html>
@@ -138,7 +138,7 @@ const rootClass = css(rootStyle);
     <HeadMeta title={title} description={description} keywords={keywords} />
   </head>
 
-  <body class:list={[hideScroll, rootClass]}>
+  <body class:list={[hideScroll, rootClass, ...rootClassList]}>
     <TemplateDefinition
       defineIcons={defineIcons}
       defineLogos={defineLogos}
@@ -147,7 +147,7 @@ const rootClass = css(rootStyle);
       <slot name="template-definition" />
     </TemplateDefinition>
     <Header />
-    <main class:list={[backgroundClass, mainClass]}>
+    <main class:list={[backgroundClass, mainClass, ...mainClassList]}>
       <slot />
     </main>
     <Footer />

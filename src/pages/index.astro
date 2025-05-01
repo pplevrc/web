@@ -5,7 +5,7 @@ import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/News
 import Layout from "@layouts/Layout.astro";
 import { css } from "@styles/css";
 
-const mainStyle = css.raw({
+const mainClass = css({
   display: "flex",
   flexDir: "column",
   scrollSnapType: "y",
@@ -19,7 +19,7 @@ const mainStyle = css.raw({
     description: "ロリっ子喫茶ぷぷりえのホームページです.",
     keywords: [],
   }}
-  mainStyle={mainStyle}
+  mainClass={mainClass}
   defineShapes={["letter"]}
 >
   <HeroSection />
