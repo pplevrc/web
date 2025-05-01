@@ -34,18 +34,24 @@ const intermediateStyle = css({
 
 const contentStyle = css({
   display: "flex",
-  flexWrap: "wrap",
-  alignItems: "flex-start",
-  columnGap: "8",
-  width: "full",
+  flexDirection: "column",
+  rowGap: "8",
 
-  "& li[role='listitem']": {
-    "&[data-pos='2']": {
-      pt: "[4rem]",
-    },
+  _pc: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    width: "full",
+    columnGap: "8",
+    rowGap: "[inherit]",
+    "& li[role='listitem']": {
+      "&[data-pos='2']": {
+        pt: "[4rem]",
+      },
 
-    "&[data-pos='3']": {
-      pt: "[8rem]",
+      "&[data-pos='3']": {
+        pt: "[8rem]",
+      },
     },
   },
 });

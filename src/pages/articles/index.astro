@@ -70,11 +70,19 @@ const mainClass = css({
 const fitStyle = css({
   // grid にする. list がメインで、 date shortcut は aside になる
   display: "grid",
-  w: "256",
-  gridTemplateColumns: "4fr 1fr",
-  gap: "26",
+  gridTemplateColumns: "2fr 1fr",
+  w: "full",
+  paddingInline: "8",
+  gap: "16",
   pt: "16",
   pb: "26",
+
+  _pc: {
+    gridTemplateColumns: "4fr 1fr",
+    w: "256",
+    paddingInline: "[inherit]",
+    gap: "26",
+  },
 });
 ---
 
