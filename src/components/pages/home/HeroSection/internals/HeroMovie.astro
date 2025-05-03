@@ -1,12 +1,30 @@
 ---
-import sourceMP4ForPc from "@assets/videos/top-pc.generated.mp4";
-// import sourceWebMForPc from "@assets/videos/top-pc.generated.webm";
-import sourceMP4ForSp from "@assets/videos/top-sp.generated.mp4";
+import x264Pc from "@assets/videos/top-pc.generated.avc.mp4";
+import x264PcDev from "@assets/videos/top-pc.generated.dev.avc.mp4";
+import x264Sp from "@assets/videos/top-sp.generated.avc.mp4";
+import x264SpDev from "@assets/videos/top-sp.generated.dev.avc.mp4";
 import poster from "@assets/videos/top.generated.png";
-// import sourceWebMForSp from "@assets/videos/top-sp.generated.webm";
-import ResponsiveVideo from "@components/commons/ResponsiveVideo.astro";
+import ResponsiveVideo, {
+  type Sources,
+} from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
+
+const isDev = process.env["NODE_ENV"] !== "production";
 
 const props = Astro.props;
+
+const devSources: Sources[] = [
+  {
+    pc: x264PcDev,
+    sp: x264SpDev,
+  },
+];
+
+const prodSources: Sources[] = [
+  {
+    pc: x264Pc,
+    sp: x264Sp,
+  },
+];
 ---
 
 <ResponsiveVideo
@@ -17,11 +35,6 @@ const props = Astro.props;
   loop
   poster={poster.src}
   aria-label="ロリっ子喫茶ぷぷりえの紹介ムービー"
-  sources={{
-    mp4: {
-      pc: sourceMP4ForPc,
-      sp: sourceMP4ForSp,
-    },
-  }}
+  sources={isDev ? devSources : prodSources}
   {...props}
 />

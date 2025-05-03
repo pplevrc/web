@@ -1,0 +1,33 @@
+---
+import ResponsiveVideoSource from "./internals/ResponsiveVideoSource.astro";
+
+export interface Sources {
+  pc: string;
+  sp: string;
+}
+
+type VideoProps = Partial<{
+  [K in keyof HTMLVideoElement]: HTMLVideoElement[K] extends
+    | string
+    | number
+    | boolean
+    ? HTMLVideoElement[K]
+    : never;
+}>;
+
+interface Props extends VideoProps {
+  sources: Sources[];
+}
+
+const { sources, ...props } = Astro.props;
+---
+
+<video {...props as any}>
+  {
+    sources.flatMap((source) => [
+      <ResponsiveVideoSource media="pc" src={source.pc} />,
+      <ResponsiveVideoSource media="sp" src={source.sp} />,
+    ])
+  }
+  <slot />
+</video>

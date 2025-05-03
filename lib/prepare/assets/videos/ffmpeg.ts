@@ -9,6 +9,8 @@ import {
 } from "@ffmpeg/core-mt";
 import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil } from "./utils.js";
 
+const isDev = process.env["NODE_ENV"] !== "production";
+
 interface TransportArg {
   media?: "sp" | "pc";
 }
@@ -49,10 +51,10 @@ const cacheDir = resolve(process.cwd(), ".cache/videos");
  * @param filePath
  * @returns
  */
-export function toWebMP4(filePath: string, opt: TransportArg): Promise<string> {
+export function toAvc(filePath: string, opt: TransportArg): Promise<string> {
   return transport(filePath, {
     ...opt,
-    extension: ".mp4",
+    extension: isDev ? ".dev.avc.mp4" : ".avc.mp4",
     execute: async (ffmpeg, { src }) => {
       const { media } = opt;
 
@@ -68,7 +70,7 @@ export function toWebMP4(filePath: string, opt: TransportArg): Promise<string> {
         "-vf",
         `scale=${media === "pc" ? UXGA_WIDTH : SVGA_WIDTH}:-2`,
         "-preset",
-        "veryslow",
+        isDev ? "ultrafast" : "fast",
         "-movflags",
         "faststart",
         "-an",
@@ -76,6 +78,72 @@ export function toWebMP4(filePath: string, opt: TransportArg): Promise<string> {
       );
 
       return await ffmpeg.FS.readFile("dist.mp4", {
+        encoding: "binary",
+      });
+    },
+  });
+}
+
+export function toVp9(filePath: string, opt: TransportArg): Promise<string> {
+  return transport(filePath, {
+    ...opt,
+    extension: isDev ? ".dev.vp9.webm" : ".vp9.webm",
+    execute: async (ffmpeg, { src }) => {
+      const { media } = opt;
+
+      await ffmpeg.FS.writeFile("source.mp4", src);
+
+      await ffmpeg.exec(
+        "-i",
+        "source.mp4",
+        "-c:v",
+        "libvpx-vp9",
+        "-crf",
+        "32",
+        "-vf",
+        `scale=${media === "pc" ? UXGA_WIDTH : SVGA_WIDTH}:-2`,
+        "-preset",
+        isDev ? "ultrafast" : "fast",
+        "-movflags",
+        "faststart",
+        "-an",
+        "dist.webm",
+      );
+
+      return await ffmpeg.FS.readFile("dist.webm", {
+        encoding: "binary",
+      });
+    },
+  });
+}
+
+export function toAv1(filePath: string, opt: TransportArg): Promise<string> {
+  return transport(filePath, {
+    ...opt,
+    extension: isDev ? ".dev.av1.webm" : ".av1.webm",
+    execute: async (ffmpeg, { src }) => {
+      const { media } = opt;
+
+      await ffmpeg.FS.writeFile("source.mp4", src);
+
+      await ffmpeg.exec(
+        "-i",
+        "source.mp4",
+        "-c:v",
+        "libaom-av1",
+        "-crf",
+        "32",
+        "-vf",
+        `scale=${media === "pc" ? UXGA_WIDTH : SVGA_WIDTH}:-2`,
+        "-preset",
+        isDev ? "ultrafast" : "fast",
+        "-movflags",
+        "faststart",
+        "-an",
+        "dist.webm",
+      );
+
+      return await ffmpeg.FS.readFile("dist.webm", {
         encoding: "binary",
       });
     },

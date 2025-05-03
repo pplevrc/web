@@ -4053,6 +4053,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"media-codecs@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "media-codecs@npm:2.0.2"
+  checksum: 10c0/5efabe084b82b1e5453113ca559123c6ee478189d815a820dedd918926b39289cf5a19aca87b37139c163f146719185f82ded0cd2c579e1f9f057044e81488db
+  languageName: node
+  linkType: hard
+
+"mediainfo.js@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "mediainfo.js@npm:0.3.5"
+  dependencies:
+    yargs: "npm:^17.7.2"
+  bin:
+    mediainfo.js: dist/esm/cli.js
+  checksum: 10c0/e30f37e4ce98d6d5a30b75dcb3c7b67f41a1646aa5c590a8397eaed907697785c682cadff1e18174680fca99b9054de4489000f86e6dcfcd50809ebedcc0e916
+  languageName: node
+  linkType: hard
+
 "merge-anything@npm:5.1.7":
   version: 5.1.7
   resolution: "merge-anything@npm:5.1.7"
@@ -5041,6 +5059,8 @@ __metadata:
     jiti: "npm:^2.4.2"
     lefthook: "npm:^1.11.10"
     lightningcss: "npm:^1.25.1"
+    media-codecs: "npm:^2.0.2"
+    mediainfo.js: "npm:^0.3.5"
     ohash: "npm:^2.0.11"
     sharp: "npm:^0.34.1"
     typescript: "npm:^5.8.3"
