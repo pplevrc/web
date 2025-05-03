@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { AVC } from "media-codecs";
+import { AV, AVC, VP } from "media-codecs";
 import mediaInfoFactory, {
   type GeneralTrack,
   type MediaInfo,
@@ -46,18 +46,16 @@ function toTypeString(mediaInfo: MediaInfoResult): string {
   );
   const format = ensureNonNil(videoTrack.Format, "Format not found");
 
-  const codecId = ensureNonNil(videoTrack.CodecID, "CodecID not found");
-
   const codecs = (() => {
-    switch (format.toLowerCase()) {
-      case "avc":
+    switch (format) {
+      case "AVC":
         return toAVCCodecs(videoTrack);
-      case "vp9":
+      case "VP9":
         return toVp9Codecs(videoTrack);
-      case "av1":
+      case "AV1":
         return toAv1Codecs(videoTrack);
       default:
-        throw new Error(`Unsupported codec: ${codecId}`);
+        throw new Error(`Unsupported codec: ${format}`);
     }
   })();
 
@@ -74,12 +72,52 @@ function toAVCCodecs(videoTrack: VideoTrack): string {
   });
 }
 
-function toVp9Codecs(_videoTrack: VideoTrack): string {
-  throw new Error("Not implemented");
+function toVp9Codecs(videoTrack: VideoTrack): string {
+  return VP.getCodec({
+    name: ensureNonNil(videoTrack.Format_String, "Format_String not found"),
+    profile: Number.parseInt(
+      ensureNonNil(videoTrack.Format_Profile, "Format_Profile not found"),
+    ),
+    bitDepth: ensureNonNil(videoTrack.BitDepth, "BitDepth not found"),
+    level: toVp9Level({
+      width: ensureNonNil(videoTrack.Width, "Width not found"),
+      height: ensureNonNil(videoTrack.Height, "Height not found"),
+      frameRate: ensureNonNil(videoTrack.FrameRate, "FrameRate not found"),
+    }).toString(),
+  });
 }
 
-function toAv1Codecs(_videoTrack: VideoTrack): string {
-  throw new Error("Not implemented");
+interface Vp9LevelSource {
+  width: number;
+  height: number;
+  frameRate: number;
+}
+
+function toVp9Level({ width, height, frameRate }: Vp9LevelSource): string {
+  const pixelsPerSecond = width * height * frameRate;
+
+  if (pixelsPerSecond <= 829440) return "1"; // 640x360@30
+  if (pixelsPerSecond <= 2764800) return "2"; // 1280x720@30
+  if (pixelsPerSecond <= 4608000) return "3"; // 1600x900@30 など
+  if (pixelsPerSecond <= 6220800) return "3.1"; // ～1920x1080@30
+  if (pixelsPerSecond <= 10368000) return "4"; // ～1920x1080@60
+  if (pixelsPerSecond <= 20736000) return "5"; // ～4K@30
+  if (pixelsPerSecond <= 41779200) return "5.1"; // ～4K@60
+  if (pixelsPerSecond <= 83558400) return "5.2"; // ～8K@30
+  return "6.1"; // fallback（8K@60 やそれ以上）
+}
+
+function toAv1Codecs(videoTrack: VideoTrack): string {
+  return AV.getCodec({
+    name: ensureNonNil(videoTrack.Format_String, "Format_String not found"),
+    profile: ensureNonNil(
+      videoTrack.Format_Profile,
+      "Format_Profile not found",
+    ),
+    bitDepth: ensureNonNil(videoTrack.BitDepth, "BitDepth not found"),
+    level: ensureNonNil(videoTrack.Format_Level, "Format_Level not found"),
+    tier: "Main",
+  });
 }
 
 function findTracks(mediaInfo: MediaInfoResult): [GeneralTrack, VideoTrack] {

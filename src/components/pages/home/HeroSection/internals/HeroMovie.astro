@@ -1,40 +1,8 @@
 ---
-import h264PcDev from "@assets/videos/top-pc.generated.dev.h264.mp4";
-import h264Pc from "@assets/videos/top-pc.generated.h264.mp4";
-import h264SpDev from "@assets/videos/top-sp.generated.dev.h264.mp4";
-import h264Sp from "@assets/videos/top-sp.generated.h264.mp4";
-import poster from "@assets/videos/top.generated.png";
-import ResponsiveVideo, {
-  type Sources,
-} from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
+import DevHeroMovie from "./DevHeroMovie.astro";
+import ProdHeroMovie from "./ProdHeroMovie.astro";
 
 const isDev = process.env["NODE_ENV"] !== "production";
-
-const props = Astro.props;
-
-const devSources: Sources[] = [
-  {
-    pc: h264PcDev,
-    sp: h264SpDev,
-  },
-];
-
-const prodSources: Sources[] = [
-  {
-    pc: h264Pc,
-    sp: h264Sp,
-  },
-];
 ---
 
-<ResponsiveVideo
-  muted
-  autoplay
-  playsInline
-  disableRemotePlayback
-  loop
-  poster={poster.src}
-  aria-label="ロリっ子喫茶ぷぷりえの紹介ムービー"
-  sources={isDev ? devSources : prodSources}
-  {...props}
-/>
+{isDev ? <DevHeroMovie /> : <ProdHeroMovie />}

@@ -1,5 +1,6 @@
 import { globby } from "globby";
 import { snapshotPoster, toAv1, toH264, toVp9 } from "./ffmpeg.js";
+import { isDev } from "./utils.js";
 
 async function main() {
   await generate();
@@ -8,10 +9,13 @@ async function main() {
 async function generate() {
   const files = await findAllMP4Files();
 
+  // TODO: CI が問題なさそうなら並列化する
   for (const file of files) {
-    await transportH264(file);
-    // await transportWebM(file);
-    // await transportAv1(file);
+    await transportAvc(file);
+    await transportWebM(file);
+    if (!isDev) {
+      await transportAv1(file);
+    }
     await snapshot(file);
   }
 }
@@ -22,9 +26,9 @@ async function findAllMP4Files(rootDir = process.cwd()): Promise<string[]> {
   );
 }
 
-async function transportH264(filePath: string): Promise<void> {
+async function transportAvc(filePath: string): Promise<void> {
   try {
-    console.log(`Transporting: ${filePath} to h264`);
+    console.log(`Transporting: ${filePath} to avc`);
     await toH264(filePath, { media: "pc" });
     await toH264(filePath, { media: "sp" });
   } catch (error) {
