@@ -51,10 +51,10 @@ const cacheDir = resolve(process.cwd(), ".cache/videos");
  * @param filePath
  * @returns
  */
-export function toAvc(filePath: string, opt: TransportArg): Promise<string> {
+export function toH264(filePath: string, opt: TransportArg): Promise<string> {
   return transport(filePath, {
     ...opt,
-    extension: isDev ? ".dev.avc.mp4" : ".avc.mp4",
+    extension: isDev ? ".dev.h264.mp4" : ".h264.mp4",
     execute: async (ffmpeg, { src }) => {
       const { media } = opt;
 

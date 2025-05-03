@@ -1,5 +1,5 @@
 import { globby } from "globby";
-import { snapshotPoster, toAv1, toAvc, toVp9 } from "./ffmpeg.js";
+import { snapshotPoster, toAv1, toH264, toVp9 } from "./ffmpeg.js";
 
 async function main() {
   await generate();
@@ -9,7 +9,7 @@ async function generate() {
   const files = await findAllMP4Files();
 
   for (const file of files) {
-    await transportAvc(file);
+    await transportH264(file);
     // await transportWebM(file);
     // await transportAv1(file);
     await snapshot(file);
@@ -22,11 +22,11 @@ async function findAllMP4Files(rootDir = process.cwd()): Promise<string[]> {
   );
 }
 
-async function transportAvc(filePath: string): Promise<void> {
+async function transportH264(filePath: string): Promise<void> {
   try {
-    console.log(`Transporting: ${filePath} to avc`);
-    await toAvc(filePath, { media: "pc" });
-    await toAvc(filePath, { media: "sp" });
+    console.log(`Transporting: ${filePath} to h264`);
+    await toH264(filePath, { media: "pc" });
+    await toH264(filePath, { media: "sp" });
   } catch (error) {
     console.error(`Error transporting: ${filePath}`);
     console.error(error);

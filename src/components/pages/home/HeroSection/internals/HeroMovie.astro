@@ -1,8 +1,8 @@
 ---
-import x264Pc from "@assets/videos/top-pc.generated.avc.mp4";
-import x264PcDev from "@assets/videos/top-pc.generated.dev.avc.mp4";
-import x264Sp from "@assets/videos/top-sp.generated.avc.mp4";
-import x264SpDev from "@assets/videos/top-sp.generated.dev.avc.mp4";
+import h264PcDev from "@assets/videos/top-pc.generated.dev.h264.mp4";
+import h264Pc from "@assets/videos/top-pc.generated.h264.mp4";
+import h264SpDev from "@assets/videos/top-sp.generated.dev.h264.mp4";
+import h264Sp from "@assets/videos/top-sp.generated.h264.mp4";
 import poster from "@assets/videos/top.generated.png";
 import ResponsiveVideo, {
   type Sources,
@@ -14,15 +14,15 @@ const props = Astro.props;
 
 const devSources: Sources[] = [
   {
-    pc: x264PcDev,
-    sp: x264SpDev,
+    pc: h264PcDev,
+    sp: h264SpDev,
   },
 ];
 
 const prodSources: Sources[] = [
   {
-    pc: x264Pc,
-    sp: x264Sp,
+    pc: h264Pc,
+    sp: h264Sp,
   },
 ];
 ---
