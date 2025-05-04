@@ -109,34 +109,6 @@ export function toAv1(filePath: string, opt: TransportArg): Promise<string> {
 
 /**
  *
- * @param filePath
- * @returns
- */
-export function snapshotPoster(filePath: string): Promise<string> {
-  return transport({
-    src: filePath,
-    distFileSuffix: ".generated.png",
-    createOptions: (input, output) => [
-      "-y",
-      "-i",
-      input,
-      "-ss",
-      "0",
-      "-t",
-      "1",
-      "-r",
-      "1",
-      "-vf",
-      `scale=${UXGA_WIDTH}:-2`,
-      "-f",
-      "image2",
-      output,
-    ],
-  });
-}
-
-/**
- *
  * @param execute callback to execute ffmpeg command
  * @returns
  */

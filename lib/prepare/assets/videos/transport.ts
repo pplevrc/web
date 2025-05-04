@@ -1,5 +1,5 @@
 import { globby } from "globby";
-import { snapshotPoster, toAv1, toH264, toVp9 } from "./ffmpeg.js";
+import { toAv1, toH264, toVp9 } from "./ffmpeg.js";
 import { isDev } from "./utils.js";
 
 async function main() {
@@ -15,9 +15,7 @@ async function generateDev() {
   const promises: Promise<void>[] = [];
 
   for (const file of files) {
-    // 開発向けにはエンコードが最も早い H264 のみを表示する
     promises.push(transportH264(file));
-    promises.push(snapshot(file));
   }
 
   await Promise.all(promises);
@@ -30,7 +28,6 @@ async function generateProd() {
   for (const file of files) {
     await transportAv1(file);
     await transportWebM(file);
-    await snapshot(file);
   }
 }
 
@@ -69,17 +66,6 @@ async function transportAv1(filePath: string): Promise<void> {
     await toAv1(filePath, { media: "sp" });
   } catch (error) {
     console.error(`Error transporting: ${filePath}`);
-    console.error(error);
-  }
-}
-
-async function snapshot(filePath: string): Promise<void> {
-  try {
-    console.log(`Snapshotting: ${filePath}`);
-    const distFile = await snapshotPoster(filePath);
-    console.log(`Snapshot: ${distFile}`);
-  } catch (error) {
-    console.error(`Error snapshotting: ${filePath}`);
     console.error(error);
   }
 }
