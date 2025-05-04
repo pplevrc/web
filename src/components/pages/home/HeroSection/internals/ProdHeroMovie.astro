@@ -14,9 +14,10 @@ import movieSpVp9 from "@assets/videos/top-sp.generated.vp9.webm";
 const props = Astro.props;
 
 const sources: Sources[] = [
-  { pc: moviePcH264, sp: movieSpH264 },
-  { pc: moviePcVp9, sp: movieSpVp9 },
+  // 再生優先度が高い順に並べる
   { pc: moviePcAv1, sp: movieSpAv1 },
+  { pc: moviePcVp9, sp: movieSpVp9 },
+  { pc: moviePcH264, sp: movieSpH264 },
 ];
 ---
 

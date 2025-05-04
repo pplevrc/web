@@ -47,6 +47,25 @@ export default defineConfig(
             output: {
               assetFileNames: "_assets/[hash].[ext]",
             },
+            plugins: [
+              // .dev. がファイル名に含まれるファイルが存在しなくてもエラーにせず、バンドルを回避する. 基本的には undefined を返す
+              // e.g. `@assets/videos/top-pc.generated.dev.h264.mp4` → undefined を返す
+              {
+                name: "virtual-dev-assets",
+                resolveId(source) {
+                  if (source.includes(".dev.")) {
+                    return `\0virtual:${source}`;
+                  }
+                  return null;
+                },
+                load(id) {
+                  if (id.startsWith("\0virtual:")) {
+                    return "export default undefined";
+                  }
+                  return null;
+                },
+              },
+            ],
           },
         },
       },

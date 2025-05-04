@@ -2,7 +2,9 @@
 import DevHeroMovie from "./DevHeroMovie.astro";
 import ProdHeroMovie from "./ProdHeroMovie.astro";
 
+const props = Astro.props;
+
 const isDev = process.env["NODE_ENV"] !== "production";
 ---
 
-{isDev ? <DevHeroMovie /> : <ProdHeroMovie />}
+{isDev ? <DevHeroMovie {...props} /> : <ProdHeroMovie {...props} />}

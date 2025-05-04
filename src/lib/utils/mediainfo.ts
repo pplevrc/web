@@ -14,7 +14,11 @@ interface FileLoader {
 }
 
 async function readVideo(filePath: string): Promise<FileLoader> {
-  const buffer = await readFile(join(process.cwd(), filePath));
+  // 本番ビルドでは dist 配下にファイルが移動して、そこを起点にビルドが実行されるため, ルートディレクトリをそれにあわせる
+  const resolvedRootDir =
+    process.env["NODE_ENV"] === "production" ? "dist" : "";
+
+  const buffer = await readFile(join(process.cwd(), resolvedRootDir, filePath));
   return {
     filesize: buffer.length,
     readChunk: (size, offset) => {
@@ -59,7 +63,7 @@ function toTypeString(mediaInfo: MediaInfoResult): string {
     }
   })();
 
-  return `${mediaType};codecs="${codecs}"`;
+  return `${mediaType};codecs=${codecs}`;
 }
 
 function toAVCCodecs(videoTrack: VideoTrack): string {
