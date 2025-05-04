@@ -3,19 +3,33 @@ import { snapshotPoster, toAv1, toH264, toVp9 } from "./ffmpeg.js";
 import { isDev } from "./utils.js";
 
 async function main() {
-  await generate();
+  if (isDev) {
+    await generateDev();
+  } else {
+    await generateProd();
+  }
 }
 
-async function generate() {
+async function generateDev() {
+  const files = await findAllMP4Files();
+  const promises: Promise<void>[] = [];
+
+  for (const file of files) {
+    // 開発向けにはエンコードが最も早い H264 のみを表示する
+    promises.push(transportH264(file));
+    promises.push(snapshot(file));
+  }
+
+  await Promise.all(promises);
+}
+
+async function generateProd() {
   const files = await findAllMP4Files();
 
   // TODO: CI が問題なさそうなら並列化する
   for (const file of files) {
-    await transportAvc(file);
+    await transportAv1(file);
     await transportWebM(file);
-    if (!isDev) {
-      await transportAv1(file);
-    }
     await snapshot(file);
   }
 }
@@ -26,7 +40,7 @@ async function findAllMP4Files(rootDir = process.cwd()): Promise<string[]> {
   );
 }
 
-async function transportAvc(filePath: string): Promise<void> {
+async function transportH264(filePath: string): Promise<void> {
   try {
     console.log(`Transporting: ${filePath} to avc`);
     await toH264(filePath, { media: "pc" });
