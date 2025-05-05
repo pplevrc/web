@@ -14,24 +14,42 @@ interface Props extends HTMLAttributes<"article"> {
 
   size: "short" | "full";
 
+  position: "absolute" | "sticky";
+
   themeColor?: ColorName;
+
+  paperClass?: string;
 }
 
 const {
   icon = randomPick(1, ppleIconTypes),
   size,
+  position,
   themeColor = "smoke",
+  paperClass,
   ...props
 } = Astro.props;
 
-const rootStyleRecipe = cva({
-  base: {
-    pos: "relative",
+const rootStyle = css({
+  pos: "relative",
 
-    w: {
-      base: "full",
-      _pc: "128",
-    },
+  w: {
+    base: "full",
+    _pc: "128",
+  },
+});
+
+const paperStyleRecipe = cva({
+  base: {
+    borderColor: "colorPalette.bg",
+    borderWidth: "[0.5rem]",
+    colorPalette: themeColor,
+    bg: "smoke.50",
+    bgImage:
+      "[linear-gradient(to_bottom, transparent 20rem, {colors.smoke} 0.1rem)]",
+    bgSize: "[100% 40rem]",
+    shadow: "xs",
+    transform: "[rotate(2deg)]",
   },
   variants: {
     size: {
@@ -39,31 +57,25 @@ const rootStyleRecipe = cva({
         h: "64",
       },
       full: {
-        h: "128",
+        h: "160",
+      },
+    },
+    position: {
+      absolute: {
+        pos: "absolute",
+        inset: {
+          base: "2",
+          _pc: "0",
+        },
+      },
+      sticky: {
+        pos: "sticky",
       },
     },
   },
 });
 
-const rootStyle = rootStyleRecipe({ size });
-
-const paperStyle = css({
-  pos: "absolute",
-  inset: {
-    base: "2",
-    _pc: "0",
-  },
-
-  borderColor: "colorPalette.bg",
-  borderWidth: "[0.5rem]",
-  colorPalette: themeColor,
-  bg: "white",
-  bgImage:
-    "[linear-gradient(to_bottom, transparent 20rem, {colors.smoke} 0.1rem)]",
-  bgSize: "[100% 40rem]",
-  shadow: "xs",
-  transform: "[rotate(2deg)]",
-});
+const paperStyle = paperStyleRecipe({ size, position });
 
 const iconStampStyle = css({
   pos: "absolute",
@@ -76,16 +88,29 @@ const iconStampStyle = css({
   filter: "[grayscale(100%)]",
 });
 
-const contentStyle = css({
-  pos: "relative",
-  h: "full",
-  w: "full",
-  px: "4",
-  zIndex: "base",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
+const contentStyleRecipe = cva({
+  base: {
+    pos: "relative",
+    h: "full",
+    w: "full",
+    px: "4",
+    zIndex: "base",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  variants: {
+    position: {
+      absolute: {},
+      sticky: {
+        // size: short はサポートしてない
+        marginTop: "[-40rem]",
+      },
+    },
+  },
 });
+
+const contentStyle = contentStyleRecipe({ position });
 
 const hasHeader = Astro.slots.has("header");
 
@@ -109,10 +134,9 @@ const footerStyle = css({
 ---
 
 <article class={rootStyle} {...props}>
-  <div class={paperStyle}>
+  <div class:list={[paperStyle, paperClass]} aria-hidden>
     <Logo type="pple" class={iconStampStyle} aria-hidden />
   </div>
-
   <div class={contentStyle}>
     {
       hasHeader && (

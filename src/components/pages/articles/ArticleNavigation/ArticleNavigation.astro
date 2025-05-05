@@ -1,0 +1,17 @@
+---
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import { css } from "@styles/css";
+
+const navClass = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "16",
+  h: "64",
+});
+---
+
+<nav class={navClass}>
+  <DecorativeLink href="/articles" themeColor="ice">
+    一覧に戻る
+  </DecorativeLink>
+</nav>

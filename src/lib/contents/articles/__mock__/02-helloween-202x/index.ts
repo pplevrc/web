@@ -1,17 +1,19 @@
+import { mdToHtml } from "@lib/utils/content";
 import type { Article } from "../..";
 import Content from "./helloween-202x.md?raw";
 import Thumbnail from "./thumbnail.png";
 
-export function getMockArticle(): Article {
+export async function getMockArticle(): Promise<Article> {
   return {
-    content: Content,
+    content: await mdToHtml(Content),
     id: "02-helloween-202x",
     publishedAt: new Date("2023-10-31"),
     updatedAt: new Date("2023-10-31"),
     title: "ハロウィンイベント202X開催のお知らせ",
     description: "ハロウィンイベント202X開催のお知らせです。",
-    tags: ["ハロウィン", "イベント"],
+    keywords: ["ハロウィン", "イベント"],
     thumbnail: Thumbnail,
     thumbnailAlt: "サムネイルサンプル2",
+    themeColor: "honey",
   };
 }

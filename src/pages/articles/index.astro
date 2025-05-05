@@ -3,54 +3,13 @@ import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import Layout from "@layouts/Layout.astro";
-import { type Article, fetchArticles } from "@lib/contents/articles";
+import { fetchArticles } from "@lib/contents/articles";
 import { fetchPageHeaderImage } from "@lib/contents/assets";
-import { defaultRandom, randomDate } from "@lib/utils/random";
 import { css } from "@styles/css";
 
 const headerImage = await fetchPageHeaderImage("articles");
 
-const _articles = await fetchArticles();
-
-// テスト用に article の内容を 20 倍にして, 日付を 2 年前からランダムに振り直す
-
-const random = defaultRandom();
-
-const articles = [
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-  ..._articles,
-]
-  .map((article): Article => {
-    const date = randomDate({
-      start: new Date("2023-04-25"),
-      end: new Date("2025-04-25"),
-      createRandom: random,
-    });
-    return {
-      ...article,
-      publishedAt: date,
-      updatedAt: date,
-    };
-  })
-  .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+const articles = await fetchArticles();
 
 // 2023-04 のような年月のリストを取り出す
 const dateShortcuts = articles

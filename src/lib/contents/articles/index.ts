@@ -1,8 +1,12 @@
 import { memoize } from "@lib/utils/cache";
 import type { ImageMetadata } from "astro";
+import type { ColorThemeBase } from "../commons/ColorToken";
 import { getMockArticles } from "./__mock__/";
 
 export interface Article {
+  /**
+   * HTML
+   */
   content: string;
 
   id: string;
@@ -15,11 +19,13 @@ export interface Article {
 
   description: string;
 
-  tags: string[];
+  keywords: string[];
 
   thumbnail: ImageMetadata;
 
   thumbnailAlt: string;
+
+  themeColor: ColorThemeBase;
 }
 
 export const fetchArticles = memoize(async (): Promise<Article[]> => {
@@ -45,7 +51,7 @@ export const fetchArticleIds = memoize(async (): Promise<string[]> => {
 });
 
 /**
- * 3件のみ
+ * 4 件のみ
  */
 export const fetchNewArticles = memoize(async (): Promise<Article[]> => {
   const articles = await fetchArticles();

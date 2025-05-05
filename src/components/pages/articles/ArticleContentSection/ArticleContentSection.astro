@@ -1,0 +1,125 @@
+---
+import MarkdownContent from "@components/commons/MarkdownContent/MarkdownContent.astro";
+import Paper from "@components/decoratives/Paper/Paper.astro";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import PhotoImage from "@components/domains/image/PhotoImage.astro";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"section"> {
+  /**
+   *
+   */
+  contentHtml: string;
+
+  /**
+   *
+   */
+  title: string;
+
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+
+  /**
+   *
+   */
+  thumbnail: string | ImageMetadata;
+
+  /**
+   *
+   */
+  publishedAt: Date;
+}
+
+const { contentHtml, title, themeColor, publishedAt, thumbnail, ...props } =
+  Astro.props;
+
+const titleGroupClass = css({
+  paddingBlock: "8",
+
+  color: "colorPalette.deep",
+  w: "full",
+  h: "14",
+
+  display: "grid",
+  gridTemplateAreas: '"icon title" "icon publishedAt"',
+  gridTemplateColumns: "3rem auto",
+  alignItems: "center",
+  rowGap: "1",
+  columnGap: "4",
+
+  colorPalette: themeColor,
+});
+
+const titleIconClass = css({
+  gridArea: "icon",
+  w: "12",
+  h: "12",
+});
+
+const titleClass = css({
+  gridArea: "title",
+  textStyle: "normal.bold.xl",
+});
+
+const publishedAtClass = css({
+  gridArea: "publishedAt",
+  textStyle: "normal.sm",
+});
+
+const paperClass = css({
+  top: "16",
+});
+
+const contentClass = css({
+  paddingBlock: "16",
+});
+
+const photoImageClass = css({
+  pos: "absolute",
+  transform: "[rotate(-3deg)]",
+});
+
+const publishedAtString = Intl.DateTimeFormat("ja-JP", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(publishedAt);
+---
+
+<section class={props.class} {...props}>
+  <Paper
+    size="full"
+    position="sticky"
+    paperClass={paperClass}
+    themeColor={themeColor}
+  >
+    <Fragment slot="header">
+      <hgroup class={titleGroupClass}>
+        <Icon type="flower" class={titleIconClass} />
+        <h1 class={titleClass}>
+          {title}
+        </h1>
+        <p class={publishedAtClass}>
+          公開日:
+          <time datetime={publishedAt.toISOString()}>
+            {publishedAtString}
+          </time>
+        </p>
+      </hgroup>
+    </Fragment>
+
+    <MarkdownContent
+      contentHtml={contentHtml}
+      themeColor={themeColor}
+      class={contentClass}
+    />
+
+    <Fragment slot="footer">
+      <PhotoImage src={thumbnail} size="large" alt="" class={photoImageClass} />
+    </Fragment>
+  </Paper>
+</section>

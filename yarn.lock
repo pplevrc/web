@@ -554,13 +554,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ffmpeg/core-mt@npm:0.12.6":
-  version: 0.12.6
-  resolution: "@ffmpeg/core-mt@npm:0.12.6"
-  checksum: 10c0/451044a9d2d59fefda9c1e7340910c3b5b484e5c2997b25bf261fa5cde5d2ee6fcdacb570dd3085466906562b3ae5abbe2a78ad3567106244c48c078fc32d782
-  languageName: node
-  linkType: hard
-
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
@@ -5046,7 +5039,6 @@ __metadata:
   dependencies:
     "@astrojs/check": "npm:^0.9.4"
     "@biomejs/biome": "npm:^1.9.4"
-    "@ffmpeg/core-mt": "npm:0.12.6"
     "@pandacss/dev": "npm:^0.53.4"
     "@tsconfig/strictest": "npm:^2.0.5"
     "@vitest/ui": "npm:^3.1.1"
@@ -5062,8 +5054,13 @@ __metadata:
     media-codecs: "npm:^2.0.2"
     mediainfo.js: "npm:^0.3.5"
     ohash: "npm:^2.0.11"
+    rehype-stringify: "npm:^10.0.1"
+    remark-gfm: "npm:^4.0.1"
+    remark-parse: "npm:^11.0.0"
+    remark-rehype: "npm:^11.1.2"
     sharp: "npm:^0.34.1"
     typescript: "npm:^5.8.3"
+    unified: "npm:^11.0.5"
     vitest: "npm:^3.1.1"
   languageName: unknown
   linkType: soft
@@ -5261,6 +5258,19 @@ __metadata:
     unified: "npm:^11.0.0"
     vfile: "npm:^6.0.0"
   checksum: 10c0/68f986e8ee758d415e93babda2a0d89477c15b7c200edc23b8b1d914dd6e963c5fc151a11cbbbcfa7dd237367ff3ef86e302be90f31f37a17b0748668bd8c65b
+  languageName: node
+  linkType: hard
+
+"remark-rehype@npm:^11.1.2":
+  version: 11.1.2
+  resolution: "remark-rehype@npm:11.1.2"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    "@types/mdast": "npm:^4.0.0"
+    mdast-util-to-hast: "npm:^13.0.0"
+    unified: "npm:^11.0.0"
+    vfile: "npm:^6.0.0"
+  checksum: 10c0/f9eccacfb596d9605581dc05bfad28635d6ded5dd0a18e88af5fd4df0d3fcf9612e1501d4513bc2164d833cfe9636dab20400080b09e53f155c6e1442a1231fb
   languageName: node
   linkType: hard
 

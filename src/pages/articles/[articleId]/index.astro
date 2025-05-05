@@ -1,6 +1,11 @@
 ---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
+import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import Layout from "@layouts/Layout.astro";
-import { fetchArticleIds } from "@lib/contents/articles";
+import { fetchArticle, fetchArticleIds } from "@lib/contents/articles";
+import { fetchPageHeaderImage } from "@lib/contents/assets";
+import { css } from "@styles/css";
 
 export async function getStaticPaths() {
   const articleIds = await fetchArticleIds();
@@ -10,19 +15,47 @@ export async function getStaticPaths() {
   }));
 }
 
-const articleTitle = "お知らせタイトル";
+const { articleId } = Astro.params;
 
-const description = "お知らせの概要";
+const article = await fetchArticle(articleId);
 
-const keywords = ["お知らせ", "ロリっ子喫茶ぷぷりえ", "お知らせタイトル"];
+const headerImage = await fetchPageHeaderImage("article");
+
+const title = article.title;
+
+const description = article.description;
+
+const keywords = article.keywords;
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const contentClass = css({
+  paddingTop: "26",
+  paddingBottom: "42",
+});
 ---
 
 <Layout
   headMeta={{
-    title: `${articleTitle} | ロリっ子喫茶ぷぷりえ`,
+    title: `${title} | お知らせ | ロリっ子喫茶ぷぷりえ`,
     description,
     keywords,
   }}
+  themeColor={article.themeColor}
+  mainClass={mainClass}
 >
-  article
+  <PageHeading img={headerImage}>お知らせ</PageHeading>
+  <ArticleContentSection
+    contentHtml={article.content}
+    thumbnail={article.thumbnail}
+    title={title}
+    themeColor={article.themeColor}
+    publishedAt={article.publishedAt}
+    class={contentClass}
+  />
+  <ArticleNavigation />
 </Layout>

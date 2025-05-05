@@ -1,0 +1,101 @@
+---
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"article"> {
+  /**
+   *
+   */
+  contentHtml: string;
+
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+}
+
+const { contentHtml: content, themeColor, ...props } = Astro.props;
+
+const articleClass = css({
+  textStyle: "normal.sm",
+  colorPalette: themeColor,
+
+  "& > *": {
+    marginTop: "8",
+
+    "&:first-child": {
+      marginTop: "[inherit]",
+    },
+  },
+
+  "& h2": {
+    textStyle: "normal.bold.xl",
+    borderLeftWidth: "3xl",
+    borderBottomWidth: "md",
+    paddingLeft: "1",
+
+    borderColor: "colorPalette.deep",
+    color: "colorPalette.deep",
+  },
+
+  "& h3": {
+    textStyle: "normal.bold.lg",
+    borderLeftWidth: "xl",
+    paddingLeft: "1",
+
+    borderColor: "colorPalette.deep",
+    color: "colorPalette.deep",
+  },
+
+  "& ul": {
+    listStyle: "[square]",
+    listStylePosition: "inside",
+  },
+
+  "& ol": {
+    listStyle: "[decimal]",
+    listStylePosition: "inside",
+  },
+
+  "& blockquote": {
+    p: "4",
+    backgroundColor: "white/50",
+    rounded: "lg",
+    borderColor: "colorPalette.deep",
+    borderWidth: "md",
+  },
+
+  "& a": {
+    textDecoration: "underline",
+  },
+
+  "& strong": {
+    fontWeight: "bold",
+  },
+
+  "& em": {
+    fontStyle: "italic",
+  },
+
+  "& u": {
+    textDecoration: "underline",
+  },
+
+  "& s": {
+    textDecoration: "line-through",
+  },
+
+  "& hr": {
+    borderColor: "colorPalette.deep",
+    borderWidth: "md",
+    borderStyle: "dotted",
+  },
+});
+---
+
+<article
+  set:html={content}
+  class:list={[articleClass, props.class]}
+  {...props}
+/>
