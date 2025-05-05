@@ -31,11 +31,29 @@ interface Props extends HTMLAttributes<"section"> {
   /**
    *
    */
+  thumbnailAlt: string;
+
+  /**
+   *
+   */
+  thumbnailDisplayAlt: string;
+
+  /**
+   *
+   */
   publishedAt: Date;
 }
 
-const { contentHtml, title, themeColor, publishedAt, thumbnail, ...props } =
-  Astro.props;
+const {
+  contentHtml,
+  title,
+  themeColor,
+  publishedAt,
+  thumbnail,
+  thumbnailAlt,
+  thumbnailDisplayAlt,
+  ...props
+} = Astro.props;
 
 const titleGroupClass = css({
   paddingBlock: "8",
@@ -128,7 +146,14 @@ const publishedAtString = Intl.DateTimeFormat("ja-JP", {
     />
 
     <Fragment slot="footer">
-      <PhotoImage src={thumbnail} size="large" alt="" class={photoImageClass} />
+      <PhotoImage
+        src={thumbnail}
+        size="large"
+        alt={thumbnailAlt}
+        label={thumbnailDisplayAlt}
+        class={photoImageClass}
+        colorTheme={themeColor}
+      />
     </Fragment>
   </Paper>
 </section>

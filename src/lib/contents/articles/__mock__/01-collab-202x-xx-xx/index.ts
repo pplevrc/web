@@ -14,6 +14,7 @@ export async function getMockArticle(): Promise<Article> {
     keywords: ["VTuber", "コラボ", "イベント"],
     thumbnail: Thumbnail,
     thumbnailAlt: "サムネイルサンプル1",
+    thumbnailDisplayAlt: "でかぽに !",
     themeColor: "berry",
   };
 }

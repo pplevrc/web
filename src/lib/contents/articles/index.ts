@@ -9,22 +9,54 @@ export interface Article {
    */
   content: string;
 
+  /**
+   *
+   */
   id: string;
 
+  /**
+   *
+   */
   publishedAt: Date;
 
+  /**
+   *
+   */
   updatedAt: Date;
 
+  /**
+   *
+   */
   title: string;
 
+  /**
+   *
+   */
   description: string;
 
+  /**
+   *
+   */
   keywords: string[];
 
+  /**
+   *
+   */
   thumbnail: ImageMetadata;
 
+  /**
+   *
+   */
   thumbnailAlt: string;
 
+  /**
+   *
+   */
+  thumbnailDisplayAlt: string;
+
+  /**
+   *
+   */
   themeColor: ColorThemeBase;
 }
 

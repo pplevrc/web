@@ -14,6 +14,7 @@ export async function getMockArticle(): Promise<Article> {
     keywords: ["ハロウィン", "イベント"],
     thumbnail: Thumbnail,
     thumbnailAlt: "サムネイルサンプル2",
+    thumbnailDisplayAlt: "がうー",
     themeColor: "honey",
   };
 }

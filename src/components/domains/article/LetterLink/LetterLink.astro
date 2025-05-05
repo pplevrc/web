@@ -35,10 +35,22 @@ export interface Props {
   /**
    *
    */
+  thumbnailDisplayAlt: string;
+
+  /**
+   *
+   */
   publishedAt: Date;
 }
 
-const { href, title, thumbnail, thumbnailAlt, publishedAt } = Astro.props;
+const {
+  href,
+  title,
+  thumbnail,
+  thumbnailAlt,
+  thumbnailDisplayAlt,
+  publishedAt,
+} = Astro.props;
 
 const rootStyle = css({
   pos: "relative",
@@ -85,11 +97,10 @@ const iconWrapStyle = css({
   h: "32",
   opacity: "[0.8]",
 
-  top: "[0.55rem]",
-  left: "[3.55rem]",
+  top: "[0.4rem]",
+  left: "[3.4rem]",
   rotate: "[5deg]",
-  clipPath:
-    "[path('M 54.5,0 C 36.3,19.6 18.2,39.1 0,58.7 V 251.9 H 267.7 L 314.6,191.2 V 0 Z')]",
+  clipPath: "[polygon(0 23.3%, 0 100%, 85.1% 100%, 100% 76%, 100% 0)]",
 });
 
 const iconStyleRecipe = cva({
@@ -195,9 +206,11 @@ const titleStyle = css({
       <PhotoImage
         src={thumbnail}
         alt={thumbnailAlt}
+        label={thumbnailDisplayAlt}
         size="large"
         class={imageStyle}
         scale={0.5}
+        colorTheme={theme}
       />
     </figure>
     <footer class={footerStyle} id={labelId}>

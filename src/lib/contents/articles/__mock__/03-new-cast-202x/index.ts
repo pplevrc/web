@@ -14,6 +14,7 @@ export async function getMockArticle(): Promise<Article> {
     keywords: ["新しい店員さん", "来店"],
     thumbnail: Thumbnail,
     thumbnailAlt: "サムネイルサンプル3",
+    thumbnailDisplayAlt: "しゅるちゃん !",
     themeColor: "matcha",
   };
 }

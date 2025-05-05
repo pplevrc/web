@@ -14,6 +14,7 @@ export async function getMockArticle(): Promise<Article> {
     keywords: ["Vket", "イベント"],
     thumbnail: Thumbnail,
     thumbnailAlt: "サムネイルサンプル4",
+    thumbnailDisplayAlt: "おえかきすき !",
     themeColor: "rose",
   };
 }

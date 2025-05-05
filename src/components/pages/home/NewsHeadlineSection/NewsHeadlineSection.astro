@@ -38,17 +38,29 @@ const newArticles = await fetchNewArticles();
 >
   <ul class={listStyle}>
     {
-      newArticles.map(({ id, title, thumbnail, thumbnailAlt, publishedAt }) => (
-        <li class={listItemStyle}>
-          <LetterLink
-            href={`/articles/${id}`}
-            title={title}
-            thumbnail={thumbnail}
-            thumbnailAlt={thumbnailAlt}
-            publishedAt={publishedAt}
-          />
-        </li>
-      ))
+      newArticles.map(
+        ({
+          id,
+          title,
+          thumbnail,
+          thumbnailAlt,
+          thumbnailDisplayAlt,
+          publishedAt,
+          themeColor,
+        }) => (
+          <li class={listItemStyle}>
+            <LetterLink
+              href={`/articles/${id}`}
+              title={title}
+              thumbnail={thumbnail}
+              thumbnailAlt={thumbnailAlt}
+              thumbnailDisplayAlt={thumbnailDisplayAlt}
+              publishedAt={publishedAt}
+              themeColor={themeColor}
+            />
+          </li>
+        ),
+      )
     }
   </ul>
 </HomePickupSection>

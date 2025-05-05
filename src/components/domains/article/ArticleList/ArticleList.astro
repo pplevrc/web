@@ -69,7 +69,15 @@ const itemStyle = css({});
             <ul class={intermediateStyle} role="presentation">
               {articles.map(
                 (
-                  { id, title, publishedAt, thumbnail, thumbnailAlt },
+                  {
+                    id,
+                    title,
+                    publishedAt,
+                    thumbnail,
+                    thumbnailAlt,
+                    thumbnailDisplayAlt,
+                    themeColor,
+                  },
                   index,
                 ) => {
                   const pos = (counter % 3) + 1;
@@ -90,6 +98,8 @@ const itemStyle = css({});
                         publishedAt={publishedAt}
                         thumbnail={thumbnail}
                         thumbnailAlt={thumbnailAlt}
+                        thumbnailDisplayAlt={thumbnailDisplayAlt}
+                        themeColor={themeColor}
                       />
                     </li>
                   );

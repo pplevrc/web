@@ -1,6 +1,7 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { remToSizePercent } from "@lib/utils/image";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
@@ -32,6 +33,11 @@ interface Props extends HTMLAttributes<"picture"> {
    *
    */
   scale?: number;
+
+  /**
+   *
+   */
+  colorTheme: ColorThemeBase;
 }
 
 const {
@@ -40,6 +46,7 @@ const {
   alt,
   size,
   class: className,
+  colorTheme,
   scale = 1,
   ...rest
 } = Astro.props;
@@ -95,10 +102,18 @@ const imageStyle = css({
   },
 });
 
-const captionStyle = css({
-  fontSize: "12",
-  lineHeight: "1.5",
+const captionStyleRecipe = cva({
+  base: {
+    textStyle: "handwriting.base",
+    h: "8",
+    pt: "2",
+    textAlign: "center",
+    color: "colorPalette.deep",
+    colorPalette: colorTheme,
+  },
 });
+
+const captionStyle = captionStyleRecipe({});
 
 const scaleStyle = scale !== 1 ? { scale } : {};
 ---
