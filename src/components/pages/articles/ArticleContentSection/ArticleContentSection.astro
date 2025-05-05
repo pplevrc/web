@@ -71,11 +71,20 @@ const publishedAtClass = css({
 });
 
 const paperClass = css({
-  top: "16",
+  top: {
+    base: "42",
+    _pc: "16",
+  },
 });
 
 const contentClass = css({
-  paddingBlock: "16",
+  paddingBlock: "8",
+  paddingInline: "4",
+
+  _pc: {
+    paddingBlock: "16",
+    paddingInline: "[inherit]",
+  },
 });
 
 const photoImageClass = css({

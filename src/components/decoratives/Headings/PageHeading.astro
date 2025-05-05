@@ -1,5 +1,5 @@
 ---
-import CustomPicture from "@components/commons/CustomPicture.astro";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
 import { remToSizePercent } from "@lib/utils/image";
@@ -25,7 +25,10 @@ const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${rem
 
 const rootStyle = css({
   w: "full",
-  h: "80",
+  h: {
+    base: "64",
+    _pc: "80",
+  },
   position: "relative",
 });
 

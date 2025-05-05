@@ -6,11 +6,14 @@ const navClass = css({
   display: "flex",
   flexDir: "column",
   gap: "16",
-  h: "64",
+  h: {
+    base: "32",
+    _pc: "64",
+  },
 });
 ---
 
-<nav class={navClass}>
+<nav class={navClass} aria-label="記事ナビゲーション">
   <DecorativeLink href="/articles" themeColor="ice">
     一覧に戻る
   </DecorativeLink>
