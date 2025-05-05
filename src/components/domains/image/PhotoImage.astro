@@ -1,5 +1,6 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import StarShape from "@components/decoratives/Vectors/Shapes/StarShape.astro";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { remToSizePercent } from "@lib/utils/image";
@@ -38,6 +39,11 @@ interface Props extends HTMLAttributes<"picture"> {
    *
    */
   colorTheme: ColorThemeBase;
+
+  /**
+   * シール
+   */
+  seal?: boolean;
 }
 
 const {
@@ -48,6 +54,7 @@ const {
   class: className,
   colorTheme,
   scale = 1,
+  seal = false,
   ...rest
 } = Astro.props;
 
@@ -94,6 +101,15 @@ const rootStyleRecipe = cva({
 
 const rootStyle = rootStyleRecipe({ size });
 
+const starStyle = css({
+  pos: "absolute",
+  top: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+  w: "8",
+  h: "8",
+});
+
 const imageStyle = css({
   "& img": {
     w: "full",
@@ -121,6 +137,7 @@ const scaleStyle = scale !== 1 ? { scale } : {};
 {
   simple ? (
     <div class:list={[rootStyle, className]} style={scaleStyle}>
+      {seal && <StarShape class={starStyle} theme={colorTheme} />}
       <CustomPicture
         src={src}
         alt={alt}
@@ -135,6 +152,7 @@ const scaleStyle = scale !== 1 ? { scale } : {};
     </div>
   ) : (
     <figure class:list={[rootStyle, className]} style={scaleStyle}>
+      {seal && <StarShape class={starStyle} theme={colorTheme} />}
       <CustomPicture
         src={src}
         alt={alt}

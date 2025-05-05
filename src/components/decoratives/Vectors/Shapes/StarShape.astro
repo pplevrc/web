@@ -1,0 +1,46 @@
+---
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { hash } from "@lib/utils/random";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+
+  /**
+   *
+   */
+  theme?: ColorThemeBase;
+}
+
+const { definition = false, theme = "smoke", ...props } = Astro.props;
+
+const rootStyle = css({
+  fill: "colorPalette.50",
+  colorPalette: theme,
+});
+
+const symbolId = hash("shape-star");
+---
+
+<svg
+  viewBox="0 0 61 64"
+  xmlns="http://www.w3.org/2000/svg"
+  class:list={[rootStyle, props.class]}
+  {...props}
+>
+  {
+    definition ? (
+      <symbol id={symbolId} viewBox="0 0 61 64">
+        <path d="M37.4 0.7L43.9 19.1L59.2 31.4L43.6 43.2L36.7 61.5L20.6 50.4L1.1 49.5L6.7 30.7L1.5 11.9L21.1 11.4L37.4 0.7Z" />
+      </symbol>
+    ) : (
+      <use href={`#${symbolId}`} />
+    )
+  }
+</svg>

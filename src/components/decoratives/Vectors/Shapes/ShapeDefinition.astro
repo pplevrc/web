@@ -1,5 +1,6 @@
 ---
 import LetterShapes from "./LetterShapes.astro";
+import StarShape from "./StarShape.astro";
 import type { ShapeType } from "./types";
 
 interface Props {
@@ -15,6 +16,8 @@ const component = (type: ShapeType) => {
   switch (type) {
     case "letter":
       return LetterShapes;
+    case "star":
+      return StarShape;
     default:
       throw new Error(`Shape type ${type} is not supported`);
   }

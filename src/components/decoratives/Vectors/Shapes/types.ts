@@ -1,1 +1,1 @@
-export type ShapeType = "letter";
+export type ShapeType = "letter" | "star";
