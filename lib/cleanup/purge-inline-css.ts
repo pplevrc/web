@@ -28,6 +28,11 @@ interface Context {
 }
 
 /**
+ * 動的に追加されるクラス
+ */
+const ignoredClassPatterns: (string | RegExp)[] = [/^astro-/];
+
+/**
  * 明らかに使用予定がない pseudo-classes
  */
 const unusedPseudoClasses: string[] = [
@@ -209,6 +214,16 @@ function translateSelector(
   }
 
   if (selector.type === "class") {
+    if (
+      ignoredClassPatterns.some((pattern) =>
+        typeof pattern === "string"
+          ? pattern === selector.name
+          : pattern.test(selector.name),
+      )
+    ) {
+      return selectors;
+    }
+
     return usedClasses.has(selector.name) ? selectors : [];
   }
 
