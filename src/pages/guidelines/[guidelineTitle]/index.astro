@@ -1,0 +1,49 @@
+---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
+import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
+import Layout from "@layouts/Layout.astro";
+import {
+  fetchGuidelineByTitle,
+  fetchGuidelineTitles,
+} from "@lib/contents/guildelines";
+import { css } from "@styles/css";
+
+export async function getStaticPaths() {
+  const guidelineTitles = await fetchGuidelineTitles();
+
+  return guidelineTitles.map((guidelineTitle) => ({
+    params: { guidelineTitle },
+  }));
+}
+
+const { guidelineTitle } = Astro.params;
+
+const { title, keywords, content, description, thumbnail, themeColor } =
+  await fetchGuidelineByTitle(guidelineTitle);
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const contentClass = css({
+  paddingTop: "26",
+  paddingBottom: "42",
+});
+---
+
+<Layout
+  headMeta={{
+    title: `${title} | ロリっ子喫茶ぷぷりえ`,
+    description,
+    keywords,
+  }}
+  themeColor={themeColor}
+  mainClass={mainClass}
+>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
+  <GuidelineContentSection contentHtml={content} class={contentClass} />
+  <GuidelineNavigation />
+</Layout>

@@ -20,7 +20,10 @@ const pictureProps = toPictureProps(props);
 
 function toPictureProps(props: CustomImageTransform): PictureProps {
   if (isProduction) {
-    return props as PictureProps;
+    return {
+      ...props,
+      formats: props.formats ?? ["png", "webp"],
+    } as PictureProps;
   }
 
   // 開発モードでは cache を使わずに常に SSR で画像が変換されてしまうので, 重くなる要因を排除したオプションに変更する

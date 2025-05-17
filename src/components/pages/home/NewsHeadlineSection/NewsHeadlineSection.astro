@@ -46,7 +46,6 @@ const newArticles = await fetchNewArticles();
           thumbnailAlt,
           thumbnailDisplayAlt,
           publishedAt,
-          themeColor,
         }) => (
           <li class={listItemStyle}>
             <LetterLink
@@ -56,7 +55,6 @@ const newArticles = await fetchNewArticles();
               thumbnailAlt={thumbnailAlt}
               thumbnailDisplayAlt={thumbnailDisplayAlt}
               publishedAt={publishedAt}
-              themeColor={themeColor}
             />
           </li>
         ),

@@ -1,0 +1,61 @@
+---
+import { fetchGuidelines } from "@lib/contents/guildelines";
+import { css } from "@styles/css";
+import GuidelineLink from "../GuidelineLink/GuidelineLink.astro";
+
+const guidelines = await fetchGuidelines();
+
+const navStyle = css({
+  pt: "26",
+  pb: "42",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+const listStyle = css({
+  display: "flex",
+  alignItems: "center",
+  flexWrap: "wrap",
+  width: "full",
+  flexDirection: "row",
+  justifyContent: "center",
+  gap: "16",
+
+  _motionSafe: {
+    _supportHover: {
+      "&:hover > *:not(:hover)": {
+        opacity: "[0.25]",
+        transform: "[scale(0.95) rotate(0.7deg)]",
+        shadow: "none",
+      },
+    },
+  },
+});
+
+const listItemStyle = css({
+  _motionSafe: {
+    transformOrigin: "center",
+    transition: "[transform opacity box-shadow]",
+    transitionDuration: "faster",
+  },
+});
+---
+
+<nav aria-label="ガイドライン一覧" class={navStyle}>
+  <ul class={listStyle}>
+    {
+      guidelines.map((guideline) => (
+        <li class={listItemStyle}>
+          <GuidelineLink
+            title={guideline.title}
+            thumbnail={guideline.thumbnail}
+            thumbnailAlt={guideline.thumbnailAlt}
+            ballonPosition={guideline.ballonPosition}
+            themeColor={guideline.themeColor}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</nav>

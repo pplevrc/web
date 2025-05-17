@@ -1,6 +1,6 @@
+import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { memoize } from "@lib/utils/cache";
 import type { ImageMetadata } from "astro";
-import type { ColorThemeBase } from "../commons/ColorToken";
 import { getMockArticles } from "./__mock__/";
 
 export interface Article {

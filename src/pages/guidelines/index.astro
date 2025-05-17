@@ -1,5 +1,10 @@
 ---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
 import Layout from "@layouts/Layout.astro";
+import { fetchPageHeaderImage } from "@lib/contents/assets";
+
+const headerImage = await fetchPageHeaderImage("guidelines");
 ---
 
 <Layout
@@ -10,5 +15,6 @@ import Layout from "@layouts/Layout.astro";
     keywords: [],
   }}
 >
-  main
+  <PageHeading img={headerImage}> ガイドライン </PageHeading>
+  <GuidelineList />
 </Layout>

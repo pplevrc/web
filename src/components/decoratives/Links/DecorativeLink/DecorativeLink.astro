@@ -12,7 +12,8 @@ const { class: className, themeColor, ...rest } = Astro.props;
 
 const linkStyle = css({
   rounded: "2xl",
-  w: "52",
+  minW: "52",
+  w: "[fit-content]",
   h: "10",
   shadow: "xs",
   color: "white",
@@ -22,11 +23,13 @@ const linkStyle = css({
   colorPalette: themeColor,
 
   _motionSafe: {
-    transition: "[transform]",
-    transitionDuration: "faster",
+    _supportHover: {
+      transition: "[transform]",
+      transitionDuration: "faster",
 
-    _hover: {
-      transform: "[scale(1.05)]",
+      _hover: {
+        transform: "[scale(1.05) rotate(1deg)]",
+      },
     },
   },
 });
