@@ -27,8 +27,8 @@ const linkStyle = css({
 
   borderWidth: "sm",
   borderStyle: "solid",
-  borderColor: "latte.deep",
-  bg: "colorPalette.regular/80",
+  borderColor: "colorPalette.deep",
+  bg: "colorPalette.lite/80",
   shadow: "xs",
   overflow: "hidden",
   colorPalette: themeColor,
@@ -38,7 +38,7 @@ const linkStyle = css({
 
 const imageStyle = css({
   objectFit: "cover",
-  w: "96",
+  w: "80",
   h: "48",
   overflow: "hidden",
   display: "block",
@@ -51,12 +51,12 @@ const figureStyle = css({
 const captionStyleRecipe = cva({
   base: {
     position: "absolute",
-    w: "72",
+    w: "56",
     h: "43",
 
     borderWidth: "md",
     borderStyle: "solid",
-    borderColor: "colorPalette.regular",
+    borderColor: "colorPalette.deep",
     borderRadius: "[100%]",
     colorPalette: themeColor,
 
@@ -113,22 +113,22 @@ const captionTextStyleRecipe = cva({
   variants: {
     position: {
       topLeft: {
-        right: "-6",
+        right: "-8",
         bottom: "0",
         transform: "[rotate(-8deg)]",
       },
       topRight: {
-        left: "-6",
+        left: "-8",
         bottom: "0",
         transform: "[rotate(8deg)]",
       },
       bottomLeft: {
-        right: "-6",
+        right: "-8",
         top: "0",
         transform: "[rotate(8deg)]",
       },
       bottomRight: {
-        left: "-6",
+        left: "-8",
         top: "0",
         transform: "[rotate(-8deg)]",
       },
@@ -139,9 +139,9 @@ const captionTextStyleRecipe = cva({
 const captionTextStyle = captionTextStyleRecipe({ position: ballonPosition });
 
 /**
- * viewport 1440 の場合の幅
+ * viewport 1440 の場合のサイズ
  */
-const pcWidth = 385;
+const pcWidth = 320;
 
 const pcHeight = 194;
 

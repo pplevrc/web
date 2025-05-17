@@ -8,6 +8,7 @@ const guidelines = await fetchGuidelines();
 const navStyle = css({
   pt: "26",
   pb: "42",
+  px: "8",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -25,7 +26,7 @@ const listStyle = css({
   _motionSafe: {
     _supportHover: {
       "&:hover > *:not(:hover)": {
-        opacity: "[0.25]",
+        opacity: "[0.50]",
         transform: "[scale(0.95) rotate(0.7deg)]",
         shadow: "none",
       },
