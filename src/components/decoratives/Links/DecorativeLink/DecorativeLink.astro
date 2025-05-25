@@ -1,66 +1,33 @@
 ---
-import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
+import Center from "./internals/center.astro";
+import Right from "./internals/right.astro";
+
+type LinkDirection = "center" | "right";
 
 interface Props extends HTMLAttributes<"a"> {
+  /**
+   * @default "center"
+   */
+  type?: LinkDirection;
+
+  /**
+   *
+   */
   themeColor: ColorThemeBase;
 }
 
-const { class: className, themeColor, ...rest } = Astro.props;
+const { type = "center", ...rest } = Astro.props;
 
-const linkStyle = css({
-  rounded: "2xl",
-  minW: "52",
-  w: "[fit-content]",
-  h: "10",
-  shadow: "xs",
-  color: "white",
-  p: "1",
-  textStyle: "normal.bold.base",
-  bg: "colorPalette.regular",
-  colorPalette: themeColor,
+const components = {
+  center: Center,
+  right: Right,
+};
 
-  _motionSafe: {
-    _supportHover: {
-      transition: "[transform]",
-      transitionDuration: "faster",
-
-      _hover: {
-        transform: "[scale(1.05) rotate(1deg)]",
-      },
-    },
-  },
-});
-
-const insideStyle = css({
-  borderColor: "white",
-  borderWidth: "sm",
-  borderStyle: "dashed",
-
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  rounded: "xl",
-  width: "full",
-  height: "full",
-  px: "4",
-  gap: "4",
-});
-
-const iconStyle = css({
-  w: "6",
-  h: "6",
-  fill: "white",
-  display: "inline-block",
-});
+const Component = components[type];
 ---
 
-<a class:list={[linkStyle, className]} {...rest}>
-  <span class={insideStyle}>
-    <Icon type="flower" class={iconStyle} aria-hidden />
-    <slot />
-    <Icon type="flower" class={iconStyle} aria-hidden />
-  </span>
-</a>
+<Component {...rest}>
+  <slot />
+</Component>

@@ -132,6 +132,9 @@ export const tokens: Tokens = defineTokens({
     slower: {
       value: "3000ms",
     },
+    slowest: {
+      value: "12000ms",
+    },
   },
   animations: {},
 });

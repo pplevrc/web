@@ -25,10 +25,7 @@ const linkStyle = css({
   display: "block",
   p: "4",
 
-  borderWidth: "sm",
-  borderStyle: "solid",
-  borderColor: "colorPalette.deep",
-  bg: "colorPalette.lite/80",
+  bg: "colorPalette.lite",
   shadow: "xs",
   overflow: "hidden",
   colorPalette: themeColor,
@@ -54,13 +51,10 @@ const captionStyleRecipe = cva({
     w: "56",
     h: "43",
 
-    borderWidth: "md",
-    borderStyle: "solid",
-    borderColor: "colorPalette.deep",
     borderRadius: "[100%]",
     colorPalette: themeColor,
 
-    backgroundColor: "white",
+    bg: "colorPalette.lite",
   },
   variants: {
     position: {
@@ -94,13 +88,11 @@ const captionTextStyleRecipe = cva({
   base: {
     position: "absolute",
     textStyle: "decorative.bold.3xl",
-    color: "colorPalette.regular",
+    color: "white",
     colorPalette: themeColor,
 
-    WebkitTextStrokeColor: "white",
+    WebkitTextStrokeColor: "{colors.colorPalette.deep}",
     WebkitTextStrokeWidth: "0.05rem",
-
-    filter: "[drop-shadow(0 0 0.05rem {colors.colorPalette.regular})]",
 
     width: "64",
     height: "24",

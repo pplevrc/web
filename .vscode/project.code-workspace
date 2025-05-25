@@ -1,7 +1,7 @@
 {
   "folders": [
     {
-      "path": ".."
+      "path": "..",
     }
   ],
   "extensions": {
@@ -28,8 +28,6 @@
     },
 
     "editor.formatOnSave": true,
-
-    "liveServer.settings.root": "./dist",
 
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {

@@ -52,12 +52,6 @@ export const textStyle = defineTextStyles({
       fontWeight: 700,
     }),
   },
-  // 手書きフォント
-  handwriting: {
-    DEFAULT: defineTextStyleSet({
-      fontFamily: "HachiMaruPop",
-    }),
-  },
   // 装飾フォント
   decorative: {
     bold: defineTextStyleSet({
@@ -70,13 +64,6 @@ export const globalFontface = defineGlobalFontface({
   YasashisaGothic: [
     {
       src: ['url(/public/fonts/YasashisaGothicBold.otf) format("opentype")'],
-      fontStyle: "normal",
-      fontDisplay: "swap",
-    },
-  ],
-  HachiMaruPop: [
-    {
-      src: ["url(/public/fonts/HachiMaruPop-Regular.ttf) format('truetype')"],
       fontStyle: "normal",
       fontDisplay: "swap",
     },

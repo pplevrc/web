@@ -1,5 +1,7 @@
 ---
-import ResponsiveVideo, { type Sources } from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
+import ResponsiveVideo, {
+  type Sources,
+} from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
 
 // for production mode
 // VP9 対応ブラウザがすでに大半浸透しているため, これをサポートの下限にする
@@ -20,9 +22,7 @@ const props = Astro.props;
 
 const isDev = process.env["NODE_ENV"] !== "production";
 
-const devSources: Sources[] = [
-  { pc: movieDevPcH264, sp: movieDevSpH264 },
-];
+const devSources: Sources[] = [{ pc: movieDevPcH264, sp: movieDevSpH264 }];
 
 const prodSources: Sources[] = [
   { pc: movieProdPcAv1, sp: movieProdSpAv1 },

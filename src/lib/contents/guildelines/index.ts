@@ -1,7 +1,7 @@
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { memoize } from "@lib/utils/cache";
 import type { ImageMetadata } from "astro";
-import { getMockGuidelines } from "./__mock__";
+import { getMockGuidelines, getMockShortcutGuidelines } from "./__mock__";
 
 export type BallonPosition =
   | "topLeft"
@@ -64,6 +64,11 @@ export interface Guideline {
    *
    */
   themeColor: ColorThemeBase;
+
+  /**
+   *
+   */
+  shortcut: boolean;
 }
 
 export const fetchGuidelines = memoize(async (): Promise<Guideline[]> => {
@@ -89,3 +94,9 @@ export const fetchGuidelineTitles = memoize(async (): Promise<string[]> => {
 
   return guidelines.map((guideline) => guideline.title);
 });
+
+export const fetchShortcutGuidelines = memoize(
+  async (): Promise<Guideline[]> => {
+    return getMockShortcutGuidelines();
+  },
+);

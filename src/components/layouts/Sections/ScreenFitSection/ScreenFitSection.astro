@@ -1,5 +1,10 @@
 ---
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"section"> {}
+
+const props = Astro.props;
 
 const fitStyle = css({
   minH: "bodyVH",
@@ -7,6 +12,6 @@ const fitStyle = css({
 });
 ---
 
-<section class={fitStyle}>
+<section class:list={[fitStyle, props.class]} {...props}>
   <slot />
 </section>
