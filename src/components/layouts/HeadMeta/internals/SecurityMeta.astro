@@ -8,10 +8,3 @@ const site = Astro.site
 
 {/* 正規化された URL を指定 */}
 <link rel="canonical" href={site} />
-
-{/* 他サイトから iframe で埋め込まれるのを防止 */}
-<meta http-equiv="X-Frame-Options" content="DENY" />
-
-{/* XSS や古いブラウザ向けセキュリティ */}
-<meta http-equiv="X-Content-Type-Options" content="nosniff" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
