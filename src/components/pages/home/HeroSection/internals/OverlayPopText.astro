@@ -126,11 +126,12 @@ const shortcutGuidelines = await fetchShortcutGuidelines();
   >
     <ul class={linkRootStyle}>
       {
-        shortcutGuidelines.map(({ title, themeColor }) => (
+        shortcutGuidelines.map(({ title, themeColor,  }) => (
           <li>
             <DecorativeLink
               themeColor={themeColor}
               type="right"
+              href={`/guidelines/${title}`}
               class={linkStyle}
             >
               {title}
