@@ -1,8 +1,6 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
-import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
-import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -12,22 +10,23 @@ interface Props extends HTMLAttributes<"header"> {
 
 const { img, ...props } = Astro.props;
 
-const width = 1440;
+const pcWidth = 1440;
+
+const pcHeight = 767;
 
 const widths = [
-  width,
-  Math.round(width * 2),
-  Math.round(width / 2),
-  Math.round(width / 3),
+  pcWidth,
+  Math.round(pcWidth * 2),
+  Math.round(pcWidth / 2),
 ];
 
-const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
+const sizes = '100vw';
 
 const rootStyle = css({
   w: "full",
   h: {
     base: "64",
-    _pc: "80",
+    _pc: "192",
   },
   position: "relative",
 });
@@ -75,7 +74,10 @@ const iconStyle = css({
     alt=""
     aria-hidden
     class={imageStyle}
+    height={pcHeight}
+    width={pcWidth}
     widths={widths}
+    fit="cover"
     sizes={sizes}
   />
   <h2 class={titleStyle}>

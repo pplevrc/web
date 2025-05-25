@@ -22,7 +22,7 @@ function toPictureProps(props: CustomImageTransform): PictureProps {
   if (isProduction) {
     return {
       ...props,
-      formats: props.formats ?? ["png", "webp"],
+      formats: props.formats ?? ["avif", "webp", "png"],
     } as PictureProps;
   }
 

@@ -55,6 +55,9 @@ const FRONTAL_FACE_CROP_MARGIN_TOP =
 const { nickname, avatarIndex, type, alt, width, trackLoad, ...rest } =
   Astro.props;
 
+// 1:1 なので同じにする
+const height = width
+
 const { image: src } = await fetchAvatarImage({
   nickname,
   index: avatarIndex,
@@ -67,6 +70,8 @@ const { image: src } = await fetchAvatarImage({
   alt={alt}
   width={width}
   widths={toWidths(width)}
+  height={height}
+  fit="cover"
   crop={{
     left: FRONTAL_FACE_CROP_MARGIN_LEFT,
     top: FRONTAL_FACE_CROP_MARGIN_TOP,
