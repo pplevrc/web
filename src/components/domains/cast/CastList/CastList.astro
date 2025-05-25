@@ -14,7 +14,10 @@ interface Props extends HTMLAttributes<"ul"> {
 const { class: className, casts, ...props } = Astro.props;
 
 const rootListStyle = css({
-  display: "flex",
+  display: {
+    base: "contents",
+    _pc: "flex",
+  },
   flexDir: {
     base: "row",
     _pc: "column",
@@ -22,8 +25,9 @@ const rootListStyle = css({
   alignItems: "center",
   justifyContent: "center",
 
-  _spOnly: {
-    flexWrap: "wrap",
+  flexWrap: {
+    base: "wrap",
+    _pc: "nowrap",
   },
 
   px: {
@@ -37,9 +41,10 @@ const rootListStyle = css({
 });
 
 const contentOnSP = css({
-  _spOnly: {
-    display: "contents",
-  },
+  display: {
+    base: "contents",
+    _pc: "initial",
+  }
 });
 
 const listStyle = css({
@@ -98,7 +103,7 @@ const castRows = (() => {
   {
     castRows.map((casts) => (
       <li class={contentOnSP} role="presentation">
-        <ul class:list={[listStyle, contentOnSP]} role="presentation">
+        <ul class={listStyle} role="presentation">
           {casts.map((cast) => (
             <li class={listItemStyle} role="listitem">
               <DecorativeAvatarLink
