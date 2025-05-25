@@ -4,10 +4,10 @@ import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchArticles } from "@lib/contents/articles";
-import { fetchPageHeaderImage } from "@lib/contents/assets";
+import { fetchPageThumbnailImage } from "@lib/contents/assets";
 import { css } from "@styles/css";
 
-const headerImage = await fetchPageHeaderImage("articles");
+const headerImage = await fetchPageThumbnailImage("articles");
 
 const articles = await fetchArticles();
 
@@ -43,6 +43,9 @@ const fitStyle = css({
     gap: "26",
   },
 });
+
+// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
+const ogp = headerImage.src.split("?")[0];
 ---
 
 <Layout
@@ -50,6 +53,7 @@ const fitStyle = css({
     title: "お知らせ一覧 | ロリっ子喫茶ぷぷりえ",
     description: "ロリっ子喫茶ぷぷりえのお知らせ一覧です.",
     keywords: [],
+    ogp,
   }}
   defineShapes={["letter", "star"]}
   mainClass={mainClass}

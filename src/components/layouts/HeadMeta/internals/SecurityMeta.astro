@@ -1,3 +1,17 @@
 ---
-// TODO: Implement Security Meta
+
+const site = Astro.site
 ---
+
+{/* 一部の AI クローラーが meta も見る可能性があるため（保険） */}
+<meta name="robots" content="noai, noimageai" />
+
+{/* 正規化された URL を指定 */}
+<link rel="canonical" href={site} />
+
+{/* 他サイトから iframe で埋め込まれるのを防止 */}
+<meta http-equiv="X-Frame-Options" content="DENY" />
+
+{/* XSS や古いブラウザ向けセキュリティ */}
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />

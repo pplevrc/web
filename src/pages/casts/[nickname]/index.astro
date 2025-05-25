@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { nickname } = Astro.params;
 
-const { themeColor, socialLinks } = await fetchCast(nickname);
+const { themeColor, socialLinks, thumbnail } = await fetchCast(nickname);
 
 const colorName = pickColorBase(themeColor);
 
@@ -23,6 +23,9 @@ const defineLogos = [
   ...socialLinks.map((link) => link.type),
   "vrchat",
 ] as const satisfies SocialLinkType[];
+
+// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
+const ogp = thumbnail.src.split("?")[0];
 ---
 
 <Layout
@@ -31,6 +34,7 @@ const defineLogos = [
     title: `店員さん紹介: ${nickname} | ロリっ子喫茶ぷぷりえ`,
     description: `ロリっ子喫茶ぷぷりえの店員さん (${nickname}) を紹介するページです.`,
     keywords: [nickname],
+    ogp,
   }}
   themeColor={colorName}
 >

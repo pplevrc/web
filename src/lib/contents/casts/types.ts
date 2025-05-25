@@ -39,6 +39,11 @@ export interface Cast {
    * @example "https://www.youtube.com/@sotomiti_iroha"
    */
   socialLinks: SocialLink[];
+
+  /**
+   * サムネイル画像
+   */
+  thumbnail: ImageMetadata;
 }
 
 /**
@@ -107,6 +112,7 @@ const fetchedCastSchema = schemaForType<FetchedCast>(
     vrchat: vrchatSchema,
     avatars: z.array(avatarSchema),
     socialLinks: z.array(socialLinkSchema),
+    thumbnail: z.any() as z.ZodType<ImageMetadata>,
   }),
 );
 

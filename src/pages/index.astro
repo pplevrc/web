@@ -3,6 +3,7 @@ import CastPickupSection from "@components/pages/home/CastPickupSection/CastPick
 import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
 import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
 import Layout from "@layouts/Layout.astro";
+import { getMockThumbnailImage } from "@lib/contents/assets/__mock__";
 import { css } from "@styles/css";
 
 const mainClass = css({
@@ -11,6 +12,11 @@ const mainClass = css({
   scrollSnapType: "y",
   scrollSnapStrictness: "proximity",
 });
+
+const thumbnail = getMockThumbnailImage("home");
+
+// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
+const ogp = thumbnail.src.split("?")[0];
 ---
 
 <Layout
@@ -18,6 +24,7 @@ const mainClass = css({
     title: "ロリっ子喫茶ぷぷりえ",
     description: "ロリっ子喫茶ぷぷりえのホームページです.",
     keywords: [],
+    ogp,
   }}
   mainClass={mainClass}
   defineShapes={["letter", "star"]}

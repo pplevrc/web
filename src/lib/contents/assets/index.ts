@@ -1,16 +1,17 @@
 import { memoize } from "@lib/utils/cache";
 import type { ImageMetadata } from "astro";
-import { getMockHeaderImage } from "./__mock__";
+import { getMockThumbnailImage } from "./__mock__";
 
-export type HeaderPageType =
+export type PageThumbnailType =
+  | "home"
   | "casts"
   | "articles"
   | "guidelines"
   | "staffs"
   | "article";
 
-export const fetchPageHeaderImage = memoize(
-  async (type: HeaderPageType): Promise<ImageMetadata> => {
-    return getMockHeaderImage(type);
+export const fetchPageThumbnailImage = memoize(
+  async (type: PageThumbnailType): Promise<ImageMetadata> => {
+    return getMockThumbnailImage(type);
   },
 );

@@ -37,6 +37,10 @@ const contentClass = css({
     _pc: "160",
   },
 });
+
+// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
+const ogp = thumbnail.src.split("?")[0];
+
 ---
 
 <Layout
@@ -44,6 +48,7 @@ const contentClass = css({
     title: `${title} | ロリっ子喫茶ぷぷりえ`,
     description,
     keywords,
+    ogp,
   }}
   themeColor={themeColor}
   mainClass={mainClass}

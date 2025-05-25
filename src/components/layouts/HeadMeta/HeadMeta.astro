@@ -4,7 +4,7 @@ import "@styles/styles.css";
 
 import DescriptionMeta from "./internals/DescriptionMeta.astro";
 import FaviconMeta from "./internals/FaviconMeta.astro";
-import GtmMEta from "./internals/GtmMeta.astro";
+import GtmMeta from "./internals/GtmMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
 
@@ -20,8 +20,12 @@ const isProduction = import.meta.env.MODE === "production";
 ---
 
 <DescriptionMeta {...props} />
-<OgpMeta />
-<GtmMEta />
+<OgpMeta
+  title={props.title}
+  description={props.description}
+  ogp={props.ogp}
+/>
+<GtmMeta />
 <FaviconMeta />
 {isProduction ? <SecurityMeta /> : null}
 

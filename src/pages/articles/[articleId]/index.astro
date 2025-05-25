@@ -4,7 +4,7 @@ import ArticleContentSection from "@components/pages/articles/ArticleContentSect
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchArticle, fetchArticleIds } from "@lib/contents/articles";
-import { fetchPageHeaderImage } from "@lib/contents/assets";
+import { fetchPageThumbnailImage } from "@lib/contents/assets";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
@@ -19,7 +19,7 @@ const { articleId } = Astro.params;
 
 const article = await fetchArticle(articleId);
 
-const headerImage = await fetchPageHeaderImage("article");
+const headerImage = await fetchPageThumbnailImage("article");
 
 const title = article.title;
 
@@ -37,6 +37,9 @@ const contentClass = css({
   paddingTop: "26",
   paddingBottom: "42",
 });
+
+// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
+const ogp = headerImage.src.split("?")[0];
 ---
 
 <Layout
@@ -44,6 +47,7 @@ const contentClass = css({
     title: `${title} | お知らせ | ロリっ子喫茶ぷぷりえ`,
     description,
     keywords,
+    ogp,
   }}
   themeColor={article.themeColor}
   mainClass={mainClass}

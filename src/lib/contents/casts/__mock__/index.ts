@@ -9,6 +9,8 @@ import oukaImg from "./assets/くるりおうか.png";
 import rinneImg from "./assets/星月りんね.png";
 import kokoaImg from "./assets/柚月ここあ.png";
 
+import thumbnail from "./assets/thumbnail.png";
+
 export async function createMockCasts(): Promise<FetchedCast[]> {
   const casts = [
     {
@@ -69,6 +71,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           description: "うぃまるの Mastodon プロフィール",
         },
       ]),
+      thumbnail,
     },
     {
       attendanceId: 60,
@@ -118,6 +121,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           description: "ビデカメの Pixiv Booth ストア",
         },
       ]),
+      thumbnail,
     },
     {
       attendanceId: 62,
@@ -165,6 +169,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
           description: "うさみみかの GitHub",
         },
       ]),
+      thumbnail,
     },
     {
       attendanceId: 63,
@@ -195,6 +200,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
         },
       ],
       socialLinks: [],
+      thumbnail,
     },
     {
       attendanceId: 64,
@@ -223,6 +229,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
         },
       ],
       socialLinks: [],
+      thumbnail,
     },
     {
       attendanceId: 65,
@@ -251,6 +258,7 @@ export async function createMockCasts(): Promise<FetchedCast[]> {
       ],
       themeColor: "rose.lite",
       socialLinks: [],
+      thumbnail,
     },
   ] satisfies Cast[];
 
