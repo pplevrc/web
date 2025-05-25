@@ -17,6 +17,7 @@ import movieDevSpH264 from "@assets/videos/top-sp.generated.dev.h264.mp4";
 
 // ※ poster 画像 .. 使用しない. 動画の最適化がかなりされているため, poster なしでも違和感なく表示できる
 // ただ、指定しないと余計な画像が出てくるブラウザがあるので、空の画像を指定しておく
+const poster = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEA"
 
 const props = Astro.props;
 
@@ -36,11 +37,10 @@ const sources = isDev ? devSources : prodSources;
   muted
   autoplay
   playsInline
-  preload="auto"
   disableRemotePlayback
   loop
   aria-label="ロリっ子喫茶ぷぷりえの紹介ムービー"
-  poster="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEA"
+  poster={poster}
   sources={sources}
   {...props}
 />
