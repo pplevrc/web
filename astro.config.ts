@@ -1,3 +1,8 @@
+// .env は astro 設定ファイルでは読まれないので, 手動で読み込ませる
+// @see https://docs.astro.build/ja/guides/environment-variables/
+import "dotenv/config";
+
+import sitemap from "@astrojs/sitemap";
 import type { AstroUserConfig } from "astro";
 import { defineConfig } from "astro/config";
 import { defu } from "defu";
@@ -5,6 +10,13 @@ import isWsl from "is-wsl";
 import { purgeInlineCss } from "./lib/cleanup/purge-inline-css.js";
 
 const isDev = process.env["NODE_ENV"] === "development";
+
+function ensureNonNil<T>(value: T | undefined | null, message: string): T {
+  if (value === undefined || value === null) {
+    throw new Error(message);
+  }
+  return value;
+}
 
 function byEnv<T>({
   $development,
@@ -34,7 +46,8 @@ export default defineConfig(
     cacheDir: "./.cache",
 
     $production: {
-      integrations: [purgeInlineCss()],
+      site: `https://${ensureNonNil(process.env["SITE_DOMAIN"], "SITE_DOMAIN is required")}`,
+      integrations: [purgeInlineCss(), sitemap()],
 
       build: {
         inlineStylesheets: "always",
