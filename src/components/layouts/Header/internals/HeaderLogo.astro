@@ -10,7 +10,20 @@ const props = Astro.props;
 
 const isHome = Astro.url.pathname === "/";
 
-const logoStyle = cva({
+const hoverStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      transition: "[transform]",
+      transitionDuration: "faster",
+
+      _hover: {
+        transform: "[scale(1.05) rotate(1deg)]",
+      }
+    }
+  }
+})
+
+const logoStyleRecipe = cva({
   base: {
     w: "16",
     zIndex: "base",
@@ -32,17 +45,25 @@ const logoStyle = cva({
       false: {},
     },
   },
-}).raw({ home: isHome });
+})
+
+const logoStyle = logoStyleRecipe({ home: isHome });
+
+const iconStyle = css({
+  w: "full",
+  h: "full",
+})
 ---
 
 <a
   href="/"
-  {...props}
+  class:list={[logoStyle, props.class]}
   aria-label="ロリっ子喫茶ぷぷりえのホームページへのリンク"
+  {...props}
 >
   <Logo
     type="pple"
-    class={css(logoStyle)}
-    aria-label="ロリっ子喫茶ぷぷりえのロゴ画像"
+    class:list={[hoverStyle, iconStyle]}
+    aria-label="ロリっ子喫茶ぷぷりえのロゴ"
   />
 </a>

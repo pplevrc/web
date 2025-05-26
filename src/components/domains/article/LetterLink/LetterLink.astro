@@ -60,6 +60,17 @@ const rootStyle = css({
   justifyContent: "end",
   h: "52",
   w: "56",
+
+  _motionSafe: {
+    _supportHover: {
+      transition: "[transform]",
+      transitionDuration: "faster",
+
+      _hover: {
+        transform: "[scale(1.05) rotate(1deg)]",
+      }
+    }
+  }
 });
 
 const contentStyle = css({
