@@ -1,4 +1,5 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import ResponsiveVideoSource from "./internals/ResponsiveVideoSource.astro";
 
 export interface Sources {
@@ -6,16 +7,7 @@ export interface Sources {
   sp: string;
 }
 
-type VideoProps = Partial<{
-  [K in keyof HTMLVideoElement]: HTMLVideoElement[K] extends
-    | string
-    | number
-    | boolean
-    ? HTMLVideoElement[K]
-    : never;
-}>;
-
-interface Props extends VideoProps {
+interface Props extends HTMLAttributes<"video"> {
   sources: Sources[];
 }
 
