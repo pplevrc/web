@@ -135,6 +135,7 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
 <!doctype html>
 <html lang="ja" dir="ltr">
   <head>
+    <slot name="head" />
     <HeadMeta title={title} description={description} keywords={keywords} ogp={ogp} />
   </head>
 

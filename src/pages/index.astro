@@ -6,6 +6,9 @@ import Layout from "@layouts/Layout.astro";
 import { getMockThumbnailImage } from "@lib/contents/assets/__mock__";
 import { css } from "@styles/css";
 
+// @ts-ignore ファイルが動的に作られるため
+import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp"
+
 const mainClass = css({
   display: "flex",
   flexDir: "column",
@@ -29,6 +32,9 @@ const ogp = thumbnail.src.split("?")[0];
   mainClass={mainClass}
   defineShapes={["letter", "star"]}
 >
+  <Fragment slot="head">
+    <link rel="preload" href={heroThumbnail.src} as="image" type="image/webp" fetchpriority="high" />
+  </Fragment>
   <HeroSection />
   <NewsHeadlineSection />
   <CastPickupSection />

@@ -107,6 +107,26 @@ export function toAv1(filePath: string, opt: TransportArg): Promise<string> {
   });
 }
 
+export function toThumbnail(
+  filePath: string,
+  _opt: Omit<TransportArg, "media"> = {},
+): Promise<string> {
+  return transport({
+    src: filePath,
+    distFileSuffix: ".generated.thumbnail.webp",
+    createOptions: (input, output) => [
+      "-y",
+      "-i",
+      input,
+      "-vframes",
+      "1",
+      "-q:v",
+      "2",
+      output,
+    ],
+  });
+}
+
 /**
  *
  * @param execute callback to execute ffmpeg command
@@ -124,7 +144,7 @@ async function transport(opt: ExecOptions): Promise<string> {
   ).replace(`${process.cwd()}/`, "");
 
   const cachedDist = await toCacheFile(src, opt);
-  let cachedDistFile: Data | undefined = await tryReadFile(cachedDist);
+  let cachedDistFile: Uint8Array | undefined = await tryReadFile(cachedDist);
 
   if (!cachedDistFile) {
     // docker コマンドを実行するルートが cache フォルダ配下なので、コピーもとファイルを用意しておく

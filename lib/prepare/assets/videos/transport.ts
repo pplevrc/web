@@ -1,5 +1,5 @@
 import { globby } from "globby";
-import { toAv1, toH264, toVp9 } from "./ffmpeg.js";
+import { toAv1, toH264, toThumbnail, toVp9 } from "./ffmpeg.js";
 import { isDev } from "./utils.js";
 
 async function main() {
@@ -16,6 +16,7 @@ async function generateDev() {
 
   for (const file of files) {
     promises.push(transportH264(file));
+    promises.push(transportThumbnail(file));
   }
 
   await Promise.all(promises);
@@ -28,6 +29,7 @@ async function generateProd() {
   for (const file of files) {
     await transportAv1(file);
     await transportWebM(file);
+    await transportThumbnail(file);
   }
 }
 
@@ -64,6 +66,16 @@ async function transportAv1(filePath: string): Promise<void> {
     console.log(`Transporting: ${filePath} to av1`);
     await toAv1(filePath, { media: "pc" });
     await toAv1(filePath, { media: "sp" });
+  } catch (error) {
+    console.error(`Error transporting: ${filePath}`);
+    console.error(error);
+  }
+}
+
+async function transportThumbnail(filePath: string): Promise<void> {
+  try {
+    console.log(`Transporting: ${filePath} to thumbnail`);
+    await toThumbnail(filePath);
   } catch (error) {
     console.error(`Error transporting: ${filePath}`);
     console.error(error);
