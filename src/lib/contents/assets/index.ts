@@ -3,7 +3,6 @@ import type { ImageMetadata } from "astro";
 import { getMockThumbnailImage } from "./__mock__";
 
 export type PageThumbnailType =
-  | "home"
   | "casts"
   | "articles"
   | "guidelines"
