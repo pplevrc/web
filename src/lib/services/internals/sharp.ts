@@ -1,7 +1,6 @@
 import type { ImageOutputFormat } from "astro";
 import baseService from "astro/assets/services/sharp";
 import { AstroError } from "astro/errors";
-import type { LocalImageTransform } from "node_modules/astro/dist/assets/services/service";
 import { AstroErrorData } from "node_modules/astro/dist/core/errors";
 import type { Sharp } from "sharp";
 import type {
@@ -12,6 +11,16 @@ import type {
 } from "./types";
 
 let sharp: typeof import("sharp");
+
+/**
+ * @see `astro/dist/assets/services/service.d.ts`
+ */
+type LocalImageTransform = {
+  src: string;
+  // biome-ignore lint/suspicious/noExplicitAny: 公式流用のため
+  [key: string]: any;
+};
+
 async function loadSharp(): Promise<typeof import("sharp")> {
   if (sharp) {
     return sharp;
