@@ -143,3 +143,6 @@ src/styles
 
 # Prepared for deployment
 **/*.generated.*
+
+# Secret files
+.credentials.json

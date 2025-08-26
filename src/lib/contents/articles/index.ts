@@ -1,5 +1,6 @@
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { memoize } from "@lib/utils/cache";
+import { USE_MOCK } from "@lib/utils/env";
 import type { ImageMetadata } from "astro";
 import { getMockArticles } from "./__mock__/";
 
@@ -60,8 +61,16 @@ export interface Article {
   themeColor: ColorThemeBase;
 }
 
+async function fetchArticlesFromMicroCMS(): Promise<Article[]> {
+  // TODO: MicroCMS API実装後に実装
+  throw new Error("MicroCMS API not implemented yet");
+}
+
 export const fetchArticles = memoize(async (): Promise<Article[]> => {
-  return getMockArticles();
+  if (USE_MOCK) {
+    return getMockArticles();
+  }
+  return fetchArticlesFromMicroCMS();
 });
 
 export const fetchArticle = memoize(async (id: string): Promise<Article> => {
