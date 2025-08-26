@@ -5,7 +5,7 @@ import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"header"> {
-  img: ImageMetadata;
+  img: string | ImageMetadata;
 }
 
 const { img, ...props } = Astro.props;
@@ -14,13 +14,9 @@ const pcWidth = 1440;
 
 const pcHeight = 767;
 
-const widths = [
-  pcWidth,
-  Math.round(pcWidth * 2),
-  Math.round(pcWidth / 2),
-];
+const widths = [pcWidth, Math.round(pcWidth * 2), Math.round(pcWidth / 2)];
 
-const sizes = '100vw';
+const sizes = "100vw";
 
 const rootStyle = css({
   w: "full",

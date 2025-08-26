@@ -1,0 +1,26 @@
+/**
+ * サイトを公開する税体のビルドモードになっているかどうか?
+ *
+ * サイトは production mode でビルドしても, robots.txt でクローリングを拒否すれば検索にヒットしなくなることを, この環境変数によって制御する.
+ */
+export const IS_PUBLIC = process.env.SITE_IS_PUBLIC === "true";
+
+/**
+ * 本番モードかどうか?
+ */
+export const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
+/**
+ * モックデータを利用するかどうか?
+ */
+export const USE_MOCK = process.env.MOCK !== "false";
+
+/**
+ * CONTENTS の API キー
+ */
+export const CONTENTS_API_KEY = process.env.CONTENTS_API_KEY;
+
+/**
+ * CONTENTS のサービス ID
+ */
+export const CONTENTS_SERVICE_ID = process.env.CONTENTS_SERVICE_ID;

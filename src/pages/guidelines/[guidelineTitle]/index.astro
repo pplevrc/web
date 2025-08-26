@@ -38,9 +38,10 @@ const contentClass = css({
   },
 });
 
-// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
-const ogp = thumbnail.src.split("?")[0];
-
+const thumbnailUrl = new URL(
+  typeof thumbnail === "string" ? thumbnail : thumbnail.src,
+);
+const ogpSrc = thumbnailUrl.href;
 ---
 
 <Layout
@@ -48,7 +49,7 @@ const ogp = thumbnail.src.split("?")[0];
     title: `${title} | ロリっ子喫茶ぷぷりえ`,
     description,
     keywords,
-    ogp,
+    ogp: ogpSrc,
   }}
   themeColor={themeColor}
   mainClass={mainClass}
