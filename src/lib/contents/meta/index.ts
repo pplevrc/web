@@ -1,19 +1,44 @@
 import type { Guideline } from "../guildelines";
 
 export interface PageMeta {
+  /**
+   * ページのタイトル (<title> タグではない)
+   */
   title: string;
 
+  /**
+   * ページの説明
+   */
   description: string;
 
+  /**
+   *
+   */
   keywords: string[];
 
+  /**
+   *
+   */
   thumbnail: ImageMetadata | string;
 
+  /**
+   *
+   */
   thumbnailAlt: string;
+
+  /**
+   *
+   */
+  publishedAt: Date;
+
+  /**
+   *
+   */
+  updatedAt: Date;
 }
 
 export interface TopPageMeta extends PageMeta {
-  guidelineShortcuts: Pick<Guideline, "title" | "themeColor" | "contnetId">;
+  guidelineShortcuts: Omit<Guideline, "content">[];
 }
 
 export interface Meta {

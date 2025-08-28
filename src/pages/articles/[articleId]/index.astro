@@ -3,7 +3,7 @@ import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import Layout from "@layouts/Layout.astro";
-import { fetchArticle, fetchArticleIds } from "@lib/contents/articles";
+import { fetchArticleById, fetchArticleIds } from "@lib/contents/articles";
 import { fetchPageThumbnailImage } from "@lib/contents/assets";
 import { css } from "@styles/css";
 
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { articleId } = Astro.params;
 
-const article = await fetchArticle(articleId);
+const article = await fetchArticleById(articleId);
 
 const headerImage = await fetchPageThumbnailImage("article");
 
