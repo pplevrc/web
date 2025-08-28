@@ -25,16 +25,6 @@ export interface Guideline extends PageMeta {
   contentId: string;
 
   /**
-   *
-   */
-  publishedAt: Date;
-
-  /**
-   *
-   */
-  updatedAt: Date;
-
-  /**
    * HTML
    */
   content: string;
@@ -49,6 +39,8 @@ export interface Guideline extends PageMeta {
    */
   themeColor: ColorThemeBase;
 }
+
+type GuidelineMeta = Omit<Guideline, "content">;
 
 function convertMicroCMSToGuideline(
   microCMSGuideline: MicroCMSGuideline,
@@ -85,8 +77,8 @@ function convertMicroCMSToGuideline(
   };
 }
 
-async function fetchGuidelinesMeta(): Promise<Omit<Guideline, "content">[]> {
-  let results: Omit<Guideline, "content">[] = [];
+async function fetchGuidelinesMeta(): Promise<GuidelineMeta[]> {
+  let results: GuidelineMeta[] = [];
   let offset = 0;
 
   while (true) {
@@ -95,7 +87,6 @@ async function fetchGuidelinesMeta(): Promise<Omit<Guideline, "content">[]> {
         fields: [
           "id",
           "title",
-          "description",
           "hero-image",
           "theme-color",
           "ballon-position",
@@ -112,7 +103,7 @@ async function fetchGuidelinesMeta(): Promise<Omit<Guideline, "content">[]> {
     results = [
       ...results,
       ...response.contents.map(
-        (c) => convertMicroCMSToGuideline(c) as Omit<Guideline, "content">,
+        (c) => convertMicroCMSToGuideline(c) as GuidelineMeta,
       ),
     ];
 
@@ -132,11 +123,9 @@ async function fetchGuidelineById(id: string): Promise<Guideline> {
   return convertMicroCMSToGuideline(guideline);
 }
 
-export const fetchGuidelines = memoize(
-  async (): Promise<Omit<Guideline, "content">[]> => {
-    return USE_MOCK ? getMockGuidelines() : fetchGuidelinesMeta();
-  },
-);
+export const fetchGuidelines = memoize(async (): Promise<GuidelineMeta[]> => {
+  return USE_MOCK ? getMockGuidelines() : fetchGuidelinesMeta();
+});
 
 export const fetchGuidelineByTitle = memoize(
   async (title: string): Promise<Guideline> => {

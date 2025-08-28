@@ -151,6 +151,16 @@ export interface MicroCMSArticle extends MicroCMSListContent {
   /**
    *
    */
+  "hero-image-alt": string;
+
+  /**
+   *
+   */
+  "hero-iamge-label": string;
+
+  /**
+   *
+   */
   "theme-color": ColorThemeBase;
 
   /**
