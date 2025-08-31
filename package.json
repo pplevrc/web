@@ -25,12 +25,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/sitemap": "^3.5.1",
     "@biomejs/biome": "^1.9.4",
     "@pandacss/dev": "^0.53.7",
     "@tsconfig/strictest": "^2.0.5",
     "@vitest/ui": "^3.1.4",
-    "astro": "^5.8.1",
+    "astro": "^5.13.5",
     "defu": "^6.1.4",
     "dotenv": "^16.5.0",
     "globby": "^14.1.0",
@@ -39,7 +39,7 @@
     "is-wsl": "^3.1.0",
     "jiti": "^2.4.2",
     "lefthook": "^1.11.13",
-    "lightningcss": "^1.25.1",
+    "lightningcss": "^1.30.1",
     "media-codecs": "^2.0.2",
     "mediainfo.js": "^0.3.5",
     "ohash": "^2.0.11",
@@ -48,19 +48,18 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "scule": "^1.3.0",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.3",
     "type-fest": "^4.41.0",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "unified": "^11.0.5",
     "vitest": "^3.1.4"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.4",
   "volta": {
-    "node": "22.11.0",
-    "yarn": "4.5.0"
+    "node": "24.7.0",
+    "yarn": "4.9.4"
   },
   "engines": {
-    "node": "22.11.0",
-    "yarn": "4.5.0"
+    "node": "24.7.0"
   }
 }
