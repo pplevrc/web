@@ -1,5 +1,4 @@
 import baseService from "astro/assets/services/sharp";
-import { isESMImportedImage, isRemoteAllowed } from "astro/assets/utils";
 import type { CustomSharpService } from "./custom-sharp";
 import { configToSearchParams, searchParamsToConfig } from "./internals/path";
 import { transform } from "./internals/sharp";
@@ -22,13 +21,6 @@ export default {
    * デフォルトの getURL に対して, crop, outline のオプションに対応する Query Parameter を追加している
    */
   async getURL(options, imageConfig) {
-    if (
-      !isESMImportedImage(options.src) &&
-      !isRemoteAllowed(options.src, imageConfig)
-    ) {
-      return options.src;
-    }
-
     const defaultPath = await baseService.getURL(options, imageConfig);
 
     const additionalSearchParams = configToSearchParams(options);

@@ -67,7 +67,7 @@ function byEnv<T>({
   ...rest
 }: { $development?: T; $production?: T } & T): T {
   return defu(
-    IS_PRODUCTION ? ($development ?? {}) : ($production ?? {}),
+    IS_PRODUCTION ? ($production ?? {}) : ($development ?? {}),
     rest,
   ) as T;
 }
@@ -80,9 +80,6 @@ export default defineConfig(
       service: {
         entrypoint: "./src/lib/services/custom-sharp.ts",
       },
-    },
-    experimental: {
-      responsiveImages: true,
     },
 
     vite: {
@@ -97,6 +94,14 @@ export default defineConfig(
      */
     $production: {
       integrations: [purgeInlineCss(), sitemap()],
+
+      image: {
+        remotePatterns: [
+          {
+            hostname: "images.microcms-assets.io",
+          },
+        ],
+      },
 
       build: {
         inlineStylesheets: "always",
