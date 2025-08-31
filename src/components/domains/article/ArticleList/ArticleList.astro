@@ -1,17 +1,17 @@
 ---
 import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
-import type { Article } from "@lib/contents/articles";
+import type { ArticleMeta } from "@lib/contents/articles";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"nav"> {
-  articles: Article[];
+  articles: ArticleMeta[];
   yearMonths: `${number}-${number}`[];
 }
 
 const { articles, yearMonths, ...props } = Astro.props;
 
-function findArticlesByYm(yearMonth: `${number}-${number}`): Article[] {
+function findArticlesByYm(yearMonth: `${number}-${number}`): ArticleMeta[] {
   return articles.filter((article) => {
     return (
       `${article.publishedAt.getFullYear()}-${article.publishedAt.getMonth() + 1}` ===
@@ -69,14 +69,7 @@ const itemStyle = css({});
             <ul class={intermediateStyle} role="presentation">
               {articles.map(
                 (
-                  {
-                    id,
-                    title,
-                    publishedAt,
-                    thumbnail,
-                    thumbnailAlt,
-                    thumbnailDisplayAlt,
-                  },
+                  { id, title, publishedAt, thumbnail, thumbnailDisplayAlt },
                   index,
                 ) => {
                   const pos = (counter % 3) + 1;
@@ -96,7 +89,6 @@ const itemStyle = css({});
                         href={`/articles/${id}`}
                         publishedAt={publishedAt}
                         thumbnail={thumbnail}
-                        thumbnailAlt={thumbnailAlt}
                         thumbnailDisplayAlt={thumbnailDisplayAlt}
                       />
                     </li>

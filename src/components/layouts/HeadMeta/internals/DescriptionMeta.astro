@@ -1,23 +1,15 @@
 ---
+import { fetchMeta } from "@lib/contents/meta";
 import type { DescriptionMetaProps } from "../types";
 
 interface Props extends DescriptionMetaProps {}
 
 const { description, keywords = [], title } = Astro.props;
 
-const commonKeywords = [
-  "ロリっ子喫茶ぷぷりえ",
-  "ロリ",
-  "ぷぷりえ",
-  "ププリエ",
-  "pple",
-  "VRChat",
-  "VRC",
-  "VRChat Event",
-  "VRChat Community",
-  "VRChat イベント",
-  "VRChat コミュニティ",
-];
+const { commonKeywords } = await fetchMeta();
+
+const fixedTitle =
+  title === "ロリっ子喫茶ぷぷりえ" ? title : `${title} | ロリっ子喫茶ぷぷりえ`;
 ---
 
 <meta charset="UTF-8" />
@@ -25,6 +17,9 @@ const commonKeywords = [
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <meta name="description" content={description} />
-<meta name="keywords" content={[...commonKeywords, ...keywords].join(", ")} />
+<meta
+  name="keywords"
+  content={[...commonKeywords, ...keywords].map((k) => k.trim()).join(",")}
+/>
 <meta name="generator" content={Astro.generator} />
-<title>{title}</title>
+<title>{fixedTitle}</title>

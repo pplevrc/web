@@ -2,23 +2,22 @@
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
 import Layout from "@layouts/Layout.astro";
-import { fetchPageThumbnailImage } from "@lib/contents/assets";
+import { fetchMeta } from "@lib/contents/meta";
 
-const headerImage = await fetchPageThumbnailImage("guidelines");
-
-// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
-const ogp = headerImage.src.split("?")[0];
+const {
+  guidelines: { title, description, keywords, thumbnail },
+} = await fetchMeta();
 ---
 
 <Layout
   defineIcons={["flower"]}
   headMeta={{
-    title: "ガイドライン | ロリっ子喫茶ぷぷりえ",
-    description: "ロリっ子喫茶ぷぷりえのガイドラインです.",
-    keywords: [],
-    ogp,
+    title,
+    description,
+    keywords,
+    ogp: thumbnail,
   }}
 >
-  <PageHeading img={headerImage}> ガイドライン </PageHeading>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
   <GuidelineList />
 </Layout>

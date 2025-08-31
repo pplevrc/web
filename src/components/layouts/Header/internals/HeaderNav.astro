@@ -1,4 +1,5 @@
 ---
+import { fetchMeta } from "@lib/contents/meta";
 import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
 import HamburgerIconButton from "./HamburgerIconButton.astro";
@@ -71,6 +72,13 @@ const logoStyle = css({
 });
 
 const navigationId = hash("global-navigation");
+
+const {
+  articles: { title: articlesTitle },
+  guidelines: { title: guidelinesTitle },
+  casts: { title: castsTitle },
+  home: { title: homeTitle },
+} = await fetchMeta();
 ---
 
 <nav
@@ -87,16 +95,16 @@ const navigationId = hash("global-navigation");
   <HeaderLogo class={logoStyle} />
   <ul>
     <li>
-      <HeaderNavItem label="ホーム" path="/" />
+      <HeaderNavItem label={homeTitle} path="/" />
     </li>
     <li>
-      <HeaderNavItem label="おしらせ" path="/articles" />
+      <HeaderNavItem label={articlesTitle} path="/articles" />
     </li>
     <li>
-      <HeaderNavItem label="店員さん" path="/casts" />
+      <HeaderNavItem label={castsTitle} path="/casts" />
     </li>
     <li>
-      <HeaderNavItem label="ガイドライン" path="/guidelines" />
+      <HeaderNavItem label={guidelinesTitle} path="/guidelines" />
     </li>
   </ul>
   <script>

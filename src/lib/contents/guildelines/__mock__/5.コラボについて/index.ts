@@ -5,7 +5,7 @@ import Thumbnail from "./thumbnail.png";
 
 export async function getMockGuideline(): Promise<Guideline> {
   return {
-    id: "5",
+    contentId: "5",
     title: "コラボについて",
     description:
       "ぷぷりえ営業日にコラボを開催する際の注意事項や, 相談先について",
@@ -14,9 +14,7 @@ export async function getMockGuideline(): Promise<Guideline> {
     content: await mdToHtml(Content),
     keywords: ["ぷぷりえ", "VRChat"],
     thumbnail: Thumbnail,
-    thumbnailAlt: "じとめ",
     ballonPosition: "topRight",
     themeColor: "ice",
-    shortcut: false,
   };
 }

@@ -4,10 +4,12 @@ import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchArticles } from "@lib/contents/articles";
-import { fetchPageThumbnailImage } from "@lib/contents/assets";
+import { fetchMeta } from "@lib/contents/meta";
 import { css } from "@styles/css";
 
-const headerImage = await fetchPageThumbnailImage("articles");
+const {
+  articles: { title, description, keywords, thumbnail },
+} = await fetchMeta();
 
 const articles = await fetchArticles();
 
@@ -43,27 +45,24 @@ const fitStyle = css({
     gap: "26",
   },
 });
-
-// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
-const ogp = headerImage.src.split("?")[0];
 ---
 
 <Layout
   headMeta={{
-    title: "お知らせ一覧 | ロリっ子喫茶ぷぷりえ",
-    description: "ロリっ子喫茶ぷぷりえのお知らせ一覧です.",
-    keywords: [],
-    ogp,
+    title,
+    description,
+    keywords,
+    ogp: thumbnail,
   }}
   defineShapes={["letter", "star"]}
   mainClass={mainClass}
 >
-  <PageHeading img={headerImage}> お知らせ一覧 </PageHeading>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
   <section class={fitStyle}>
     <ArticleList
       articles={articles}
       yearMonths={dateShortcuts}
-      aria-label="お知らせ一覧"
+      aria-label={title}
     />
     <ArticleDateShortcut yearMonths={dateShortcuts} aria-label="公開年月一覧" />
   </section>

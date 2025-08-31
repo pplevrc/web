@@ -9,17 +9,14 @@ import type { HTMLAttributes } from "astro/types";
 interface Props extends HTMLAttributes<"a"> {
   title: string;
 
-  thumbnail: ImageMetadata;
-
-  thumbnailAlt: string;
+  thumbnail: ImageMetadata | string;
 
   ballonPosition: BallonPosition;
 
   themeColor: ColorThemeBase;
 }
 
-const { title, thumbnail, thumbnailAlt, ballonPosition, themeColor, ...props } =
-  Astro.props;
+const { title, thumbnail, ballonPosition, themeColor, ...props } = Astro.props;
 
 const linkStyle = css({
   display: "block",
@@ -155,7 +152,7 @@ const sizes = `${Math.round((pcWidth / PC_VIEWPORT_WIDTH) * 100)}%, (max-width: 
       widths={widths}
       sizes={sizes}
       src={thumbnail}
-      alt={thumbnailAlt}
+      alt=""
       fit="cover"
       class={imageStyle}
     />

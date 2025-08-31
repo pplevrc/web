@@ -23,7 +23,7 @@ interface Props extends HTMLAttributes<"picture"> {
   /**
    * Picture Component に指定する alt 属性
    */
-  alt: string;
+  alt?: string;
 
   /**
    * 画像のサイズ
@@ -148,7 +148,7 @@ const scaleStyle = scale !== 1 ? { scale } : {};
       {seal && <StarShape class={starStyle} theme={colorTheme} />}
       <CustomPicture
         src={src}
-        alt={alt}
+        alt={alt ?? ""}
         width={width}
         height={height}
         widths={widths}
@@ -165,7 +165,7 @@ const scaleStyle = scale !== 1 ? { scale } : {};
       {seal && <StarShape class={starStyle} theme={colorTheme} />}
       <CustomPicture
         src={src}
-        alt={alt}
+        alt={alt ?? ""}
         width={width}
         height={height}
         widths={widths}

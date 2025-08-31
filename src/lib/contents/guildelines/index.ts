@@ -1,5 +1,5 @@
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import type { PageMeta } from "@lib/contents/meta";
+import type { ContentMeta, PageMeta } from "@lib/contents/meta";
 import { memoize } from "@lib/utils/cache";
 import { USE_MOCK } from "@lib/utils/env";
 import {
@@ -18,7 +18,7 @@ export type BallonPosition =
 
 const LIST_LIMIT = 50;
 
-export interface Guideline extends PageMeta {
+export interface Guideline extends PageMeta, ContentMeta {
   /**
    * 多分使わない値
    */
@@ -40,7 +40,7 @@ export interface Guideline extends PageMeta {
   themeColor: ColorThemeBase;
 }
 
-type GuidelineMeta = Omit<Guideline, "content">;
+export type GuidelineMeta = Omit<Guideline, "content">;
 
 function convertMicroCMSToGuideline(
   microCMSGuideline: MicroCMSGuideline,
@@ -71,9 +71,8 @@ function convertMicroCMSToGuideline(
       .filter((k) => k.length > 0)
       .map((keyword) => keyword.trim()),
     thumbnail: heroImage.url,
-    thumbnailAlt: microCMSGuideline.title,
     ballonPosition,
-    themeColor,
+    themeColor: ensureNonNil(themeColor[0]),
   };
 }
 

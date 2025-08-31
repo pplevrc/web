@@ -7,12 +7,12 @@ import {
   fetchContent,
   fetchContents,
 } from "@lib/utils/microcms";
-import type { PageMeta } from "../meta";
+import type { ContentMeta, PageMeta } from "../meta";
 import { getMockArticles } from "./__mock__/";
 
 const LIST_LIMIT = 50;
 
-export interface Article extends PageMeta {
+export interface Article extends PageMeta, ContentMeta {
   /**
    * HTML
    */
@@ -40,7 +40,10 @@ export interface Article extends PageMeta {
   themeColor: ColorThemeBase;
 }
 
-type ArticleMeta = Omit<Article, "content">;
+/**
+ *
+ */
+export type ArticleMeta = Omit<Article, "content">;
 
 function toId(microCMSArticle: MicroCMSArticle): string {
   const { publishedAt, title } = microCMSArticle;
@@ -64,7 +67,6 @@ function convertMicroCMSArticleToArticle(
     updatedAt,
     content,
     "hero-image": heroImage,
-    "hero-image-alt": heroImageAlt,
     "hero-iamge-label": heroImageLabel,
     "theme-color": themeColor,
   } = microCMSArticle;
@@ -80,7 +82,6 @@ function convertMicroCMSArticleToArticle(
     updatedAt: new Date(updatedAt),
     content,
     thumbnail: heroImage.url,
-    thumbnailAlt: heroImageAlt,
     thumbnailDisplayAlt: heroImageLabel,
   };
 }

@@ -1,5 +1,5 @@
 ---
-import { fetchOfficialSocialLinks } from "@lib/contents/official/social";
+import { fetchMeta } from "@lib/contents/meta";
 import { unique } from "@lib/utils/array";
 import LogoIcon from "./LogoIcon.astro";
 import {
@@ -14,13 +14,15 @@ interface Props {
 
 const { logos = [] } = Astro.props;
 
-const ppleCommonSocialLinkTypes = (await fetchOfficialSocialLinks()).map(
-  (link) => link.type,
-);
+const {
+  official: { socialLinks },
+} = await fetchMeta();
+
+const commonLinkTypes = socialLinks.map((link) => link.type);
 
 const definiteLogos = unique([
   ...logos,
-  ...ppleCommonSocialLinkTypes,
+  ...commonLinkTypes,
 ] as LogoIconType[]).map((type) => (isSupportedLogo(type) ? type : "other"));
 ---
 

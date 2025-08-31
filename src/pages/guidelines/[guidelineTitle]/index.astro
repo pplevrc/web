@@ -7,6 +7,8 @@ import {
   fetchGuidelineByTitle,
   fetchGuidelineTitles,
 } from "@lib/contents/guildelines";
+import { fetchMeta } from "@lib/contents/meta";
+import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
@@ -19,8 +21,13 @@ export async function getStaticPaths() {
 
 const { guidelineTitle } = Astro.params;
 
-const { title, keywords, content, description, thumbnail, themeColor } =
-  await fetchGuidelineByTitle(guidelineTitle);
+const {
+  guideline: { title, description, keywords },
+} = await fetchMeta();
+
+const guideline = await fetchGuidelineByTitle(guidelineTitle);
+
+const { thumbnail, themeColor, content } = guideline;
 
 const mainClass = css({
   display: "flex",
@@ -37,24 +44,22 @@ const contentClass = css({
     _pc: "160",
   },
 });
-
-const thumbnailUrl = new URL(
-  typeof thumbnail === "string" ? thumbnail : thumbnail.src,
-);
-const ogpSrc = thumbnailUrl.href;
 ---
 
 <Layout
   headMeta={{
-    title: `${title} | ロリっ子喫茶ぷぷりえ`,
-    description,
-    keywords,
-    ogp: ogpSrc,
+    title: replaceByMap(title, guideline),
+    description: replaceByMap(description, guideline),
+    keywords: [
+      ...keywords.map((k) => replaceByMap(k, guideline)),
+      ...guideline.keywords,
+    ],
+    ogp: thumbnail,
   }}
   themeColor={themeColor}
   mainClass={mainClass}
 >
-  <PageHeading img={thumbnail}> {title} </PageHeading>
+  <PageHeading img={thumbnail}> {replaceByMap(title, guideline)} </PageHeading>
   <GuidelineContentSection contentHtml={content} class={contentClass} />
   <GuidelineNavigation />
 </Layout>
