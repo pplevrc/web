@@ -25,12 +25,12 @@ export interface Props {
   /**
    *
    */
-  thumbnail: ImageMetadata;
+  thumbnail: string | ImageMetadata;
 
   /**
    *
    */
-  thumbnailAlt: string;
+  thumbnailAlt?: string;
 
   /**
    *
@@ -68,9 +68,9 @@ const rootStyle = css({
 
       _hover: {
         transform: "[scale(1.05) rotate(1deg)]",
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 const contentStyle = css({

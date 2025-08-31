@@ -39,20 +39,12 @@ const newArticles = await fetchNewArticles();
   <ul class={listStyle}>
     {
       newArticles.map(
-        ({
-          id,
-          title,
-          thumbnail,
-          thumbnailAlt,
-          thumbnailDisplayAlt,
-          publishedAt,
-        }) => (
+        ({ id, title, thumbnail, thumbnailDisplayAlt, publishedAt }) => (
           <li class={listItemStyle}>
             <LetterLink
               href={`/articles/${id}`}
               title={title}
               thumbnail={thumbnail}
-              thumbnailAlt={thumbnailAlt}
               thumbnailDisplayAlt={thumbnailDisplayAlt}
               publishedAt={publishedAt}
             />

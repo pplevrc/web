@@ -6,6 +6,8 @@ import Layout from "@layouts/Layout.astro";
 import { fetchCast, fetchCastNickNames } from "@lib/contents/casts";
 import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import type { SocialLinkType } from "@lib/contents/commons/SocialLink";
+import { fetchMeta } from "@lib/contents/meta";
+import { replaceByMap } from "@lib/utils/string";
 
 export async function getStaticPaths() {
   const castNickNames = await fetchCastNickNames();
@@ -15,7 +17,13 @@ export async function getStaticPaths() {
 
 const { nickname } = Astro.params;
 
-const { themeColor, socialLinks, thumbnail } = await fetchCast(nickname);
+const {
+  cast: { title, description, keywords },
+} = await fetchMeta();
+
+const cast = await fetchCast(nickname);
+
+const { themeColor, socialLinks, thumbnail } = cast;
 
 const colorName = pickColorBase(themeColor);
 
@@ -23,18 +31,15 @@ const defineLogos = [
   ...socialLinks.map((link) => link.type),
   "vrchat",
 ] as const satisfies SocialLinkType[];
-
-// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
-const ogp = thumbnail.src.split("?")[0];
 ---
 
 <Layout
   defineLogos={defineLogos}
   headMeta={{
-    title: `店員さん紹介: ${nickname} | ロリっ子喫茶ぷぷりえ`,
-    description: `ロリっ子喫茶ぷぷりえの店員さん (${nickname}) を紹介するページです.`,
-    keywords: [nickname],
-    ogp,
+    title: replaceByMap(title, cast.profile),
+    description: replaceByMap(description, cast.profile),
+    keywords: keywords.map((k) => replaceByMap(k, cast.profile)),
+    ogp: thumbnail,
   }}
   themeColor={colorName}
 >

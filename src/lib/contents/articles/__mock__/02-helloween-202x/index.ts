@@ -6,6 +6,7 @@ import Thumbnail from "./thumbnail.png";
 export async function getMockArticle(): Promise<Article> {
   return {
     content: await mdToHtml(Content),
+    contentId: "02-helloween-202x",
     id: "02-helloween-202x",
     publishedAt: new Date("2023-10-31"),
     updatedAt: new Date("2023-10-31"),
@@ -13,7 +14,6 @@ export async function getMockArticle(): Promise<Article> {
     description: "ハロウィンイベント202X開催のお知らせです。",
     keywords: ["ハロウィン", "イベント"],
     thumbnail: Thumbnail,
-    thumbnailAlt: "サムネイルサンプル2",
     thumbnailDisplayAlt: "がうー",
     themeColor: "honey",
   };

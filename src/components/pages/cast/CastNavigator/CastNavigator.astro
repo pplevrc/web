@@ -3,6 +3,7 @@ import DecorativeLink from "@components/decoratives/Links/DecorativeLink/Decorat
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
 import { fetchNextCast, fetchPrevCast } from "@lib/contents/casts";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import { fetchMeta } from "@lib/contents/meta";
 import { css } from "@styles/css";
 
 interface Props {
@@ -15,6 +16,10 @@ const { nickname, themeColor } = Astro.props;
 
 const prevCast = await fetchPrevCast(nickname);
 const nextCast = await fetchNextCast(nickname);
+
+const {
+  casts: { backLinkLabel },
+} = await fetchMeta();
 
 const rootStyle = css({
   h: "112",
@@ -71,6 +76,6 @@ const navItems = [prevCast, nextCast];
     }
   </ul>
   <DecorativeLink themeColor={themeColor} href="/casts">
-    一覧にもどる
+    {backLinkLabel}
   </DecorativeLink>
 </nav>

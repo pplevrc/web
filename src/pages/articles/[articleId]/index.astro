@@ -4,7 +4,8 @@ import ArticleContentSection from "@components/pages/articles/ArticleContentSect
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchArticleById, fetchArticleIds } from "@lib/contents/articles";
-import { fetchPageThumbnailImage } from "@lib/contents/assets";
+import { fetchMeta } from "@lib/contents/meta";
+import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
@@ -17,15 +18,20 @@ export async function getStaticPaths() {
 
 const { articleId } = Astro.params;
 
+const {
+  article: { title, description, keywords },
+} = await fetchMeta();
+
 const article = await fetchArticleById(articleId);
 
-const headerImage = await fetchPageThumbnailImage("article");
-
-const title = article.title;
-
-const description = article.description;
-
-const keywords = article.keywords;
+const {
+  keywords: articleKeywords,
+  thumbnail,
+  themeColor,
+  content,
+  thumbnailDisplayAlt,
+  publishedAt,
+} = article;
 
 const mainClass = css({
   display: "flex",
@@ -37,31 +43,30 @@ const contentClass = css({
   paddingTop: "26",
   paddingBottom: "42",
 });
-
-// 末尾の Query Parameter を削除した src 文字列 (thumbnail.src は debug mode では URL ではない)
-const ogp = headerImage.src.split("?")[0];
 ---
 
 <Layout
   headMeta={{
-    title: `${title} | お知らせ | ロリっ子喫茶ぷぷりえ`,
-    description,
-    keywords,
-    ogp,
+    title: replaceByMap(title, article),
+    description: replaceByMap(description, article),
+    keywords: [
+      ...keywords.map((k) => replaceByMap(k, article)),
+      ...articleKeywords,
+    ],
+    ogp: thumbnail,
   }}
-  themeColor={article.themeColor}
+  themeColor={themeColor}
   mainClass={mainClass}
   defineShapes={["star"]}
 >
-  <PageHeading img={headerImage}>お知らせ</PageHeading>
+  <PageHeading img={thumbnail}>{replaceByMap(title, article)}</PageHeading>
   <ArticleContentSection
-    contentHtml={article.content}
-    thumbnail={article.thumbnail}
-    thumbnailAlt={article.thumbnailAlt}
-    thumbnailDisplayAlt={article.thumbnailDisplayAlt}
-    title={title}
-    themeColor={article.themeColor}
-    publishedAt={article.publishedAt}
+    contentHtml={content}
+    thumbnail={thumbnail}
+    thumbnailDisplayAlt={thumbnailDisplayAlt}
+    title={replaceByMap(title, article)}
+    themeColor={themeColor}
+    publishedAt={publishedAt}
     class={contentClass}
   />
   <ArticleNavigation />

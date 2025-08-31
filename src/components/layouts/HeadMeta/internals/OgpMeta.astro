@@ -1,18 +1,16 @@
 ---
 import { getOgpImage } from "@lib/utils/image";
+import type { ImageMetadata } from "astro";
 
 interface Props {
-
   title: string;
   description: string;
-  ogp?: string;
+  ogp?: ImageMetadata | string;
 }
 
 const props = Astro.props;
 
 const siteUrl = Astro.url.href;
-
-const enabledOGP = process.env.SITE_IS_PUBLIC === 'true' && props.ogp !== undefined
 
 async function getOgpPath(): Promise<string> {
   if (!props.ogp) return "";
@@ -22,13 +20,9 @@ async function getOgpPath(): Promise<string> {
 }
 ---
 
-{
-enabledOGP ? (
-  <meta property="og:title" content={props.title} />
-  <meta property="og:site_name" content="ロリっ子喫茶ぷぷりえ" />
-  <meta property="og:description" content={props.description} />
-  <meta property="og:image" content={await getOgpPath()} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={siteUrl} />
-  ) : <Fragment />
-}
+<meta property="og:title" content={props.title} />
+<meta property="og:site_name" content="ロリっ子喫茶ぷぷりえ" />
+<meta property="og:description" content={props.description} />
+<meta property="og:image" content={await getOgpPath()} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={siteUrl} />

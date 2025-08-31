@@ -6,6 +6,7 @@ import Thumbnail from "./thumbnail.jpg";
 export async function getMockArticle(): Promise<Article> {
   return {
     content: await mdToHtml(Content),
+    contentId: "03-new-cast-202x",
     id: "03-new-cast-202x",
     publishedAt: new Date("2023-11-01"),
     updatedAt: new Date("2023-11-01"),
@@ -13,7 +14,6 @@ export async function getMockArticle(): Promise<Article> {
     description: "新しい店員さんが来店します!",
     keywords: ["新しい店員さん", "来店"],
     thumbnail: Thumbnail,
-    thumbnailAlt: "サムネイルサンプル3",
     thumbnailDisplayAlt: "しゅるちゃん !",
     themeColor: "matcha",
   };

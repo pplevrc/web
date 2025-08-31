@@ -14,7 +14,9 @@ export function remToSizePercent(rem: number): number {
   return Number(result.toFixed(2));
 }
 
-export async function getOgpImage(src: string): Promise<GetImageResult> {
+export async function getOgpImage(
+  src: string | ImageMetadata,
+): Promise<GetImageResult> {
   return getImage({
     src,
     format: "webp",

@@ -6,6 +6,7 @@ import Content from "./vket202xs.md?raw";
 export async function getMockArticle(): Promise<Article> {
   return {
     content: await mdToHtml(Content),
+    contentId: "04-vket202xs",
     id: "04-vket202xs",
     publishedAt: new Date("2024-07-01"),
     updatedAt: new Date("2024-07-01"),
@@ -13,7 +14,6 @@ export async function getMockArticle(): Promise<Article> {
     description: "Vket202X Summer イベント参加のお知らせです。",
     keywords: ["Vket", "イベント"],
     thumbnail: Thumbnail,
-    thumbnailAlt: "サムネイルサンプル4",
     thumbnailDisplayAlt: "おえかきすき !",
     themeColor: "rose",
   };
