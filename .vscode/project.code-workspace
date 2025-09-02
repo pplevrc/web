@@ -1,7 +1,7 @@
 {
   "folders": [
     {
-      "path": "..",
+      "path": ".."
     }
   ],
   "extensions": {
@@ -33,7 +33,8 @@
     "explorer.fileNesting.patterns": {
       "tsconfig.json": "tsconfig.*.json",
       "package.json": "yarn.lock, .yarn, .yarnrc.yml, *.config.ts, *.config.cjs, biome.json, lefthook.yml"
-    }
+    },
+    "liveServer.settings.root": "dist"
   },
   "launch": {
     "version": "0.2.0",
