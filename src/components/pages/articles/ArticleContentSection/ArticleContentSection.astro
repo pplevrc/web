@@ -142,6 +142,13 @@ const publishedAtString = Intl.DateTimeFormat("ja-JP", {
     <MarkdownContent
       contentHtml={contentHtml}
       themeColor={themeColor}
+      imageOptions={{
+        width: 1920,
+        widths: [1920 * 0.75, 1920 * 0.5],
+        height: 1080,
+        fit: "cover",
+        position: "center",
+      }}
       class={contentClass}
     />
 

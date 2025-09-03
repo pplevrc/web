@@ -1,5 +1,9 @@
 ---
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import {
+  type ImageTransformOption,
+  localizeRemoteImages,
+} from "@lib/contents/utils/localizeImageUrls";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -13,9 +17,19 @@ interface Props extends HTMLAttributes<"article"> {
    *
    */
   themeColor: ColorThemeBase;
+
+  /**
+   *
+   */
+  imageOptions: ImageTransformOption;
 }
 
-const { contentHtml: content, themeColor, ...props } = Astro.props;
+const {
+  contentHtml: content,
+  themeColor,
+  imageOptions,
+  ...props
+} = Astro.props;
 
 const articleClass = css({
   textStyle: "normal.sm",
@@ -92,10 +106,12 @@ const articleClass = css({
     borderStyle: "dotted",
   },
 });
+
+const fixedContentHtml = await localizeRemoteImages(content, imageOptions);
 ---
 
 <article
-  set:html={content}
+  set:html={fixedContentHtml}
   class:list={[articleClass, props.class]}
   {...props}
 />

@@ -13,5 +13,15 @@ const { contentHtml, ...props } = Astro.props;
 ---
 
 <section class={props.class} {...props}>
-  <MarkdownContent contentHtml={contentHtml} themeColor="ice" />
+  <MarkdownContent
+    contentHtml={contentHtml}
+    themeColor="ice"
+    imageOptions={{
+      width: 1920,
+      widths: [1920 * 0.75, 1920 * 0.5],
+      height: 1080,
+      fit: "cover",
+      position: "center",
+    }}
+  />
 </section>
