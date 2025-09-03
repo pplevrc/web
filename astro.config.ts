@@ -9,6 +9,7 @@ import { defu } from "defu";
 import isWsl from "is-wsl";
 import type { Plugin as RollupPlugin } from "rollup";
 import { purgeInlineCss } from "./lib/cleanup/purge-inline-css.js";
+import { renameRemoteImages } from "./lib/cleanup/rename-remote-images.js";
 
 const IS_PRODUCTION = process.env["NODE_ENV"] === "production";
 
@@ -93,9 +94,10 @@ export default defineConfig(
      * 本番モード専用オプション
      */
     $production: {
-      integrations: [purgeInlineCss(), sitemap()],
+      integrations: [purgeInlineCss(), sitemap(), renameRemoteImages()],
 
       image: {
+        responsiveStyles: true,
         remotePatterns: [
           {
             hostname: "images.microcms-assets.io",
@@ -105,6 +107,7 @@ export default defineConfig(
 
       build: {
         inlineStylesheets: "always",
+        assets: "_assets",
       },
 
       vite: {
@@ -118,7 +121,7 @@ export default defineConfig(
           },
         },
       },
-    },
+    } satisfies AstroUserConfig,
 
     /**
      * 開発モード専用オプション
@@ -132,6 +135,6 @@ export default defineConfig(
           allowedHosts: [".ngrok-free.app"],
         },
       },
-    },
+    } satisfies AstroUserConfig,
   }),
 );
