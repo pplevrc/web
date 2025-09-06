@@ -1,22 +1,17 @@
 import { z } from "astro:content";
 import { schemaForType } from "@lib/utils/type";
-import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
+import { socialLinkSchema } from "../commons/SocialLink";
 
 export interface Avatar {
-  /**
-   * アバターの身長
-   */
-  height: number;
-
   /**
    *
    */
   images: AvatarImages;
 
   /**
-   * 使用されているアセット情報リスト
+   * 使用されているアセットに必要なクレジット表記
    */
-  assets: SocialLink[];
+  credit: string;
 }
 
 /**
@@ -32,11 +27,6 @@ export interface AvatarImages {
    * 何らかの表情・仕草のある画像
    */
   expression: string | ImageMetadata;
-
-  /**
-   * 三面図画像
-   */
-  // threeSided: string;
 }
 
 /**
@@ -71,19 +61,16 @@ export const avatarImageIndexDefault = Object.freeze({
   index: 0,
 } as const satisfies Required<Pick<AvatarImageIndex, "type" | "index">>);
 
-const avatarImagesSchema = schemaForType<AvatarImages>(
+export const avatarImagesSchema = schemaForType<AvatarImages>(
   z.object({
     newtral: z.unknown(),
     expression: z.unknown(),
-    // threeSided: z.string(),
-    // biome-ignore lint/suspicious/noExplicitAny: 一時的に対応 (ちょっと面倒だったので)
   }) as any,
 );
 
 export const avatarSchema = schemaForType<Avatar>(
   z.object({
-    height: z.number(),
     images: avatarImagesSchema,
-    assets: z.array(socialLinkSchema),
+    credit: z.string(),
   }),
 );

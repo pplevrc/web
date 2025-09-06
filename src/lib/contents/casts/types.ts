@@ -1,19 +1,22 @@
 import { z } from "astro:content";
 import { schemaForType } from "@lib/utils/type";
-import { type ColorTheme, colorThemeSchema } from "../commons/ColorToken";
+import {
+  type ColorThemeBase,
+  colorBaseThemeSchema,
+  colorThemeSchema,
+} from "../commons/ColorToken";
 import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
-import { type Avatar, avatarSchema } from "./avatar";
+import {
+  type Avatar,
+  type AvatarImages,
+  avatarImagesSchema,
+  avatarSchema,
+} from "./avatar";
 
 /**
  *
  */
 export interface Cast {
-  /**
-   * 出席番号
-   * @example 48
-   */
-  attendanceId: number;
-
   /**
    * 店員さんのプロフィール
    */
@@ -23,7 +26,7 @@ export interface Cast {
    * テーマカラー
    * @example "honey.lite"
    */
-  themeColor: ColorTheme;
+  themeColor: ColorThemeBase;
 
   /**
    * VRChat のプロフィール
@@ -36,6 +39,11 @@ export interface Cast {
   avatars: Avatar[];
 
   /**
+   * 立ち絵画像セット
+   */
+  portrait: AvatarImages;
+
+  /**
    * @example "https://www.youtube.com/@sotomiti_iroha"
    */
   socialLinks: SocialLink[];
@@ -43,7 +51,7 @@ export interface Cast {
   /**
    * サムネイル画像
    */
-  thumbnail: ImageMetadata;
+  thumbnail: string | ImageMetadata;
 }
 
 /**
@@ -72,19 +80,10 @@ export interface CastProfile {
   nickname: string;
 
   /**
+   * // (これは AI が生成したいろはです.)
    * @example "やっほー！！いろはです！！\n 構ってくれるにぃにとねぇねがだいすきな子です！！\n はじめての店員さんだけどいっしょうけんめいがんばるよ！！"
    */
   introduction: string;
-
-  /**
-   * @example 12/31
-   */
-  birthday?: Date;
-
-  /**
-   * @example 12
-   */
-  age?: number;
 }
 export type FetchedCast = Omit<Cast, "images">;
 
@@ -92,8 +91,6 @@ const profileSchema = schemaForType<CastProfile>(
   z.object({
     nickname: z.string(),
     introduction: z.string(),
-    birthday: z.date().optional(),
-    age: z.number().optional(),
   }),
 );
 
@@ -106,11 +103,11 @@ const vrchatSchema = schemaForType<VRChatProfile>(
 
 const fetchedCastSchema = schemaForType<FetchedCast>(
   z.object({
-    attendanceId: z.number(),
     profile: profileSchema,
-    themeColor: colorThemeSchema,
+    themeColor: colorBaseThemeSchema,
     vrchat: vrchatSchema,
     avatars: z.array(avatarSchema),
+    portrait: avatarImagesSchema,
     socialLinks: z.array(socialLinkSchema),
     thumbnail: z.any() as z.ZodType<ImageMetadata>,
   }),
