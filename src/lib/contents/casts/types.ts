@@ -3,7 +3,6 @@ import { schemaForType } from "@lib/utils/type";
 import {
   type ColorThemeBase,
   colorBaseThemeSchema,
-  colorThemeSchema,
 } from "../commons/ColorToken";
 import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
 import {

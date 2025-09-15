@@ -1,6 +1,6 @@
+import { fetchCastsFromApi } from "@lib/remote/casts";
 import { memoize } from "@lib/utils/cache";
 import { USE_MOCK } from "@lib/utils/env";
-import { fetchCastsFromApi } from "@lib/utils/fetch-casts";
 
 import { createMockCasts } from "./__mock__";
 import {
@@ -21,10 +21,12 @@ export type {
 export type { Cast, CastProfile, VRChatProfile } from "./types";
 
 export const fetchCasts = memoize(async (): Promise<Cast[]> => {
-  const result = USE_MOCK ? await createMockCasts() : await fetchCastsFromApi();
+  if (USE_MOCK) {
+    return createMockCasts();
+  }
 
+  const result = await fetchCastsFromApi();
   assertCasts(result);
-
   return Promise.all(result.map(fixCast));
 });
 
@@ -106,10 +108,10 @@ export const fetchAvatarImage = memoize(
   async ({
     nickname,
     index = avatarImageIndexDefault.index,
-    type = avatarImageIndexDefault.type,
+    expression = avatarImageIndexDefault.expression,
   }: AvatarImageIndex): Promise<string | ImageMetadata> => {
     const avatar = await fetchAvatar({ nickname, index });
 
-    return avatar.images[type];
+    return avatar.images[expression];
   },
 );

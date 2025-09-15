@@ -1,6 +1,5 @@
 import { z } from "astro:content";
 import { schemaForType } from "@lib/utils/type";
-import { socialLinkSchema } from "../commons/SocialLink";
 
 export interface Avatar {
   /**
@@ -11,7 +10,7 @@ export interface Avatar {
   /**
    * 使用されているアセットに必要なクレジット表記
    */
-  credit: string;
+  credit?: string | undefined;
 }
 
 /**
@@ -26,7 +25,7 @@ export interface AvatarImages {
   /**
    * 何らかの表情・仕草のある画像
    */
-  expression: string | ImageMetadata;
+  emotional: string | ImageMetadata;
 }
 
 /**
@@ -53,24 +52,25 @@ export interface AvatarImageIndex extends AvatarIndex {
    * 画像の種類
    * @default "neutral"
    */
-  type?: keyof AvatarImages;
+  expression?: keyof AvatarImages;
 }
 
 export const avatarImageIndexDefault = Object.freeze({
-  type: "neutral",
+  expression: "neutral",
   index: 0,
-} as const satisfies Required<Pick<AvatarImageIndex, "type" | "index">>);
+} as const satisfies Required<Pick<AvatarImageIndex, "expression" | "index">>);
 
 export const avatarImagesSchema = schemaForType<AvatarImages>(
   z.object({
-    newtral: z.unknown(),
-    expression: z.unknown(),
+    neutral: z.unknown(),
+    emotional: z.unknown(),
+    // biome-ignore lint/suspicious/noExplicitAny: string | local image の構造をうまいこと validation かけれなかった
   }) as any,
 );
 
 export const avatarSchema = schemaForType<Avatar>(
   z.object({
     images: avatarImagesSchema,
-    credit: z.string(),
+    credit: z.union([z.string(), z.undefined()]),
   }),
 );

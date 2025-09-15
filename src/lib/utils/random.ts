@@ -60,7 +60,7 @@ export function* seedRandom(seed: unknown): Randomizer {
  */
 export function randomPick<T extends unknown[] | readonly unknown[]>(
   pickCount: 1,
-  array: T | T,
+  array: T,
   createRandom?: Randomizer,
 ): T[number];
 
@@ -75,6 +75,18 @@ export function randomPick<T extends unknown[] | readonly unknown[]>(
   array: T,
   createRandom?: Randomizer,
 ): T[number][];
+
+/**
+ *
+ * @param pickCount
+ * @param array
+ * @param createRandom
+ */
+export function randomPick<T>(
+  pickCount: number,
+  array: T[],
+  createRandom?: Randomizer,
+): T[];
 
 export function randomPick(
   pickCount: number,

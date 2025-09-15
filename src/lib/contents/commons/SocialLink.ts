@@ -1,4 +1,5 @@
 import { z } from "astro:content";
+import { type Randomizer, randomPick } from "@lib/utils/random";
 import { schemaForType } from "@lib/utils/type";
 import { retrieveActivityPubSoftwareName } from "./ActivityPub";
 
@@ -27,7 +28,7 @@ const socialLinks = [
   /// -----------------------------------------------------------------------------------
   /// SNS
   {
-    // e.g. https://twitter.com/sotomiti_iroha, https://x.com/sotomiti_iroha
+    // e.g. https://twitter.com/username, https://x.com/username
     type: "x",
     urlPatterns: [/^https:\/\/twitter\.com\/[^/]+/, /^https:\/\/x\.com\/[^/]+/],
     // twitter host は x に置き換える
@@ -43,7 +44,7 @@ const socialLinks = [
     urlPatterns: /^https:\/\/bluesky/,
   },
   {
-    // e.g. https://virtualkemomimi.net/@YTJVDCM
+    // misskey は個人ホスティングの場合もあるため, URL から判断不可
     type: "misskey",
     urlPatterns: async (url) => {
       const software = await retrieveActivityPubSoftwareName(url);
@@ -51,7 +52,7 @@ const socialLinks = [
     },
   },
   {
-    // e.g. https://mstdn.virtecam.net/@YTJVDCM
+    // mustodon は個人ホスティングの場合もあるため, URL から判断不可
     type: "mastodon",
     urlPatterns: async (url) => {
       const software = await retrieveActivityPubSoftwareName(url);
@@ -60,9 +61,9 @@ const socialLinks = [
   },
 
   /// -----------------------------------------------------------------------------------
-  /// Live Streaming Service
+  /// Live Streaming Service or Short Movie Sharing Service
   {
-    // e.g. https://www.youtube.com/@sotomiti_iroha
+    // e.g. https://www.youtube.com/@username
     type: "youtube",
     urlPatterns: [
       /^https:\/\/www\.youtube\.com\//,
@@ -77,10 +78,11 @@ const socialLinks = [
       );
     },
   },
-
-  /// -----------------------------------------------------------------------------------
-  /// Short Image & Movie Sharing Service
-  // e.g. tiktok, instagram, youtube-short
+  {
+    // e.g. https://www.tiktok.com/@username
+    type: "tiktok",
+    urlPatterns: /^https:\/\/www\.tiktok\.com\//,
+  },
 
   /// -----------------------------------------------------------------------------------
   /// VR SNS (Non-VRChat)
@@ -90,7 +92,7 @@ const socialLinks = [
   /// Patrons
   /// e.g. funtia, creatia-frontier
   {
-    // e.g. https://www.fanbox.cc/@rikusu3
+    // e.g. https://www.fanbox.cc/@username
     type: "pixiv-fanbox",
     urlPatterns: /^https:\/\/www\.fanbox\.cc\//,
   },
@@ -101,9 +103,22 @@ const socialLinks = [
   },
 
   /// -----------------------------------------------------------------------------------
+  /// WishLists
+  {
+    // e.g. https://www.amazon.co.jp/hz/wishlist/ls/123412341234
+    type: "amazon-wishlist",
+    urlPatterns: /^https:\/\/www\.amazon\.co\.jp\/hz\/wishlist\/ls\//,
+  },
+  {
+    // e.g. https://username.booth.cc/
+    type: "booth-wishlist",
+    urlPatterns: /^https:\/\/(.*\.)?booth\.cc\//,
+  },
+
+  /// -----------------------------------------------------------------------------------
   /// EC
   {
-    // e.g. https://sisters.booth.pm/, https://booth.pm/
+    // e.g. https://storename.booth.pm/, https://booth.pm/
     type: "pixiv-booth",
     urlPatterns: /^https:\/\/(.*\.)?booth\.pm\//,
   },
@@ -111,7 +126,7 @@ const socialLinks = [
   /// -----------------------------------------------------------------------------------
   /// Commission Service
   {
-    // e.g. https://skeb.jp/@rikusu_vrc
+    // e.g. https://skeb.jp/@username
     type: "skeb",
     urlPatterns: /^https:\/\/skeb\.jp\//,
   },
@@ -119,7 +134,7 @@ const socialLinks = [
   /// -----------------------------------------------------------------------------------
   /// Profile
   {
-    // e.g. https://hub.vroid.com/users/4466642
+    // e.g. https://hub.vroid.com/users/12341234
     type: "pixiv-vroid-hub",
     urlPatterns: /^https:\/\/hub\.vroid\.com\//,
   },
@@ -127,7 +142,7 @@ const socialLinks = [
   /// -----------------------------------------------------------------------------------
   /// Development Profile
   {
-    // e.g. https://github.com/mew-ton
+    // e.g. https://github.com/username
     type: "github",
     urlPatterns: /^https:\/\/github\.com\//,
   },
@@ -142,21 +157,27 @@ export interface SocialLink<T extends SocialLinkType = SocialLinkType> {
   type: T;
 
   /**
-   * @example "https://www.youtube.com/channel/@sotomiti_iroha"
+   * @example "https://www.youtube.com/channel/@username"
    */
   url: URL;
 
   /**
-   * @example "@sotomiti_iroha | 外道いろは　Sotomiti Iroha (YouTube Channel)"
+   * @example "@username | username (YouTube Channel)"
    */
   description: string;
+}
+
+const socialTypes = [...socialLinks.map(({ type }) => type), "other"] as const;
+
+export function randomSocialType(seed: Randomizer): SocialLinkType {
+  return randomPick(1, socialTypes, seed);
 }
 
 export const socialLinkSchema = schemaForType<SocialLink>(
   z.object({
     type: z.union(
       // biome-ignore lint/suspicious/noExplicitAny: 理由がちょっとよくわからなかった
-      socialLinks.map(({ type }) => z.literal(type)) as any,
+      socialTypes.map((type) => z.literal(type)) as any,
     ) as z.ZodType<SocialLinkType>,
     url: z.any() as z.ZodType<URL>,
     description: z.string(),

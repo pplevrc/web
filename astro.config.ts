@@ -104,6 +104,9 @@ export default defineConfig(
           {
             hostname: "images.microcms-assets.io",
           },
+          {
+            hostname: "drive.google.com",
+          },
         ],
       },
 

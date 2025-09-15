@@ -4,7 +4,7 @@ import { ensureNonNil } from "./type";
 // biome-ignore lint/suspicious/noExplicitAny: 汎用的な型のため許容
 type AnyFunction = (...args: any[]) => any;
 
-const globalCacheMap = new WeakMap<AnyFunction, Map<string, unknown>>();
+const functionCache = new WeakMap<AnyFunction, Map<string, unknown>>();
 
 // const CACHE_DIR = resolve(__dirname, "../../.cache");
 
@@ -29,14 +29,14 @@ export function memoize<F extends AnyFunction>(
       console.log("key", key);
     }
 
-    if (!globalCacheMap.has(fn)) {
+    if (!functionCache.has(fn)) {
       if (opt.debug) {
         console.log("create new cache map");
       }
-      globalCacheMap.set(fn, new Map<string, unknown>());
+      functionCache.set(fn, new Map<string, unknown>());
     }
 
-    const cacheMap = ensureNonNil(globalCacheMap.get(fn));
+    const cacheMap = ensureNonNil(functionCache.get(fn));
     if (cacheMap.has(key)) {
       if (opt.debug) {
         console.log("cache hit");

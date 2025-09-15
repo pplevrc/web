@@ -13,24 +13,32 @@ type Awaitable<T> = T | Promise<T>;
  */
 export interface CropOptions {
   /**
+   * number .. ピクセル単位
+   * string .. "10%", "10px"
    * @default 0
    */
-  top?: number;
+  top?: number | string;
 
   /**
+   * number .. ピクセル単位
+   * string .. "10%", "10px"
    * @default 0
    */
-  left?: number;
+  left?: number | string;
 
   /**
-   *
+   * number .. ピクセル単位
+   * string .. "10%", "10px"
+   * @default 0
    */
-  width: number;
+  width: number | string;
 
   /**
-   *
+   * number .. ピクセル単位
+   * string .. "10%", "10px"
+   * @default 0
    */
-  height: number;
+  height: number | string;
 }
 
 /**

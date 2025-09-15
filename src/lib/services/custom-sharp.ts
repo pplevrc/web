@@ -23,15 +23,17 @@ export default {
   async getURL(options, imageConfig) {
     const defaultPath = await baseService.getURL(options, imageConfig);
 
-    const additionalSearchParams = configToSearchParams(options);
-
-    if (additionalSearchParams.size === 0) {
+    if (!defaultPath.includes(imageConfig.endpoint.route)) {
       return defaultPath;
     }
 
-    return defaultPath.includes("?")
-      ? `${defaultPath}&${additionalSearchParams}`
-      : `${defaultPath}?${additionalSearchParams}`;
+    const additionalSearchParams = configToSearchParams(options);
+
+    console.log("defaultPath", defaultPath);
+    console.log("additionalSearchParams", additionalSearchParams);
+    console.log("imageConfig.endpoint.route", imageConfig.endpoint.route);
+
+    return `${defaultPath}${defaultPath.includes("?") ? "&" : "?"}${additionalSearchParams}`;
   },
 
   /**
@@ -61,37 +63,12 @@ export default {
       throw new Error("getHTMLAttributes is not implemented");
     }
 
-    const { crop: _, ...defaultAttributes } =
-      await baseService.getHTMLAttributes(options, imageConfig);
+    const {
+      crop: _,
+      outline: _2,
+      ...defaultAttributes
+    } = await baseService.getHTMLAttributes(options, imageConfig);
 
-    if (!options.crop) {
-      return defaultAttributes;
-    }
-
-    if (options.width && options.height) {
-      // ユーザが指定した width と height がある場合は, defaultAttributes にはそのまま設定されている
-      return defaultAttributes;
-    }
-
-    const aspectRatio = options.crop.width / options.crop.height;
-    if (options.width && !options.height) {
-      return {
-        ...defaultAttributes,
-        height: Math.round(options.width / aspectRatio),
-      };
-    }
-
-    if (options.height && !options.width) {
-      return {
-        ...defaultAttributes,
-        width: Math.round(options.height * aspectRatio),
-      };
-    }
-
-    return {
-      ...defaultAttributes,
-      width: options.crop.width,
-      height: options.crop.height,
-    };
+    return defaultAttributes;
   },
 } as const satisfies CustomSharpService;

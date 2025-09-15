@@ -62,8 +62,6 @@ export async function retrieveActivityPubSoftwareName(
       const nodeInfo = await fetchActivityPubNodeInfo(wellknownInfo);
       cacheActivityPubSoftwareName.set(url.origin, nodeInfo.software.name);
     } catch (error) {
-      console.error(error);
-
       cacheActivityPubSoftwareName.set(url.origin, undefined);
     }
   }

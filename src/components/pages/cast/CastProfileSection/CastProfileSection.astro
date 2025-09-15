@@ -4,7 +4,6 @@ import Paper from "@components/decoratives/Paper/Paper.astro";
 import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
 import NameStickerList from "@components/decoratives/Sticker/NameStickerList.astro";
 import { fetchCast } from "@lib/contents/casts";
-import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import type { SocialLink } from "@lib/contents/commons/SocialLink";
 import { css } from "@styles/css";
 
@@ -30,8 +29,6 @@ const links = [
   ...socialLinks,
 ];
 
-const themeColorName = pickColorBase(themeColor);
-
 const rootStyle = css({
   h: {
     base: "80",
@@ -40,7 +37,7 @@ const rootStyle = css({
   py: "12",
 
   bg: "colorPalette.50/70",
-  colorPalette: themeColorName,
+  colorPalette: themeColor,
 
   display: "flex",
   flexDirection: "column",
@@ -58,9 +55,9 @@ const linksStyle = css({
 ---
 
 <section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
-  <Paper size="short" position="absolute" themeColor={themeColorName}>
+  <Paper size="short" position="absolute" themeColor={themeColor}>
     <NameStickerList slot="header" class={stickerStyle}>
-      <NameSticker key="VRChat ID" value={userId} themeColor={themeColorName} />
+      <NameSticker key="VRChat ID" value={userId} themeColor={themeColor} />
     </NameStickerList>
 
     {profile.introduction}

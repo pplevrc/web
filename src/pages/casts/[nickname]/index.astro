@@ -4,7 +4,6 @@ import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.as
 import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import Layout from "@layouts/Layout.astro";
 import { fetchCast, fetchCastNickNames } from "@lib/contents/casts";
-import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import type { SocialLinkType } from "@lib/contents/commons/SocialLink";
 import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
@@ -25,8 +24,6 @@ const cast = await fetchCast(nickname);
 
 const { themeColor, socialLinks, thumbnail } = cast;
 
-const colorName = pickColorBase(themeColor);
-
 const defineLogos = [
   ...socialLinks.map((link) => link.type),
   "vrchat",
@@ -41,9 +38,9 @@ const defineLogos = [
     keywords: keywords.map((k) => replaceByMap(k, cast.profile)),
     ogp: thumbnail,
   }}
-  themeColor={colorName}
+  themeColor={themeColor}
 >
   <CastImageSection nickname={nickname} />
   <CastProfileSection nickname={nickname} />
-  <CastNavigator nickname={nickname} themeColor={colorName} />
+  <CastNavigator nickname={nickname} themeColor={themeColor} />
 </Layout>

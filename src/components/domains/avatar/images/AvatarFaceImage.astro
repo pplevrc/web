@@ -1,6 +1,5 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import { fetchAvatarImage } from "@lib/contents/casts";
 import type { Avatar } from "@lib/contents/casts";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
@@ -28,7 +27,7 @@ interface Props extends HTMLAttributes<"picture"> {
    * アバター画像の表情
    * @default "neutral"
    */
-  type?: Type;
+  expression?: Type;
 
   /**
    * Picture Component に指定する alt 属性
@@ -52,17 +51,13 @@ const FRONTAL_FACE_CROP_MARGIN_LEFT =
 const FRONTAL_FACE_CROP_MARGIN_TOP =
   2160 / 2 - FRONTAL_FACE_CROP_HEIGHT / 2 - 200;
 
-const { nickname, avatarIndex, type, alt, width, trackLoad, ...rest } =
+const { nickname, avatarIndex, expression, alt, width, trackLoad, ...rest } =
   Astro.props;
 
 // 1:1 なので同じにする
-const height = width
+const height = width;
 
-const { image: src } = await fetchAvatarImage({
-  nickname,
-  index: avatarIndex,
-  type,
-});
+const src = `/casts/${nickname}/assets/portraits/${expression}.png`;
 ---
 
 <CustomPicture

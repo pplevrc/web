@@ -2,7 +2,7 @@ import type { ImageOutputFormat } from "astro";
 import baseService from "astro/assets/services/sharp";
 import { AstroError } from "astro/errors";
 import { AstroErrorData } from "node_modules/astro/dist/core/errors";
-import type { Sharp } from "sharp";
+import type { Metadata, Sharp } from "sharp";
 import type {
   CropOptions,
   CustomImageTransform,
@@ -21,6 +21,10 @@ type LocalImageTransform = {
   [key: string]: any;
 };
 
+/**
+ *
+ * @returns
+ */
 async function loadSharp(): Promise<typeof import("sharp")> {
   if (sharp) {
     return sharp;
@@ -36,6 +40,13 @@ async function loadSharp(): Promise<typeof import("sharp")> {
   return sharp;
 }
 
+/**
+ *
+ * @param inputBuffer
+ * @param options
+ * @param config
+ * @returns
+ */
 export async function transform(
   inputBuffer: Uint8Array,
   options: CustomImageTransform,
@@ -64,7 +75,7 @@ export async function transform(
   ///
 
   if (options.crop) {
-    image = crop(image, options.crop);
+    image = await crop(image, options.crop);
   }
 
   ///
@@ -94,16 +105,69 @@ export async function transform(
   };
 }
 
-function crop(image: Sharp, options: CropOptions): Sharp {
+/**
+ *
+ * @param value
+ * @param imageMetadata
+ * @param orientation
+ * @returns
+ */
+function parsePx(
+  value: number | string,
+  imageMetadata: Metadata,
+  orientation: "landscape" | "portrait",
+): number {
+  if (typeof value === "number") {
+    return value;
+  }
+
+  if (value.endsWith("px")) {
+    return Number.parseInt(value);
+  }
+
+  if (value.endsWith("%")) {
+    // get metadata
+    const { width, height } = imageMetadata;
+    const targetMaxSize = orientation === "landscape" ? width : height;
+
+    return Math.round((Number.parseInt(value) * targetMaxSize) / 100);
+  }
+
+  throw new Error(`Invalid value: ${value}`);
+}
+
+/**
+ *
+ * @param image
+ * @param options
+ * @returns
+ */
+async function crop(image: Sharp, options: CropOptions): Promise<Sharp> {
   const { top = 0, left = 0, width, height } = options;
+
+  const metadata = await image.metadata();
+
+  const [leftPx, topPx, widthPx, heightPx] = await Promise.all([
+    parsePx(left, metadata, "landscape"),
+    parsePx(top, metadata, "portrait"),
+    parsePx(width, metadata, "landscape"),
+    parsePx(height, metadata, "portrait"),
+  ]);
+
   return image.clone().extract({
-    left: left,
-    top: top,
-    width: width,
-    height: height,
+    left: leftPx,
+    top: topPx,
+    width: widthPx,
+    height: heightPx,
   });
 }
 
+/**
+ *
+ * @param image
+ * @param options
+ * @returns
+ */
 async function outline(image: Sharp, options: OutlineOptions): Promise<Sharp> {
   const sharp = await loadSharp();
 
