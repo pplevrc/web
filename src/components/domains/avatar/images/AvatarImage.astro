@@ -1,14 +1,14 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
-import type { Avatar } from "@lib/contents/casts";
+import { type Avatar, fetchAvatarImage } from "@lib/contents/casts";
 import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
 import { toWidths } from "./common";
 
-type Type = keyof Avatar["images"];
+type ExpressionType = keyof Avatar["images"];
 
 export interface Props
   extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
@@ -27,7 +27,7 @@ export interface Props
    * アバター画像の表情
    * @default "neutral"
    */
-  expression?: Type;
+  expression?: ExpressionType;
 
   /**
    * Picture Component に指定する alt 属性
@@ -67,7 +67,11 @@ const {
   ...attrs
 } = Astro.props;
 
-const src = `/casts/${nickname}/assets/avatars/${avatarIndex}/${expression}.png`;
+const src = await fetchAvatarImage({
+  nickname,
+  index: avatarIndex,
+  expression,
+});
 
 const sizingStyle = css({
   w: "full",
@@ -96,12 +100,6 @@ const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${rem
 
 <CustomPicture
   src={src}
-  crop={{
-    width,
-    height: "100%",
-    top: 0,
-    left: "50%",
-  }}
   outline={{
     thickness: `${outlineMap[outline]}px`,
   }}

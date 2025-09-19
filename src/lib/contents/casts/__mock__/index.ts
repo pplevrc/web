@@ -12,7 +12,7 @@ import portraitEmotionalImg from "./assets/portrait-emotional.png";
 import portraitNeutralImg from "./assets/portrait-neutral.png";
 import thumbnailImg from "./assets/thumbnail.png";
 
-const MEMBERS = 50;
+const MEMBERS = 10;
 
 const hiragana =
   "あいうえおかさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん" as const;

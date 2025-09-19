@@ -2,9 +2,8 @@ import type { ImageOutputFormat } from "astro";
 import baseService from "astro/assets/services/sharp";
 import { AstroError } from "astro/errors";
 import { AstroErrorData } from "node_modules/astro/dist/core/errors";
-import type { Metadata, Sharp } from "sharp";
+import type { Sharp } from "sharp";
 import type {
-  CropOptions,
   CustomImageTransform,
   ImageConfig,
   OutlineOptions,
@@ -64,30 +63,16 @@ export async function transform(
     };
   }
 
-  let image = sharp(inputBuffer, {
-    failOnError: false,
-    pages: -1,
-    limitInputPixels: config.service.config.limitInputPixels,
-  });
-
-  ///
-  /// crop など, 画像のサイズ変更を伴う処理を行う
-  ///
-
-  if (options.crop) {
-    image = await crop(image, options.crop);
-  }
-
   ///
   /// デフォルトの transform を呼び出す
   ///
   const defaultFormatted = await baseService.transform(
-    new Uint8Array(await image.toBuffer()),
+    new Uint8Array(inputBuffer),
     options as LocalImageTransform,
     config,
   );
 
-  image = sharp(defaultFormatted.data);
+  let image = sharp(defaultFormatted.data);
 
   ///
   /// outline など, 画像のサイズ変更を伴わない処理を行う
@@ -103,63 +88,6 @@ export async function transform(
     data: new Uint8Array(buffer.data),
     format: defaultFormatted.format,
   };
-}
-
-/**
- *
- * @param value
- * @param imageMetadata
- * @param orientation
- * @returns
- */
-function parsePx(
-  value: number | string,
-  imageMetadata: Metadata,
-  orientation: "landscape" | "portrait",
-): number {
-  if (typeof value === "number") {
-    return value;
-  }
-
-  if (value.endsWith("px")) {
-    return Number.parseInt(value);
-  }
-
-  if (value.endsWith("%")) {
-    // get metadata
-    const { width, height } = imageMetadata;
-    const targetMaxSize = orientation === "landscape" ? width : height;
-
-    return Math.round((Number.parseInt(value) * targetMaxSize) / 100);
-  }
-
-  throw new Error(`Invalid value: ${value}`);
-}
-
-/**
- *
- * @param image
- * @param options
- * @returns
- */
-async function crop(image: Sharp, options: CropOptions): Promise<Sharp> {
-  const { top = 0, left = 0, width, height } = options;
-
-  const metadata = await image.metadata();
-
-  const [leftPx, topPx, widthPx, heightPx] = await Promise.all([
-    parsePx(left, metadata, "landscape"),
-    parsePx(top, metadata, "portrait"),
-    parsePx(width, metadata, "landscape"),
-    parsePx(height, metadata, "portrait"),
-  ]);
-
-  return image.clone().extract({
-    left: leftPx,
-    top: topPx,
-    width: widthPx,
-    height: heightPx,
-  });
 }
 
 /**

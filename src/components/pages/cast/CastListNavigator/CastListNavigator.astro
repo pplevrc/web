@@ -16,12 +16,9 @@ const fitStyle = css({
   },
 });
 
-const _casts = await fetchCasts();
-
-const casts = [..._casts, ..._casts, ..._casts, ..._casts, ..._casts];
+const casts = await fetchCasts();
 ---
 
 <nav aria-label="店員さん一覧" class={fitStyle}>
   <CastList casts={casts} />
-  {/* TODO: スタッフの一覧へ */}
 </nav>

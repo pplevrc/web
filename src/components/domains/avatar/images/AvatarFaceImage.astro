@@ -1,6 +1,6 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import type { Avatar } from "@lib/contents/casts";
+import { type Avatar, fetchAvatarImage } from "@lib/contents/casts";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
 
@@ -57,7 +57,11 @@ const { nickname, avatarIndex, expression, alt, width, trackLoad, ...rest } =
 // 1:1 なので同じにする
 const height = width;
 
-const src = `/casts/${nickname}/assets/portraits/${expression}.png`;
+const src = await fetchAvatarImage({
+  nickname,
+  index: avatarIndex,
+  expression,
+});
 ---
 
 <CustomPicture

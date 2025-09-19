@@ -54,6 +54,26 @@ export interface Cast {
 }
 
 /**
+ * 外部公開する json のデータ構造
+ */
+export interface CastMeta {
+  /**
+   *
+   */
+  nickname: string;
+
+  /**
+   *
+   */
+  vrchat: VRChatProfile;
+
+  /**
+   *
+   */
+  profilePage: URL;
+}
+
+/**
  * 店員さんの VRChat のプロフィール
  */
 export interface VRChatProfile {

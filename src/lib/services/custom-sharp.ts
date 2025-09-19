@@ -29,10 +29,6 @@ export default {
 
     const additionalSearchParams = configToSearchParams(options);
 
-    console.log("defaultPath", defaultPath);
-    console.log("additionalSearchParams", additionalSearchParams);
-    console.log("imageConfig.endpoint.route", imageConfig.endpoint.route);
-
     return `${defaultPath}${defaultPath.includes("?") ? "&" : "?"}${additionalSearchParams}`;
   },
 
@@ -63,11 +59,8 @@ export default {
       throw new Error("getHTMLAttributes is not implemented");
     }
 
-    const {
-      crop: _,
-      outline: _2,
-      ...defaultAttributes
-    } = await baseService.getHTMLAttributes(options, imageConfig);
+    const { outline: _, ...defaultAttributes } =
+      await baseService.getHTMLAttributes(options, imageConfig);
 
     return defaultAttributes;
   },

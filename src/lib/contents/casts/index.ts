@@ -1,3 +1,4 @@
+import { site } from "astro:config/server";
 import { fetchCastsFromApi } from "@lib/remote/casts";
 import { memoize } from "@lib/utils/cache";
 import { USE_MOCK } from "@lib/utils/env";
@@ -9,7 +10,12 @@ import {
   type AvatarIndex,
   avatarImageIndexDefault,
 } from "./avatar";
-import { type Cast, type FetchedCast, assertCasts } from "./types";
+import {
+  type Cast,
+  type CastMeta,
+  type FetchedCast,
+  assertCasts,
+} from "./types";
 
 export { avatarImageIndexDefault } from "./avatar";
 export type {
@@ -20,6 +26,9 @@ export type {
 } from "./avatar";
 export type { Cast, CastProfile, VRChatProfile } from "./types";
 
+/**
+ *
+ */
 export const fetchCasts = memoize(async (): Promise<Cast[]> => {
   if (USE_MOCK) {
     return createMockCasts();
@@ -30,15 +39,26 @@ export const fetchCasts = memoize(async (): Promise<Cast[]> => {
   return Promise.all(result.map(fixCast));
 });
 
+/**
+ *
+ */
 export const fetchCastNickNames = memoize(async (): Promise<string[]> => {
   const casts = await fetchCasts();
   return casts.map((cast) => cast.profile.nickname);
 });
 
+/**
+ *
+ * @param cast
+ * @returns
+ */
 async function fixCast(cast: FetchedCast): Promise<Cast> {
   return cast as Cast;
 }
 
+/**
+ *
+ */
 export const fetchCast = memoize(async (nickname: string): Promise<Cast> => {
   const casts = await fetchCasts();
   const cast = casts.find((cast) => cast.profile.nickname === nickname);
@@ -50,6 +70,9 @@ export const fetchCast = memoize(async (nickname: string): Promise<Cast> => {
   return cast;
 });
 
+/**
+ *
+ */
 export const fetchNextCast = memoize(
   async (nickname: string): Promise<Cast> => {
     const casts = await fetchCasts();
@@ -69,6 +92,9 @@ export const fetchNextCast = memoize(
   },
 );
 
+/**
+ *
+ */
 export const fetchPrevCast = memoize(
   async (nickname: string): Promise<Cast> => {
     const casts = await fetchCasts();
@@ -88,6 +114,9 @@ export const fetchPrevCast = memoize(
   },
 );
 
+/**
+ *
+ */
 export const fetchAvatar = memoize(
   async ({
     nickname,
@@ -104,6 +133,9 @@ export const fetchAvatar = memoize(
   },
 );
 
+/**
+ *
+ */
 export const fetchAvatarImage = memoize(
   async ({
     nickname,
@@ -115,3 +147,14 @@ export const fetchAvatarImage = memoize(
     return avatar.images[expression];
   },
 );
+
+/**
+ *
+ */
+export function toCastMeta(cast: Cast): CastMeta {
+  return {
+    nickname: cast.profile.nickname,
+    vrchat: cast.vrchat,
+    profilePage: new URL(`/casts/${cast.profile.nickname}`, site),
+  };
+}

@@ -1,4 +1,4 @@
-const isPublic = process.env.SITE_IS_PUBLIC === "true";
+import { IS_PUBLIC } from "@lib/utils/env";
 
 function createPublicRobots(site: string) {
   const sitemap = new URL("/sitemap-index.xml", site).toString();
@@ -17,7 +17,7 @@ Disallow: /
 }
 
 export async function GET({ site }: { site: string }) {
-  const body = isPublic ? createPublicRobots(site) : createPrivateRobots();
+  const body = IS_PUBLIC ? createPublicRobots(site) : createPrivateRobots();
 
   return new Response(body, {
     headers: {

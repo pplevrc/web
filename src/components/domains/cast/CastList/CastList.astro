@@ -99,7 +99,7 @@ const castRows = (() => {
 })();
 ---
 
-<ul {...props} class:list={[rootListStyle, className]}>
+<ul {...props} class:list={[rootListStyle, className]} data-shuffle>
   {
     castRows.map((casts) => (
       <li class={contentOnSP} role="presentation">
@@ -109,10 +109,7 @@ const castRows = (() => {
               <DecorativeAvatarLink
                 size="small"
                 nickname={cast.profile.nickname}
-                expression="neutral"
                 avatarIndex={0}
-                width={120}
-                height={240}
               />
             </li>
           ))}
@@ -121,3 +118,6 @@ const castRows = (() => {
     ))
   }
 </ul>
+<script>
+  import "@lib/browsers/shuffle";
+</script>
