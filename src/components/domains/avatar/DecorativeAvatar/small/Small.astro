@@ -108,8 +108,18 @@ const inverse = randomPick(1, [true, false] as const, random);
   <AvatarFaceImage
     {...avatarImageProps}
     class={imageStyle}
+    expression="neutral"
     alt={`${nickname} のアバター`}
-    width={325}
+    width={384}
+    data-visible-on="default"
+  />
+  <AvatarFaceImage
+    {...avatarImageProps}
+    class={imageStyle}
+    expression="emotional"
+    alt={`${nickname} のアバター`}
+    width={384}
+    data-visible-on="hover"
   />
   <NameSeal
     name={nickname}

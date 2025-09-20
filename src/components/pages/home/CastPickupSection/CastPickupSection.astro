@@ -95,7 +95,7 @@ const imageWrapStyle = css({
   themeColor="rose"
   hrefViewMore="/casts"
 >
-  <ul class={listStyle} data-shuffle>
+  <ul class={listStyle} data-shuffle="cast">
     {
       casts.map(({ profile: { nickname } }) => (
         <li class:list={[listItemStyle, imageSwitchStyle]}>

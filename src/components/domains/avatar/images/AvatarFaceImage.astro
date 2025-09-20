@@ -1,6 +1,6 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import { type Avatar, fetchAvatarImage } from "@lib/contents/casts";
+import { type Avatar, fetchCast } from "@lib/contents/casts";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
 
@@ -18,16 +18,10 @@ interface Props extends HTMLAttributes<"picture"> {
   nickname: string;
 
   /**
-   * アバター画像の登録順インデックス (0 は 必ず登録される)
-   * @default 0
-   */
-  avatarIndex?: number;
-
-  /**
    * アバター画像の表情
    * @default "neutral"
    */
-  expression?: Type;
+  expression: Type;
 
   /**
    * Picture Component に指定する alt 属性
@@ -41,27 +35,16 @@ interface Props extends HTMLAttributes<"picture"> {
   width: number;
 }
 
-const FRONTAL_FACE_CROP_WIDTH = 1000;
+const { nickname, expression, alt, width, trackLoad, ...rest } = Astro.props;
 
-const FRONTAL_FACE_CROP_HEIGHT = 1000;
+const cast = await fetchCast(nickname);
 
-const FRONTAL_FACE_CROP_MARGIN_LEFT =
-  3840 / 2 - FRONTAL_FACE_CROP_WIDTH / 2 + 100;
+const src = cast.portrait[expression];
 
-const FRONTAL_FACE_CROP_MARGIN_TOP =
-  2160 / 2 - FRONTAL_FACE_CROP_HEIGHT / 2 - 200;
-
-const { nickname, avatarIndex, expression, alt, width, trackLoad, ...rest } =
-  Astro.props;
-
-// 1:1 なので同じにする
+/**
+ * 1:1 なので同じにする
+ */
 const height = width;
-
-const src = await fetchAvatarImage({
-  nickname,
-  index: avatarIndex,
-  expression,
-});
 ---
 
 <CustomPicture
@@ -71,12 +54,6 @@ const src = await fetchAvatarImage({
   widths={toWidths(width)}
   height={height}
   fit="cover"
-  crop={{
-    left: FRONTAL_FACE_CROP_MARGIN_LEFT,
-    top: FRONTAL_FACE_CROP_MARGIN_TOP,
-    width: FRONTAL_FACE_CROP_WIDTH,
-    height: FRONTAL_FACE_CROP_HEIGHT,
-  }}
   trackLoad={trackLoad}
   pictureAttributes={rest}
 />

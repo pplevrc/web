@@ -1,10 +1,12 @@
-const targetAttribute = "data-budy-watch";
+const TARGET_DATA_ATTRIBUTE_BUSY_WATCH = "data-budy-watch";
 
 /**
  * "data-loadingSync" 属性を持つ要素が読み込まれたら, その要素の aria-busy 属性を false にする
  */
 function handleBusyStateAll() {
-  const targets = document.querySelectorAll(`[${targetAttribute}]`);
+  const targets = document.querySelectorAll(
+    `[${TARGET_DATA_ATTRIBUTE_SHUFFLE}]`,
+  );
 
   for (const target of targets) {
     if (target.getAttribute("aria-busy") === "false") {

@@ -61,10 +61,29 @@ const listStyle = css({
 const listItemStyle = css({
   _motionSafe: {
     _hover: {
-      transition: "transform",
+      transition: "[transform opacity]",
       transitionDuration: "faster",
       transform: "[scale(1.1)]",
     },
+  },
+});
+
+const imageSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
   },
 });
 
@@ -99,17 +118,16 @@ const castRows = (() => {
 })();
 ---
 
-<ul {...props} class:list={[rootListStyle, className]} data-shuffle>
+<ul {...props} class:list={[rootListStyle, className]}>
   {
     castRows.map((casts) => (
       <li class={contentOnSP} role="presentation">
-        <ul class={listStyle} role="presentation">
+        <ul class={listStyle} role="presentation" data-shuffle="cast">
           {casts.map((cast) => (
-            <li class={listItemStyle} role="listitem">
+            <li class:list={[listItemStyle, imageSwitchStyle]} role="listitem">
               <DecorativeAvatarLink
                 size="small"
                 nickname={cast.profile.nickname}
-                avatarIndex={0}
               />
             </li>
           ))}
