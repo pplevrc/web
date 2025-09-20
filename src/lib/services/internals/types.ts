@@ -9,31 +9,6 @@ export type ImageConfig = Parameters<LocalImageService["getURL"]>[1];
 type Awaitable<T> = T | Promise<T>;
 
 /**
- * 画像の切り取りオプション
- */
-export interface CropOptions {
-  /**
-   * @default 0
-   */
-  top?: number;
-
-  /**
-   * @default 0
-   */
-  left?: number;
-
-  /**
-   *
-   */
-  width: number;
-
-  /**
-   *
-   */
-  height: number;
-}
-
-/**
  * 画像の枠線オプション
  */
 export interface OutlineOptions {
@@ -62,22 +37,6 @@ export interface OutlineOptions {
  */
 export interface CustomImageTransform extends ImageTransform {
   /**
-   * 画像の切り取りを行う
-   * @example
-   * ```ts
-   * {
-   *   crop: {
-   *     width: 100,
-   *     height: 100,
-   *     left: 0,
-   *     top: 0,
-   *   },
-   * }
-   * ```
-   */
-  crop?: CropOptions;
-
-  /**
    * 画像の枠線を行う
    * @example
    * ```ts
@@ -93,10 +52,7 @@ export interface CustomImageTransform extends ImageTransform {
   outline?: OutlineOptions;
 }
 
-export type PickedCustomImageTransform = Pick<
-  CustomImageTransform,
-  "crop" | "outline"
->;
+export type PickedCustomImageTransform = Pick<CustomImageTransform, "outline">;
 
 export interface CustomSharpService {
   /**

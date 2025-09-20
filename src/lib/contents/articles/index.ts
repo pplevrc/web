@@ -7,6 +7,7 @@ import {
   fetchContent,
   fetchContents,
 } from "@lib/utils/microcms";
+import { ensureNonNil } from "@lib/utils/type";
 import type { ContentMeta, PageMeta } from "../meta";
 import { getMockArticles } from "./__mock__/";
 
@@ -45,6 +46,11 @@ export interface Article extends PageMeta, ContentMeta {
  */
 export type ArticleMeta = Omit<Article, "content">;
 
+/**
+ *
+ * @param microCMSArticle
+ * @returns
+ */
 function toId(microCMSArticle: MicroCMSArticle): string {
   const { publishedAt, title } = microCMSArticle;
 
@@ -55,6 +61,11 @@ function toId(microCMSArticle: MicroCMSArticle): string {
   return `${publishedDate}-${hash}`;
 }
 
+/**
+ *
+ * @param microCMSArticle
+ * @returns
+ */
 function convertMicroCMSArticleToArticle(
   microCMSArticle: MicroCMSArticle,
 ): Article {
@@ -86,6 +97,10 @@ function convertMicroCMSArticleToArticle(
   };
 }
 
+/**
+ *
+ * @returns
+ */
 async function fetchArticlesMeta(): Promise<ArticleMeta[]> {
   let results: ArticleMeta[] = [];
   let offset = 0;
@@ -126,6 +141,9 @@ async function fetchArticlesMeta(): Promise<ArticleMeta[]> {
   return results;
 }
 
+/**
+ *
+ */
 export const fetchArticles = memoize(async (): Promise<ArticleMeta[]> => {
   if (USE_MOCK) {
     return getMockArticles();
@@ -133,11 +151,24 @@ export const fetchArticles = memoize(async (): Promise<ArticleMeta[]> => {
   return fetchArticlesMeta();
 });
 
+/**
+ *
+ * @param id
+ * @returns
+ */
 async function fetchArticleByContentId(id: string): Promise<Article> {
+  if (USE_MOCK) {
+    const articles = await getMockArticles();
+    return ensureNonNil(articles.find((article) => article.contentId === id));
+  }
+
   const article = await fetchContent("articles", id);
   return convertMicroCMSArticleToArticle(article);
 }
 
+/**
+ *
+ */
 export const fetchArticleById = memoize(
   async (id: string): Promise<Article> => {
     const articleMetas = await fetchArticles();
@@ -152,6 +183,9 @@ export const fetchArticleById = memoize(
   },
 );
 
+/**
+ *
+ */
 export const fetchArticleIds = memoize(async (): Promise<string[]> => {
   const articles = await fetchArticles();
 

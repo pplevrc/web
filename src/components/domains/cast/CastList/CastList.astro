@@ -44,7 +44,7 @@ const contentOnSP = css({
   display: {
     base: "contents",
     _pc: "initial",
-  }
+  },
 });
 
 const listStyle = css({
@@ -61,10 +61,29 @@ const listStyle = css({
 const listItemStyle = css({
   _motionSafe: {
     _hover: {
-      transition: "transform",
+      transition: "[transform opacity]",
       transitionDuration: "faster",
       transform: "[scale(1.1)]",
     },
+  },
+});
+
+const imageSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
   },
 });
 
@@ -103,15 +122,12 @@ const castRows = (() => {
   {
     castRows.map((casts) => (
       <li class={contentOnSP} role="presentation">
-        <ul class={listStyle} role="presentation">
+        <ul class={listStyle} role="presentation" data-shuffle="cast">
           {casts.map((cast) => (
-            <li class={listItemStyle} role="listitem">
+            <li class:list={[listItemStyle, imageSwitchStyle]} role="listitem">
               <DecorativeAvatarLink
                 size="small"
                 nickname={cast.profile.nickname}
-                type="neutral"
-                avatarIndex={0}
-                width={120}
               />
             </li>
           ))}
@@ -120,3 +136,6 @@ const castRows = (() => {
     ))
   }
 </ul>
+<script>
+  import "@lib/browsers/shuffle";
+</script>

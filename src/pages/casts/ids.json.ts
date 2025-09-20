@@ -1,6 +1,7 @@
 import { fetchCasts } from "@lib/contents/casts";
+import type { APIRoute } from "astro";
 
-export async function GET() {
+export const GET: APIRoute = async () => {
   const casts = await fetchCasts();
 
   const ids = casts.map((c) => c.vrchat.userId);
@@ -10,4 +11,4 @@ export async function GET() {
       "Content-Type": "application/json",
     },
   });
-}
+};

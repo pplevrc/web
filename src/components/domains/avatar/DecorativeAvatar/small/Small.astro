@@ -4,7 +4,6 @@ import { ppleIconTypes } from "@components/decoratives/Vectors/Icon/types";
 import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
 import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
 import { fetchCast } from "@lib/contents/casts";
-import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
 import NameSeal from "../common/internals/NameSeals.astro";
@@ -17,8 +16,6 @@ const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 const { nickname } = avatarImageProps;
 
 const { themeColor } = await fetchCast(nickname);
-
-const colorName = pickColorBase(themeColor);
 
 const random = seedRandom(nickname);
 
@@ -33,7 +30,7 @@ const figureRoot = css({
   rounded: "full",
   borderColor: "colorPalette.lite",
   bg: "colorPalette.bg/70",
-  colorPalette: colorName,
+  colorPalette: themeColor,
   borderWidth: "lg",
 
   _pc: {
@@ -104,19 +101,29 @@ const inverse = randomPick(1, [true, false] as const, random);
     shape={shapeType}
     rotate={origamiRotateType}
     inverse={inverse}
-    color={colorName}
+    color={themeColor}
     class={origamiStyle}
   />
   <StripeCircle class={circleStyle} />
   <AvatarFaceImage
     {...avatarImageProps}
     class={imageStyle}
+    expression="neutral"
     alt={`${nickname} のアバター`}
-    width={325}
+    width={384}
+    data-visible-on="default"
+  />
+  <AvatarFaceImage
+    {...avatarImageProps}
+    class={imageStyle}
+    expression="emotional"
+    alt={`${nickname} のアバター`}
+    width={384}
+    data-visible-on="hover"
   />
   <NameSeal
     name={nickname}
-    color={colorName}
+    color={themeColor}
     icon={icon}
     width="medium"
     class={nameStyle}

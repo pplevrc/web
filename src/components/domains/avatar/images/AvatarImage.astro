@@ -1,55 +1,14 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
-import { fetchAvatarImage } from "@lib/contents/casts";
-import type { Avatar } from "@lib/contents/casts";
+import { type Avatar, fetchAvatarImage } from "@lib/contents/casts";
 import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
 import { toWidths } from "./common";
 
-type Type = keyof Avatar["images"];
-
-/**
- * avatar height が ↓ の値の場合の, 画像を等倍とする
- */
-const AVATAR_SAME_SCALE_HEIGHT = 110;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の横幅
- */
-const DEFAULT_WIDTH = 1400;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の空白マージン
- */
-const DEFAULT_LEFT_MARGIN_PX = 100;
-
-/**
- * Avatar Studio で撮影した画像にて, 上部分の空白マージン
- */
-const DEFAULT_TOP_MARGIN_PX = 400;
-
-/**
- * Avatar Studio で撮影した画像にて, 左部分の縦幅
- */
-const DEFAULT_HEIGHT = 2160;
-
-/**
- * Avatar Studio で撮影した画像にて, 切り取る画像の横幅
- */
-const CROP_WIDTH = DEFAULT_WIDTH - DEFAULT_LEFT_MARGIN_PX;
-
-/**
- * Avatar Studio で撮影した画像にて, 切り取る画像の縦幅
- */
-const CROP_HEIGHT = DEFAULT_HEIGHT - DEFAULT_TOP_MARGIN_PX;
-
-/**
- * 切り取る画像のアスペクト比
- */
-const ASPECT_RATIO = CROP_WIDTH / CROP_HEIGHT;
+type ExpressionType = keyof Avatar["images"];
 
 export interface Props
   extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
@@ -68,7 +27,7 @@ export interface Props
    * アバター画像の表情
    * @default "neutral"
    */
-  type?: Type;
+  expression?: ExpressionType;
 
   /**
    * Picture Component に指定する alt 属性
@@ -80,6 +39,12 @@ export interface Props
    * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
    */
   width: number;
+
+  /**
+   * viewport が ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像高さ
+   * 例えば, 表示領域が { h: "64" } (16rem) の場合, 512px を指定する
+   */
+  height: number;
 
   /**
    * アウトラインの幅
@@ -94,32 +59,22 @@ export interface Props
 const {
   nickname,
   avatarIndex = 0,
-  type = "neutral",
-  width: baseWidth,
+  expression = "neutral",
+  width,
+  height,
   outline = "medium",
   alt = "",
   ...attrs
 } = Astro.props;
 
-const { image: src, height: avatarHeight } = await fetchAvatarImage({
+const src = await fetchAvatarImage({
   nickname,
   index: avatarIndex,
-  type,
+  expression,
 });
 
-const scale = avatarHeight / AVATAR_SAME_SCALE_HEIGHT;
-
-const optimizedWidth = Math.round(baseWidth * scale);
-
-const optimizedHeight = Math.round(optimizedWidth / ASPECT_RATIO);
-
-const optimizedWidthRem = optimizedWidth / 32;
-
-const imageStyle = {
-  width: `${optimizedWidthRem}rem`,
-};
-
 const sizingStyle = css({
+  w: "full",
   height: "[fit-content]",
 
   "& > *": {
@@ -129,7 +84,6 @@ const sizingStyle = css({
 
 const pictureAttributes = defu(
   {
-    style: imageStyle,
     class: [sizingStyle, attrs.class].join(" "),
   },
   attrs,
@@ -141,25 +95,19 @@ const outlineMap = {
   strong: 5,
 } satisfies Record<Exclude<Props["outline"], undefined>, number>;
 
-const sizes = `${remToSizePercent(baseWidth)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(baseWidth) * SP_ROOT_FONT_SCALE}%`;
+const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
 ---
 
 <CustomPicture
   src={src}
-  crop={{
-    width: CROP_WIDTH,
-    height: CROP_HEIGHT,
-    left: DEFAULT_LEFT_MARGIN_PX,
-    top: DEFAULT_TOP_MARGIN_PX,
-  }}
   outline={{
     thickness: `${outlineMap[outline]}px`,
   }}
   alt={alt}
-  width={optimizedWidth}
-  widths={toWidths(optimizedWidth)}
+  width={width}
+  widths={toWidths(width)}
+  height={height}
   sizes={sizes}
-  height={optimizedHeight}
   fit="cover"
   pictureAttributes={pictureAttributes}
 />

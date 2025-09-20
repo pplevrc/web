@@ -4,7 +4,6 @@ import { AstroError } from "astro/errors";
 import { AstroErrorData } from "node_modules/astro/dist/core/errors";
 import type { Sharp } from "sharp";
 import type {
-  CropOptions,
   CustomImageTransform,
   ImageConfig,
   OutlineOptions,
@@ -21,6 +20,10 @@ type LocalImageTransform = {
   [key: string]: any;
 };
 
+/**
+ *
+ * @returns
+ */
 async function loadSharp(): Promise<typeof import("sharp")> {
   if (sharp) {
     return sharp;
@@ -36,6 +39,13 @@ async function loadSharp(): Promise<typeof import("sharp")> {
   return sharp;
 }
 
+/**
+ *
+ * @param inputBuffer
+ * @param options
+ * @param config
+ * @returns
+ */
 export async function transform(
   inputBuffer: Uint8Array,
   options: CustomImageTransform,
@@ -53,30 +63,16 @@ export async function transform(
     };
   }
 
-  let image = sharp(inputBuffer, {
-    failOnError: false,
-    pages: -1,
-    limitInputPixels: config.service.config.limitInputPixels,
-  });
-
-  ///
-  /// crop など, 画像のサイズ変更を伴う処理を行う
-  ///
-
-  if (options.crop) {
-    image = crop(image, options.crop);
-  }
-
   ///
   /// デフォルトの transform を呼び出す
   ///
   const defaultFormatted = await baseService.transform(
-    new Uint8Array(await image.toBuffer()),
+    new Uint8Array(inputBuffer),
     options as LocalImageTransform,
     config,
   );
 
-  image = sharp(defaultFormatted.data);
+  let image = sharp(defaultFormatted.data);
 
   ///
   /// outline など, 画像のサイズ変更を伴わない処理を行う
@@ -94,16 +90,12 @@ export async function transform(
   };
 }
 
-function crop(image: Sharp, options: CropOptions): Sharp {
-  const { top = 0, left = 0, width, height } = options;
-  return image.clone().extract({
-    left: left,
-    top: top,
-    width: width,
-    height: height,
-  });
-}
-
+/**
+ *
+ * @param image
+ * @param options
+ * @returns
+ */
 async function outline(image: Sharp, options: OutlineOptions): Promise<Sharp> {
   const sharp = await loadSharp();
 

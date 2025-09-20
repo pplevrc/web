@@ -4,7 +4,7 @@ import DecorativeAvatar, {
 } from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
 import { css } from "@styles/css";
 
-interface Props extends Omit<BaseProps, "nickname"> {
+interface Props extends Omit<BaseProps, "nickname" | "width" | "height"> {
   nickname: string;
 }
 

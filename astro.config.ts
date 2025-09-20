@@ -32,6 +32,8 @@ console.log("Environments", {
   SITE_IS_PUBLIC: process.env["SITE_IS_PUBLIC"] === "true",
   CONTENTS_API_KEY: mask(process.env["CONTENTS_API_KEY"] ?? ""),
   CONTENTS_SERVICE_ID: mask(process.env["CONTENTS_SERVICE_ID"] ?? ""),
+  CONTENTS_CASTS_URL: mask(process.env["CONTENTS_CASTS_URL"] ?? ""),
+  CONTENTS_CASTS_API_KEY: mask(process.env["CONTENTS_CASTS_API_KEY"] ?? ""),
 });
 
 /**
@@ -101,6 +103,9 @@ export default defineConfig(
         remotePatterns: [
           {
             hostname: "images.microcms-assets.io",
+          },
+          {
+            hostname: "drive.google.com",
           },
         ],
       },

@@ -3,8 +3,7 @@ import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShap
 import { ppleIconTypes } from "@components/decoratives/Vectors/Icon/types";
 import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
-import { fetchAvatar, fetchCast } from "@lib/contents/casts";
-import { pickColorBase } from "@lib/contents/commons/ColorToken";
+import { fetchCast } from "@lib/contents/casts";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
 import NameSeal from "../common/internals/NameSeals.astro";
@@ -18,59 +17,28 @@ const { nickname } = avatarImageProps;
 
 const { themeColor } = await fetchCast(nickname);
 
-const { height: avatarHeight } = await fetchAvatar({ nickname });
-
 const figureRoot = css({
   w: "32",
   h: "[inherit]",
   pos: "relative",
 });
 
-const origamiStyleRecipe = cva({
-  base: {
-    pos: "absolute",
-    transform: "[translate(-50%, -50%)]",
-    left: "[50%]",
-    bottom: "[30%]",
+const origamiStyle = css({
+  pos: "absolute",
+  transform: "[translate(-50%, -50%)]",
+  left: "[50%]",
+  bottom: "[17.5%]",
 
-    w: "32",
-    h: "32",
-  },
-  variants: {
-    position: {
-      low: {
-        bottom: "[10%]",
-      },
-      middle: {
-        bottom: "[17.5%]",
-      },
-      high: {
-        bottom: "[25%]",
-      },
-    },
-  },
-});
-
-const position = (() => {
-  if (avatarHeight > 80) {
-    return "high";
-  }
-
-  if (avatarHeight > 60) {
-    return "middle";
-  }
-
-  return "low";
-})();
-
-const origamiStyle = origamiStyleRecipe({
-  position,
+  w: "32",
+  h: "32",
 });
 
 const imageStyle = css({
   pos: "absolute",
   bottom: "[10%]",
   left: "[50%]",
+  w: "48",
+  h: "48",
   transform: "[translate(-50%, 0)]",
   display: "block",
   zIndex: "front",
@@ -97,17 +65,6 @@ const nameStyleRecipe = cva({
     zIndex: "float",
   },
   variants: {
-    position: {
-      low: {
-        bottom: "[10%]",
-      },
-      middle: {
-        bottom: "[17.5%]",
-      },
-      high: {
-        bottom: "[25%]",
-      },
-    },
     rotate: {
       "0": {
         transform: "[translate(-50%, -50%)]",
@@ -167,8 +124,6 @@ const origamiRotateType = randomPick(
 
 const inverse = randomPick(1, [true, false] as const, random);
 
-const colorName = pickColorBase(themeColor);
-
 const icon = randomPick(1, ppleIconTypes, random);
 
 const nameRotateType = randomPick(
@@ -193,7 +148,6 @@ const nameRotateType = randomPick(
 
 const nameStyle = nameStyleRecipe({
   rotate: nameRotateType,
-  position,
 });
 ---
 
@@ -202,18 +156,36 @@ const nameStyle = nameStyleRecipe({
     shape={shapeType}
     rotate={origamiRotateType}
     inverse={inverse}
-    color={colorName}
+    color={themeColor}
     class={origamiStyle}
   />
   <StripeCircle class={circleStyle} />
+  {
+    /**
+     * hover の判定が親のコンポーネントに依存しているため、仕方なくここで data-visible-on で親側のスタイルが適用させている
+     */
+  }
   <AvatarImage
     {...avatarImageProps}
+    expression="neutral"
+    width={388}
+    height={388}
     class={imageStyle}
-    alt={`${nickname} のアバター`}
+    alt={`${nickname}のアバター`}
+    data-visible-on="default"
+  />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="emotional"
+    width={388}
+    height={388}
+    class={imageStyle}
+    alt={""}
+    data-visible-on="hover"
   />
   <NameSeal
     name={nickname}
-    color={colorName}
+    color={themeColor}
     icon={icon}
     width="short"
     class={nameStyle}

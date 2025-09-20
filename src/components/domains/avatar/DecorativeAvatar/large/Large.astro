@@ -3,7 +3,6 @@ import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShap
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
 import { fetchCast } from "@lib/contents/casts";
-import { pickColorBase } from "@lib/contents/commons/ColorToken";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
 import StripeCircle from "../common/internals/StripeCircle.astro";
@@ -19,6 +18,43 @@ const { nickname } = avatarImageProps;
 const rootStyle = css({
   w: "128",
   h: "128",
+
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+const avatarSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
 });
 
 const imageStyle = css({
@@ -56,10 +92,7 @@ const origamiStyle = css({
   h: "128",
 });
 
-const { themeColor, avatars, thumbnail } = await fetchCast(nickname);
-
-// biome-ignore lint/style/noNonNullAssertion: データが存在することを保証
-const { height } = avatars[0]!;
+const { themeColor, thumbnail } = await fetchCast(nickname);
 
 const random = seedRandom(nickname);
 
@@ -75,32 +108,17 @@ const origamiRotateType = randomPick(
 );
 
 const inverse = randomPick(1, [true, false] as const, random);
-
-const colorName = pickColorBase(themeColor);
-
-const nameSealsRadius = (() => {
-  // 身長 60 cm 以下 .. short
-  // 身長 80 cm 以下 .. medium
-  // 身長 80 cm より大きい .. long
-
-  if (height <= 60) {
-    return "short";
-  }
-
-  if (height <= 80) {
-    return "medium";
-  }
-
-  return "long";
-})();
 ---
 
-<figure class:list={[className, rootStyle]} {...rootAttributes}>
+<figure
+  class:list={[className, avatarSwitchStyle, rootStyle]}
+  {...rootAttributes}
+>
   <OrigamiShape
     shape={shapeType}
     rotate={origamiRotateType}
     inverse={inverse}
-    color={colorName}
+    color={themeColor}
     class={origamiStyle}
   />
   <PhotoImage
@@ -108,14 +126,28 @@ const nameSealsRadius = (() => {
     size="large"
     alt={`${nickname} の写真`}
     class={photoStyle}
-    colorTheme={colorName}
+    colorTheme={themeColor}
   />
   <StripeCircle class={circleStyle} />
   <AvatarImage
     {...avatarImageProps}
+    expression="neutral"
+    width={1024}
+    height={1024}
     class={imageStyle}
     outline="strong"
-    alt={`${nickname} のアバター`}
+    data-visible-on="default"
+    alt={`${nickname}のアバター`}
   />
-  <NameSeals name={nickname} color={colorName} radius={nameSealsRadius} />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="emotional"
+    width={1024}
+    height={1024}
+    class={imageStyle}
+    outline="strong"
+    data-visible-on="hover"
+    alt={""}
+  />
+  <NameSeals name={nickname} color={themeColor} radius="medium" />
 </figure>

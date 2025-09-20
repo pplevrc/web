@@ -36,6 +36,10 @@ const colorNames = [
   "mint",
 ] as const satisfies ColorThemeBase[];
 
+export function isColorThemeBase(value: string): value is ColorThemeBase {
+  return colorNames.includes(value as ColorThemeBase);
+}
+
 export function pickColorBase(theme: ColorTheme): ColorThemeBase {
   const colorName = colorNames.find((name) => theme.startsWith(name));
 
@@ -49,6 +53,8 @@ export function pickColorBase(theme: ColorTheme): ColorThemeBase {
 export function randomColorBase(seed: Randomizer): ColorThemeBase {
   return randomPick(1, colorNames, seed);
 }
+
+export const colorBaseThemeSchema = z.enum(colorNames);
 
 export const colorThemeSchema = schemaForType<ColorTheme>(
   z.union([
