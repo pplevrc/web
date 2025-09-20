@@ -18,6 +18,43 @@ const { nickname } = avatarImageProps;
 const rootStyle = css({
   w: "128",
   h: "128",
+
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+const avatarSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
 });
 
 const imageStyle = css({
@@ -73,7 +110,10 @@ const origamiRotateType = randomPick(
 const inverse = randomPick(1, [true, false] as const, random);
 ---
 
-<figure class:list={[className, rootStyle]} {...rootAttributes}>
+<figure
+  class:list={[className, avatarSwitchStyle, rootStyle]}
+  {...rootAttributes}
+>
   <OrigamiShape
     shape={shapeType}
     rotate={origamiRotateType}
@@ -91,11 +131,23 @@ const inverse = randomPick(1, [true, false] as const, random);
   <StripeCircle class={circleStyle} />
   <AvatarImage
     {...avatarImageProps}
-    class={imageStyle}
+    expression="neutral"
     width={1024}
     height={1024}
+    class={imageStyle}
     outline="strong"
-    alt={`${nickname} のアバター`}
+    data-visible-on="default"
+    alt={`${nickname}のアバター`}
+  />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="emotional"
+    width={1024}
+    height={1024}
+    class={imageStyle}
+    outline="strong"
+    data-visible-on="hover"
+    alt={""}
   />
   <NameSeals name={nickname} color={themeColor} radius="medium" />
 </figure>

@@ -43,35 +43,40 @@ const rootStyle = css({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "flex-start",
+
+  zIndex: "front",
+});
+
+const paperAdjustStyle = css({
+  top: {
+    base: "[inherit]",
+    _pc: "4",
+  },
 });
 
 const stickerStyle = css({
-  pt: "12",
-});
-
-const linksStyle = css({
-  pt: "12",
+  pt: "4",
 });
 ---
 
 <section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
-  <Paper size="short" position="absolute" themeColor={themeColor}>
+  <Paper
+    size="short"
+    position="absolute"
+    themeColor={themeColor}
+    paperClass={paperAdjustStyle}
+  >
+    <SocialLinks
+      slot="header"
+      variant="sticker"
+      links={links}
+      label={`${nickname}のソーシャルリンク一覧`}
+    />
+
     <NameStickerList slot="header" class={stickerStyle}>
       <NameSticker key="VRChat ID" value={userId} themeColor={themeColor} />
     </NameStickerList>
 
     {profile.introduction}
-
-    {
-      links.length > 0 && (
-        <SocialLinks
-          slot="footer"
-          variant="sticker"
-          links={links}
-          class={linksStyle}
-          label={`${nickname}のソーシャルリンク一覧`}
-        />
-      )
-    }
   </Paper>
 </section>

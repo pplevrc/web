@@ -56,6 +56,25 @@ const listItemStyle = css({
   },
 });
 
+const avatarSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
 const navItems = [prevCast, nextCast];
 ---
 
@@ -63,7 +82,7 @@ const navItems = [prevCast, nextCast];
   <ul class={listStyle}>
     {
       navItems.map(({ profile: { nickname } }) => (
-        <li class={listItemStyle}>
+        <li class:list={[listItemStyle, avatarSwitchStyle]}>
           <DecorativeAvatarLink
             size="small"
             nickname={nickname}
