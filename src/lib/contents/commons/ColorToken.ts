@@ -1,5 +1,5 @@
 import { z } from "astro:content";
-import { type Randomizer, randomPick } from "@lib/utils/random";
+import { type Randomizer, randomPick, seedRandom } from "@lib/utils/random";
 import { schemaForType } from "@lib/utils/type";
 import type { ColorToken } from "@styles/tokens";
 
@@ -20,6 +20,8 @@ type OmitSemantic<T extends ColorToken> = T extends `${infer R}.${infer _}`
 export type ColorTheme = OmitBG<PickToken<ColorToken>>;
 
 export type ColorThemeBase = OmitSemantic<PickToken<ColorTheme>>;
+
+const defaultSeed = seedRandom("color-token");
 
 const colorNames = [
   "smoke",
@@ -50,7 +52,9 @@ export function pickColorBase(theme: ColorTheme): ColorThemeBase {
   return colorName;
 }
 
-export function randomColorBase(seed: Randomizer): ColorThemeBase {
+export function randomColorBase(
+  seed: Randomizer = defaultSeed,
+): ColorThemeBase {
   return randomPick(1, colorNames, seed);
 }
 

@@ -47,6 +47,11 @@ export interface Props
   height: number;
 
   /**
+   * @default true
+   */
+  responsive?: boolean;
+
+  /**
    * アウトラインの幅
    * none .. 0px
    * medium .. 3px
@@ -64,6 +69,7 @@ const {
   height,
   outline = "medium",
   alt = "",
+  responsive = true,
   ...attrs
 } = Astro.props;
 
@@ -96,6 +102,8 @@ const outlineMap = {
 } satisfies Record<Exclude<Props["outline"], undefined>, number>;
 
 const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
+
+const widths = responsive ? toWidths(width) : [width];
 ---
 
 <CustomPicture
@@ -105,7 +113,7 @@ const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${rem
   }}
   alt={alt}
   width={width}
-  widths={toWidths(width)}
+  widths={widths}
   height={height}
   sizes={sizes}
   fit="cover"

@@ -122,7 +122,6 @@ export async function localizeRemoteImages(
 
   for (const img of images) {
     const src = img.getAttribute("src");
-    console.log(src);
     if (src && isRemoteUrl(src)) {
       try {
         const picture = await convertImageToPicture(img, document, options);

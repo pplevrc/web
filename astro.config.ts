@@ -96,7 +96,13 @@ export default defineConfig(
      * 本番モード専用オプション
      */
     $production: {
-      integrations: [purgeInlineCss(), sitemap(), renameRemoteImages()],
+      integrations: [
+        purgeInlineCss(),
+        sitemap({
+          filter: (page) => !page.includes("internals/"),
+        }),
+        renameRemoteImages(),
+      ],
 
       image: {
         responsiveStyles: true,
