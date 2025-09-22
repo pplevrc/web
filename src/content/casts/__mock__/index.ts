@@ -1,8 +1,5 @@
-import { randomColorBase } from "@lib/contents/commons/ColorToken";
-import {
-  type SocialLink,
-  randomSocialType,
-} from "@lib/contents/commons/SocialLink";
+import { randomColorBase } from "@content/commons";
+import { type SocialLink, randomSocialType } from "@content/commons";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import type { Cast } from "../types";
 

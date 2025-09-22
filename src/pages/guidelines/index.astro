@@ -2,12 +2,12 @@
 import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { fetchMeta } from "@lib/contents/meta";
 
 const {
   guidelines: { title, description, keywords, thumbnail },
-} = await fetchMeta();
+} = await getMeta();
 
 const guidelineCollection = await getCollection("guidelines");
 

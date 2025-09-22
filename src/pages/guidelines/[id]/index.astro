@@ -3,8 +3,8 @@ import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
 import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
@@ -20,7 +20,7 @@ const { id } = Astro.params;
 
 const {
   guideline: { title, description, keywords },
-} = await fetchMeta();
+} = await getMeta();
 
 const { data: guideline } = (await getEntry("guidelines", id)) ?? {
   data: undefined,

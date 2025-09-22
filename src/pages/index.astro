@@ -2,12 +2,12 @@
 import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
 import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
 import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { css } from "@styles/css";
 
 // @ts-ignore ファイルが動的に作られるため
 import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp";
-import { fetchMeta } from "@lib/contents/meta";
 
 const mainClass = css({
   display: "flex",
@@ -18,7 +18,7 @@ const mainClass = css({
 
 const {
   home: { description, keywords, thumbnail },
-} = await fetchMeta();
+} = await getMeta();
 ---
 
 <Layout

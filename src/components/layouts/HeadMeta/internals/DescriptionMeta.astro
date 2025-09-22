@@ -1,12 +1,12 @@
 ---
-import { fetchMeta } from "@lib/contents/meta";
+import { getMeta } from "@content/meta";
 import type { DescriptionMetaProps } from "../types";
 
 interface Props extends DescriptionMetaProps {}
 
 const { description, keywords = [], title } = Astro.props;
 
-const { commonKeywords } = await fetchMeta();
+const { commonKeywords } = await getMeta();
 
 const fixedTitle =
   title === "ロリっ子喫茶ぷぷりえ" ? title : `${title} | ロリっ子喫茶ぷぷりえ`;

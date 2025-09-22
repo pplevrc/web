@@ -1,4 +1,4 @@
-import type { SocialLinkType } from "@lib/contents/commons/SocialLink";
+import type { SocialLinkType } from "@content/commons";
 
 export type LogoIconType = SocialLinkType;
 

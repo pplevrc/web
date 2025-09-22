@@ -9,7 +9,7 @@ import {
 } from "@components/layouts/HeadMeta";
 import Header from "@components/layouts/Header/Header.astro";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import type { ColorThemeBase } from "@content/commons";
 import { css, cva } from "@styles/css";
 
 interface Props {
@@ -136,7 +136,12 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
 <html lang="ja" dir="ltr">
   <head>
     <slot name="head" />
-    <HeadMeta title={title} description={description} keywords={keywords} ogp={ogp} />
+    <HeadMeta
+      title={title}
+      description={description}
+      keywords={keywords}
+      ogp={ogp}
+    />
   </head>
 
   <body class:list={[hideScroll, rootClass, ...rootClassList]}>

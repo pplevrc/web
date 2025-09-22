@@ -2,8 +2,8 @@
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
 import { getNextEntry, getPrevEntry } from "@content/casts";
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import { fetchMeta } from "@lib/contents/meta";
+import type { ColorThemeBase } from "@content/commons";
+import { getMeta } from "@content/meta";
 import { css } from "@styles/css";
 
 interface Props {
@@ -19,7 +19,7 @@ const nextCast = await getNextEntry(nickname);
 
 const {
   casts: { backLinkLabel },
-} = await fetchMeta();
+} = await getMeta();
 
 const rootStyle = css({
   h: "112",

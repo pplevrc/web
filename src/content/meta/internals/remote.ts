@@ -1,50 +1,47 @@
-import type { Guideline } from "@content/guidelines";
-import { memoize } from "@lib/utils/cache";
-import { USE_MOCK } from "@lib/utils/env";
-import { type MicroCMSMeta, fetchObject } from "@lib/utils/microcms";
+import { toSocialLink } from "@content/commons";
+import type { CMSGuideline } from "@content/guidelines/internals/remote";
+import {
+  type MicroCMSImage,
+  type MicroCMSObjectContentBase,
+  fetchObject,
+} from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
-import { type SocialLink, toSocialLink } from "../commons/SocialLink";
-import { getMockMeta } from "./__mock__/meta";
+import type { Meta } from "../types";
 
 /**
- * 共通のページメタ情報
+ *
  */
-export interface PageMeta {
+interface CMSPageMeta {
   /**
-   * ページのタイトル (<title> タグではない)
+   *
    */
   title: string;
 
   /**
-   * ページの説明
-   */
-  description: string;
-
-  /**
    *
-   */
-  keywords: string[];
-
-  /**
-   *
-   */
-  thumbnail: ImageMetadata | string;
-}
-
-/**
- * 一覧ページのメタ情報
- */
-export interface IndexedPageMeta extends PageMeta {
-  /**
-   * そのページに戻るラベルのテキスト
    */
   backLinkLabel: string;
+
+  /**
+   *
+   */
+  description: string;
+
+  /**
+   * comma-separated string
+   */
+  keywords: string;
+
+  /**
+   *
+   */
+  "hero-image": MicroCMSImage;
 }
 
 /**
- * コンテンツページ (一覧の先) のメタ情報
+ *
  */
-export interface ContentPageMeta {
+interface CMSContentPageMeta {
   /**
    *
    */
@@ -58,92 +55,85 @@ export interface ContentPageMeta {
   /**
    *
    */
-  keywords: string[];
+  keywords: string;
 }
 
 /**
  *
  */
-export interface ContentMeta {
+interface CMSSocialLink {
   /**
    *
    */
-  publishedAt: Date;
+  url: string;
 
   /**
    *
    */
-  updatedAt: Date;
+  description: string;
 }
 
 /**
  *
  */
-export interface Meta extends ContentMeta {
+export interface CMSMeta extends MicroCMSObjectContentBase {
   /**
    *
    */
-  guidelinesShortcut: Pick<Guideline, "title" | "themeColor">[];
+  "guidelines-shortcut": CMSGuideline[];
+
+  /**
+   * comma-separated string
+   */
+  "common-keywords": string;
 
   /**
    *
    */
-  commonKeywords: string[];
+  copyright: string;
 
   /**
    *
    */
-  official: {
-    /**
-     * ソーシャルリンク集
-     */
-    socialLinks: SocialLink[];
+  home: CMSPageMeta;
 
-    /**
-     * コピーライト
-     */
-    copyright: string;
-  };
+  /**
+   * replace `{nickname}` to cast's nickname
+   */
+  cast: CMSContentPageMeta;
 
   /**
    *
    */
-  guideline: ContentPageMeta;
+  casts: CMSPageMeta;
 
   /**
    *
    */
-  guidelines: IndexedPageMeta;
+  article: CMSContentPageMeta;
 
   /**
    *
    */
-  article: ContentPageMeta;
+  articles: CMSPageMeta;
 
   /**
    *
    */
-  articles: IndexedPageMeta;
+  guideline: CMSContentPageMeta;
 
   /**
    *
    */
-  cast: ContentPageMeta;
+  guidelines: CMSPageMeta;
 
   /**
    *
    */
-  casts: IndexedPageMeta;
-
-  /**
-   *
-   */
-  home: IndexedPageMeta;
+  "social-links": CMSSocialLink[];
 }
 
-async function convertMicroCMSMetaToMeta(
-  microCMSMeta: MicroCMSMeta,
-): Promise<Meta> {
+async function convertCMSMetaToMeta(microCMSMeta: CMSMeta): Promise<Meta> {
   const {
     "guidelines-shortcut": guidelinesShortcut,
     "common-keywords": commonKeywords,
@@ -223,13 +213,31 @@ async function convertMicroCMSMetaToMeta(
       keywords: splitKeywords(articles.keywords),
       thumbnail: articles["hero-image"].url,
     },
-    publishedAt: new Date(publishedAt),
-    updatedAt: new Date(updatedAt),
+    publishedAt,
+    updatedAt,
   };
 }
 
-async function fetchMetaFromMicroCMS(): Promise<Meta> {
-  const meta = await fetchObject("meta", {
+/**
+ *
+ * @param date
+ * @returns
+ */
+export async function hasUpdatedSince(date?: Date): Promise<boolean> {
+  if (!date) {
+    return true;
+  }
+
+  const latestUpdatedAt = await fetchLatestUpdatedAt();
+  return latestUpdatedAt > date;
+}
+
+/**
+ *
+ * @returns
+ */
+export async function fetchMeta(): Promise<Meta> {
+  const result = await fetchObject<CMSMeta>("meta", {
     query: {
       fields: [
         "guidelines-shortcut.title",
@@ -249,9 +257,25 @@ async function fetchMetaFromMicroCMS(): Promise<Meta> {
       ],
     },
   });
-  return convertMicroCMSMetaToMeta(meta);
+  return convertCMSMetaToMeta(result);
 }
 
-export const fetchMeta = memoize(async (): Promise<Meta> => {
-  return USE_MOCK ? getMockMeta() : fetchMetaFromMicroCMS();
-});
+/**
+ *
+ * @returns
+ */
+async function fetchLatestUpdatedAt(): Promise<Date> {
+  const result = await fetchObject<CMSMeta>("meta", {
+    query: {
+      fields: ["updatedAt"],
+    },
+  });
+
+  const date = result.updatedAt;
+
+  if (!date) {
+    throw new Error("Latest updated at not found");
+  }
+
+  return new Date(date);
+}

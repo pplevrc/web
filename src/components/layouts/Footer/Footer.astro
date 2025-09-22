@@ -1,7 +1,7 @@
 ---
 import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
-import { fetchMeta } from "@lib/contents/meta";
+import { getMeta } from "@content/meta";
 import { css } from "@styles/css";
 import FooterBorder from "./internals/FooterBorder.astro";
 
@@ -55,7 +55,7 @@ const logoStyle = css({
 
 const {
   official: { socialLinks, copyright },
-} = await fetchMeta();
+} = await getMeta();
 ---
 
 <footer class={rootStyle}>

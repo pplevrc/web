@@ -3,8 +3,8 @@ import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
@@ -20,7 +20,7 @@ const { id } = Astro.params;
 
 const {
   article: { title, description, keywords },
-} = await fetchMeta();
+} = await getMeta();
 
 const { data: article } = (await getEntry("articles", id)) ?? {
   data: undefined,

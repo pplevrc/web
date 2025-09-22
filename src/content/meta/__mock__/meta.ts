@@ -1,4 +1,4 @@
-import type { Meta } from "../index";
+import type { Meta } from "@content/meta";
 import ArticlesThumbnailImage from "./お知らせ.png";
 import GuidelinesThumbnailImage from "./ガイドライン.png";
 import HomeThumbnailImage from "./ホーム.png";
@@ -6,8 +6,8 @@ import CastsThumbnailImage from "./店員さん.jpg";
 
 export function getMockMeta(): Meta {
   return {
-    publishedAt: new Date(),
-    updatedAt: new Date(),
+    publishedAt: "2025-01-01T00:00:00.000Z",
+    updatedAt: "2025-01-01T00:00:00.000Z",
     commonKeywords: [],
     official: {
       copyright: "Copyright © 2021 ロリっ子喫茶ぷぷりえ",
@@ -50,7 +50,7 @@ export function getMockMeta(): Meta {
       description: "ガイドライン",
       backLinkLabel: "ガイドライン一覧に戻る",
       keywords: [],
-      thumbnail: GuidelinesThumbnailImage,
+      thumbnail: GuidelinesThumbnailImage.src,
     },
     article: {
       title: "{title}",
@@ -62,7 +62,7 @@ export function getMockMeta(): Meta {
       description: "お知らせ",
       backLinkLabel: "お知らせ一覧に戻る",
       keywords: [],
-      thumbnail: ArticlesThumbnailImage,
+      thumbnail: ArticlesThumbnailImage.src,
     },
     cast: {
       title: "{nickname}",
@@ -74,14 +74,14 @@ export function getMockMeta(): Meta {
       description: "店員さん",
       backLinkLabel: "店員さん一覧に戻る",
       keywords: [],
-      thumbnail: CastsThumbnailImage,
+      thumbnail: CastsThumbnailImage.src,
     },
     home: {
       title: "ホーム",
       description: "ホーム",
       backLinkLabel: "ホームに戻る",
       keywords: [],
-      thumbnail: HomeThumbnailImage,
+      thumbnail: HomeThumbnailImage.src,
     },
   };
 }

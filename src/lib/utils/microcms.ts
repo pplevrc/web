@@ -1,9 +1,12 @@
-import type { CMSGuideline } from "@content/guidelines/internals/remote";
 import { snakeCase } from "scule";
-import type { Paths, PickDeep, UnionToIntersection } from "type-fest";
+import type { Paths } from "type-fest";
 import { CONTENTS_API_KEY, CONTENTS_SERVICE_ID } from "./env";
 
 type Purify<T> = { [K in keyof T]: T[K] };
+
+type FlattenArray<T> = Purify<{
+  [K in keyof T]: T[K] extends Array<infer U> ? U : T[K];
+}>;
 
 /**
  *
@@ -97,204 +100,6 @@ export interface MicroCMSImage {
   width: number;
 }
 
-interface MicroCMSPageMeta {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   *
-   */
-  backLinkLabel: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   * comma-separated string
-   */
-  keywords: string;
-
-  /**
-   *
-   */
-  "hero-image": MicroCMSImage;
-}
-
-interface MicroCMSContentPageMeta {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   *
-   */
-  keywords: string;
-}
-
-/**
- *
- */
-interface MicroCMSSocialLink {
-  /**
-   *
-   */
-  url: string;
-
-  /**
-   *
-   */
-  description: string;
-}
-
-/**
- *
- */
-export interface MicroCMSMeta extends MicroCMSObjectContentBase {
-  /**
-   *
-   */
-  "guidelines-shortcut": CMSGuideline[];
-
-  /**
-   * comma-separated string
-   */
-  "common-keywords": string;
-
-  /**
-   *
-   */
-  copyright: string;
-
-  /**
-   *
-   */
-  home: MicroCMSPageMeta;
-
-  /**
-   * replace `{nickname}` to cast's nickname
-   */
-  cast: MicroCMSContentPageMeta;
-
-  /**
-   *
-   */
-  casts: MicroCMSPageMeta;
-
-  /**
-   *
-   */
-  article: MicroCMSContentPageMeta;
-
-  /**
-   *
-   */
-  articles: MicroCMSPageMeta;
-
-  /**
-   *
-   */
-  guideline: MicroCMSContentPageMeta;
-
-  /**
-   *
-   */
-  guidelines: MicroCMSPageMeta;
-
-  /**
-   *
-   */
-  "social-links": MicroCMSSocialLink[];
-}
-
-/**
- * MicroCMS のエンドポイントの定義
- */
-export type MicroCMSApis = {
-  meta: {
-    key: "meta";
-    value: MicroCMSMeta;
-  };
-};
-
-/**
- * contents があるやつだけピックアップ
- * MicroCMS で List API として定義されているエンドポイント
- */
-type MicroCMSContentsApis = Purify<
-  UnionToIntersection<
-    {
-      [K in keyof MicroCMSApis]: MicroCMSApis[K] extends { contents: infer T }
-        ? { [_ in K]: T }
-        : never;
-    }[keyof MicroCMSApis]
-  >
->;
-
-/**
- * value があるやつだけピックアップ
- * MicroCMS で JSON Object API として定義されているエンドポイント
- */
-type MicroCMSObjectApis = Purify<
-  UnionToIntersection<
-    {
-      [K in keyof MicroCMSApis]: MicroCMSApis[K] extends { value: infer T }
-        ? { [_ in K]: T }
-        : never;
-    }[keyof MicroCMSApis]
-  >
->;
-
-/**
- * エンドポイント名
- */
-export type MicroCMSApiEndpoint = MicroCMSApis[keyof MicroCMSApis]["key"];
-
-/**
- * List API のエンドポイント名
- */
-export type MicroCMSContentsEndpoint = keyof MicroCMSContentsApis;
-
-/**
- * JSON Object API のエンドポイント名
- */
-export type MicroCMSObjectEndpoint = keyof MicroCMSObjectApis;
-
-/**
- * 実際のレスポンスの型
- */
-export type MicroCMSApiResponse<
-  T extends MicroCMSApiEndpoint,
-  Q extends MicroCMSQueryParams<MicroCMSApiResponseType<T>>,
-  R extends MicroCMSApiResponseType<T> = MicroCMSApiResponseType<T>,
-> = Q["fields"] extends undefined ? R : PickDeep<R, Q["fields"] & Paths<R>>;
-
-/**
- * エンドポイントに対応するレスポンスの型
- */
-type MicroCMSApiResponseType<T extends MicroCMSApiEndpoint> = {
-  [K in keyof MicroCMSApis]: T extends MicroCMSApis[K]["key"]
-    ? MicroCMSApis[K] extends { contents: infer T }
-      ? T
-      : MicroCMSApis[K] extends { value: infer T }
-        ? T
-        : never
-    : never;
-}[keyof MicroCMSApis];
-
-type FlattenArray<T> = Purify<{
-  [K in keyof T]: T[K] extends Array<infer U> ? U : T[K];
-}>;
-
 /**
  * MicroCMS が提供している Query Params の型
  */
@@ -327,10 +132,9 @@ export interface MicroCMSFilters<T extends MicroCMSContentBase> {
  * MicroCMS の get request 時に付与する Query Params を構築するソース
  */
 export interface MicroCMSOptions<
-  T extends MicroCMSContentBase,
-  Q extends MicroCMSQueryParams<T> = MicroCMSQueryParams<T>,
+  T extends MicroCMSContentBase = MicroCMSContentBase,
 > {
-  query?: Q;
+  query?: MicroCMSQueryParams<T>;
   filters?: MicroCMSFilters<T>[];
 }
 
@@ -340,7 +144,7 @@ export interface MicroCMSOptions<
  * @param param1
  * @returns
  */
-function createMicroCMSUrl<T extends MicroCMSListContentBase>(
+function createMicroCMSUrl<T extends MicroCMSContentBase>(
   endpoint: string,
   { query, filters }: MicroCMSOptions<T>,
 ): URL {
@@ -379,7 +183,6 @@ function createMicroCMSHeaders(): Record<string, string> {
 
   return {
     "X-MICROCMS-API-KEY": CONTENTS_API_KEY,
-    // "Content-Type": "application/json",
   };
 }
 
@@ -389,13 +192,11 @@ function createMicroCMSHeaders(): Record<string, string> {
  * @param options
  * @returns
  */
-export async function fetchObject<
-  E extends MicroCMSObjectEndpoint,
-  Q extends MicroCMSQueryParams<T>,
-  T extends MicroCMSApiResponseType<E> & MicroCMSObjectContentBase,
->(endpoint: E, options: MicroCMSOptions<T, Q> = {}): Promise<T> {
-  // biome-ignore lint/suspicious/noExplicitAny: しんどいので回避
-  const url = createMicroCMSUrl(endpoint, options as any);
+export async function fetchObject<T extends MicroCMSObjectContentBase>(
+  endpoint: string,
+  options: MicroCMSOptions<T> = {},
+): Promise<T> {
+  const url = createMicroCMSUrl(endpoint, options);
   const headers = createMicroCMSHeaders();
 
   const response = await fetch(url, { headers });

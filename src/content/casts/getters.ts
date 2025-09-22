@@ -1,6 +1,9 @@
 import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 import type { Avatar } from "./avatar";
 
+/**
+ * リストに並べた際の次のエントリーを取得する
+ */
 export async function getNextEntry(
   id: string,
 ): Promise<CollectionEntry<"casts">> {
@@ -19,6 +22,9 @@ export async function getNextEntry(
   return nextCast;
 }
 
+/**
+ * リストに並べた際の前のエントリーを取得する
+ */
 export async function getPrevEntry(
   id: string,
 ): Promise<CollectionEntry<"casts">> {
@@ -37,11 +43,17 @@ export async function getPrevEntry(
   return prevCast;
 }
 
+/**
+ * アバターのインデックス
+ */
 type AvatarIndex = {
   nickname: string;
   index: number;
 };
 
+/**
+ * アバターを取得する
+ */
 export async function getAvatar({
   nickname,
   index,

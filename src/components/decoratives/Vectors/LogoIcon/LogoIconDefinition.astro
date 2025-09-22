@@ -1,5 +1,5 @@
 ---
-import { fetchMeta } from "@lib/contents/meta";
+import { getMeta } from "@content/meta";
 import { unique } from "@lib/utils/array";
 import LogoIcon from "./LogoIcon.astro";
 import {
@@ -16,7 +16,7 @@ const { logos = [] } = Astro.props;
 
 const {
   official: { socialLinks },
-} = await fetchMeta();
+} = await getMeta();
 
 const commonLinkTypes = socialLinks.map((link) => link.type);
 
