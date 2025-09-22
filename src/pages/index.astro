@@ -1,0 +1,50 @@
+---
+import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
+import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
+import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
+import { getMeta } from "@content/meta";
+import Layout from "@layouts/Layout.astro";
+import { css } from "@styles/css";
+
+// @ts-ignore ファイルが動的に作られるため
+import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp";
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  scrollSnapType: "y",
+  scrollSnapStrictness: "proximity",
+});
+
+const {
+  home: { description, keywords, thumbnail },
+} = await getMeta();
+---
+
+<Layout
+  headMeta={{
+    // title だけわざと指定しない
+    title: "ロリっ子喫茶ぷぷりえ",
+    description,
+    keywords,
+    ogp: thumbnail,
+  }}
+  mainClass={mainClass}
+  defineShapes={["letter", "star"]}
+>
+  <Fragment slot="head">
+    {
+      /* トップの動画が未読込のときに出すポスター画像を fetchpriority: "high" で取得する */
+    }
+    <link
+      rel="preload"
+      href={heroThumbnail.src}
+      as="image"
+      type="image/webp"
+      fetchpriority="high"
+    />
+  </Fragment>
+  <HeroSection />
+  <NewsHeadlineSection />
+  <CastPickupSection />
+</Layout>

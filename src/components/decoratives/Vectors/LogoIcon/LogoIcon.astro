@@ -1,0 +1,75 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import BlueskyLogo from "./internals/BlueSkyLogo.astro";
+import GitHubLogo from "./internals/GitHubLogo.astro";
+import MastodonLogo from "./internals/MastodonLogo.astro";
+import MisskeyLogo from "./internals/MisskeyLogo.astro";
+import OtherLinkIcon from "./internals/OtherLinkIcon.astro";
+import PixivBoothLogo from "./internals/PixivBoothLogo.astro";
+import PixivFanboxLogo from "./internals/PixivFanboxLogo.astro";
+import PixivVRoidHubLogo from "./internals/PixivVRoidHubLogo.astro";
+import VRChatLogo from "./internals/VRChatLogo.astro";
+import XLogo from "./internals/XLogo.astro";
+import type { LogoIconType } from "./types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+
+  /**
+   * ロゴの種類.
+   */
+  type: LogoIconType;
+}
+
+const { type, ...props } = Astro.props;
+
+const LogoIconComponent = (() => {
+  switch (type) {
+    case "x":
+      return XLogo;
+    case "bluesky":
+      return BlueskyLogo;
+    case "github":
+      return GitHubLogo;
+    case "misskey":
+      return MisskeyLogo;
+    case "mastodon":
+      return MastodonLogo;
+    case "pixiv-booth":
+      return PixivBoothLogo;
+    case "pixiv-vroid-hub":
+      return PixivVRoidHubLogo;
+    case "pixiv-fanbox":
+      return PixivFanboxLogo;
+    case "vrchat":
+      return VRChatLogo;
+
+    // TODO: logo 用意してない
+    case "amazon-wishlist":
+      return OtherLinkIcon;
+    // TODO: logo 用意してない
+    case "booth-wishlist":
+      return OtherLinkIcon;
+    // TODO: logo 用意してない
+    case "creatia-frontier":
+      return OtherLinkIcon;
+    // TODO: logo 用意してない
+    case "skeb":
+      return OtherLinkIcon;
+    // TODO: logo 用意してない
+    case "tiktok":
+      return OtherLinkIcon;
+    case "other":
+      return OtherLinkIcon;
+    default:
+      throw new Error(`LogoIcon type ${type} is not supported`);
+  }
+})();
+---
+
+<LogoIconComponent {...props} />

@@ -1,0 +1,117 @@
+---
+import type { ColorThemeBase } from "@content/commons";
+import {
+  type ImageTransformOption,
+  localizeRemoteImages,
+} from "@lib/utils/html/img";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"article"> {
+  /**
+   *
+   */
+  contentHtml: string;
+
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+
+  /**
+   *
+   */
+  imageOptions: ImageTransformOption;
+}
+
+const {
+  contentHtml: content,
+  themeColor,
+  imageOptions,
+  ...props
+} = Astro.props;
+
+const articleClass = css({
+  textStyle: "normal.sm",
+  colorPalette: themeColor,
+
+  "& > *": {
+    marginTop: "8",
+
+    "&:first-child": {
+      marginTop: "[inherit]",
+    },
+  },
+
+  "& h2": {
+    textStyle: "normal.bold.xl",
+    borderLeftWidth: "3xl",
+    borderBottomWidth: "md",
+    paddingLeft: "1",
+
+    borderColor: "colorPalette.deep",
+    color: "colorPalette.deep",
+  },
+
+  "& h3": {
+    textStyle: "normal.bold.lg",
+    borderLeftWidth: "xl",
+    paddingLeft: "1",
+
+    borderColor: "colorPalette.deep",
+    color: "colorPalette.deep",
+  },
+
+  "& ul": {
+    listStyle: "[square]",
+    listStylePosition: "inside",
+  },
+
+  "& ol": {
+    listStyle: "[decimal]",
+    listStylePosition: "inside",
+  },
+
+  "& blockquote": {
+    p: "4",
+    backgroundColor: "white/50",
+    rounded: "lg",
+    borderColor: "colorPalette.deep",
+    borderWidth: "md",
+  },
+
+  "& a": {
+    textDecoration: "underline",
+  },
+
+  "& strong": {
+    fontWeight: "bold",
+  },
+
+  "& em": {
+    fontStyle: "italic",
+  },
+
+  "& u": {
+    textDecoration: "underline",
+  },
+
+  "& s": {
+    textDecoration: "line-through",
+  },
+
+  "& hr": {
+    borderColor: "colorPalette.deep",
+    borderWidth: "md",
+    borderStyle: "dotted",
+  },
+});
+
+const fixedContentHtml = await localizeRemoteImages(content, imageOptions);
+---
+
+<article
+  set:html={fixedContentHtml}
+  class:list={[articleClass, props.class]}
+  {...props}
+/>

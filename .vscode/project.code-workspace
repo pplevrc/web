@@ -1,0 +1,51 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    }
+  ],
+  "extensions": {
+    "recommendations": ["biomejs.biome", "astro-build.astro-vscode"],
+    "unwantedRecommendations": ["eslint.vscode-eslint", "prettier.prettier"]
+  },
+  "settings": {
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[astro]": {
+      "editor.defaultFormatter": "astro-build.astro-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+
+    "editor.codeActionsOnSave": {
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+
+    "editor.formatOnSave": true,
+
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "tsconfig.json": "tsconfig.*.json",
+      "package.json": "yarn.lock, .yarn, .yarnrc.yml, *.config.ts, *.config.cjs, biome.json, lefthook.yml"
+    },
+    "liveServer.settings.root": "dist"
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "command": "./node_modules/.bin/astro dev",
+        "name": "Development server",
+        "request": "launch",
+        "type": "node-terminal"
+      }
+    ],
+    "compounds": []
+  }
+}

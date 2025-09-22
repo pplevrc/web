@@ -1,0 +1,33 @@
+---
+import type { ColorThemeBase } from "@content/commons";
+import type { HTMLAttributes } from "astro/types";
+import Center from "./internals/center.astro";
+import Right from "./internals/right.astro";
+
+type LinkDirection = "center" | "right";
+
+interface Props extends HTMLAttributes<"a"> {
+  /**
+   * @default "center"
+   */
+  type?: LinkDirection;
+
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+}
+
+const { type = "center", ...rest } = Astro.props;
+
+const components = {
+  center: Center,
+  right: Right,
+};
+
+const Component = components[type];
+---
+
+<Component {...rest}>
+  <slot />
+</Component>

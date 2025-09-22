@@ -1,0 +1,164 @@
+---
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import type { ColorThemeBase } from "@content/commons";
+import type { BallonPosition } from "@content/guidelines";
+import { PC_VIEWPORT_WIDTH, SP_MAX_WIDTH } from "@lib/browsers/breakpoint";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  title: string;
+
+  thumbnail: ImageMetadata | string;
+
+  ballonPosition: BallonPosition;
+
+  themeColor: ColorThemeBase;
+}
+
+const { title, thumbnail, ballonPosition, themeColor, ...props } = Astro.props;
+
+const linkStyle = css({
+  display: "block",
+  p: "4",
+
+  bg: "colorPalette.lite",
+  shadow: "xs",
+  overflow: "hidden",
+  colorPalette: themeColor,
+
+  transform: "[rotate(-0.2deg)]",
+});
+
+const imageStyle = css({
+  objectFit: "cover",
+  w: "80",
+  h: "48",
+  overflow: "hidden",
+  display: "block",
+});
+
+const figureStyle = css({
+  position: "relative",
+});
+
+const captionStyleRecipe = cva({
+  base: {
+    position: "absolute",
+    w: "56",
+    h: "43",
+
+    borderRadius: "[100%]",
+    colorPalette: themeColor,
+
+    bg: "colorPalette.lite",
+  },
+  variants: {
+    position: {
+      topLeft: {
+        top: "0",
+        left: "16",
+        transform: "[translate(-50%, -50%)]",
+      },
+      topRight: {
+        top: "0",
+        right: "16",
+        transform: "[translate(50%, -50%)]",
+      },
+      bottomLeft: {
+        bottom: "0",
+        left: "16",
+        transform: "[translate(-50%, 50%)]",
+      },
+      bottomRight: {
+        bottom: "0",
+        right: "16",
+        transform: "[translate(50%, 50%)]",
+      },
+    },
+  },
+});
+
+const captionStyle = captionStyleRecipe({ position: ballonPosition });
+
+const captionTextStyleRecipe = cva({
+  base: {
+    position: "absolute",
+    textStyle: "decorative.bold.3xl",
+    color: "white",
+    colorPalette: themeColor,
+
+    WebkitTextStrokeColor: "{colors.colorPalette.deep}",
+    WebkitTextStrokeWidth: "0.05rem",
+
+    width: "64",
+    height: "24",
+    display: "flex",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    wordBreak: "[auto-phrase]",
+  },
+  variants: {
+    position: {
+      topLeft: {
+        right: "-8",
+        bottom: "0",
+        transform: "[rotate(-8deg)]",
+      },
+      topRight: {
+        left: "-8",
+        bottom: "0",
+        transform: "[rotate(8deg)]",
+      },
+      bottomLeft: {
+        right: "-8",
+        top: "0",
+        transform: "[rotate(8deg)]",
+      },
+      bottomRight: {
+        left: "-8",
+        top: "0",
+        transform: "[rotate(-8deg)]",
+      },
+    },
+  },
+});
+
+const captionTextStyle = captionTextStyleRecipe({ position: ballonPosition });
+
+/**
+ * viewport 1440 の場合のサイズ
+ */
+const pcWidth = 320;
+
+const pcHeight = 194;
+
+/**
+ * viewport 1439 の場合の幅
+ */
+const spWidth = 1247;
+
+const widths = toWidths(Math.max(pcWidth, spWidth));
+
+const sizes = `${Math.round((pcWidth / PC_VIEWPORT_WIDTH) * 100)}%, (max-width: ${SP_MAX_WIDTH}px) ${Math.round((spWidth / PC_VIEWPORT_WIDTH) * 100)}%`;
+---
+
+<a class={linkStyle} href={`/guidelines/${title}`} {...props}>
+  <figure class={figureStyle}>
+    <CustomPicture
+      width={pcWidth}
+      height={pcHeight}
+      widths={widths}
+      sizes={sizes}
+      src={thumbnail}
+      alt=""
+      fit="cover"
+      class={imageStyle}
+    />
+    <figcaption class={captionStyle}>
+      <p class={captionTextStyle}>{title}</p>
+    </figcaption>
+  </figure>
+</a>

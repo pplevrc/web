@@ -1,0 +1,28 @@
+---
+import CastList from "@components/domains/cast/CastList/CastList.astro";
+import type { Cast } from "@content/casts";
+import { css } from "@styles/css";
+
+interface Props {
+  casts: Cast[];
+}
+
+const { casts } = Astro.props;
+
+const fitStyle = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+
+  py: "26",
+  gap: {
+    base: "16",
+    _pc: "4",
+  },
+});
+---
+
+<nav aria-label="店員さん一覧" class={fitStyle}>
+  <CastList casts={casts} />
+</nav>

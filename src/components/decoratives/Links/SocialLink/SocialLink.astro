@@ -1,0 +1,57 @@
+---
+import { type SocialLinkType, detectType } from "@content/commons";
+import BlueSkyLink from "./internals/BlueSkyLink.astro";
+import GitHubLink from "./internals/GitHubLink.astro";
+import MastodonLink from "./internals/MastodonLink.astro";
+import MisskeyLink from "./internals/MisskeyLink.astro";
+import OtherLink from "./internals/OtherLink.astro";
+import PixivBoothLink from "./internals/PixivBoothLink.astro";
+import PixivFanboxLink from "./internals/PixivFanboxLink.astro";
+import PixivVroidHubLink from "./internals/PixivVroidHubLink.astro";
+import VRChatLink from "./internals/VRChatLink.astro";
+import XLink from "./internals/XLink.astro";
+import type { Props as BaseProps } from "./internals/commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {
+  /**
+   *
+   */
+  type?: SocialLinkType;
+}
+
+const { type, url, description, variant } = Astro.props;
+
+const fixedUrl = url instanceof URL ? url : new URL(url);
+
+const fixedType = type ?? (await detectType(fixedUrl));
+
+const componentMap = {
+  // TODO: Youtube に申請しないとアイコンを使えない
+  youtube: OtherLink,
+  x: XLink,
+  mastodon: MastodonLink,
+  misskey: MisskeyLink,
+  bluesky: BlueSkyLink,
+  "pixiv-fanbox": PixivFanboxLink,
+  "pixiv-booth": PixivBoothLink,
+  // TODO: ロゴ取得が大変
+  skeb: OtherLink,
+  "pixiv-vroid-hub": PixivVroidHubLink,
+  github: GitHubLink,
+  vrchat: VRChatLink,
+  // TODO: ロゴ取得が大変
+  "creatia-frontier": OtherLink,
+  other: OtherLink,
+  // TODO:
+  tiktok: OtherLink,
+  // TODO:
+  "amazon-wishlist": OtherLink,
+  // TODO:
+  "booth-wishlist": OtherLink,
+  // biome-ignore lint/suspicious/noExplicitAny: 汎用的な型としての利用のため一旦許容. あと Component の正しい型がわからない
+} as const satisfies Record<SocialLinkType, (props: any) => any>;
+
+const Component = componentMap[fixedType];
+---
+
+<Component url={fixedUrl} description={description} variant={variant} />

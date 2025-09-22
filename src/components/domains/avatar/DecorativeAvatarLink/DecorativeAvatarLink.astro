@@ -1,0 +1,30 @@
+---
+import DecorativeAvatar, {
+  type Props as BaseProps,
+} from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
+import { css } from "@styles/css";
+
+interface Props extends Omit<BaseProps, "nickname" | "width" | "height"> {
+  nickname: string;
+}
+
+const { class: className, ...avatarImageProps } = Astro.props;
+
+const { nickname } = avatarImageProps;
+
+const rootStyle = css({
+  overflow: "visible",
+
+  "& *": {
+    pointerEvents: "none",
+  },
+});
+---
+
+<a
+  class:list={[rootStyle, className]}
+  href={`/casts/${nickname}`}
+  aria-label={`店員"${nickname}"の紹介ページ`}
+>
+  <DecorativeAvatar {...avatarImageProps} />
+</a>

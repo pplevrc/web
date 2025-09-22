@@ -1,0 +1,79 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
+import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
+import { getMeta } from "@content/meta";
+import Layout from "@layouts/Layout.astro";
+import { replaceByMap } from "@lib/utils/string";
+import { css } from "@styles/css";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+
+  return articles.map(({ id }) => ({
+    params: { id },
+  }));
+}
+
+const { id } = Astro.params;
+
+const {
+  article: { title, description, keywords },
+} = await getMeta();
+
+const { data: article } = (await getEntry("articles", id)) ?? {
+  data: undefined,
+};
+
+if (!article) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const {
+  keywords: articleKeywords,
+  thumbnail,
+  themeColor,
+  content,
+  thumbnailLabel,
+  publishedAt,
+} = article;
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const contentClass = css({
+  paddingTop: "26",
+  paddingBottom: "42",
+});
+---
+
+<Layout
+  headMeta={{
+    title: replaceByMap(title, article),
+    description: replaceByMap(description, article),
+    keywords: [
+      ...keywords.map((k) => replaceByMap(k, article)),
+      ...articleKeywords,
+    ],
+    ogp: thumbnail,
+  }}
+  themeColor={themeColor}
+  mainClass={mainClass}
+  defineShapes={["star"]}
+>
+  <PageHeading img={thumbnail}>{replaceByMap(title, article)}</PageHeading>
+  <ArticleContentSection
+    contentHtml={content}
+    thumbnail={thumbnail}
+    thumbnailDisplayAlt={thumbnailLabel ?? ""}
+    title={replaceByMap(title, article)}
+    themeColor={themeColor}
+    publishedAt={new Date(publishedAt)}
+    class={contentClass}
+  />
+  <ArticleNavigation />
+</Layout>

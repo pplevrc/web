@@ -1,0 +1,119 @@
+---
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"nav"> {
+  yearMonths: `${number}-${number}`[];
+}
+
+const { yearMonths, ...props } = Astro.props;
+
+const rootStyle = css({
+  position: "sticky",
+  top: "16",
+  height: "[fit-content]",
+
+  padding: "8",
+  bg: "white/50",
+  rounded: "2xl",
+  borderStyle: "dashed",
+  borderWidth: "lg",
+  borderColor: "latte.regular",
+});
+
+const listStyle = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "1",
+});
+
+const detailsStyle = css({
+  "&:not([open])": {
+    borderBottomStyle: "dotted",
+    borderBottomWidth: "sm",
+    borderBottomColor: "latte.regular",
+
+    "& > summary": {
+      color: "latte.regular",
+    },
+  },
+
+  "&[open]": {
+    "& > summary": {
+      borderBottomStyle: "dotted",
+      borderBottomWidth: "sm",
+      borderBottomColor: "latte.regular",
+    },
+  },
+});
+
+const summaryStyle = css({
+  textStyle: "normal.bold.sm",
+  color: "latte.deep",
+  cursor: "pointer",
+});
+
+const linkListStyle = css({
+  paddingBlock: "2",
+  paddingLeft: "4",
+  display: "flex",
+  flexDir: "column",
+  gap: "1",
+});
+
+const linkStyle = css({
+  textStyle: "normal.sm",
+  color: "latte.deep",
+});
+
+const years = yearMonths
+  .map((yearMonth) => {
+    return yearMonth.split("-")[0] as string;
+  })
+  .filter((year, index, self) => self.indexOf(year) === index);
+
+function extractYMbyYear(year: string): `${number}-${number}`[] {
+  return yearMonths.filter((ym) => ym.startsWith(year));
+}
+---
+
+<nav {...props} class:list={[rootStyle, props.class]}>
+  <ul class={listStyle}>
+    {
+      years.map((year, index) => {
+        const ymList = extractYMbyYear(year);
+
+        return (
+          <li>
+            <details
+              open={index === 0}
+              name="year-month-list"
+              class={detailsStyle}
+            >
+              <summary class={summaryStyle}>{year}</summary>
+              <ul class={linkListStyle}>
+                {ymList.map((ym) => {
+                  const label = Intl.DateTimeFormat("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                  }).format(new Date(ym));
+
+                  return (
+                    <li class={linkStyle}>
+                      <a
+                        href={`#articles-${ym}`}
+                        aria-label={`${ym} の記事に移動`}
+                      >
+                        <time datetime={ym}>{label}</time>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

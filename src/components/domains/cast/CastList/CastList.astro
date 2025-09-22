@@ -1,0 +1,141 @@
+---
+import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import type { Cast } from "@content/casts";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"ul"> {
+  /**
+   *
+   */
+  casts: Cast[];
+}
+
+const { class: className, casts, ...props } = Astro.props;
+
+const rootListStyle = css({
+  display: {
+    base: "contents",
+    _pc: "flex",
+  },
+  flexDir: {
+    base: "row",
+    _pc: "column",
+  },
+  alignItems: "center",
+  justifyContent: "center",
+
+  flexWrap: {
+    base: "wrap",
+    _pc: "nowrap",
+  },
+
+  px: {
+    base: "8",
+    _pc: "12",
+  },
+  gap: {
+    base: "8",
+    _pc: "16",
+  },
+});
+
+const contentOnSP = css({
+  display: {
+    base: "contents",
+    _pc: "initial",
+  },
+});
+
+const listStyle = css({
+  display: "flex",
+  flexDir: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "16",
+
+  px: "12",
+});
+
+const listItemStyle = css({
+  _motionSafe: {
+    _hover: {
+      transition: "[transform opacity]",
+      transitionDuration: "faster",
+      transform: "[scale(1.1)]",
+    },
+  },
+});
+
+const imageSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+/**
+ * 見た目のために, Cast[][] 構造にしながら、その中身を length = 5, 4, 5, 4, ... とする
+ */
+const LONG_ROW_LENGTH = 5;
+const SHORT_ROW_LENGTH = 4;
+
+const castRows = (() => {
+  const rows: Cast[][] = [];
+  let currentRow: Cast[] = [];
+  let targetLength = SHORT_ROW_LENGTH;
+
+  for (const cast of casts) {
+    currentRow.push(cast);
+
+    if (currentRow.length === targetLength) {
+      rows.push(currentRow);
+      currentRow = [];
+      targetLength =
+        targetLength === LONG_ROW_LENGTH ? SHORT_ROW_LENGTH : LONG_ROW_LENGTH;
+    }
+  }
+
+  // 最後の行が空でない場合、追加
+  if (currentRow.length > 0) {
+    rows.push(currentRow);
+  }
+
+  return rows;
+})();
+---
+
+<ul {...props} class:list={[rootListStyle, className]}>
+  {
+    castRows.map((casts) => (
+      <li class={contentOnSP} role="presentation">
+        <ul class={listStyle} role="presentation" data-shuffle="cast">
+          {casts.map((cast) => (
+            <li class:list={[listItemStyle, imageSwitchStyle]} role="listitem">
+              <DecorativeAvatarLink
+                size="small"
+                nickname={cast.profile.nickname}
+              />
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))
+  }
+</ul>
+<script>
+  import "@lib/browsers/shuffle";
+</script>

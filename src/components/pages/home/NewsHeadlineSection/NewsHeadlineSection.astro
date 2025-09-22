@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
+import { css } from "@styles/css";
+
+const articles = await getCollection("articles");
+
+const newArticles = articles
+  .sort((a, b) => {
+    const aData = new Date(a.data.publishedAt);
+    const bData = new Date(b.data.publishedAt);
+
+    return bData.getTime() - aData.getTime();
+  })
+  .slice(0, 5);
+
+const listStyle = css({
+  // SP
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "2",
+  p: "4",
+
+  _pc: {
+    display: "flex",
+    flexDir: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "9",
+
+    h: "96",
+    w: "256",
+  },
+});
+
+const listItemStyle = css({
+  w: "[fit-content]",
+  h: "[fit-content]",
+});
+---
+
+<HomePickupSection
+  title="おしらせ"
+  hrefViewMore="/articles"
+  themeColor="matcha"
+>
+  <ul class={listStyle}>
+    {
+      newArticles.map(
+        ({ id, data: { title, thumbnail, thumbnailLabel, publishedAt } }) => (
+          <li class={listItemStyle}>
+            <LetterLink
+              href={`/articles/${id}`}
+              title={title}
+              thumbnail={thumbnail}
+              thumbnailDisplayAlt={thumbnailLabel ?? ""}
+              publishedAt={new Date(publishedAt)}
+            />
+          </li>
+        ),
+      )
+    }
+  </ul>
+</HomePickupSection>

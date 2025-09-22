@@ -1,0 +1,69 @@
+---
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import { css, cva } from "@styles/css";
+
+interface Props {
+  class?: string;
+}
+
+const props = Astro.props;
+
+const isHome = Astro.url.pathname === "/";
+
+const hoverStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      transition: "[transform]",
+      transitionDuration: "faster",
+
+      _hover: {
+        transform: "[scale(1.05) rotate(1deg)]",
+      }
+    }
+  }
+})
+
+const logoStyleRecipe = cva({
+  base: {
+    w: "16",
+    zIndex: "base",
+  },
+  variants: {
+    home: {
+      true: {
+        transformOrigin: "top left",
+        animation: "logoShrink",
+        animationTimeline: "scroll(y)",
+        animationDuration: "slow",
+
+        "--large-logo-size": "200%",
+
+        _pc: {
+          "--large-logo-size": "300%",
+        },
+      },
+      false: {},
+    },
+  },
+})
+
+const logoStyle = logoStyleRecipe({ home: isHome });
+
+const iconStyle = css({
+  w: "full",
+  h: "full",
+})
+---
+
+<a
+  href="/"
+  class:list={[logoStyle, props.class]}
+  aria-label="ロリっ子喫茶ぷぷりえのホームページへのリンク"
+  {...props}
+>
+  <Logo
+    type="pple"
+    class:list={[hoverStyle, iconStyle]}
+    aria-label="ロリっ子喫茶ぷぷりえのロゴ"
+  />
+</a>

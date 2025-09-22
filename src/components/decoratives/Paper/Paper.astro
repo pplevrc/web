@@ -1,0 +1,162 @@
+---
+import {
+  type PpleIconType,
+  ppleIconTypes,
+} from "@components/decoratives/Vectors/Icon/types";
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import { randomPick } from "@lib/utils/random";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import type { ColorName } from "lib/styles/tokens/colors";
+
+interface Props extends HTMLAttributes<"article"> {
+  icon?: PpleIconType;
+
+  size: "short" | "full";
+
+  position: "absolute" | "sticky";
+
+  themeColor?: ColorName;
+
+  paperClass?: string;
+}
+
+const {
+  icon = randomPick(1, ppleIconTypes),
+  size,
+  position,
+  themeColor = "smoke",
+  paperClass,
+  ...props
+} = Astro.props;
+
+const rootStyle = css({
+  pos: "relative",
+
+  w: {
+    base: "full",
+    _pc: "128",
+  },
+});
+
+const paperStyleRecipe = cva({
+  base: {
+    borderColor: "colorPalette.bg",
+    borderWidth: "[0.5rem]",
+    colorPalette: themeColor,
+    bg: "smoke.50",
+    bgImage:
+      "[linear-gradient(to_bottom, transparent 20rem, {colors.smoke} 0.1rem)]",
+    bgSize: "[100% 40rem]",
+    shadow: "xs",
+    transform: "[rotate(2deg)]",
+  },
+  variants: {
+    size: {
+      short: {
+        h: "64",
+      },
+      full: {
+        h: "160",
+      },
+    },
+    position: {
+      absolute: {
+        pos: "absolute",
+        inset: {
+          base: "2",
+          _pc: "0",
+        },
+      },
+      sticky: {
+        pos: "sticky",
+      },
+    },
+  },
+});
+
+const paperStyle = paperStyleRecipe({ size, position });
+
+const iconStampStyle = css({
+  pos: "absolute",
+  right: "3",
+  bottom: "3",
+  w: "32",
+
+  transform: "[rotate(-8deg)]",
+  opacity: "[0.15]",
+  filter: "[grayscale(100%)]",
+});
+
+const contentStyleRecipe = cva({
+  base: {
+    pos: "relative",
+    h: "full",
+    w: "full",
+    px: "4",
+    zIndex: "base",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  variants: {
+    position: {
+      absolute: {},
+      sticky: {
+        // size: short はサポートしてない
+        marginTop: "[-40rem]",
+      },
+    },
+  },
+});
+
+const contentStyle = contentStyleRecipe({ position });
+
+const hasHeader = Astro.slots.has("header");
+
+const headerStyle = css({
+  h: "24",
+  w: "full",
+  pos: "relative",
+});
+
+const mainStyle = css({
+  textStyle: "normal.lg",
+});
+
+const hasFooter = Astro.slots.has("footer");
+
+const footerStyle = css({
+  h: "24",
+  w: "full",
+  pos: "relative",
+});
+---
+
+<article class={rootStyle} {...props}>
+  <div class:list={[paperStyle, paperClass]} aria-hidden>
+    <Logo type="pple" class={iconStampStyle} aria-hidden />
+  </div>
+  <div class={contentStyle}>
+    {
+      hasHeader && (
+        <header class={headerStyle}>
+          <slot name="header" />
+        </header>
+      )
+    }
+
+    <p class={mainStyle}>
+      {/* 紙の内容 */}
+      <slot />
+    </p>
+
+    {
+      hasFooter && (
+        <footer class={footerStyle}>
+          <slot name="footer" />
+        </footer>
+      )
+    }
+  </div>
+</article>

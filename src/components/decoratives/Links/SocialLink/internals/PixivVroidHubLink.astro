@@ -1,0 +1,37 @@
+---
+import LogoIcon from "@components/decoratives/Vectors/LogoIcon/LogoIcon.astro";
+import { cva } from "@styles/css";
+import IconLinkBase, {
+  type Props as BaseProps,
+} from "./commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {}
+
+const { url, description, variant } = Astro.props;
+
+const styleRecipe = cva({
+  base: {},
+  variants: {
+    variant: {
+      sticker: {
+        bg: "white",
+        color: "black",
+      },
+      "vector-only": {
+        color: "white",
+      },
+    },
+  },
+});
+
+const style = styleRecipe({ variant });
+---
+
+<IconLinkBase
+  url={url}
+  description={description}
+  variant={variant}
+  class={style}
+>
+  <LogoIcon type="pixiv-vroid-hub" />
+</IconLinkBase>

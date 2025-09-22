@@ -1,0 +1,42 @@
+---
+import LogoIcon from "@components/decoratives/Vectors/LogoIcon/LogoIcon.astro";
+import { css, cva } from "@styles/css";
+import IconLinkBase, {
+  type Props as BaseProps,
+} from "./commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {}
+
+const { url, description, variant } = Astro.props;
+
+const styleRecipe = cva({
+  base: {},
+  variants: {
+    variant: {
+      sticker: {
+        color: "white",
+        bg: "[#FC4D50]",
+      },
+      "vector-only": {
+        color: "white",
+      },
+    },
+  },
+});
+
+const style = styleRecipe({ variant });
+
+const logoStyle = css({
+  w: "4",
+  h: "4",
+});
+---
+
+<IconLinkBase
+  url={url}
+  description={description}
+  variant={variant}
+  class={style}
+>
+  <LogoIcon type="pixiv-booth" class={logoStyle} />
+</IconLinkBase>

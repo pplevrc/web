@@ -1,0 +1,81 @@
+---
+import { getEntry } from "astro:content";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import type { Avatar } from "@content/casts";
+import type { HTMLAttributes } from "astro/types";
+import { toWidths } from "./common";
+
+type Type = keyof Avatar["images"];
+
+interface Props extends HTMLAttributes<"picture"> {
+  /**
+   * 画像の読み込みが完了したことを示す aria-属性 ("aria-busy") を追加するかどうか
+   */
+  trackLoad?: true;
+
+  /**
+   * 店員さんのニックネーム
+   */
+  nickname: string;
+
+  /**
+   * アバター画像の表情
+   * @default "neutral"
+   */
+  expression: Type;
+
+  /**
+   * Picture Component に指定する alt 属性
+   */
+  alt?: string;
+
+  /**
+   * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
+   */
+  width: number;
+
+  /**
+   * @default true
+   */
+  responsive?: boolean;
+}
+
+const {
+  nickname,
+  expression,
+  alt,
+  width,
+  trackLoad,
+  responsive = true,
+  ...rest
+} = Astro.props;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const src = cast.portrait[expression];
+
+/**
+ * 1:1 なので同じにする
+ */
+const height = width;
+
+const widths = responsive ? toWidths(width) : [width];
+---
+
+<CustomPicture
+  src={src}
+  alt={alt}
+  width={width}
+  widths={widths}
+  height={height}
+  fit="cover"
+  trackLoad={trackLoad}
+  pictureAttributes={rest}
+/>

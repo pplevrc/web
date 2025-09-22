@@ -1,0 +1,29 @@
+---
+import { getMeta } from "@content/meta";
+import { unique } from "@lib/utils/array";
+import LogoIcon from "./LogoIcon.astro";
+import {
+  type LogoIconType,
+  type OptionalLogoIconType,
+  isSupportedLogo,
+} from "./types";
+
+interface Props {
+  logos?: OptionalLogoIconType[];
+}
+
+const { logos = [] } = Astro.props;
+
+const {
+  official: { socialLinks },
+} = await getMeta();
+
+const commonLinkTypes = socialLinks.map((link) => link.type);
+
+const definiteLogos = unique([
+  ...logos,
+  ...commonLinkTypes,
+] as LogoIconType[]).map((type) => (isSupportedLogo(type) ? type : "other"));
+---
+
+{definiteLogos.map((type) => <LogoIcon type={type} definition />)}

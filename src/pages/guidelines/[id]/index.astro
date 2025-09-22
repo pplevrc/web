@@ -1,0 +1,68 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
+import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
+import { getMeta } from "@content/meta";
+import Layout from "@layouts/Layout.astro";
+import { replaceByMap } from "@lib/utils/string";
+import { css } from "@styles/css";
+
+export async function getStaticPaths() {
+  const guidelines = await getCollection("guidelines");
+
+  return guidelines.map(({ id }) => ({
+    params: { id },
+  }));
+}
+
+const { id } = Astro.params;
+
+const {
+  guideline: { title, description, keywords },
+} = await getMeta();
+
+const { data: guideline } = (await getEntry("guidelines", id)) ?? {
+  data: undefined,
+};
+
+if (!guideline) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { thumbnail, themeColor, content } = guideline;
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const contentClass = css({
+  paddingTop: "26",
+  paddingBottom: "42",
+
+  w: {
+    base: "96",
+    _pc: "160",
+  },
+});
+---
+
+<Layout
+  headMeta={{
+    title: replaceByMap(title, guideline),
+    description: replaceByMap(description, guideline),
+    keywords: [
+      ...keywords.map((k) => replaceByMap(k, guideline)),
+      ...guideline.keywords,
+    ],
+    ogp: thumbnail,
+  }}
+  themeColor={themeColor}
+  mainClass={mainClass}
+>
+  <PageHeading img={thumbnail}> {replaceByMap(title, guideline)} </PageHeading>
+  <GuidelineContentSection contentHtml={content} class={contentClass} />
+  <GuidelineNavigation />
+</Layout>

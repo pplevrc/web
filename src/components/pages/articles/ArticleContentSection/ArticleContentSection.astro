@@ -1,0 +1,167 @@
+---
+import MarkdownContent from "@components/commons/MarkdownContent/MarkdownContent.astro";
+import Paper from "@components/decoratives/Paper/Paper.astro";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import PhotoImage from "@components/domains/image/PhotoImage.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"section"> {
+  /**
+   *
+   */
+  contentHtml: string;
+
+  /**
+   *
+   */
+  title: string;
+
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+
+  /**
+   *
+   */
+  thumbnail: string | ImageMetadata;
+
+  /**
+   *
+   */
+  thumbnailAlt?: string;
+
+  /**
+   *
+   */
+  thumbnailDisplayAlt: string;
+
+  /**
+   *
+   */
+  publishedAt: Date;
+}
+
+const {
+  contentHtml,
+  title,
+  themeColor,
+  publishedAt,
+  thumbnail,
+  thumbnailAlt,
+  thumbnailDisplayAlt,
+  ...props
+} = Astro.props;
+
+const titleGroupClass = css({
+  paddingBlock: "8",
+
+  color: "colorPalette.deep",
+  w: "full",
+  h: "14",
+
+  display: "grid",
+  gridTemplateAreas: '"icon title" "icon publishedAt"',
+  gridTemplateColumns: "3rem auto",
+  alignItems: "center",
+  rowGap: "1",
+  columnGap: "4",
+
+  colorPalette: themeColor,
+});
+
+const titleIconClass = css({
+  gridArea: "icon",
+  w: "12",
+  h: "12",
+});
+
+const titleClass = css({
+  gridArea: "title",
+  textStyle: "normal.bold.xl",
+});
+
+const publishedAtClass = css({
+  gridArea: "publishedAt",
+  textStyle: "normal.sm",
+});
+
+const paperClass = css({
+  top: {
+    base: "42",
+    _pc: "16",
+  },
+});
+
+const contentClass = css({
+  paddingBlock: "8",
+  paddingInline: "4",
+
+  _pc: {
+    paddingBlock: "16",
+    paddingInline: "[inherit]",
+  },
+});
+
+const photoImageClass = css({
+  pos: "absolute",
+  transform: "[rotate(-3deg)]",
+});
+
+const publishedAtString = Intl.DateTimeFormat("ja-JP", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(publishedAt);
+---
+
+<section class={props.class} {...props}>
+  <Paper
+    size="full"
+    position="sticky"
+    paperClass={paperClass}
+    themeColor={themeColor}
+  >
+    <Fragment slot="header">
+      <hgroup class={titleGroupClass}>
+        <Icon type="flower" class={titleIconClass} />
+        <h1 class={titleClass}>
+          {title}
+        </h1>
+        <p class={publishedAtClass}>
+          公開日:
+          <time datetime={publishedAt.toISOString()}>
+            {publishedAtString}
+          </time>
+        </p>
+      </hgroup>
+    </Fragment>
+
+    <MarkdownContent
+      contentHtml={contentHtml}
+      themeColor={themeColor}
+      imageOptions={{
+        width: 1920,
+        widths: toWidths(1920),
+        height: 1080,
+        fit: "cover",
+        position: "center",
+      }}
+      class={contentClass}
+    />
+
+    <Fragment slot="footer">
+      <PhotoImage
+        src={thumbnail}
+        size="large"
+        alt={thumbnailAlt}
+        label={thumbnailDisplayAlt}
+        class={photoImageClass}
+        colorTheme={themeColor}
+      />
+    </Fragment>
+  </Paper>
+</section>

@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
+import { getMeta } from "@content/meta";
+import Layout from "@layouts/Layout.astro";
+
+const {
+  guidelines: { title, description, keywords, thumbnail },
+} = await getMeta();
+
+const guidelineCollection = await getCollection("guidelines");
+
+const guidelines = guidelineCollection.map((guideline) => guideline.data);
+---
+
+<Layout
+  defineIcons={["flower"]}
+  headMeta={{
+    title,
+    description,
+    keywords,
+    ogp: thumbnail,
+  }}
+>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
+  <GuidelineList guidelines={guidelines} />
+</Layout>

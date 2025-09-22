@@ -1,0 +1,90 @@
+---
+import { getEntry } from "astro:content";
+import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
+import Paper from "@components/decoratives/Paper/Paper.astro";
+import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
+import NameStickerList from "@components/decoratives/Sticker/NameStickerList.astro";
+import type { SocialLink } from "@content/commons";
+import { css } from "@styles/css";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const {
+  themeColor,
+  profile,
+  socialLinks,
+  vrchat: { userId, userPageURL },
+} = cast;
+
+const links = [
+  {
+    url: userPageURL,
+    description: `VRChat: ${nickname}のユーザーページ`,
+    type: "vrchat",
+  } as const satisfies SocialLink,
+  ...socialLinks,
+];
+
+const rootStyle = css({
+  h: {
+    base: "80",
+    _pc: "80",
+  },
+  py: "12",
+
+  bg: "colorPalette.50/70",
+  colorPalette: themeColor,
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+
+  zIndex: "front",
+});
+
+const paperAdjustStyle = css({
+  top: {
+    base: "[inherit]",
+    _pc: "4",
+  },
+});
+
+const stickerStyle = css({
+  pt: "4",
+});
+---
+
+<section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
+  <Paper
+    size="short"
+    position="absolute"
+    themeColor={themeColor}
+    paperClass={paperAdjustStyle}
+  >
+    <SocialLinks
+      slot="header"
+      variant="sticker"
+      links={links}
+      label={`${nickname}のソーシャルリンク一覧`}
+    />
+
+    <NameStickerList slot="header" class={stickerStyle}>
+      <NameSticker key="VRChat ID" value={userId} themeColor={themeColor} />
+    </NameStickerList>
+
+    {profile.introduction}
+  </Paper>
+</section>

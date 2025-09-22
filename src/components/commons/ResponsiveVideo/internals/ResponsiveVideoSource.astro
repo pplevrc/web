@@ -1,0 +1,28 @@
+---
+import { PC_VIEWPORT_WIDTH } from "@lib/browsers/breakpoint";
+import { analyzeVideoMediaType } from "@lib/utils/mediainfo";
+
+type Media = "pc" | "sp";
+
+interface Props {
+  media: Media;
+  src: string;
+}
+
+const { media: mediaType, src } = Astro.props;
+
+const analyzedMediaType = await analyzeVideoMediaType(src);
+
+const media = toMediaQuery(mediaType);
+
+function toMediaQuery(media: Media): string | undefined {
+  switch (media) {
+    case "pc":
+      return `(min-width: ${PC_VIEWPORT_WIDTH}px)`;
+    case "sp":
+      return undefined;
+  }
+}
+---
+
+<source src={src} type={analyzedMediaType} media={media} />

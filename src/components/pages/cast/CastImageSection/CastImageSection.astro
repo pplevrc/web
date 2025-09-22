@@ -1,0 +1,38 @@
+---
+import DecorativeAvatar from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
+import { css } from "@styles/css";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const rootStyle = css({
+  h: {
+    base: "192",
+    _pc: "160",
+  },
+  w: "full",
+  pos: "relative",
+});
+
+const avatarStyle = css({
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+});
+---
+
+<section class={rootStyle} aria-label={`${nickname}の立ち絵`}>
+  <DecorativeAvatar
+    rootAttributes={{
+      "aria-label": `${nickname}の立ち絵`,
+    }}
+    size="large"
+    class={avatarStyle}
+    nickname={nickname}
+    avatarIndex={0}
+  />
+</section>

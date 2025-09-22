@@ -1,0 +1,96 @@
+---
+import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
+import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import { getMeta } from "@content/meta";
+import { css } from "@styles/css";
+import FooterBorder from "./internals/FooterBorder.astro";
+
+const rootStyle = css({
+  h: {
+    base: "128",
+    _pc: "64",
+  },
+  pos: "relative",
+});
+
+const footerPositionStyle = css({
+  pos: "absolute",
+  bottom: "[100%]",
+  w: "full",
+  h: "[fit-content]",
+});
+
+const contentStyle = css({
+  bgGradient:
+    "[linear-gradient(to bottom, {colors.latte.deep}, {colors.latte.900})]",
+  display: "flex",
+  flexDir: {
+    base: "column",
+    _pc: "row",
+  },
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  px: "4",
+  py: "2",
+  h: "full",
+  color: "white",
+});
+
+const copyrightSetStyle = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  textAlign: "center",
+  gap: "2",
+  w: "36",
+
+  _pc: {
+    w: "64",
+  },
+});
+
+const logoStyle = css({
+  w: "20",
+});
+
+const {
+  official: { socialLinks, copyright },
+} = await getMeta();
+---
+
+<footer class={rootStyle}>
+  <FooterBorder class={footerPositionStyle} />
+  <div class={contentStyle}>
+    <div class={copyrightSetStyle}>
+      <figure
+        class={css({ display: "contents" })}
+        aria-label="『ロリっ子喫茶ぷぷりえ』の著作権情報"
+      >
+        <Logo
+          type="pple"
+          class={logoStyle}
+          aria-label="『ロリっ子喫茶ぷぷりえ』のロゴ画像"
+        />
+        <figcaption>
+          <small>
+            {copyright}
+            <br /> All rights reserved.
+          </small>
+        </figcaption>
+      </figure>
+      <nav aria-label="『ロリっ子喫茶ぷぷりえ』の公式ソーシャルリンク一覧">
+        <SocialLinks links={socialLinks} variant="vector-only" />
+      </nav>
+    </div>
+
+    <figure
+      class={copyrightSetStyle}
+      aria-label="『ロリっ子喫茶ぷぷりえ』の開催プラットフォーム情報"
+    >
+      <Logo type="vrchat" class={logoStyle} aria-label="VRChatのロゴ画像" />
+      <figcaption>
+        <small>This event will be held on the VRChat platform.</small>
+      </figcaption>
+    </figure>
+  </div>
+</footer>

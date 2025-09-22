@@ -1,0 +1,143 @@
+---
+import { getMeta } from "@content/meta";
+import { hash } from "@lib/utils/random";
+import { css } from "@styles/css";
+import HamburgerIconButton from "./HamburgerIconButton.astro";
+import HeaderLogo from "./HeaderLogo.astro";
+import HeaderNavItem from "./HeaderNavItem.astro";
+
+const rootStyle = css({
+  px: "42",
+  h: "12",
+  pos: "relative",
+
+  '& [role="button"]': {
+    pos: "absolute",
+    top: "0",
+    right: "2",
+    zIndex: "top",
+
+    _pc: {
+      display: "none",
+    },
+  },
+
+  "& > ul": {
+    display: "none",
+
+    _pc: {
+      display: "flex",
+      justifyContent: "end",
+      gap: "6",
+    },
+  },
+
+  _spOnly: {
+    "&:has(:checked)": {
+      "& > ul": {
+        display: "flex",
+        justifyContent: "center",
+        flexDir: "column",
+        zIndex: "header",
+
+        placeItems: "center",
+        gap: "4",
+
+        animation: "fadeIn",
+        animationFillMode: "both",
+        animationDuration: "fast",
+
+        pos: "absolute",
+        top: "0",
+        left: "0",
+        w: "[100vw]",
+        h: "[100vh]",
+        bg: "white/90",
+      },
+    },
+  },
+});
+
+const logoStyle = css({
+  position: "absolute",
+  display: "block",
+  zIndex: "sticky",
+
+  top: "1",
+  left: "7",
+
+  _pc: {
+    left: "42",
+  },
+});
+
+const navigationId = hash("global-navigation");
+
+const {
+  articles: { title: articlesTitle },
+  guidelines: { title: guidelinesTitle },
+  casts: { title: castsTitle },
+  home: { title: homeTitle },
+} = await getMeta();
+---
+
+<nav
+  class={rootStyle}
+  aria-label="グローバルナビゲーション"
+  id={navigationId}
+  data-auto-expanded="target"
+>
+  <HamburgerIconButton
+    aria-label="グローバルナビゲーションを開く"
+    aria-controls={navigationId}
+    data-auto-expanded="source"
+  />
+  <HeaderLogo class={logoStyle} />
+  <ul>
+    <li>
+      <HeaderNavItem label={homeTitle} path="/" />
+    </li>
+    <li>
+      <HeaderNavItem label={articlesTitle} path="/articles" />
+    </li>
+    <li>
+      <HeaderNavItem label={castsTitle} path="/casts" />
+    </li>
+    <li>
+      <HeaderNavItem label={guidelinesTitle} path="/guidelines" />
+    </li>
+  </ul>
+  <script>
+    const expandedStateEls = document.querySelectorAll(
+      "[data-auto-expanded='source']",
+    );
+    const targetEls = document.querySelectorAll(
+      "[data-auto-expanded='target']",
+    );
+
+    for (const inputEl of expandedStateEls) {
+      inputEl.addEventListener("change", updateAriaExpanded);
+    }
+
+    window.addEventListener("resize", updateAriaExpanded);
+
+    function updateAriaExpanded(event: Event) {
+      const opened = (event.target as HTMLInputElement).checked;
+      const pc = window.innerWidth >= 1440;
+
+      const newState = pc ? "undefined" : opened.toString();
+
+      for (const targetEl of targetEls) {
+        targetEl.ariaExpanded = newState;
+      }
+
+      const newChecked = pc ? false : opened;
+
+      for (const inputEl of expandedStateEls) {
+        if (inputEl !== event.target) {
+          (inputEl as HTMLInputElement).checked = newChecked;
+        }
+      }
+    }
+  </script>
+</nav>

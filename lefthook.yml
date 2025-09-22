@@ -1,0 +1,14 @@
+pre-commit:
+  commands:
+    typecheck:
+      glob: "*.{ts,tsx,js,jsx,astro}"
+      exclude: .yarn
+      run: yarn typecheck
+      stage_fixed: true
+
+    lint:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      exclude: .yarn
+      run: yarn biome --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
+

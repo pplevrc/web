@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ],
+
+  "//--": "astro は, なぜかルートの tsconfig.json のみを参照する, resolution を認識しないため, tsconfig.web.json のような切り出しを行わない",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+
+    "exactOptionalPropertyTypes": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@content/*": ["src/content/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles/*": ["src/styles/*"],
+      "@lib/*": ["src/lib/*"]
+    }
+  },
+  "include": [".astro/**/*.d.ts", "src/**/*.ts", "src/**/*.astro"],
+  "exclude": ["dist", "lib", "**/*.test.ts"]
+}

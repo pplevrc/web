@@ -1,0 +1,235 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import {
+  type PpleIconType,
+  ppleIconTypes,
+} from "@components/decoratives/Vectors/Icon/types";
+import LetterShape from "@components/decoratives/Vectors/Shapes/LetterShapes.astro";
+import PhotoImage from "@components/domains/image/PhotoImage.astro";
+import { randomColorBase } from "@content/commons";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { hash } from "@lib/utils/random";
+import { css, cva } from "@styles/css";
+
+export interface Props {
+  /**
+   *
+   */
+  title: string;
+
+  /**
+   *
+   */
+  href: string;
+
+  /**
+   *
+   */
+  thumbnail: string | ImageMetadata;
+
+  /**
+   *
+   */
+  thumbnailAlt?: string;
+
+  /**
+   *
+   */
+  thumbnailDisplayAlt: string;
+
+  /**
+   *
+   */
+  publishedAt: Date;
+}
+
+const {
+  href,
+  title,
+  thumbnail,
+  thumbnailAlt,
+  thumbnailDisplayAlt,
+  publishedAt,
+} = Astro.props;
+
+const rootStyle = css({
+  pos: "relative",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "end",
+  h: "52",
+  w: "56",
+
+  _motionSafe: {
+    _supportHover: {
+      transition: "[transform]",
+      transitionDuration: "faster",
+
+      _hover: {
+        transform: "[scale(1.05) rotate(1deg)]",
+      },
+    },
+  },
+});
+
+const contentStyle = css({
+  display: "contents",
+});
+
+const seed = seedRandom(href + title);
+
+const theme = randomColorBase(seed);
+
+type LetterIconType = Exclude<PpleIconType, "flower-outline">;
+
+const targetIcons = ppleIconTypes.filter(
+  (icon) => icon !== "flower-outline",
+) as LetterIconType[];
+
+const icon = randomPick(1, targetIcons, seed);
+
+const footerStyle = css({
+  w: "full",
+  h: "12",
+  px: {
+    base: "4",
+    _pc: "2",
+  },
+  display: "flex",
+  flexDir: "column",
+  justifyContent: "space-around",
+});
+
+const iconWrapStyle = css({
+  pos: "absolute",
+
+  w: "40",
+  h: "32",
+  opacity: "[0.8]",
+
+  top: "[0.4rem]",
+  left: "[3.4rem]",
+  rotate: "[5deg]",
+  clipPath: "[polygon(0 23.3%, 0 100%, 85.1% 100%, 100% 76%, 100% 0)]",
+});
+
+const iconStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+
+    w: "36",
+    h: "36",
+
+    color: "colorPalette.bg",
+    colorPalette: theme,
+  },
+  variants: {
+    icon: {
+      flower: {
+        top: "8",
+        left: "16",
+      },
+      plum: {
+        top: "8",
+        left: "16",
+      },
+      "cherry-blossom": {
+        top: "8",
+        left: "16",
+      },
+      teacup: {
+        top: "4",
+        left: "16",
+        scale: "[0.8]",
+      },
+      teapot: {
+        top: "2",
+        left: "12",
+        scale: "[0.8]",
+        rotate: "[-45deg]",
+      },
+      pancake: {
+        top: "4",
+        left: "16",
+        scale: "[0.8]",
+      },
+    },
+  },
+});
+
+const iconStyle = iconStyleRecipe({
+  icon,
+});
+
+const letterStyle = css({
+  pos: "absolute",
+
+  top: "2",
+  left: "14",
+  rotate: "[5deg]",
+});
+
+const imageRootStyle = css({
+  scale: "[0.8]",
+  _pc: {
+    scale: "auto",
+  },
+});
+
+const imageStyle = css({
+  pos: "absolute",
+
+  top: "-4",
+  left: "-16",
+
+  shadow: "xs",
+  rotate: "[-4deg]",
+});
+
+const labelId = hash(href + title);
+
+const publishedAtDate = publishedAt.toLocaleDateString("ja-JP", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const publishedAtISO = publishedAt.toISOString();
+
+const publishedDateStyle = css({
+  textStyle: "normal.xs",
+});
+
+const titleStyle = css({
+  textStyle: "normal.sm",
+});
+---
+
+<a href={href} class={rootStyle} aria-labelledby={labelId}>
+  <article class={contentStyle}>
+    <figure class:list={[contentStyle, imageRootStyle]}>
+      <LetterShape class={letterStyle} theme={theme} />
+      <div class={iconWrapStyle}>
+        <Icon type={icon} class={iconStyle} />
+      </div>
+
+      <PhotoImage
+        src={thumbnail}
+        alt={thumbnailAlt}
+        label={thumbnailDisplayAlt}
+        size="large"
+        class={imageStyle}
+        scale={0.5}
+        colorTheme={theme}
+        seal
+      />
+    </figure>
+    <footer class={footerStyle} id={labelId}>
+      <small class={publishedDateStyle}>
+        <time datetime={publishedAtISO}>{publishedAtDate}</time>
+      </small>
+      <p class={titleStyle}>{title}</p>
+    </footer>
+  </article>
+</a>

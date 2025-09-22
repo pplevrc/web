@@ -1,0 +1,28 @@
+---
+import MarkdownContent from "@components/commons/MarkdownContent/MarkdownContent.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"section"> {
+  /**
+   *
+   */
+  contentHtml: string;
+}
+
+const { contentHtml, ...props } = Astro.props;
+---
+
+<section class={props.class} {...props}>
+  <MarkdownContent
+    contentHtml={contentHtml}
+    themeColor="ice"
+    imageOptions={{
+      width: 1920,
+      widths: toWidths(1920),
+      height: 1080,
+      fit: "cover",
+      position: "center",
+    }}
+  />
+</section>

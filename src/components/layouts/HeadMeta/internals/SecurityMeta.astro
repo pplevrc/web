@@ -1,0 +1,10 @@
+---
+
+const site = Astro.site
+---
+
+{/* 一部の AI クローラーが meta も見る可能性があるため（保険） */}
+<meta name="robots" content="noai, noimageai" />
+
+{/* 正規化された URL を指定 */}
+<link rel="canonical" href={site} />

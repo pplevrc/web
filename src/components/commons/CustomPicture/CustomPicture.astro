@@ -1,0 +1,48 @@
+---
+// biome-ignore lint/style/useImportType: biome x astro のバグ, HTML 側で利用しているのに, type しか使っていない判断をされる
+import { Picture } from "astro:assets";
+import type { CustomImageTransform } from "@lib/services/custom-sharp";
+
+export interface Props extends CustomImageTransform {
+  /**
+   * 画像の読み込みが完了したことを示す aria-属性 ("aria-busy") を追加するかどうか
+   */
+  trackLoad?: true;
+}
+
+type PictureProps = Parameters<typeof Picture>[0];
+
+const isProduction = import.meta.env.MODE === "production";
+
+const { trackLoad, ...props } = Astro.props;
+
+const pictureProps = toPictureProps(props);
+
+function toPictureProps(props: CustomImageTransform): PictureProps {
+  if (isProduction) {
+    return {
+      ...props,
+      formats: props.formats ?? ["avif", "webp", "png"],
+    } as PictureProps;
+  }
+
+  // 開発モードでは cache を使わずに常に SSR で画像が変換されてしまうので, 重くなる要因を排除したオプションに変更する
+  const p = { ...props };
+  p.widths = undefined;
+  p.sizes = undefined;
+  p.formats = ["png"];
+
+  if (trackLoad) {
+    p.pictureAttributes = {
+      ...p.pictureAttributes,
+      "aria-busy": "true",
+      "data-budy-watch": "true",
+    };
+  }
+
+  return p as PictureProps;
+}
+---
+
+<Picture {...pictureProps} />
+{trackLoad && <script>import "@lib/browsers/sync";</script>}

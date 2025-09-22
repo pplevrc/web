@@ -1,0 +1,30 @@
+---
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {}
+
+const props = Astro.props;
+
+const shapeStyle = css({
+  rounded: "full",
+
+  borderWidth: "sm",
+  borderStyle: "solid",
+  borderImage:
+    "[linear-gradient(-45deg, {colors.smoke.bg}, {colors.smoke.lite})]",
+  bgGradient: "smoke.stripe",
+  opacity: "[0.9]",
+});
+
+const circleStyle = css({
+  rounded: "full",
+  bg: "white/30",
+  w: "[inherit]",
+  h: "[inherit]",
+});
+---
+
+<div class:list={[shapeStyle, props.class]} aria-hidden {...props}>
+  <div class={circleStyle}></div>
+</div>

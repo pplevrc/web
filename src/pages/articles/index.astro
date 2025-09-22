@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
+import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
+import { getMeta } from "@content/meta";
+import Layout from "@layouts/Layout.astro";
+import { css } from "@styles/css";
+
+const {
+  articles: { title, description, keywords, thumbnail },
+} = await getMeta();
+
+const articleCollection = await getCollection("articles");
+
+const articles = articleCollection.map((article) => article.data);
+
+// 2023-04 のような年月のリストを取り出す
+const dateShortcuts = articleCollection
+  .map((article): `${number}-${number}` => {
+    const date = new Date(article.data.publishedAt);
+    return `${date.getFullYear()}-${date.getMonth() + 1}`;
+  })
+  .filter((date, index, self) => {
+    return index === self.findIndex((t) => t === date);
+  });
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const fitStyle = css({
+  // grid にする. list がメインで、 date shortcut は aside になる
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  w: "full",
+  paddingInline: "8",
+  gap: "16",
+  pt: "16",
+  pb: "26",
+
+  _pc: {
+    gridTemplateColumns: "4fr 1fr",
+    w: "256",
+    paddingInline: "[inherit]",
+    gap: "26",
+  },
+});
+---
+
+<Layout
+  headMeta={{
+    title,
+    description,
+    keywords,
+    ogp: thumbnail,
+  }}
+  defineShapes={["letter", "star"]}
+  mainClass={mainClass}
+>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
+  <section class={fitStyle}>
+    <ArticleList
+      articles={articles}
+      yearMonths={dateShortcuts}
+      aria-label={title}
+    />
+    <ArticleDateShortcut yearMonths={dateShortcuts} aria-label="公開年月一覧" />
+  </section>
+</Layout>

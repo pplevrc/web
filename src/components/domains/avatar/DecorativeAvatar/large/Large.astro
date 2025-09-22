@@ -1,0 +1,161 @@
+---
+import { getEntry } from "astro:content";
+import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
+import PhotoImage from "@components/domains/image/PhotoImage.astro";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { css } from "@styles/css";
+import StripeCircle from "../common/internals/StripeCircle.astro";
+import type { CommonProps } from "../type";
+import NameSeals from "./internals/NameSeals.astro";
+
+interface Props extends CommonProps {}
+
+const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
+
+const { nickname } = avatarImageProps;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const rootStyle = css({
+  w: "128",
+  h: "128",
+
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+const avatarSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+const imageStyle = css({
+  display: "block",
+  zIndex: "front",
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0) rotate(4deg)]",
+});
+
+const photoStyle = css({
+  pos: "absolute",
+  top: "42",
+  left: "-4",
+  rotate: "[-12deg]",
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "128",
+  h: "128",
+  bottom: "0",
+  left: "26",
+  transform: "[translate(-50%, -10%)]",
+});
+
+const origamiStyle = css({
+  pos: "absolute",
+  top: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+
+  w: "128",
+  h: "128",
+});
+
+const { themeColor, thumbnail } = cast;
+
+const random = seedRandom(nickname);
+
+const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
+
+const origamiRotateType = randomPick(
+  1,
+  /**
+   * 60, 120, 240, 300 度のみにする
+   */
+  [2, 4, 8, 10] as const,
+  random,
+);
+
+const inverse = randomPick(1, [true, false] as const, random);
+---
+
+<figure
+  class:list={[className, avatarSwitchStyle, rootStyle]}
+  {...rootAttributes}
+>
+  <OrigamiShape
+    shape={shapeType}
+    rotate={origamiRotateType}
+    inverse={inverse}
+    color={themeColor}
+    class={origamiStyle}
+  />
+  <PhotoImage
+    src={thumbnail}
+    size="large"
+    alt={`${nickname} の写真`}
+    class={photoStyle}
+    colorTheme={themeColor}
+  />
+  <StripeCircle class={circleStyle} />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="neutral"
+    width={1024}
+    height={1024}
+    class={imageStyle}
+    outline="strong"
+    data-visible-on="default"
+    alt={`${nickname}のアバター`}
+  />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="emotional"
+    width={1024}
+    height={1024}
+    class={imageStyle}
+    outline="strong"
+    data-visible-on="hover"
+    alt={""}
+  />
+  <NameSeals name={nickname} color={themeColor} radius="medium" />
+</figure>

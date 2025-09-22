@@ -1,0 +1,25 @@
+---
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import { getMeta } from "@content/meta";
+import { css } from "@styles/css";
+
+const {
+  guidelines: { backLinkLabel },
+} = await getMeta();
+
+const navClass = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "16",
+  h: {
+    base: "32",
+    _pc: "64",
+  },
+});
+---
+
+<nav class={navClass} aria-label="ガイドラインナビゲーション">
+  <DecorativeLink href="/guidelines" themeColor="ice">
+    {backLinkLabel}
+  </DecorativeLink>
+</nav>

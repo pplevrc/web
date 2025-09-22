@@ -1,0 +1,67 @@
+{
+  "name": "pple-web",
+  "description": "",
+  "author": {
+    "name": "mew-ton",
+    "email": "mxl_usmarc@slmail.mewton.jp"
+  },
+  "type": "module",
+  "scripts": {
+    "prepare": "panda codegen && panda && yarn prepare:video",
+    "prepare:video": "NODE_OPTIONS=--max_old_space_size=10240 jiti ./lib/prepare/assets/videos/transport.ts",
+    "dev": "NODE_ENV=development yarn prepare && yarn dev:astro",
+    "dev:panda": "panda -w",
+    "dev:astro": "astro dev",
+    "dev:test": "vitest --ui",
+    "build": "yarn build:prepare && yarn build:panda && yarn build:astro",
+    "build:prepare": "NODE_ENV=production yarn prepare",
+    "build:panda": "panda --minify",
+    "build:astro": "astro build",
+    "typecheck": "MOCK=true astro check",
+    "test": "vitest",
+    "test:ci": "vitest --ci",
+    "preview": "astro preview",
+    "astro": "astro",
+    "biome": "biome check",
+    "clean:store": "rm -rf .astro && rm .cache/data-store.json"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.5.1",
+    "@biomejs/biome": "^1.9.4",
+    "@pandacss/dev": "^0.53.7",
+    "@tsconfig/strictest": "^2.0.5",
+    "@vitest/ui": "^3.1.4",
+    "astro": "^5.13.5",
+    "defu": "^6.1.4",
+    "dotenv": "^16.5.0",
+    "globby": "^14.1.0",
+    "googleapis": "^149.0.0",
+    "happy-dom": "^17.4.4",
+    "is-wsl": "^3.1.0",
+    "jiti": "^2.4.2",
+    "lefthook": "^1.11.13",
+    "lightningcss": "^1.30.1",
+    "media-codecs": "^2.0.2",
+    "mediainfo.js": "^0.3.5",
+    "ohash": "^2.0.11",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "scule": "^1.3.0",
+    "sharp": "^0.34.3",
+    "type-fest": "^4.41.0",
+    "typescript": "^5.9.2",
+    "unified": "^11.0.5",
+    "vitest": "^3.1.4"
+  },
+  "packageManager": "yarn@4.9.4",
+  "volta": {
+    "node": "24.7.0",
+    "yarn": "4.9.4"
+  },
+  "engines": {
+    "node": "24.7.0"
+  }
+}

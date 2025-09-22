@@ -1,0 +1,49 @@
+---
+import LogoIcon from "@components/decoratives/Vectors/LogoIcon/LogoIcon.astro";
+import { randomColorBase } from "@content/commons";
+import { seedRandom } from "@lib/utils/random";
+import { css, cva } from "@styles/css";
+import IconLinkBase, {
+  type Props as BaseProps,
+} from "./commons/IconLinkBase.astro";
+
+export interface Props extends BaseProps {}
+
+const { url, description, variant } = Astro.props;
+
+const seed = seedRandom(url);
+
+const colorPalette = randomColorBase(seed);
+
+const styleRecipe = cva({
+  base: {},
+  variants: {
+    variant: {
+      sticker: {
+        colorPalette,
+        bg: "colorPalette.bg",
+        color: "colorPalette.regular",
+      },
+      "vector-only": {
+        color: "white",
+      },
+    },
+  },
+});
+
+const logoStyle = css({
+  w: "5",
+  h: "5",
+});
+
+const style = styleRecipe({ variant });
+---
+
+<IconLinkBase
+  url={url}
+  description={description}
+  variant={variant}
+  class={style}
+>
+  <LogoIcon type="other" class={logoStyle} />
+</IconLinkBase>

@@ -1,0 +1,121 @@
+---
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { getAvatar } from "@content/casts";
+import type { Avatar } from "@content/casts";
+import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
+import { remToSizePercent } from "@lib/utils/image";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import defu from "defu";
+import { toWidths } from "./common";
+
+export interface Props
+  extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
+  /**
+   * 店員さんのニックネーム
+   */
+  nickname: string;
+
+  /**
+   * 店員さんアバターの登録順インデックス (0 は 必ず登録される)
+   * @default 0
+   */
+  avatarIndex?: number;
+
+  /**
+   * アバター画像の表情
+   * @default "neutral"
+   */
+  expression?: keyof Avatar["images"];
+
+  /**
+   * Picture Component に指定する alt 属性
+   */
+  alt?: string;
+
+  /**
+   * viewportが ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像幅
+   * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
+   */
+  width: number;
+
+  /**
+   * viewport が ${PC_VIEWPORT_WIDTH}*2 px に対して指定する画像高さ
+   * 例えば, 表示領域が { h: "64" } (16rem) の場合, 512px を指定する
+   */
+  height: number;
+
+  /**
+   * @default true
+   */
+  responsive?: boolean;
+
+  /**
+   * アウトラインの幅
+   * none .. 0px
+   * medium .. 3px
+   * strong .. 5px
+   * @default "medium"
+   */
+  outline?: "none" | "medium" | "strong";
+}
+
+const {
+  nickname,
+  avatarIndex = 0,
+  expression = "neutral",
+  width,
+  height,
+  outline = "medium",
+  alt = "",
+  responsive = true,
+  ...attrs
+} = Astro.props;
+
+const avatar = await getAvatar({
+  nickname,
+  index: avatarIndex,
+});
+
+const src = avatar.images[expression];
+
+const sizingStyle = css({
+  w: "full",
+  height: "[fit-content]",
+
+  "& > *": {
+    w: "[inherit]",
+  },
+});
+
+const pictureAttributes = defu(
+  {
+    class: [sizingStyle, attrs.class].join(" "),
+  },
+  attrs,
+);
+
+const outlineMap = {
+  none: 0,
+  medium: 3,
+  strong: 5,
+} satisfies Record<Exclude<Props["outline"], undefined>, number>;
+
+const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
+
+const widths = responsive ? toWidths(width) : [width];
+---
+
+<CustomPicture
+  src={src}
+  outline={{
+    thickness: `${outlineMap[outline]}px`,
+  }}
+  alt={alt}
+  width={width}
+  widths={widths}
+  height={height}
+  sizes={sizes}
+  fit="cover"
+  pictureAttributes={pictureAttributes}
+/>

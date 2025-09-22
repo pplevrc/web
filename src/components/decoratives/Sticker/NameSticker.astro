@@ -1,0 +1,110 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { countDisplayWidth } from "@lib/utils/string";
+import { css, cva } from "@styles/css";
+import type { ColorName } from "lib/styles/tokens/colors";
+import { ppleIconTypes } from "../Vectors/Icon/types";
+
+interface Props {
+  key: string;
+
+  value: string;
+
+  themeColor?: ColorName;
+}
+
+const { key, value, themeColor = "smoke" } = Astro.props;
+
+const valueLength = countDisplayWidth(value) > 12 ? "long" : "regular";
+
+const rootStyleRecipe = cva({
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    pl: "2",
+    alignItems: "center",
+
+    w: "64",
+    h: "6",
+
+    bg: "white",
+    shadow: "xs",
+    rounded: "2xl",
+    overflow: "hidden",
+
+    pos: "relative",
+    _after: {
+      content: "''",
+      pos: "absolute",
+      top: "0",
+      left: "0",
+      w: "[calc(50% + {sizes.2})]",
+      h: "full",
+      bg: "colorPalette.lite",
+      colorPalette: themeColor,
+      roundedRight: "2xl",
+    },
+  },
+  variants: {
+    valueLength: {
+      long: {
+        pr: "1",
+      },
+      regular: {
+        pr: "2",
+      },
+    },
+  },
+});
+
+const rootStyle = rootStyleRecipe({ valueLength });
+
+const iconStyle = css({
+  pos: "absolute",
+  top: "[50%]",
+  left: "[calc(50% - {sizes.2})]",
+  transform: "[translate(-50%, -50%) rotate(-12deg)]",
+
+  w: "4",
+  h: "4",
+  zIndex: "front",
+  color: "white",
+});
+
+const keyStyle = css({
+  textStyle: "normal.bold.lg",
+  zIndex: "front",
+});
+
+const random = seedRandom(key);
+
+const iconType = randomPick(1, ppleIconTypes, random);
+
+const valueStyleRecipe = cva({
+  base: {},
+  variants: {
+    valueLength: {
+      long: {
+        textStyle: "normal.sm",
+      },
+      regular: {},
+    },
+  },
+});
+
+const valueStyle = valueStyleRecipe({ valueLength });
+---
+
+<div class={rootStyle}>
+  <Icon type={iconType} class={iconStyle} aria-hidden />
+
+  <dt class={keyStyle}>
+    {key}
+  </dt>
+
+  <dd class={valueStyle}>
+    {value}
+  </dd>
+</div>

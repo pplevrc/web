@@ -1,0 +1,120 @@
+---
+import { getCollection } from "astro:content";
+import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
+import { css } from "@styles/css";
+
+const casts = await getCollection("casts");
+
+const listStyle = css({
+  bg: "white/50",
+  rounded: "2xl",
+  borderStyle: "dashed",
+  borderWidth: "lg",
+  borderColor: "latte.regular",
+
+  "& > li:nth-child(n+7)": {
+    display: "none",
+  },
+
+  // SP
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: "2",
+  p: "4",
+
+  _pc: {
+    display: "flex",
+    flexDir: "row",
+    alignItems: "end",
+    justifyContent: "center",
+    gap: "4",
+    pb: "8",
+
+    h: "96",
+    w: "256",
+  },
+
+  _motionSafe: {
+    _supportHover: {
+      "&:hover > *:not(:hover)": {
+        opacity: "[0.25]",
+        transform: "[scale(0.9) rotate(1deg)]",
+      },
+    },
+  },
+});
+
+const listItemStyle = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+
+  w: "28",
+  h: "72",
+
+  _motionSafe: {
+    transformOrigin: "center",
+    transition: "[transform opacity]",
+    transitionDuration: "faster",
+  },
+});
+
+const imageSwitchStyle = css({
+  _motionSafe: {
+    _supportHover: {
+      "&:hover [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+  },
+  "& [data-visible-on='default']": {
+    opacity: "none",
+  },
+  "& [data-visible-on='hover']": {
+    opacity: "full",
+  },
+});
+
+const imageWrapStyle = css({
+  w: "full",
+  h: "full",
+  p: "-4",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+---
+
+<HomePickupSection
+  title="店員さんピックアップ"
+  themeColor="rose"
+  hrefViewMore="/casts"
+>
+  <ul class={listStyle} data-shuffle="cast">
+    {
+      casts.map(
+        ({
+          data: {
+            profile: { nickname },
+          },
+        }) => (
+          <li class:list={[listItemStyle, imageSwitchStyle]}>
+            <DecorativeAvatarLink
+              size="medium"
+              class={imageWrapStyle}
+              nickname={nickname}
+              avatarIndex={0}
+            />
+          </li>
+        ),
+      )
+    }
+  </ul>
+  <script>
+    import "@lib/browsers/shuffle";
+  </script>
+</HomePickupSection>

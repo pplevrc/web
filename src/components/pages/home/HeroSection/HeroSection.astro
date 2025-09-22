@@ -1,0 +1,23 @@
+---
+import ScreenFitSection from "@components/layouts/Sections/ScreenFitSection/ScreenFitSection.astro";
+import { css } from "@styles/css";
+import HeroMovie from "./internals/HeroMovie.astro";
+import OverlayPopText from "./internals/OverlayPopText.astro";
+
+const sectionStyle = css({
+  position: "relative",
+  overflow: "hidden",
+});
+
+const videoStyle = css({
+  h: "full",
+  w: "full",
+  objectFit: "cover",
+  zIndex: "base",
+});
+---
+
+<ScreenFitSection class={sectionStyle}>
+  <OverlayPopText />
+  <HeroMovie class={videoStyle} />
+</ScreenFitSection>

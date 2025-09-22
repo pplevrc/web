@@ -1,0 +1,183 @@
+---
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import StarShape from "@components/decoratives/Vectors/Shapes/StarShape.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
+import { remToSizePercent } from "@lib/utils/image";
+import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import { toWidths } from "../avatar/images/common";
+
+type Size = "small" | "medium" | "large";
+
+interface Props extends HTMLAttributes<"picture"> {
+  /**
+   * 表示するキャプション
+   */
+  label?: string;
+
+  /**
+   * 画像の src 属性
+   */
+  src: string | ImageMetadata;
+
+  /**
+   * Picture Component に指定する alt 属性
+   */
+  alt?: string;
+
+  /**
+   * 画像のサイズ
+   */
+  size: Size;
+
+  /**
+   *
+   */
+  scale?: number;
+
+  /**
+   *
+   */
+  colorTheme: ColorThemeBase;
+
+  /**
+   * シール
+   */
+  seal?: boolean;
+}
+
+const {
+  label,
+  src,
+  alt,
+  size,
+  class: className,
+  colorTheme,
+  scale = 1,
+  seal = false,
+  ...rest
+} = Astro.props;
+
+/**
+ * VIEWPORT 1440 の場合での画像幅
+ */
+const widthSet = {
+  small: 240,
+  medium: 336,
+  large: 528,
+} satisfies Record<Size, number>;
+
+const heightSet = {
+  small: 328,
+  medium: 328,
+  large: 328,
+} satisfies Record<Size, number>;
+
+const width = widthSet[size] * scale;
+
+const height = heightSet[size] * scale;
+
+const widths = toWidths(width);
+
+const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
+
+const simple = label === undefined;
+
+const rootStyleRecipe = cva({
+  base: {
+    pos: "relative",
+    bg: "white",
+    h: "56",
+    pt: "5",
+    pb: "10",
+    px: "3",
+  },
+  variants: {
+    size: {
+      small: {
+        w: "36",
+      },
+      medium: {
+        w: "48",
+      },
+      large: {
+        w: "72",
+      },
+    },
+  },
+});
+
+const rootStyle = rootStyleRecipe({ size });
+
+const starStyle = css({
+  pos: "absolute",
+  top: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+  w: "8",
+  h: "8",
+});
+
+const imageStyle = css({
+  "& img": {
+    w: "full",
+    h: "full",
+    objectFit: "cover",
+  },
+});
+
+const captionStyleRecipe = cva({
+  base: {
+    textStyle: "decorative.bold.base",
+    h: "8",
+    pt: "2",
+    textAlign: "center",
+    color: "colorPalette.deep",
+    colorPalette: colorTheme,
+  },
+});
+
+const captionStyle = captionStyleRecipe({});
+
+const scaleStyle = scale !== 1 ? { scale } : {};
+---
+
+{
+  simple ? (
+    <div class:list={[rootStyle, className]} style={scaleStyle}>
+      {seal && <StarShape class={starStyle} theme={colorTheme} />}
+      <CustomPicture
+        src={src}
+        alt={alt ?? ""}
+        width={width}
+        height={height}
+        widths={widths}
+        sizes={sizes}
+        fit="cover"
+        pictureAttributes={{
+          ...rest,
+          class: imageStyle,
+        }}
+      />
+    </div>
+  ) : (
+    <figure class:list={[rootStyle, className]} style={scaleStyle}>
+      {seal && <StarShape class={starStyle} theme={colorTheme} />}
+      <CustomPicture
+        src={src}
+        alt={alt ?? ""}
+        width={width}
+        height={height}
+        widths={widths}
+        sizes={sizes}
+        fit="cover"
+        pictureAttributes={{
+          ...rest,
+          class: imageStyle,
+        }}
+      />
+      {label && <figcaption class={captionStyle}>{label}</figcaption>}
+    </figure>
+  )
+}
