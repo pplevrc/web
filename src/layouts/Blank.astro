@@ -1,0 +1,109 @@
+---
+import "@assets/css/index.css";
+import "@styles/styles.css";
+
+import { randomColorBase } from "@content/commons";
+import { css, cva } from "@styles/css";
+
+const mainClass = css({
+  w: "full",
+  h: "full",
+});
+
+const backgroundClassRecipe = cva({
+  base: {
+    pos: "relative",
+
+    _before: {
+      content: "''",
+      pos: "absolute",
+      top: "0",
+      left: "0",
+      width: "full",
+      height: "full",
+      bgSize: "[5.0625rem, 5.0625rem]",
+      zIndex: "backgroundBase",
+    },
+  },
+  variants: {
+    color: {
+      smoke: {
+        _before: {
+          bgGradient: "smoke.checkered",
+        },
+      },
+      olive: {
+        _before: {
+          bgGradient: "olive.checkered",
+        },
+      },
+      berry: {
+        _before: {
+          bgGradient: "berry.checkered",
+        },
+      },
+      honey: {
+        _before: {
+          bgGradient: "honey.checkered",
+        },
+      },
+      soda: {
+        _before: {
+          bgGradient: "soda.checkered",
+        },
+      },
+      rose: {
+        _before: {
+          bgGradient: "rose.checkered",
+        },
+      },
+      matcha: {
+        _before: {
+          bgGradient: "matcha.checkered",
+        },
+      },
+      latte: {
+        _before: {
+          bgGradient: "latte.checkered",
+        },
+      },
+      lavender: {
+        _before: {
+          bgGradient: "lavender.checkered",
+        },
+      },
+      carrot: {
+        _before: {
+          bgGradient: "carrot.checkered",
+        },
+      },
+      ice: {
+        _before: {
+          bgGradient: "ice.checkered",
+        },
+      },
+      mint: {
+        _before: {
+          bgGradient: "mint.checkered",
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    color: "smoke",
+  },
+});
+
+const themeColor = randomColorBase();
+
+const backgroundClass = backgroundClassRecipe({ color: themeColor });
+---
+
+<!doctype html>
+<html lang="ja" dir="ltr">
+  <head> </head>
+  <body class:list={[backgroundClass, mainClass]}>
+    <slot />
+    <body> </body>
+  </body>
+</html>

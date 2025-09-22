@@ -1,8 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
-import { fetchNewArticles } from "@lib/contents/articles";
 import { css } from "@styles/css";
+
+const articles = await getCollection("articles");
+
+const newArticles = articles
+  .sort((a, b) => {
+    const aData = new Date(a.data.publishedAt);
+    const bData = new Date(b.data.publishedAt);
+
+    return bData.getTime() - aData.getTime();
+  })
+  .slice(0, 5);
 
 const listStyle = css({
   // SP
@@ -27,8 +38,6 @@ const listItemStyle = css({
   w: "[fit-content]",
   h: "[fit-content]",
 });
-
-const newArticles = await fetchNewArticles();
 ---
 
 <HomePickupSection
@@ -39,14 +48,14 @@ const newArticles = await fetchNewArticles();
   <ul class={listStyle}>
     {
       newArticles.map(
-        ({ id, title, thumbnail, thumbnailDisplayAlt, publishedAt }) => (
+        ({ id, data: { title, thumbnail, thumbnailLabel, publishedAt } }) => (
           <li class={listItemStyle}>
             <LetterLink
               href={`/articles/${id}`}
               title={title}
               thumbnail={thumbnail}
-              thumbnailDisplayAlt={thumbnailDisplayAlt}
-              publishedAt={publishedAt}
+              thumbnailDisplayAlt={thumbnailLabel ?? ""}
+              publishedAt={new Date(publishedAt)}
             />
           </li>
         ),

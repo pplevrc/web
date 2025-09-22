@@ -1,5 +1,6 @@
 ---
 import MarkdownContent from "@components/commons/MarkdownContent/MarkdownContent.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"section"> {
@@ -18,7 +19,7 @@ const { contentHtml, ...props } = Astro.props;
     themeColor="ice"
     imageOptions={{
       width: 1920,
-      widths: [1920 * 0.75, 1920 * 0.5],
+      widths: toWidths(1920),
       height: 1080,
       fit: "cover",
       position: "center",

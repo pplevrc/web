@@ -2,8 +2,9 @@
 import MarkdownContent from "@components/commons/MarkdownContent/MarkdownContent.astro";
 import Paper from "@components/decoratives/Paper/Paper.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
+import type { ColorThemeBase } from "@content/commons";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -144,7 +145,7 @@ const publishedAtString = Intl.DateTimeFormat("ja-JP", {
       themeColor={themeColor}
       imageOptions={{
         width: 1920,
-        widths: [1920 * 0.75, 1920 * 0.5],
+        widths: toWidths(1920),
         height: 1080,
         fit: "cover",
         position: "center",

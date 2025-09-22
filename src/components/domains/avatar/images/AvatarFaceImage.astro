@@ -1,6 +1,7 @@
 ---
+import { getEntry } from "astro:content";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import { type Avatar, fetchCast } from "@lib/contents/casts";
+import type { Avatar } from "@content/casts";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
 
@@ -33,11 +34,30 @@ interface Props extends HTMLAttributes<"picture"> {
    * 例えば, 表示領域が { w: "64" } (16rem) の場合, 512px を指定する
    */
   width: number;
+
+  /**
+   * @default true
+   */
+  responsive?: boolean;
 }
 
-const { nickname, expression, alt, width, trackLoad, ...rest } = Astro.props;
+const {
+  nickname,
+  expression,
+  alt,
+  width,
+  trackLoad,
+  responsive = true,
+  ...rest
+} = Astro.props;
 
-const cast = await fetchCast(nickname);
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const src = cast.portrait[expression];
 
@@ -45,13 +65,15 @@ const src = cast.portrait[expression];
  * 1:1 なので同じにする
  */
 const height = width;
+
+const widths = responsive ? toWidths(width) : [width];
 ---
 
 <CustomPicture
   src={src}
   alt={alt}
   width={width}
-  widths={toWidths(width)}
+  widths={widths}
   height={height}
   fit="cover"
   trackLoad={trackLoad}

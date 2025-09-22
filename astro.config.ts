@@ -18,6 +18,8 @@ const SITE_DOMAIN = ensureNonNil(
   "SITE_DOMAIN is required",
 );
 
+const USE_MOCK = process.env["MOCK"] === "true";
+
 /**
  * 文字数分 * で埋める
  */
@@ -29,6 +31,7 @@ console.log("Environments", {
   NODE_ENV: process.env["NODE_ENV"],
   SITE_DOMAIN: process.env["SITE_DOMAIN"],
   MOCK: process.env["MOCK"] !== "false",
+  FETCH_CONTENT_FORCE: process.env["FETCH_CONTENT_FORCE"] === "true",
   SITE_IS_PUBLIC: process.env["SITE_IS_PUBLIC"] === "true",
   CONTENTS_API_KEY: mask(process.env["CONTENTS_API_KEY"] ?? ""),
   CONTENTS_SERVICE_ID: mask(process.env["CONTENTS_SERVICE_ID"] ?? ""),
@@ -90,13 +93,19 @@ export default defineConfig(
         transformer: "lightningcss",
       },
     },
-    cacheDir: "./.cache",
+    cacheDir: USE_MOCK ? "./.cache-mock" : "./.cache",
 
     /**
      * 本番モード専用オプション
      */
     $production: {
-      integrations: [purgeInlineCss(), sitemap(), renameRemoteImages()],
+      integrations: [
+        purgeInlineCss(),
+        sitemap({
+          filter: (page) => !page.includes("internals/"),
+        }),
+        renameRemoteImages(),
+      ],
 
       image: {
         responsiveStyles: true,

@@ -1,5 +1,5 @@
 ---
-import { fetchMeta } from "@lib/contents/meta";
+import { getMeta } from "@content/meta";
 import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
 import HamburgerIconButton from "./HamburgerIconButton.astro";
@@ -78,7 +78,7 @@ const {
   guidelines: { title: guidelinesTitle },
   casts: { title: castsTitle },
   home: { title: homeTitle },
-} = await fetchMeta();
+} = await getMeta();
 ---
 
 <nav

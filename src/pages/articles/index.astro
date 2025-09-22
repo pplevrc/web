@@ -1,22 +1,25 @@
 ---
+import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { fetchArticles } from "@lib/contents/articles";
-import { fetchMeta } from "@lib/contents/meta";
 import { css } from "@styles/css";
 
 const {
   articles: { title, description, keywords, thumbnail },
-} = await fetchMeta();
+} = await getMeta();
 
-const articles = await fetchArticles();
+const articleCollection = await getCollection("articles");
+
+const articles = articleCollection.map((article) => article.data);
 
 // 2023-04 のような年月のリストを取り出す
-const dateShortcuts = articles
+const dateShortcuts = articleCollection
   .map((article): `${number}-${number}` => {
-    return `${article.publishedAt.getFullYear()}-${article.publishedAt.getMonth() + 1}`;
+    const date = new Date(article.data.publishedAt);
+    return `${date.getFullYear()}-${date.getMonth() + 1}`;
   })
   .filter((date, index, self) => {
     return index === self.findIndex((t) => t === date);

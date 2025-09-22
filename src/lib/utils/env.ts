@@ -16,6 +16,11 @@ export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export const USE_MOCK = process.env.MOCK !== "false";
 
 /**
+ * Content データ取得時に Astro data store のキャッシュを利用するかどうか?
+ */
+export const USE_CACHE = process.env.FETCH_CONTENT_FORCE !== "true";
+
+/**
  * CONTENTS の API キー
  */
 export const CONTENTS_API_KEY = process.env.CONTENTS_API_KEY;

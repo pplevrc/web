@@ -1,8 +1,9 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import type { ColorThemeBase } from "@content/commons";
+import type { BallonPosition } from "@content/guidelines";
 import { PC_VIEWPORT_WIDTH, SP_MAX_WIDTH } from "@lib/browsers/breakpoint";
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import type { BallonPosition } from "@lib/contents/guildelines";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -139,7 +140,7 @@ const pcHeight = 194;
  */
 const spWidth = 1247;
 
-const widths = [pcWidth, pcWidth * 2, pcWidth * 3];
+const widths = toWidths(Math.max(pcWidth, spWidth));
 
 const sizes = `${Math.round((pcWidth / PC_VIEWPORT_WIDTH) * 100)}%, (max-width: ${SP_MAX_WIDTH}px) ${Math.round((spWidth / PC_VIEWPORT_WIDTH) * 100)}%`;
 ---

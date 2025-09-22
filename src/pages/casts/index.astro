@@ -1,12 +1,17 @@
 ---
+import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import CastListNavigator from "@components/pages/cast/CastListNavigator/CastListNavigator.astro";
+import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { fetchMeta } from "@lib/contents/meta";
+
+const castCollection = await getCollection("casts");
+
+const casts = castCollection.map((cast) => cast.data);
 
 const {
   casts: { title, description, keywords, thumbnail },
-} = await fetchMeta();
+} = await getMeta();
 ---
 
 <Layout
@@ -18,5 +23,5 @@ const {
   }}
 >
   <PageHeading img={thumbnail}> {title} </PageHeading>
-  <CastListNavigator />
+  <CastListNavigator casts={casts} />
 </Layout>

@@ -1,9 +1,9 @@
 ---
+import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import { ppleIconTypes } from "@components/decoratives/Vectors/Icon/types";
 import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
 import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
-import { fetchCast } from "@lib/contents/casts";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
 import NameSeal from "../common/internals/NameSeals.astro";
@@ -15,7 +15,15 @@ const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 
 const { nickname } = avatarImageProps;
 
-const { themeColor } = await fetchCast(nickname);
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { themeColor } = cast;
 
 const random = seedRandom(nickname);
 

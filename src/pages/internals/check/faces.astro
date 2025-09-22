@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
+import Blank from "@layouts/Blank.astro";
+import { css } from "@styles/css";
+
+/**
+ * ツールページ: 立ち絵の高さ比較用
+ */
+
+const casts = await getCollection("casts");
+
+const avatars = casts.map((cast) => ({ nickname: cast.data.profile.nickname }))
+
+const pageStyle = css({
+  w: "full",
+  h: "full",
+  pt: "26",
+  px: "12",
+  overflow: "auto",
+});
+
+const rootStyle = css({
+  display: "flex",
+  gap: "4",
+  flexDir: "row",
+  flexWrap: "wrap",
+  width: "full",
+});
+
+const listItemStyle = css({
+  pos: "relative",
+  w: "[256px]",
+  h: "[256px]",
+});
+
+const imgStyle = css({
+  pos: "absolute",
+  w: "[256px]",
+  h: "[256px]",
+  borderRadius: "full",
+  overflow: "hidden",
+  borderWidth: "md",
+  borderColor: "black"
+});
+---
+
+<Blank>
+  <section class={pageStyle}>
+    <h1>バストアップ比較用</h1>
+    <ul class={rootStyle}>
+      {
+        avatars.map((avatar) => (
+          <li class={listItemStyle}>
+            <AvatarFaceImage
+              nickname={avatar.nickname}
+              expression="neutral"
+              width={256}
+              class={imgStyle}
+              responsive={false}
+              alt=""
+            />
+          </li>
+          <li class={listItemStyle}>
+            <AvatarFaceImage
+              nickname={avatar.nickname}
+              expression="emotional"
+              width={256}
+              class={imgStyle}
+              responsive={false}
+              alt=""
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Blank>

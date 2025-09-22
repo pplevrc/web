@@ -16,12 +16,14 @@
     "build": "yarn build:prepare && yarn build:panda && yarn build:astro",
     "build:prepare": "NODE_ENV=production yarn prepare",
     "build:panda": "panda --minify",
-    "build:astro": "astro check && astro build",
+    "build:astro": "astro build",
+    "typecheck": "MOCK=true astro check",
     "test": "vitest",
     "test:ci": "vitest --ci",
     "preview": "astro preview",
     "astro": "astro",
-    "biome": "biome check"
+    "biome": "biome check",
+    "clean:store": "rm -rf .astro && rm .cache/data-store.json"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
