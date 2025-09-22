@@ -1,5 +1,5 @@
 import { defaultRandom, randomDate } from "@lib/utils/random";
-import type { Article } from "..";
+import type { Article } from "../types";
 import { getMockArticle as getMockArticle01 } from "./01-collab-202x-xx-xx";
 import { getMockArticle as getMockArticle02 } from "./02-helloween-202x";
 import { getMockArticle as getMockArticle03 } from "./03-new-cast-202x";
@@ -47,11 +47,15 @@ export async function getMockArticles(): Promise<Article[]> {
       });
       return {
         ...article,
-        publishedAt: date,
-        updatedAt: date,
+        publishedAt: date.toISOString(),
+        updatedAt: date.toISOString(),
       };
     })
-    .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+    .sort((a, b) => {
+      const aDate = new Date(a.publishedAt);
+      const bDate = new Date(b.publishedAt);
+      return bDate.getTime() - aDate.getTime();
+    });
 
   return articles;
 }

@@ -1,22 +1,20 @@
 ---
 import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
-import type { ArticleMeta } from "@lib/contents/articles";
+import type { Article } from "@content/articles";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"nav"> {
-  articles: ArticleMeta[];
+  articles: Article[];
   yearMonths: `${number}-${number}`[];
 }
 
 const { articles, yearMonths, ...props } = Astro.props;
 
-function findArticlesByYm(yearMonth: `${number}-${number}`): ArticleMeta[] {
+function findArticlesByYm(yearMonth: `${number}-${number}`): Article[] {
   return articles.filter((article) => {
-    return (
-      `${article.publishedAt.getFullYear()}-${article.publishedAt.getMonth() + 1}` ===
-      yearMonth
-    );
+    const date = new Date(article.publishedAt);
+    return `${date.getFullYear()}-${date.getMonth() + 1}` === yearMonth;
   });
 }
 
@@ -69,7 +67,7 @@ const itemStyle = css({});
             <ul class={intermediateStyle} role="presentation">
               {articles.map(
                 (
-                  { id, title, publishedAt, thumbnail, thumbnailDisplayAlt },
+                  { id, title, publishedAt, thumbnail, thumbnailLabel },
                   index,
                 ) => {
                   const pos = (counter % 3) + 1;
@@ -87,9 +85,9 @@ const itemStyle = css({});
                       <LetterLink
                         title={title}
                         href={`/articles/${id}`}
-                        publishedAt={publishedAt}
+                        publishedAt={new Date(publishedAt)}
                         thumbnail={thumbnail}
-                        thumbnailDisplayAlt={thumbnailDisplayAlt}
+                        thumbnailDisplayAlt={thumbnailLabel ?? ""}
                       />
                     </li>
                   );

@@ -138,51 +138,6 @@ export interface MicroCMSGuideline extends MicroCMSListContent {
   "ballon-position": BallonPosition;
 }
 
-/**
- *
- */
-export interface MicroCMSArticle extends MicroCMSListContent {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   * comma-separated string
-   */
-  keywords?: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   *
-   */
-  "hero-image": MicroCMSImage;
-
-  /**
-   *
-   */
-  "hero-image-alt": string;
-
-  /**
-   *
-   */
-  "hero-iamge-label": string;
-
-  /**
-   *
-   */
-  "theme-color": ColorThemeBase;
-
-  /**
-   *
-   */
-  content: string;
-}
-
 interface MicroCMSPageMeta {
   /**
    *
@@ -309,10 +264,6 @@ export type MicroCMSApis = {
   guidelines: {
     key: "guidelines";
     contents: MicroCMSGuideline;
-  };
-  articles: {
-    key: "articles";
-    contents: MicroCMSArticle;
   };
   meta: {
     key: "meta";
@@ -502,6 +453,20 @@ export async function fetchObject<
 
   return response.json();
 }
+
+export async function fetchContents<
+  E extends MicroCMSContentsEndpoint,
+  Q extends MicroCMSQueryParams<T>,
+  T extends MicroCMSApiResponseType<E> & MicroCMSListContent,
+>(
+  endpoint: E,
+  options?: MicroCMSOptions<T, Q>,
+): Promise<MicroCMSListResponse<T>>;
+
+export async function fetchContents<T extends MicroCMSListContent>(
+  endpoint: string,
+  options?: MicroCMSOptions<T>,
+): Promise<MicroCMSListResponse<T>>;
 
 /**
  *

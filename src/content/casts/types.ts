@@ -147,8 +147,6 @@ export const castSchema = schemaForType<Cast>(
   }),
 );
 
-export const castsSchema = schemaForType<Cast[]>(z.array(castSchema));
-
 /**
  *
  */

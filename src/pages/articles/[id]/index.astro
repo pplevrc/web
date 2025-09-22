@@ -1,35 +1,41 @@
 ---
+import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import Layout from "@layouts/Layout.astro";
-import { fetchArticleById, fetchArticleIds } from "@lib/contents/articles";
 import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
-  const articleIds = await fetchArticleIds();
+  const articles = await getCollection("articles");
 
-  return articleIds.map((articleId) => ({
-    params: { articleId },
+  return articles.map(({ id }) => ({
+    params: { id },
   }));
 }
 
-const { articleId } = Astro.params;
+const { id } = Astro.params;
 
 const {
   article: { title, description, keywords },
 } = await fetchMeta();
 
-const article = await fetchArticleById(articleId);
+const { data: article } = (await getEntry("articles", id)) ?? {
+  data: undefined,
+};
+
+if (!article) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const {
   keywords: articleKeywords,
   thumbnail,
   themeColor,
   content,
-  thumbnailDisplayAlt,
+  thumbnailLabel,
   publishedAt,
 } = article;
 
@@ -63,10 +69,10 @@ const contentClass = css({
   <ArticleContentSection
     contentHtml={content}
     thumbnail={thumbnail}
-    thumbnailDisplayAlt={thumbnailDisplayAlt}
+    thumbnailDisplayAlt={thumbnailLabel ?? ""}
     title={replaceByMap(title, article)}
     themeColor={themeColor}
-    publishedAt={publishedAt}
+    publishedAt={new Date(publishedAt)}
     class={contentClass}
   />
   <ArticleNavigation />
