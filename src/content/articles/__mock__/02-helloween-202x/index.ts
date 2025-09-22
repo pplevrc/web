@@ -1,4 +1,4 @@
-import { mdToHtml } from "@lib/utils/content";
+import { mdToHtml } from "@lib/utils/html/markdown";
 import type { Article } from "../../types";
 import Content from "./helloween-202x.md?raw";
 import Thumbnail from "./thumbnail.png";

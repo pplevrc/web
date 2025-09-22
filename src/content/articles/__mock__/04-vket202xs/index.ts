@@ -1,4 +1,4 @@
-import { mdToHtml } from "@lib/utils/content";
+import { mdToHtml } from "@lib/utils/html/markdown";
 import type { Article } from "../../types";
 import Thumbnail from "./thumbnail.png";
 import Content from "./vket202xs.md?raw";

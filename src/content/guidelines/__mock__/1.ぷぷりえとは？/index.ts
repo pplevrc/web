@@ -1,5 +1,5 @@
 import type { Guideline } from "@content/guidelines";
-import { mdToHtml } from "@lib/utils/content";
+import { mdToHtml } from "@lib/utils/html/markdown";
 
 import Content from "./content.md?raw";
 import Thumbnail from "./thumbnail.png";
