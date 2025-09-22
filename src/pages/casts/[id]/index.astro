@@ -1,26 +1,32 @@
 ---
+import { getCollection } from "astro:content";
+import { getEntry } from "astro:content";
+
 import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
 import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
 import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import Layout from "@layouts/Layout.astro";
-import { fetchCast, fetchCastNickNames } from "@lib/contents/casts";
 import type { SocialLinkType } from "@lib/contents/commons/SocialLink";
 import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
 
 export async function getStaticPaths() {
-  const castNickNames = await fetchCastNickNames();
+  const casts = await getCollection("casts");
 
-  return castNickNames.map((nickname) => ({ params: { nickname } }));
+  return casts.map((cast) => ({ params: { id: cast.id } }));
 }
 
-const { nickname } = Astro.params;
+const { id } = Astro.params;
 
 const {
   cast: { title, description, keywords },
 } = await fetchMeta();
 
-const cast = await fetchCast(nickname);
+const { data: cast } = (await getEntry("casts", id)) ?? { data: undefined };
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const { themeColor, socialLinks, thumbnail } = cast;
 
@@ -40,7 +46,7 @@ const defineLogos = [
   }}
   themeColor={themeColor}
 >
-  <CastImageSection nickname={nickname} />
-  <CastProfileSection nickname={nickname} />
-  <CastNavigator nickname={nickname} themeColor={themeColor} />
+  <CastImageSection nickname={id} />
+  <CastProfileSection nickname={id} />
+  <CastNavigator nickname={id} themeColor={themeColor} />
 </Layout>

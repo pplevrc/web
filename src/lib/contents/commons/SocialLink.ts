@@ -159,7 +159,7 @@ export interface SocialLink<T extends SocialLinkType = SocialLinkType> {
   /**
    * @example "https://www.youtube.com/channel/@username"
    */
-  url: URL;
+  url: string;
 
   /**
    * @example "@username | username (YouTube Channel)"
@@ -179,7 +179,7 @@ export const socialLinkSchema = schemaForType<SocialLink>(
       // biome-ignore lint/suspicious/noExplicitAny: 理由がちょっとよくわからなかった
       socialTypes.map((type) => z.literal(type)) as any,
     ) as z.ZodType<SocialLinkType>,
-    url: z.any() as z.ZodType<URL>,
+    url: z.string(),
     description: z.string(),
   }),
 );
@@ -241,8 +241,8 @@ export async function toSocialLink({
   url: urlString,
   description,
 }: SocialLinkOptions): Promise<SocialLink> {
-  const url = new URL(urlString);
-  const type = await detectType(url);
+  const url = urlString;
+  const type = await detectType(new URL(url));
 
   return {
     type,

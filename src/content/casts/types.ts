@@ -1,10 +1,14 @@
+import { site } from "astro:config/server";
 import { z } from "astro:content";
-import { schemaForType } from "@lib/utils/type";
 import {
   type ColorThemeBase,
   colorBaseThemeSchema,
-} from "../commons/ColorToken";
-import { type SocialLink, socialLinkSchema } from "../commons/SocialLink";
+} from "@lib/contents/commons/ColorToken";
+import {
+  type SocialLink,
+  socialLinkSchema,
+} from "@lib/contents/commons/SocialLink";
+import { schemaForType } from "@lib/utils/type";
 import {
   type Avatar,
   type AvatarImages,
@@ -51,6 +55,16 @@ export interface Cast {
    * サムネイル画像
    */
   thumbnail: string | ImageMetadata;
+
+  /**
+   *
+   */
+  createdAt: string;
+
+  /**
+   *
+   */
+  updatedAt: string;
 }
 
 /**
@@ -85,7 +99,7 @@ export interface VRChatProfile {
   /**
    * @example "https://vrchat.com/home/user/usr_03ca05dc-4bb8-422e-a9dd-72880e6c59d3"
    */
-  userPageURL: URL;
+  userPageURL: string;
 }
 
 /**
@@ -104,7 +118,6 @@ export interface CastProfile {
    */
   introduction: string;
 }
-export type FetchedCast = Omit<Cast, "images">;
 
 const profileSchema = schemaForType<CastProfile>(
   z.object({
@@ -116,11 +129,11 @@ const profileSchema = schemaForType<CastProfile>(
 const vrchatSchema = schemaForType<VRChatProfile>(
   z.object({
     userId: z.string(),
-    userPageURL: z.any() as z.ZodType<URL>,
+    userPageURL: z.string(),
   }),
 );
 
-const fetchedCastSchema = schemaForType<FetchedCast>(
+export const castSchema = schemaForType<Cast>(
   z.object({
     profile: profileSchema,
     themeColor: colorBaseThemeSchema,
@@ -128,14 +141,21 @@ const fetchedCastSchema = schemaForType<FetchedCast>(
     avatars: z.array(avatarSchema),
     portrait: avatarImagesSchema,
     socialLinks: z.array(socialLinkSchema),
-    thumbnail: z.any() as z.ZodType<ImageMetadata>,
+    thumbnail: z.unknown() as z.ZodType<ImageMetadata | string>,
+    createdAt: z.string(),
+    updatedAt: z.string(),
   }),
 );
 
-export function assertCast(value: unknown): asserts value is FetchedCast {
-  fetchedCastSchema.parse(value);
-}
+export const castsSchema = schemaForType<Cast[]>(z.array(castSchema));
 
-export function assertCasts(value: unknown[]): asserts value is FetchedCast[] {
-  z.array(fetchedCastSchema).parse(value);
+/**
+ *
+ */
+export function toCastMeta(cast: Cast): CastMeta {
+  return {
+    nickname: cast.profile.nickname,
+    vrchat: cast.vrchat,
+    profilePage: new URL(`/casts/${cast.profile.nickname}`, site),
+  };
 }

@@ -1,7 +1,7 @@
 ---
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
-import { fetchNextCast, fetchPrevCast } from "@lib/contents/casts";
+import { getNextEntry, getPrevEntry } from "@content/casts";
 import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
 import { fetchMeta } from "@lib/contents/meta";
 import { css } from "@styles/css";
@@ -14,8 +14,8 @@ interface Props {
 
 const { nickname, themeColor } = Astro.props;
 
-const prevCast = await fetchPrevCast(nickname);
-const nextCast = await fetchNextCast(nickname);
+const prevCast = await getPrevEntry(nickname);
+const nextCast = await getNextEntry(nickname);
 
 const {
   casts: { backLinkLabel },
@@ -75,7 +75,7 @@ const avatarSwitchStyle = css({
   },
 });
 
-const navItems = [prevCast, nextCast];
+const navItems = [prevCast.data, nextCast.data];
 ---
 
 <nav class={rootStyle} aria-label="他の店員さんへのナビゲーション">

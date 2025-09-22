@@ -1,10 +1,11 @@
-import type { FetchedCast } from "@lib/contents/casts/types";
+import type { Cast } from "@content/casts";
 import {
   type ColorThemeBase,
   isColorThemeBase,
 } from "@lib/contents/commons/ColorToken";
 import { toSocialLink } from "@lib/contents/commons/SocialLink";
 import { CONTENTS_CASTS_URL } from "@lib/utils/env";
+import { ensureNonNil } from "@lib/utils/type";
 
 /**
  * APIレスポンスデータの型（すべてnullable）
@@ -66,7 +67,7 @@ type Required<T> = { [K in keyof T]-?: T[K] extends infer R | null ? R : T[K] };
  */
 async function convertApiResponseToCast(
   apiData: ValidCastApiResponse,
-): Promise<FetchedCast> {
+): Promise<Cast> {
   const socialLinks = [];
 
   // ソーシャルリンクを配列に変換
@@ -92,7 +93,7 @@ async function convertApiResponseToCast(
     themeColor: apiData.personal_color as ColorThemeBase,
     vrchat: {
       userId: apiData.vrchat_display_name,
-      userPageURL: new URL(apiData.vrchat_userpage_url),
+      userPageURL: apiData.vrchat_userpage_url,
     },
     avatars: [
       {
@@ -109,6 +110,14 @@ async function convertApiResponseToCast(
     },
     socialLinks,
     thumbnail: apiData.image_bestshot_url,
+    createdAt: ensureNonNil(
+      apiData.created_at,
+      `店員さんデータ [${apiData.nickname}] にて, created_at の情報が欠落しています`,
+    ),
+    updatedAt: ensureNonNil(
+      apiData.updated_at,
+      `店員さんデータ [${apiData.nickname}] にて, updated_at の情報が欠落しています`,
+    ),
   };
 }
 
@@ -168,7 +177,7 @@ function isValidCastData(
 /**
  * 店員さんデータを外部APIから取得する
  */
-export async function fetchCastsFromApi(): Promise<FetchedCast[]> {
+export async function fetchCastsFromApi(): Promise<Cast[]> {
   if (!CONTENTS_CASTS_URL) {
     throw new Error("CONTENTS_CASTS_URL not configured");
   }
@@ -182,7 +191,7 @@ export async function fetchCastsFromApi(): Promise<FetchedCast[]> {
   }
 
   const apiData: CastApiResponse[] = await response.json();
-  const validCasts: FetchedCast[] = [];
+  const validCasts: Cast[] = [];
 
   for (const item of apiData) {
     // publishedでない場合はスキップ

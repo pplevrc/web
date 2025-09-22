@@ -1,4 +1,5 @@
-import { fetchCast, fetchCasts, toCastMeta } from "@lib/contents/casts";
+import { getCollection, getEntry } from "astro:content";
+import { toCastMeta } from "@content/casts";
 import type { APIRoute } from "astro";
 
 interface Params {
@@ -6,9 +7,9 @@ interface Params {
 }
 
 export async function getStaticPaths() {
-  const casts = await fetchCasts();
+  const casts = await getCollection("casts");
   return casts.map((cast) => ({
-    params: { nickname: cast.profile.nickname },
+    params: { nickname: cast.id },
   }));
 }
 
@@ -16,7 +17,13 @@ export const GET: APIRoute<
   Record<string, never>,
   Params & Record<string, never>
 > = async ({ params }) => {
-  const cast = await fetchCast(params.nickname);
+  const { data: cast } = (await getEntry("casts", params.nickname)) ?? {
+    data: undefined,
+  };
+
+  if (!cast) {
+    return new Response("Not Found", { status: 404 });
+  }
 
   return new Response(JSON.stringify(toCastMeta(cast)), {
     headers: {

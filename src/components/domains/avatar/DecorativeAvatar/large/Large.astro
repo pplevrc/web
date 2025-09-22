@@ -1,8 +1,8 @@
 ---
+import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
-import { fetchCast } from "@lib/contents/casts";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
 import StripeCircle from "../common/internals/StripeCircle.astro";
@@ -14,6 +14,14 @@ interface Props extends CommonProps {}
 const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 
 const { nickname } = avatarImageProps;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const rootStyle = css({
   w: "128",
@@ -92,7 +100,7 @@ const origamiStyle = css({
   h: "128",
 });
 
-const { themeColor, thumbnail } = await fetchCast(nickname);
+const { themeColor, thumbnail } = cast;
 
 const random = seedRandom(nickname);
 

@@ -1,14 +1,13 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { getAvatar } from "@content/casts";
+import type { Avatar } from "@content/casts";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
-import { type Avatar, fetchAvatarImage } from "@lib/contents/casts";
 import { remToSizePercent } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import defu from "defu";
 import { toWidths } from "./common";
-
-type ExpressionType = keyof Avatar["images"];
 
 export interface Props
   extends Omit<HTMLAttributes<"picture">, "width" | "height"> {
@@ -27,7 +26,7 @@ export interface Props
    * アバター画像の表情
    * @default "neutral"
    */
-  expression?: ExpressionType;
+  expression?: keyof Avatar["images"];
 
   /**
    * Picture Component に指定する alt 属性
@@ -73,11 +72,12 @@ const {
   ...attrs
 } = Astro.props;
 
-const src = await fetchAvatarImage({
+const avatar = await getAvatar({
   nickname,
   index: avatarIndex,
-  expression,
 });
+
+const src = avatar.images[expression];
 
 const sizingStyle = css({
   w: "full",

@@ -62,10 +62,9 @@ export const avatarImageIndexDefault = Object.freeze({
 
 export const avatarImagesSchema = schemaForType<AvatarImages>(
   z.object({
-    neutral: z.unknown(),
-    emotional: z.unknown(),
-    // biome-ignore lint/suspicious/noExplicitAny: string | local image の構造をうまいこと validation かけれなかった
-  }) as any,
+    neutral: z.unknown() as z.ZodType<ImageMetadata | string>,
+    emotional: z.unknown() as z.ZodType<ImageMetadata | string>,
+  }),
 );
 
 export const avatarSchema = schemaForType<Avatar>(

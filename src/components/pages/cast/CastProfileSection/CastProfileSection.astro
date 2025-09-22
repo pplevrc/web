@@ -1,9 +1,9 @@
 ---
+import { getEntry } from "astro:content";
 import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
 import Paper from "@components/decoratives/Paper/Paper.astro";
 import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
 import NameStickerList from "@components/decoratives/Sticker/NameStickerList.astro";
-import { fetchCast } from "@lib/contents/casts";
 import type { SocialLink } from "@lib/contents/commons/SocialLink";
 import { css } from "@styles/css";
 
@@ -13,12 +13,20 @@ interface Props {
 
 const { nickname } = Astro.props;
 
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
 const {
   themeColor,
   profile,
   socialLinks,
   vrchat: { userId, userPageURL },
-} = await fetchCast(nickname);
+} = cast;
 
 const links = [
   {

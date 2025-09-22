@@ -1,7 +1,13 @@
 ---
 import CastList from "@components/domains/cast/CastList/CastList.astro";
-import { fetchCasts } from "@lib/contents/casts";
+import type { Cast } from "@content/casts";
 import { css } from "@styles/css";
+
+interface Props {
+  casts: Cast[];
+}
+
+const { casts } = Astro.props;
 
 const fitStyle = css({
   display: "flex",
@@ -15,8 +21,6 @@ const fitStyle = css({
     _pc: "4",
   },
 });
-
-const casts = await fetchCasts();
 ---
 
 <nav aria-label="店員さん一覧" class={fitStyle}>

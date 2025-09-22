@@ -147,7 +147,7 @@ function randomSocialLinks(): SocialLink[] {
   const length = randomPick(1, [0, 1, 2, 3, 4, 5] as const, castRandomizer);
   return Array.from({ length }, () => ({
     type: randomSocialType(castRandomizer),
-    url: new URL("https://www.google.co.jp"),
+    url: "https://www.google.co.jp",
     description: "test",
   }));
 }
@@ -177,11 +177,13 @@ function createMockCast(): Cast {
     thumbnail: thumbnailImg,
     vrchat: {
       userId: nickname,
-      userPageURL: new URL("https://www.google.co.jp"),
+      userPageURL: "https://www.google.co.jp",
     },
+    createdAt: "2025-01-01",
+    updatedAt: "2025-01-01",
   };
 }
 
-export function createMockCasts(): Cast[] {
+export function createMockCasts(): Omit<Cast, "id">[] {
   return Array.from({ length: MEMBERS }, () => createMockCast());
 }

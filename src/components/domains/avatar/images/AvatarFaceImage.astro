@@ -1,6 +1,7 @@
 ---
+import { getEntry } from "astro:content";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import { type Avatar, fetchCast } from "@lib/contents/casts";
+import type { Avatar } from "@content/casts";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
 
@@ -50,7 +51,13 @@ const {
   ...rest
 } = Astro.props;
 
-const cast = await fetchCast(nickname);
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const src = cast.portrait[expression];
 

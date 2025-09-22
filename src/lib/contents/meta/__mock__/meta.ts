@@ -14,18 +14,18 @@ export function getMockMeta(): Meta {
       socialLinks: [
         {
           type: "x",
-          url: new URL("https://x.com/pplevrc"),
+          url: "https://x.com/pplevrc",
           description: "ロリっ子喫茶ぷぷりえ公式Xアカウント",
         },
         {
           type: "youtube",
-          url: new URL("https://www.youtube.com/@pplech"),
+          url: "https://www.youtube.com/@pplech",
           description:
             "ロリっ子喫茶ぷぷりえ公式 YouTube チャンネル | ぷぷりえちゃんねる",
         },
         {
           type: "pixiv-booth",
-          url: new URL("https://pple.booth.pm/"),
+          url: "https://pple.booth.pm/",
           description: "ロリっ子喫茶ぷぷりえ公式 Booth ストア",
         },
       ],

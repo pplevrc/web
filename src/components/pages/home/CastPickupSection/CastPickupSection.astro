@@ -1,11 +1,10 @@
 ---
+import { getCollection } from "astro:content";
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
-import { fetchCasts } from "@lib/contents/casts";
-
 import { css } from "@styles/css";
 
-const casts = await fetchCasts();
+const casts = await getCollection("casts");
 
 const listStyle = css({
   bg: "white/50",
@@ -97,16 +96,22 @@ const imageWrapStyle = css({
 >
   <ul class={listStyle} data-shuffle="cast">
     {
-      casts.map(({ profile: { nickname } }) => (
-        <li class:list={[listItemStyle, imageSwitchStyle]}>
-          <DecorativeAvatarLink
-            size="medium"
-            class={imageWrapStyle}
-            nickname={nickname}
-            avatarIndex={0}
-          />
-        </li>
-      ))
+      casts.map(
+        ({
+          data: {
+            profile: { nickname },
+          },
+        }) => (
+          <li class:list={[listItemStyle, imageSwitchStyle]}>
+            <DecorativeAvatarLink
+              size="medium"
+              class={imageWrapStyle}
+              nickname={nickname}
+              avatarIndex={0}
+            />
+          </li>
+        ),
+      )
     }
   </ul>
   <script>

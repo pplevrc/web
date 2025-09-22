@@ -1,16 +1,16 @@
 ---
+import { getCollection } from "astro:content";
 import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
 import Blank from "@layouts/Blank.astro";
-import { fetchCasts } from "@lib/contents/casts";
 import { css } from "@styles/css";
 
 /**
  * ツールページ: 立ち絵の高さ比較用
  */
 
-const casts = await fetchCasts();
+const casts = await getCollection("casts");
 
-const avatars = casts.map((cast) => ({ nickname: cast.profile.nickname }))
+const avatars = casts.map((cast) => ({ nickname: cast.data.profile.nickname }))
 
 const pageStyle = css({
   w: "full",
