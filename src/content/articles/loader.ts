@@ -71,6 +71,12 @@ export function articleLoader(): Loader {
           create: article.publishedAt,
         });
 
+        logger.info(
+          store.get(id)
+            ? `Update article data: ${article.title}`
+            : `Set new article data: ${article.title}`,
+        );
+
         store.set({
           id,
           data,

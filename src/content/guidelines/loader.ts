@@ -67,10 +67,18 @@ export function guidelineLoader(): Loader {
             id,
           },
         });
+
         const digest = generateDigest({
           update: guideline.updatedAt,
           create: guideline.publishedAt,
         });
+
+        logger.info(
+          store.get(id)
+            ? `Update guideline data: ${guideline.title}`
+            : `Set new guideline data: ${guideline.title}`,
+        );
+
         store.set({ id, data, digest });
       }
 

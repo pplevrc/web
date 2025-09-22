@@ -37,14 +37,12 @@ export function castLoader(): Loader {
       parseData,
       generateDigest,
     }): Promise<void> => {
-      // TODO: cast content api 側で, 最後に更新された日時だけを返す仕組みが必要
-      store.clear();
       logger.info("Fetching cast datas");
-
       const casts = await fetchCastsFromApi();
 
       for (const cast of casts) {
         const id = cast.profile.nickname;
+
         const data = await parseData({
           id,
           data: cast as unknown as Record<string, unknown>,
@@ -54,6 +52,12 @@ export function castLoader(): Loader {
           update: cast.createdAt,
           create: cast.updatedAt,
         });
+
+        logger.info(
+          store.get(id)
+            ? `Update cast data: ${id}`
+            : `Set new cast data: ${id}`,
+        );
 
         store.set({
           id,
