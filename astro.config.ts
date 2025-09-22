@@ -18,6 +18,8 @@ const SITE_DOMAIN = ensureNonNil(
   "SITE_DOMAIN is required",
 );
 
+const USE_MOCK = process.env["MOCK"] === "true";
+
 /**
  * 文字数分 * で埋める
  */
@@ -91,7 +93,7 @@ export default defineConfig(
         transformer: "lightningcss",
       },
     },
-    cacheDir: "./.cache",
+    cacheDir: USE_MOCK ? "./.cache-mock" : "./.cache",
 
     /**
      * 本番モード専用オプション
