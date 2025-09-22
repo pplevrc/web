@@ -1,19 +1,18 @@
+import type { Guideline } from "@content/guidelines";
 import { mdToHtml } from "@lib/utils/content";
-import type { Guideline } from "../..";
 import Content from "./content.md?raw";
 import Thumbnail from "./thumbnail.png";
 
-export async function getMockGuideline(): Promise<Guideline> {
+export async function getMockGuideline(): Promise<Omit<Guideline, "id">> {
   return {
-    contentId: "5",
     title: "コラボについて",
     description:
       "ぷぷりえ営業日にコラボを開催する際の注意事項や, 相談先について",
-    publishedAt: new Date("2023-01-01"),
-    updatedAt: new Date("2023-01-01"),
+    publishedAt: "2023-01-01T00:00:00.000Z",
+    updatedAt: "2023-01-01T00:00:00.000Z",
     content: await mdToHtml(Content),
     keywords: ["ぷぷりえ", "VRChat"],
-    thumbnail: Thumbnail,
+    thumbnail: Thumbnail.src,
     ballonPosition: "topRight",
     themeColor: "ice",
   };

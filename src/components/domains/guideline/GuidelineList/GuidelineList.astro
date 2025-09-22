@@ -1,9 +1,13 @@
 ---
-import { fetchGuidelines } from "@lib/contents/guildelines";
+import type { Guideline } from "@content/guidelines";
 import { css } from "@styles/css";
 import GuidelineLink from "../GuidelineLink/GuidelineLink.astro";
 
-const guidelines = await fetchGuidelines();
+interface Props {
+  guidelines: Guideline[];
+}
+
+const { guidelines } = Astro.props;
 
 const navStyle = css({
   pt: "26",

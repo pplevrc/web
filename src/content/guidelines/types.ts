@@ -5,7 +5,16 @@ import { schemaForType } from "@lib/utils/type";
 /**
  *
  */
-export interface Article {
+export type BallonPosition =
+  | "topLeft"
+  | "topRight"
+  | "bottomLeft"
+  | "bottomRight";
+
+/**
+ *
+ */
+export interface Guideline {
   /**
    *
    */
@@ -34,27 +43,17 @@ export interface Article {
   /**
    *
    */
-  thumbnailAlt: string;
-
-  /**
-   *
-   */
-  thumbnailLabel?: string | null | undefined;
-
-  /**
-   * HTML
-   */
   content: string;
 
   /**
    *
    */
-  contentId: string;
+  themeColor: ColorThemeBase;
 
   /**
    *
    */
-  themeColor: ColorThemeBase;
+  ballonPosition: BallonPosition;
 
   /**
    *
@@ -70,18 +69,21 @@ export interface Article {
 /**
  *
  */
-export const articleSchema = schemaForType<Article>(
+export const guidelineSchema = schemaForType<Guideline>(
   z.object({
     id: z.string(),
     title: z.string(),
     description: z.string(),
     keywords: z.array(z.string()),
     thumbnail: z.string(),
-    thumbnailAlt: z.string(),
-    thumbnailLabel: z.string().optional(),
     content: z.string(),
-    contentId: z.string(),
     themeColor: colorBaseThemeSchema,
+    ballonPosition: z.enum([
+      "topLeft",
+      "topRight",
+      "bottomLeft",
+      "bottomRight",
+    ]),
     publishedAt: z.string(),
     updatedAt: z.string(),
   }),

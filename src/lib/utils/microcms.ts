@@ -1,5 +1,4 @@
-import type { ColorThemeBase } from "@lib/contents/commons/ColorToken";
-import type { BallonPosition } from "@lib/contents/guildelines";
+import type { CMSGuideline } from "@content/guidelines/internals/remote";
 import { snakeCase } from "scule";
 import type { Paths, PickDeep, UnionToIntersection } from "type-fest";
 import { CONTENTS_API_KEY, CONTENTS_SERVICE_ID } from "./env";
@@ -21,7 +20,7 @@ function createURL(endpoint: string): URL {
 /**
  *
  */
-export interface MicroCMSListResponse<T extends MicroCMSListContent> {
+export interface MicroCMSListResponse<T extends MicroCMSListContentBase> {
   /**
    *
    */
@@ -43,7 +42,7 @@ export interface MicroCMSListResponse<T extends MicroCMSListContent> {
 /**
  *
  */
-interface MicroCMSContentCommon {
+interface MicroCMSContentBase {
   /**
    *
    */
@@ -69,12 +68,12 @@ interface MicroCMSContentCommon {
 /**
  *
  */
-export interface MicroCMSObjectContent extends MicroCMSContentCommon {}
+export interface MicroCMSObjectContentBase extends MicroCMSContentBase {}
 
 /**
  *
  */
-export interface MicroCMSListContent extends MicroCMSContentCommon {
+export interface MicroCMSListContentBase extends MicroCMSContentBase {
   /**
    *
    */
@@ -96,46 +95,6 @@ export interface MicroCMSImage {
    *
    */
   width: number;
-}
-
-/**
- *
- */
-export interface MicroCMSGuideline extends MicroCMSListContent {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   * comma-separated string
-   */
-  keywords?: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   *
-   */
-  "hero-image": MicroCMSImage;
-
-  /**
-   *
-   */
-  contents: string;
-
-  /**
-   *
-   */
-  "theme-color": ColorThemeBase[];
-
-  /**
-   *
-   */
-  "ballon-position": BallonPosition;
 }
 
 interface MicroCMSPageMeta {
@@ -200,11 +159,11 @@ interface MicroCMSSocialLink {
 /**
  *
  */
-export interface MicroCMSMeta extends MicroCMSObjectContent {
+export interface MicroCMSMeta extends MicroCMSObjectContentBase {
   /**
    *
    */
-  "guidelines-shortcut": MicroCMSGuideline[];
+  "guidelines-shortcut": CMSGuideline[];
 
   /**
    * comma-separated string
@@ -261,10 +220,6 @@ export interface MicroCMSMeta extends MicroCMSObjectContent {
  * MicroCMS のエンドポイントの定義
  */
 export type MicroCMSApis = {
-  guidelines: {
-    key: "guidelines";
-    contents: MicroCMSGuideline;
-  };
   meta: {
     key: "meta";
     value: MicroCMSMeta;
@@ -343,7 +298,7 @@ type FlattenArray<T> = Purify<{
 /**
  * MicroCMS が提供している Query Params の型
  */
-export interface MicroCMSQueryParams<T extends MicroCMSContentCommon> {
+export interface MicroCMSQueryParams<T extends MicroCMSContentBase> {
   fields?: (keyof T | Paths<FlattenArray<T>>)[];
   offset?: number;
   limit?: number;
@@ -353,7 +308,7 @@ export interface MicroCMSQueryParams<T extends MicroCMSContentCommon> {
 /**
  * MicroCMS の QueryParams の filter を作るためのソース
  */
-export interface MicroCMSFilters<T extends MicroCMSContentCommon> {
+export interface MicroCMSFilters<T extends MicroCMSContentBase> {
   target: Paths<T>;
   operator:
     | "equals"
@@ -372,7 +327,7 @@ export interface MicroCMSFilters<T extends MicroCMSContentCommon> {
  * MicroCMS の get request 時に付与する Query Params を構築するソース
  */
 export interface MicroCMSOptions<
-  T extends MicroCMSContentCommon,
+  T extends MicroCMSContentBase,
   Q extends MicroCMSQueryParams<T> = MicroCMSQueryParams<T>,
 > {
   query?: Q;
@@ -385,7 +340,7 @@ export interface MicroCMSOptions<
  * @param param1
  * @returns
  */
-function createMicroCMSUrl<T extends MicroCMSListContent>(
+function createMicroCMSUrl<T extends MicroCMSListContentBase>(
   endpoint: string,
   { query, filters }: MicroCMSOptions<T>,
 ): URL {
@@ -437,7 +392,7 @@ function createMicroCMSHeaders(): Record<string, string> {
 export async function fetchObject<
   E extends MicroCMSObjectEndpoint,
   Q extends MicroCMSQueryParams<T>,
-  T extends MicroCMSApiResponseType<E> & MicroCMSObjectContent,
+  T extends MicroCMSApiResponseType<E> & MicroCMSObjectContentBase,
 >(endpoint: E, options: MicroCMSOptions<T, Q> = {}): Promise<T> {
   // biome-ignore lint/suspicious/noExplicitAny: しんどいので回避
   const url = createMicroCMSUrl(endpoint, options as any);
@@ -454,61 +409,17 @@ export async function fetchObject<
   return response.json();
 }
 
-export async function fetchContents<
-  E extends MicroCMSContentsEndpoint,
-  Q extends MicroCMSQueryParams<T>,
-  T extends MicroCMSApiResponseType<E> & MicroCMSListContent,
->(
-  endpoint: E,
-  options?: MicroCMSOptions<T, Q>,
-): Promise<MicroCMSListResponse<T>>;
-
-export async function fetchContents<T extends MicroCMSListContent>(
-  endpoint: string,
-  options?: MicroCMSOptions<T>,
-): Promise<MicroCMSListResponse<T>>;
-
 /**
  *
  * @param endpoint
  * @param options
  * @returns
  */
-export async function fetchContents<
-  E extends MicroCMSContentsEndpoint,
-  Q extends MicroCMSQueryParams<T>,
-  T extends MicroCMSApiResponseType<E> & MicroCMSListContent,
->(
-  endpoint: E,
-  options: MicroCMSOptions<T, Q> = {},
+export async function fetchContents<T extends MicroCMSListContentBase>(
+  endpoint: string,
+  options: MicroCMSOptions<T> = {},
 ): Promise<MicroCMSListResponse<T>> {
   const url = createMicroCMSUrl(endpoint, options);
-  const headers = createMicroCMSHeaders();
-
-  const response = await fetch(url, { headers });
-
-  if (!response.ok) {
-    throw new Error(
-      `MicroCMS API error: ${response.status} ${response.statusText}`,
-    );
-  }
-
-  return response.json();
-}
-
-/**
- *
- * @param endpoint
- * @param id
- * @param options
- * @returns
- */
-export async function fetchContent<
-  E extends MicroCMSContentsEndpoint,
-  Q extends MicroCMSQueryParams<T>,
-  T extends MicroCMSApiResponseType<E> & MicroCMSListContent,
->(endpoint: E, id: string, options: MicroCMSOptions<T, Q> = {}): Promise<T> {
-  const url = createMicroCMSUrl(`${endpoint}/${id}`, options);
   const headers = createMicroCMSHeaders();
 
   const response = await fetch(url, { headers });

@@ -17,7 +17,7 @@
     "build:prepare": "NODE_ENV=production yarn prepare",
     "build:panda": "panda --minify",
     "build:astro": "astro build",
-    "typecheck": "astro check",
+    "typecheck": "MOCK=true astro check",
     "test": "vitest",
     "test:ci": "vitest --ci",
     "preview": "astro preview",

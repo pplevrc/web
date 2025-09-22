@@ -29,6 +29,7 @@ console.log("Environments", {
   NODE_ENV: process.env["NODE_ENV"],
   SITE_DOMAIN: process.env["SITE_DOMAIN"],
   MOCK: process.env["MOCK"] !== "false",
+  FETCH_CONTENT_FORCE: process.env["FETCH_CONTENT_FORCE"] === "true",
   SITE_IS_PUBLIC: process.env["SITE_IS_PUBLIC"] === "true",
   CONTENTS_API_KEY: mask(process.env["CONTENTS_API_KEY"] ?? ""),
   CONTENTS_SERVICE_ID: mask(process.env["CONTENTS_SERVICE_ID"] ?? ""),

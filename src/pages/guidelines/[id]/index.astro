@@ -1,31 +1,34 @@
 ---
+import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
 import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
 import Layout from "@layouts/Layout.astro";
-import {
-  fetchGuidelineByTitle,
-  fetchGuidelineTitles,
-} from "@lib/contents/guildelines";
 import { fetchMeta } from "@lib/contents/meta";
 import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
-  const guidelineTitles = await fetchGuidelineTitles();
+  const guidelines = await getCollection("guidelines");
 
-  return guidelineTitles.map((guidelineTitle) => ({
-    params: { guidelineTitle },
+  return guidelines.map(({ id }) => ({
+    params: { id },
   }));
 }
 
-const { guidelineTitle } = Astro.params;
+const { id } = Astro.params;
 
 const {
   guideline: { title, description, keywords },
 } = await fetchMeta();
 
-const guideline = await fetchGuidelineByTitle(guidelineTitle);
+const { data: guideline } = (await getEntry("guidelines", id)) ?? {
+  data: undefined,
+};
+
+if (!guideline) {
+  return new Response("Not Found", { status: 404 });
+}
 
 const { thumbnail, themeColor, content } = guideline;
 

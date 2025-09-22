@@ -1,9 +1,9 @@
+import type { Guideline } from "@content/guidelines";
 import { memoize } from "@lib/utils/cache";
 import { USE_MOCK } from "@lib/utils/env";
 import { type MicroCMSMeta, fetchObject } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
 import { type SocialLink, toSocialLink } from "../commons/SocialLink";
-import type { Guideline } from "../guildelines";
 import { getMockMeta } from "./__mock__/meta";
 
 /**

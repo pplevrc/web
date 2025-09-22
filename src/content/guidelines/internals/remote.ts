@@ -6,12 +6,10 @@ import {
   fetchContents,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
-import type { Article } from "../types";
 
-/**
- *
- */
-interface CMSArticle extends MicroCMSListContentBase {
+import type { BallonPosition, Guideline } from "../types";
+
+export interface CMSGuideline extends MicroCMSListContentBase {
   /**
    *
    */
@@ -35,12 +33,7 @@ interface CMSArticle extends MicroCMSListContentBase {
   /**
    *
    */
-  "hero-image-alt": string;
-
-  /**
-   *
-   */
-  "hero-iamge-label"?: string | null;
+  contents: string;
 
   /**
    *
@@ -50,66 +43,66 @@ interface CMSArticle extends MicroCMSListContentBase {
   /**
    *
    */
-  content: string;
+  "ballon-position": [BallonPosition];
 }
 
 /**
  *
- * @param cmsData
+ * @param cmsGuideline
  * @returns
  */
-function convertCMSDataToArticle(cmsData: CMSArticle): Omit<Article, "id"> {
+function convertCMSToGuideline(cmsData: CMSGuideline): Omit<Guideline, "id"> {
   const {
-    id,
     title,
     description,
-    keywords,
     publishedAt,
     updatedAt,
-    content,
+    contents,
+    keywords,
     "hero-image": heroImage,
-    "hero-image-alt": heroImageAlt,
-    "hero-iamge-label": heroImageLabel,
+    "ballon-position": ballonPosition,
     "theme-color": themeColor,
   } = cmsData;
 
   return {
-    contentId: id,
     title,
     description,
-    keywords: (keywords ?? "").split(",").filter((k) => k.length > 0),
-    themeColor: ensureNonNil(themeColor[0]),
     publishedAt: publishedAt,
     updatedAt: updatedAt,
-    content,
+    content: contents || "",
+    keywords: (keywords ?? "")
+      .split(",")
+      // "".split -> [""] となるため
+      .filter((k) => k.length > 0)
+      .map((keyword) => keyword.trim()),
     thumbnail: heroImage.url,
-    thumbnailAlt: heroImageAlt,
-    thumbnailLabel: heroImageLabel,
+    ballonPosition: ensureNonNil(ballonPosition[0]),
+    themeColor: ensureNonNil(themeColor[0]),
   };
 }
 
 /**
- * 指定した日付より後に update された記事があるかどうかを取得する
+ * 指定した日付より後に update された Guideline があるかどうかを取得する
  * @param date
  * @returns
  */
-export async function hasNewArticlesSince(date?: Date): Promise<boolean> {
+export async function hasNewGuidelinesSince(date?: Date): Promise<boolean> {
   if (!date) {
     return true;
   }
 
   const latestUpdatedAt = await fetchLatestUpdatedAt();
-
   return latestUpdatedAt > date;
 }
 
 /**
- * 指定した日付より後に update された記事を取得する
+ * CMS から Guideline を取得する
+ * @returns
  */
-export async function fetchArticlesSince(
+export async function fetchGuidelinesSince(
   date?: Date,
-): Promise<Omit<Article, "id">[]> {
-  const filters: MicroCMSFilters<CMSArticle>[] = [];
+): Promise<Omit<Guideline, "id">[]> {
+  const filters: MicroCMSFilters<CMSGuideline>[] = [];
 
   if (date) {
     filters.push({
@@ -119,11 +112,11 @@ export async function fetchArticlesSince(
     });
   }
 
-  const result = await fetchContents<CMSArticle>("articles", {
+  const result = await fetchContents<CMSGuideline>("guidelines", {
     filters,
   });
 
-  return result.contents.map(convertCMSDataToArticle);
+  return result.contents.map(convertCMSToGuideline);
 }
 
 /**
@@ -131,7 +124,7 @@ export async function fetchArticlesSince(
  * @returns
  */
 async function fetchLatestUpdatedAt(): Promise<Date> {
-  const result = await fetchContents<CMSArticle>("articles", {
+  const result = await fetchContents<CMSGuideline>("guidelines", {
     query: {
       fields: ["updatedAt"],
       order: "updatedAt",
