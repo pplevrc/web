@@ -3,13 +3,13 @@ import { toCastMeta } from "@content/casts";
 import type { APIRoute } from "astro";
 
 interface Params {
-  nickname: string;
+  id: string;
 }
 
 export async function getStaticPaths() {
   const casts = await getCollection("casts");
   return casts.map((cast) => ({
-    params: { nickname: cast.id },
+    params: { id: cast.id },
   }));
 }
 
@@ -17,7 +17,7 @@ export const GET: APIRoute<
   Record<string, never>,
   Params & Record<string, never>
 > = async ({ params }) => {
-  const { data: cast } = (await getEntry("casts", params.nickname)) ?? {
+  const { data: cast } = (await getEntry("casts", params.id)) ?? {
     data: undefined,
   };
 
