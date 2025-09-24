@@ -1,4 +1,5 @@
 name: 🚀 GitHub Pages にデプロイ
+description: Astroプロジェクトをビルドし、結果を GitHub Pages にデプロイする
 
 on:
   # mainブランチにプッシュされた時に自動実行

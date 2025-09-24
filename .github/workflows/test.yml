@@ -1,4 +1,5 @@
 name: 🔍 プルリクエスト品質チェック
+description: プルリクエストに対してコード品質チェック（lint、typecheck、build）を実行
 
 on:
   pull_request:
@@ -40,6 +41,10 @@ jobs:
       # TypeScriptの型チェックを実行（MOCK=trueでCMSなしでも動作）
       - name: 🔍 TypeScriptの型チェックを実行
         run: yarn typecheck
+        env:
+          MOCK: ${{ vars.MOCK }}
+          SITE_DOMAIN: http://localhost
+          SITE_IS_PUBLIC: false
 
   lint:
     name: 🧹 コード品質チェック
@@ -95,3 +100,7 @@ jobs:
       # MOCKモードで本番ビルドを実行（CMSなしでもビルドが通ることを確認）
       - name: 🏗️ 本番ビルドを実行
         run: yarn build
+        env:
+          MOCK: ${{ vars.MOCK }}
+          SITE_DOMAIN: http://localhost
+          SITE_IS_PUBLIC: false

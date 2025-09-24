@@ -1,5 +1,5 @@
-name: 'Node.js + Yarn セットアップ'
-description: 'Node.jsとYarnをセットアップして依存関係をインストール'
+name: Node.js + Yarn セットアップ
+description: Node.js と Yarn をセットアップして依存関係をインストール
 
 runs:
   using: 'composite'

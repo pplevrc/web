@@ -1,5 +1,5 @@
-name: 'Astroビルドキャッシュセットアップ'
-description: 'Astroビルド用のキャッシュを復元・設定'
+name: Astro ビルドキャッシュセットアップ
+description: Astro ビルド用のキャッシュを復元・設定
 
 runs:
   using: 'composite'

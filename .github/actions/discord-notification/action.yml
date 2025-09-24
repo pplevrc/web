@@ -1,23 +1,23 @@
-name: 'Discord通知'
-description: 'GitHub ActionsのステータスをDiscordに通知'
+name: Discord通知
+description: ビルド結果などの詳細情報を Discord に通知
 
 inputs:
   webhook_url:
-    description: 'Discord Webhook URL'
+    description: Discord Webhook URL
     required: true
   status:
-    description: 'ステータス（色選択用: start, success, failure）'
+    description: ステータス（色選択用: start, success, failure）
     required: true
   title:
-    description: '通知タイトル'
+    description: 通知タイトル
     required: true
   description:
-    description: '通知メッセージ'
+    description: 通知メッセージ
     required: true
   username:
-    description: 'Discordに表示するユーザー名'
+    description: Discordに表示するユーザー名
     required: false
-    default: 'GitHub Actions'
+    default: GitHub Actions
 
 runs:
   using: 'composite'
