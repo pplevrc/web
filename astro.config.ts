@@ -18,6 +18,8 @@ const SITE_DOMAIN = ensureNonNil(
   "SITE_DOMAIN is required",
 );
 
+const SITE_BASE = process.env["SITE_BASE"] ?? "";
+
 const USE_MOCK = process.env["MOCK"] === "true";
 
 /**
@@ -30,6 +32,7 @@ function mask(value: string): string {
 console.log("Environments", {
   NODE_ENV: process.env["NODE_ENV"],
   SITE_DOMAIN: process.env["SITE_DOMAIN"],
+  SITE_BASE: process.env["SITE_BASE"],
   MOCK: process.env["MOCK"] !== "false",
   FETCH_CONTENT_FORCE: process.env["FETCH_CONTENT_FORCE"] === "true",
   SITE_IS_PUBLIC: process.env["SITE_IS_PUBLIC"] === "true",
@@ -82,6 +85,7 @@ export default defineConfig(
   byEnv<AstroUserConfig>({
     output: "static",
     site: `https://${SITE_DOMAIN}`,
+    base: SITE_BASE,
     image: {
       service: {
         entrypoint: "./src/lib/services/custom-sharp.ts",

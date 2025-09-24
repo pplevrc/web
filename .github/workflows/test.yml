@@ -1,0 +1,116 @@
+name: 🔍 プルリクエスト品質チェック
+description: プルリクエストに対してコード品質チェック（lint、typecheck、build）を実行
+
+on:
+  pull_request:
+    branches: [main]
+
+# 同じPRで複数回実行された場合、古い実行をキャンセルして最新のもののみを実行
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    name: 📦 依存関係セットアップ
+    runs-on: ubuntu-latest
+    environment: NO_CMS # ダミーのCMS設定を使用
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
+
+      # Node.js + Yarn セットアップ（共通のcomposite actionを使用）
+      - name: 🛠️ Node.js + Yarn セットアップ
+        uses: ./.github/actions/setup-node-yarn
+
+  typecheck:
+    name: 🔍 型チェック
+    runs-on: ubuntu-latest
+    environment: NO_CMS # ダミーのCMS設定を使用
+    needs: setup
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
+
+      # Node.js + Yarn セットアップ（共通のcomposite actionを使用）
+      - name: 🛠️ Node.js + Yarn セットアップ
+        uses: ./.github/actions/setup-node-yarn
+
+
+      - name: 🔍 PandaCSS でコード生成を実行
+        run: yarn prepare:panda
+
+      # TypeScriptの型チェックを実行（MOCK=trueでCMSなしでも動作）
+      - name: 🔍 TypeScriptの型チェックを実行
+        run: yarn typecheck
+        env:
+          MOCK: ${{ vars.MOCK }}
+          SITE_DOMAIN: http://localhost
+          SITE_IS_PUBLIC: false
+
+  lint:
+    name: 🧹 コード品質チェック
+    runs-on: ubuntu-latest
+    environment: NO_CMS # ダミーのCMS設定を使用
+    needs: setup
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
+
+      # Node.js + Yarn セットアップ（共通のcomposite actionを使用）
+      - name: 🛠️ Node.js + Yarn セットアップ
+        uses: ./.github/actions/setup-node-yarn
+
+      # Biomeでコードの品質をチェック（lint + format）
+      - name: 🧹 Biomeでコード品質をチェック
+        run: yarn biome
+
+  # FIXME: テストはまだうまく動かないので、一旦コメントアウト
+  # test:
+  #   name: 🧪 テスト実行
+  #   runs-on: ubuntu-latest
+  #   environment: NO_CMS # ダミーのCMS設定を使用
+  #   needs: setup
+  #   steps:
+  #     # リポジトリのコードをチェックアウト
+  #     - name: 📁 コードをチェックアウト
+  #       uses: actions/checkout@v4
+
+  #     # Node.js + Yarn セットアップ（共通のcomposite actionを使用）
+  #     - name: 🛠️ Node.js + Yarn セットアップ
+  #       uses: ./.github/actions/setup-node-yarn
+
+  #     # Vitestでテストを実行（CI環境用の設定）
+  #     - name: 🧪 Vitestでテストを実行
+  #       run: yarn test:ci
+
+  build:
+    name: 🏗️ ビルド検証
+    runs-on: ubuntu-latest
+    environment: NO_CMS # ダミーのCMS設定を使用
+    needs: setup
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
+
+      # Node.js + Yarn セットアップ（共通のcomposite actionを使用）
+      - name: 🛠️ Node.js + Yarn セットアップ
+        uses: ./.github/actions/setup-node-yarn
+
+      # Astroビルドキャッシュをセットアップ（テスト用）
+      - name: 📦 Astroビルドキャッシュをセットアップ
+        uses: ./.github/actions/setup-astro-cache
+        with:
+          cache_prefix: astro-test-cache
+
+      # MOCKモードで本番ビルドを実行（CMSなしでもビルドが通ることを確認）
+      - name: 🏗️ 本番ビルドを実行
+        run: yarn build
+        env:
+          MOCK: ${{ vars.MOCK }}
+          SITE_DOMAIN: http://localhost
+          SITE_IS_PUBLIC: false

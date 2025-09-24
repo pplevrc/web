@@ -18,10 +18,10 @@ const hoverStyle = css({
 
       _hover: {
         transform: "[scale(1.05) rotate(1deg)]",
-      }
-    }
-  }
-})
+      },
+    },
+  },
+});
 
 const logoStyleRecipe = cva({
   base: {
@@ -45,14 +45,14 @@ const logoStyleRecipe = cva({
       false: {},
     },
   },
-})
+});
 
 const logoStyle = logoStyleRecipe({ home: isHome });
 
 const iconStyle = css({
   w: "full",
   h: "full",
-})
+});
 ---
 
 <a
