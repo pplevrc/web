@@ -11,7 +11,10 @@ import { css } from "@styles/css";
 const casts = await getCollection("casts");
 
 const avatars = casts.flatMap((cast) =>
-  cast.data.avatars.map((_, index) => ({ index, nickname: cast.data.profile.nickname })),
+  cast.data.avatars.map((_, index) => ({
+    index,
+    nickname: cast.data.profile.nickname,
+  })),
 );
 
 const pageStyle = css({

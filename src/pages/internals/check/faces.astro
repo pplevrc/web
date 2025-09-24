@@ -10,7 +10,7 @@ import { css } from "@styles/css";
 
 const casts = await getCollection("casts");
 
-const avatars = casts.map((cast) => ({ nickname: cast.data.profile.nickname }))
+const avatars = casts.map((cast) => ({ nickname: cast.data.profile.nickname }));
 
 const pageStyle = css({
   w: "full",
@@ -41,7 +41,7 @@ const imgStyle = css({
   borderRadius: "full",
   overflow: "hidden",
   borderWidth: "md",
-  borderColor: "black"
+  borderColor: "black",
 });
 ---
 
