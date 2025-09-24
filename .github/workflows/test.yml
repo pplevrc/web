@@ -38,6 +38,10 @@ jobs:
       - name: 🛠️ Node.js + Yarn セットアップ
         uses: ./.github/actions/setup-node-yarn
 
+
+      - name: 🔍 PandaCSS でコード生成を実行
+        run: yarn prepare:panda
+
       # TypeScriptの型チェックを実行（MOCK=trueでCMSなしでも動作）
       - name: 🔍 TypeScriptの型チェックを実行
         run: yarn typecheck
