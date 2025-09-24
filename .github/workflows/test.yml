@@ -101,6 +101,12 @@ jobs:
       - name: 🛠️ Node.js + Yarn セットアップ
         uses: ./.github/actions/setup-node-yarn
 
+      # Astroビルドキャッシュをセットアップ（テスト用）
+      - name: 📦 Astroビルドキャッシュをセットアップ
+        uses: ./.github/actions/setup-astro-cache
+        with:
+          cache_prefix: astro-test-cache
+
       # MOCKモードで本番ビルドを実行（CMSなしでもビルドが通ることを確認）
       - name: 🏗️ 本番ビルドを実行
         run: yarn build

@@ -1,6 +1,12 @@
 name: Astro ビルドキャッシュセットアップ
 description: Astro ビルド用のキャッシュを復元・設定
 
+inputs:
+  cache_prefix:
+    description: キャッシュキーのプレフィックス
+    required: false
+    default: astro-build-cache
+
 runs:
   using: 'composite'
   steps:
@@ -12,6 +18,6 @@ runs:
           .astro
           .cache
           node_modules/.cache
-        key: astro-build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+        key: ${{ inputs.cache_prefix }}-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: |
-          astro-build-cache-
+          ${{ inputs.cache_prefix }}-
