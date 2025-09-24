@@ -1,0 +1,17 @@
+name: 'Astroビルドキャッシュセットアップ'
+description: 'Astroビルド用のキャッシュを復元・設定'
+
+runs:
+  using: 'composite'
+  steps:
+    # Astroビルド用キャッシュを復元
+    - name: 📦 Astroビルドキャッシュを復元
+      uses: actions/cache@v4
+      with:
+        path: |
+          .astro
+          .cache
+          node_modules/.cache
+        key: astro-build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: |
+          astro-build-cache-

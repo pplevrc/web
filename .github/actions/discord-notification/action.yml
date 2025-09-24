@@ -1,0 +1,100 @@
+name: 'Discord通知'
+description: 'GitHub ActionsのステータスをDiscordに通知'
+
+inputs:
+  webhook_url:
+    description: 'Discord Webhook URL'
+    required: true
+  status:
+    description: 'ステータス（色選択用: start, success, failure）'
+    required: true
+  title:
+    description: '通知タイトル'
+    required: true
+  description:
+    description: '通知メッセージ'
+    required: true
+  username:
+    description: 'Discordに表示するユーザー名'
+    required: false
+    default: 'GitHub Actions'
+
+runs:
+  using: 'composite'
+  steps:
+    # Discord通知を送信（ダミー実装）
+    - name: 📢 Discord通知を送信
+      run: |
+        case "${{ inputs.status }}" in
+          start)
+            COLOR="3447003"  # 青色
+            ;;
+          success)
+            COLOR="3066993"  # 緑色
+            ;;
+          failure)
+            COLOR="15158332"  # 赤色
+            ;;
+          *)
+            COLOR="10181046"  # グレー色
+            ;;
+        esac
+
+        # Discord Webhook用のJSONペイロード
+        PAYLOAD=$(cat <<EOF
+        {
+          "username": "${{ inputs.username }}",
+          "embeds": [{
+            "title": "${{ inputs.title }}",
+            "description": "${{ inputs.description }}",
+            "color": ${COLOR},
+            "fields": [
+              {
+                "name": "リポジトリ",
+                "value": "${{ github.repository }}",
+                "inline": true
+              },
+              {
+                "name": "ブランチ",
+                "value": "${{ github.ref_name }}",
+                "inline": true
+              },
+              {
+                "name": "コミット",
+                "value": "[\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})",
+                "inline": true
+              },
+              {
+                "name": "実行者",
+                "value": "${{ github.actor }}",
+                "inline": true
+              },
+              {
+                "name": "ワークフロー",
+                "value": "[${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                "inline": true
+              },
+              {
+                "name": "時刻",
+                "value": "$(date -u '+%Y-%m-%d %H:%M:%S UTC')",
+                "inline": true
+              }
+            ]
+          }]
+        }
+        EOF
+        )
+
+        # 現在はダミー実装：実際のwebhookは後で設定
+        echo "📢 Discord通知送信（ダミー）:"
+        echo "URL: ${{ inputs.webhook_url }}"
+        echo "Status: ${{ inputs.status }}"
+        echo "Title: ${{ inputs.title }}"
+        echo "Description: ${{ inputs.description }}"
+        echo "Color: ${COLOR}"
+
+        # 実際のcurl送信はコメントアウト
+        # curl -H "Content-Type: application/json" \
+        #      -d "${PAYLOAD}" \
+        #      "${{ inputs.webhook_url }}"
+      shell: bash
