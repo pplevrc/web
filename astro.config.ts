@@ -8,8 +8,8 @@ import { defineConfig } from "astro/config";
 import { defu } from "defu";
 import isWsl from "is-wsl";
 import type { Plugin as RollupPlugin } from "rollup";
-import { purgeInlineCss } from "./lib/cleanup/purge-inline-css.js";
-import { renameRemoteImages } from "./lib/cleanup/rename-remote-images.js";
+import { purgeInlineCss } from "./scripts/cleanup/purge-inline-css.js";
+import { renameRemoteImages } from "./scripts/cleanup/rename-remote-images.js";
 
 const IS_PRODUCTION = process.env["NODE_ENV"] === "production";
 

@@ -9,7 +9,7 @@
   "scripts": {
     "prepare": "yarn prepare:panda && yarn prepare:video",
     "prepare:panda": "panda codegen && panda",
-    "prepare:video": "NODE_OPTIONS=--max_old_space_size=10240 jiti ./lib/prepare/assets/videos/transport.ts",
+    "prepare:video": "NODE_OPTIONS=--max_old_space_size=10240 jiti ./scripts/prepare/assets/videos/transport.ts",
     "dev": "NODE_ENV=development yarn prepare && yarn dev:astro",
     "dev:panda": "panda -w",
     "dev:astro": "astro dev",
