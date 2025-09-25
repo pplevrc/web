@@ -6,7 +6,7 @@ inputs:
     description: Discord Webhook URL
     required: true
   status:
-    description: ステータス（色選択用: start, success, failure）
+    description: "ステータス（色選択用: start, success, failure）"
     required: true
   title:
     description: 通知タイトル
