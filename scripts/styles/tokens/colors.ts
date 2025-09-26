@@ -2,13 +2,22 @@ import { type SemanticTokens, type Tokens, defineTokens } from "@pandacss/dev";
 import { defu } from "defu";
 import { toRem } from "./commons/dimensions.js";
 
+/**
+ *
+ */
 type ColorToken = NonNullable<Parameters<typeof defineTokens.colors>[0]>;
 
+/**
+ *
+ */
 interface TokenFragment {
   tokens: ColorToken;
   semanticTokens: ColorToken;
 }
 
+/**
+ *
+ */
 const smoke = {
   tokens: {
     50: {
@@ -58,6 +67,9 @@ const smoke = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const olive = {
   tokens: {
     50: {
@@ -107,6 +119,9 @@ const olive = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const berry = {
   tokens: {
     50: {
@@ -156,6 +171,9 @@ const berry = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const honey = {
   tokens: {
     50: {
@@ -205,6 +223,9 @@ const honey = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const soda = {
   tokens: {
     50: {
@@ -254,6 +275,9 @@ const soda = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const rose = {
   tokens: {
     50: {
@@ -303,6 +327,9 @@ const rose = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const matcha = {
   tokens: {
     50: {
@@ -352,6 +379,9 @@ const matcha = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const latte = {
   tokens: {
     50: {
@@ -401,6 +431,9 @@ const latte = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const lavender = {
   tokens: {
     50: {
@@ -450,6 +483,9 @@ const lavender = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const carrot = {
   tokens: {
     50: {
@@ -499,6 +535,9 @@ const carrot = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const ice = {
   tokens: {
     50: {
@@ -548,6 +587,9 @@ const ice = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const mint = {
   tokens: {
     50: {
@@ -597,6 +639,9 @@ const mint = {
   },
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const white = {
   tokens: {
     DEFAULT: {
@@ -606,6 +651,9 @@ const white = {
   semanticTokens: {},
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const black = {
   tokens: {
     DEFAULT: {
@@ -615,6 +663,9 @@ const black = {
   semanticTokens: {},
 } as const satisfies TokenFragment;
 
+/**
+ *
+ */
 const colorPalettes = {
   smoke,
   olive,
@@ -633,7 +684,7 @@ const colorPalettes = {
 /**
  * 色の種類名
  */
-export type ColorName = keyof typeof colorPalettes;
+type ColorName = keyof typeof colorPalettes;
 
 /**
  * 色の種類名の配列
@@ -641,27 +692,8 @@ export type ColorName = keyof typeof colorPalettes;
 export const colorNames = Object.keys(colorPalettes) as ColorName[];
 
 /**
- * Semantic Token の名前
- * @example "smoke.bg" | "smoke.lite" | "smoke.regular" | "smoke.deep"
+ *
  */
-export type ColorTokenName =
-  `${ColorName}.${keyof (typeof colorPalettes)[ColorName]["semanticTokens"]}`;
-
-/**
- * Semantic Token の名前の配列
- */
-export const colorTokenNames: ColorTokenName[] = Object.entries(
-  colorPalettes as Record<
-    ColorName,
-    { semanticTokens: Record<string, unknown> }
-  >,
-).flatMap(([name, { semanticTokens }]) => {
-  const tokenNames = Object.keys(semanticTokens);
-  return tokenNames.map(
-    (tokenName) => `${name}.${tokenName}` as ColorTokenName,
-  );
-});
-
 const colorPaletteEntries = Object.entries(colorPalettes) as [
   string,
   (typeof colorPalettes)[keyof typeof colorPalettes],
@@ -687,6 +719,9 @@ function omitWhiteSpace(value: string) {
   return value.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
 }
 
+/**
+ *
+ */
 export const tokens: Tokens = defineTokens({
   colors: defineTokens.colors(
     (
@@ -697,6 +732,10 @@ export const tokens: Tokens = defineTokens({
     ),
   ),
 });
+
+/**
+ *
+ */
 export const semanticTokens: SemanticTokens = defineTokens({
   colors: defineTokens.colors(
     (

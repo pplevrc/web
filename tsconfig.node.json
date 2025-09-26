@@ -11,7 +11,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "lib/**/*.ts",
+    "scripts/**/*.ts",
     "astro.config.ts",
     "vite.config.ts",
     "panda.config.ts"

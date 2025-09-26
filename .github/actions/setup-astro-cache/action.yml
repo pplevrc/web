@@ -18,6 +18,10 @@ runs:
           .astro
           .cache
           node_modules/.cache
+          ./src/assets/videos/*.generated.*
+        # NOTE: 同一の main ブランチでもCMS側の変更によりビルド結果が毎回異なる。
+        #       そのため run_id/run_attempt を用いて「毎回新しいキャッシュ」を保存する意図。
+        #       将来に近いキャッシュを復元するため、下の restore-keys と組み合わせる。
         key: ${{ inputs.cache_prefix }}-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: |
           ${{ inputs.cache_prefix }}-

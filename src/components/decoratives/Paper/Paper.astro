@@ -4,10 +4,10 @@ import {
   ppleIconTypes,
 } from "@components/decoratives/Vectors/Icon/types";
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
+import type { ColorThemeBase } from "@content/commons/ColorToken";
 import { randomPick } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import type { ColorName } from "lib/styles/tokens/colors";
 
 interface Props extends HTMLAttributes<"article"> {
   icon?: PpleIconType;
@@ -16,7 +16,7 @@ interface Props extends HTMLAttributes<"article"> {
 
   position: "absolute" | "sticky";
 
-  themeColor?: ColorName;
+  themeColor?: ColorThemeBase;
 
   paperClass?: string;
 }

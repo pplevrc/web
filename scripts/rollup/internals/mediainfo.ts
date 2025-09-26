@@ -1,5 +1,4 @@
 import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { AV, AVC, VP } from "media-codecs";
 import mediaInfoFactory, {
   type GeneralTrack,
@@ -7,18 +6,21 @@ import mediaInfoFactory, {
   type MediaInfoResult,
   type VideoTrack,
 } from "mediainfo.js";
-import { ensureNonNil } from "./type";
+
 interface FileLoader {
   filesize: number;
   readChunk: (size: number, offset: number) => Uint8Array;
 }
 
-async function readVideo(filePath: string): Promise<FileLoader> {
-  // 本番ビルドでは dist 配下にファイルが移動して、そこを起点にビルドが実行されるため, ルートディレクトリをそれにあわせる
-  const resolvedRootDir =
-    process.env["NODE_ENV"] === "production" ? "dist" : "";
+function ensureNonNil<T>(value: T | undefined | null, message: string): T {
+  if (value === undefined || value === null) {
+    throw new Error(message);
+  }
+  return value;
+}
 
-  const buffer = await readFile(join(process.cwd(), resolvedRootDir, filePath));
+async function readVideo(filePath: string): Promise<FileLoader> {
+  const buffer = await readFile(filePath);
   return {
     filesize: buffer.length,
     readChunk: (size, offset) => {
@@ -138,9 +140,8 @@ function findTracks(mediaInfo: MediaInfoResult): [GeneralTrack, VideoTrack] {
 }
 
 /**
-/**
  * 動画のコーデックを分析します。
- * @param 動画ファイルのパス
+ * @param filePath 動画ファイルのパス
  * @returns コーデック
  */
 export async function analyzeVideoMediaType(filePath: string): Promise<string> {
