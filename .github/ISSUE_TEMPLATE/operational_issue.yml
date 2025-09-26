@@ -1,0 +1,117 @@
+name: ⚙️ オペレーション課題
+description: 運用・保守・設定に関する問題を報告してください
+title: "[Ops]: "
+labels: ["ops", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        オペレーション関連の課題報告をありがとうございます 🛠️
+
+        開発環境、デプロイ、設定、パフォーマンスなどの運用に関する問題を報告する際に使用してください。
+
+  - type: dropdown
+    id: issue-category
+    attributes:
+      label: 📋 課題のカテゴリ
+      description: どのような種類の問題ですか？
+      options:
+        - 開発環境の設定・構築
+        - ビルド・デプロイ
+        - パフォーマンス
+        - セキュリティ
+        - 監視・ログ
+        - ドキュメント・手順書
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: 📝 課題の概要
+      description: どのような問題や改善が必要ですか？
+      placeholder: |
+        例：
+        - 開発環境の構築でエラーが発生する
+        - デプロイ時間が長すぎる
+        - サイトの表示速度が遅い
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-situation
+    attributes:
+      label: 🔍 現在の状況
+      description: 現在はどのような状態ですか？
+      placeholder: |
+        例：
+        - yarn installでエラーが出る
+        - デプロイに10分かかっている
+        - ページ読み込みに5秒かかる
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: 📊 影響範囲
+      description: この問題はどのような影響がありますか？
+      placeholder: |
+        例：
+        - 新メンバーが開発を始められない
+        - リリースが遅れる
+        - ユーザー体験が悪化する
+
+  - type: textarea
+    id: steps-tried
+    attributes:
+      label: 🔧 試したこと
+      description: 問題解決のために試したことがあれば教えてください
+      placeholder: |
+        例：
+        - ドキュメントを確認した
+        - キャッシュをクリアした
+        - 別の環境で試した
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: 📄 エラーログ・出力
+      description: エラーメッセージやログがあれば貼り付けてください
+      placeholder: エラーメッセージやコマンドの出力をここに貼り付けてください
+      render: shell
+
+  - type: textarea
+    id: environment-info
+    attributes:
+      label: 🖥️ 環境情報
+      description: 関連する環境情報を教えてください
+      placeholder: |
+        例：
+        - Node.js バージョン: 24.7.0
+        - OS: macOS Sonoma
+        - Docker バージョン: 24.0.0
+        - ブラウザ: Chrome 118
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: ⏰ 緊急度
+      description: この問題の緊急度はどの程度ですか？
+      options:
+        - 高 - 開発やリリースがブロックされる
+        - 中 - 作業効率に影響がある
+        - 低 - 時間があるときに対応したい
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 その他の情報
+      description: その他、解決に役立ちそうな情報があれば教えてください
+      placeholder: |
+        - 関連する設定ファイル
+        - 参考になりそうなリンク
+        - 提案する解決策など

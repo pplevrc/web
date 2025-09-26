@@ -1,0 +1,94 @@
+name: ✨ 機能提案
+description: 新しい機能や改善のアイデアを提案してください
+title: "[Feature]: "
+labels: ["enhancement", "needs-discussion"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能提案をありがとうございます 💡
+
+        新しい機能のアイデアや既存機能の改善提案をお聞かせください。
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: ✨ 提案する機能
+      description: どのような機能を追加・改善したいですか？
+      placeholder: 例：ダークモードの切り替え機能を追加したい
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: 🤔 解決したい課題
+      description: この機能はどのような課題を解決しますか？
+      placeholder: |
+        例：
+        - 夜間の利用時に画面が眩しい
+        - ユーザーの好みに合わせた表示をしたい
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 💡 提案する解決策
+      description: どのような方法で実現したいですか？
+      placeholder: |
+        例：
+        - ヘッダーにダーク/ライトモードの切り替えボタンを配置
+        - ユーザーの設定を保存してページ表示時に適用
+        - システムの設定に合わせて自動切り替え
+
+  - type: dropdown
+    id: target-users
+    attributes:
+      label: 👥 対象ユーザー
+      description: この機能は主にどのようなユーザーに向けたものですか？
+      multiple: true
+      options:
+        - 全ユーザー
+        - 新規ユーザー
+        - リピートユーザー
+        - モバイルユーザー
+        - PCユーザー
+        - その他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: ⭐ 優先度
+      description: この機能の優先度はどの程度だと思いますか？
+      options:
+        - 高 - 早急に必要
+        - 中 - あると良い
+        - 低 - いつか実装したい
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 代替案
+      description: 他に考えられる解決方法はありますか？
+      placeholder: |
+        例：
+        - CSSメディアクエリでシステム設定を自動検出
+        - ブラウザの設定に従う
+        - 時間帯によって自動切り替え
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 その他の情報
+      description: その他、参考になる情報があれば教えてください
+      placeholder: |
+        - 参考になるサイトのURL
+        - 類似機能の例
+        - 実装に関するアイデアなど
