@@ -1,6 +1,7 @@
 ---
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
 import { getMeta } from "@content/meta";
+import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 
 const {
@@ -19,7 +20,7 @@ const navClass = css({
 ---
 
 <nav class={navClass} aria-label="記事ナビゲーション">
-  <DecorativeLink href="/articles" themeColor="ice">
+  <DecorativeLink href={href("/articles")} themeColor="ice">
     {backLinkLabel}
   </DecorativeLink>
 </nav>

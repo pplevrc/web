@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
 import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
+import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 
 const casts = await getCollection("casts");
@@ -92,7 +93,7 @@ const imageWrapStyle = css({
 <HomePickupSection
   title="店員さんピックアップ"
   themeColor="rose"
-  hrefViewMore="/casts"
+  hrefViewMore={href("/casts")}
 >
   <ul class={listStyle} data-shuffle="cast">
     {

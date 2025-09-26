@@ -2,6 +2,7 @@
 import DecorativeAvatar, {
   type Props as BaseProps,
 } from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
+import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 
 interface Props extends Omit<BaseProps, "nickname" | "width" | "height"> {
@@ -23,7 +24,7 @@ const rootStyle = css({
 
 <a
   class:list={[rootStyle, className]}
-  href={`/casts/${nickname}`}
+  href={href(`/casts/${nickname}`)}
   aria-label={`店員"${nickname}"の紹介ページ`}
 >
   <DecorativeAvatar {...avatarImageProps} />

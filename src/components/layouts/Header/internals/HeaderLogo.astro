@@ -1,6 +1,7 @@
 ---
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
 import { css, cva } from "@styles/css";
+import { href } from "@lib/utils/base-path";
 
 interface Props {
   class?: string;
@@ -56,7 +57,7 @@ const iconStyle = css({
 ---
 
 <a
-  href="/"
+  href={href("/")}
   class:list={[logoStyle, props.class]}
   aria-label="ロリっ子喫茶ぷぷりえのホームページへのリンク"
   {...props}

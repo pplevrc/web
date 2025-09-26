@@ -1,5 +1,6 @@
 ---
 import { getMeta } from "@content/meta";
+import { href } from "@lib/utils/base-path";
 import { hash } from "@lib/utils/random";
 import { css } from "@styles/css";
 import HamburgerIconButton from "./HamburgerIconButton.astro";
@@ -95,16 +96,16 @@ const {
   <HeaderLogo class={logoStyle} />
   <ul>
     <li>
-      <HeaderNavItem label={homeTitle} path="/" />
+      <HeaderNavItem label={homeTitle} path={href("/")} />
     </li>
     <li>
-      <HeaderNavItem label={articlesTitle} path="/articles" />
+      <HeaderNavItem label={articlesTitle} path={href("/articles")} />
     </li>
     <li>
-      <HeaderNavItem label={castsTitle} path="/casts" />
+      <HeaderNavItem label={castsTitle} path={href("/casts")} />
     </li>
     <li>
-      <HeaderNavItem label={guidelinesTitle} path="/guidelines" />
+      <HeaderNavItem label={guidelinesTitle} path={href("/guidelines")} />
     </li>
   </ul>
   <script>
