@@ -2,6 +2,7 @@
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import { getMeta } from "@content/meta";
+import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 import { token } from "@styles/tokens";
 
@@ -137,7 +138,7 @@ const { guidelinesShortcut } = await getMeta();
             <DecorativeLink
               themeColor={themeColor}
               type="right"
-              href={`/guidelines/${title}`}
+              href={href(`/guidelines/${title}`)}
               class={linkStyle}
             >
               {title}

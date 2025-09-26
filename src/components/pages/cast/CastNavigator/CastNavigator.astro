@@ -4,6 +4,7 @@ import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLin
 import { getNextEntry, getPrevEntry } from "@content/casts";
 import type { ColorThemeBase } from "@content/commons";
 import { getMeta } from "@content/meta";
+import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 
 interface Props {
@@ -92,7 +93,7 @@ const navItems = [prevCast.data, nextCast.data];
       ))
     }
   </ul>
-  <DecorativeLink themeColor={themeColor} href="/casts">
+  <DecorativeLink themeColor={themeColor} href={href("/casts")}>
     {backLinkLabel}
   </DecorativeLink>
 </nav>

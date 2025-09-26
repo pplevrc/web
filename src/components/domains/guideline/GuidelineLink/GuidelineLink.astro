@@ -4,6 +4,7 @@ import { toWidths } from "@components/domains/avatar/images/common";
 import type { ColorThemeBase } from "@content/commons";
 import type { BallonPosition } from "@content/guidelines";
 import { PC_VIEWPORT_WIDTH, SP_MAX_WIDTH } from "@lib/browsers/breakpoint";
+import { href } from "@lib/utils/base-path";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -145,7 +146,7 @@ const widths = toWidths(Math.max(pcWidth, spWidth));
 const sizes = `${Math.round((pcWidth / PC_VIEWPORT_WIDTH) * 100)}%, (max-width: ${SP_MAX_WIDTH}px) ${Math.round((spWidth / PC_VIEWPORT_WIDTH) * 100)}%`;
 ---
 
-<a class={linkStyle} href={`/guidelines/${title}`} {...props}>
+<a class={linkStyle} href={href(`/guidelines/${title}`)} {...props}>
   <figure class={figureStyle}>
     <CustomPicture
       width={pcWidth}
