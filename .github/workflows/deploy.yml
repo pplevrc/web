@@ -5,6 +5,9 @@ on:
   # mainブランチにプッシュされた時に自動実行
   push:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
 
   # GitHub UIから手動実行可能
   workflow_dispatch:

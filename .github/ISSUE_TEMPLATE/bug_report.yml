@@ -1,0 +1,131 @@
+name: 🐛 バグ報告
+description: バグや問題を報告してください
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告をありがとうございます 🙏
+
+        このテンプレートに従って詳細を記入してください。
+        情報が多いほど、問題の解決が早くなります！
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 🐛 バグの概要
+      description: どのような問題が発生していますか？
+      placeholder: 例：ボタンをクリックしても何も反応しない
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 🔄 再現手順
+      description: 問題を再現するための手順を教えてください
+      placeholder: |
+        1. '...'ページに移動
+        2. '...'ボタンをクリック
+        3. エラーが発生
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: ✅ 期待する動作
+      description: 本来はどのような動作をするべきですか？
+      placeholder: 例：ボタンをクリックしたら次のページに遷移する
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: ❌ 実際の動作
+      description: 実際にはどのような動作をしますか？
+      placeholder: 例：ボタンをクリックしても何も起こらない
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device-type
+    attributes:
+      label: 📱 端末タイプ
+      description: どの端末で発生しますか？
+      options:
+        - スマートフォン
+        - タブレット
+        - PC
+    validations:
+      required: true
+
+  - type: input
+    id: device-info
+    attributes:
+      label: 📱 端末・OS情報
+      description: 端末名とOSバージョンを教えてください
+      placeholder: 例：iPhone 15 Pro (iOS 17.0), Pixel 8 (Android 14), iPad Air (iPadOS 17)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: 🌐 ブラウザ
+      description: どのブラウザで発生しますか？（複数選択可）
+      multiple: true
+      options:
+        - Safari (iOS)
+        - Chrome (iOS)
+        - Chrome (Android)
+        - Firefox (Android)
+        - Chrome (PC)
+        - Firefox (PC)
+        - Safari (macOS)
+        - Edge (PC)
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: 🖥️ コンソールエラー
+      description: ブラウザの開発者ツールでエラーが表示されている場合は貼り付けてください
+      placeholder: |
+        コンソールエラーがあれば貼り付けてください
+        F12キーを押して開発者ツールを開き、Consoleタブを確認してください
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 📸 スクリーンショット
+      description: スクリーンショットがあれば貼り付けてください
+      placeholder: 画像をドラッグ&ドロップするか、貼り付けてください
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 その他の情報
+      description: その他、問題の解決に役立ちそうな情報があれば教えてください
+      placeholder: |
+        - 問題が発生し始めた時期
+        - 関連する機能や変更
+        - 一時的な回避策など
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 確認事項
+      description: 以下の項目を確認してください
+      options:
+        - label: 同じ問題が既に報告されていないか検索しました
+          required: true
+        - label: 問題の再現を確認しました
+          required: true

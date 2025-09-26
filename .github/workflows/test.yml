@@ -4,6 +4,9 @@ description: プルリクエストに対してコード品質チェック（lint
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
 
 # 同じPRで複数回実行された場合、古い実行をキャンセルして最新のもののみを実行
 concurrency:
