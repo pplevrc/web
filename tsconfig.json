@@ -28,6 +28,11 @@
       "@lib/*": ["src/lib/*"]
     }
   },
-  "include": [".astro/**/*.d.ts", "src/**/*.ts", "src/**/*.astro"],
-  "exclude": ["dist", "lib", "**/*.test.ts"]
+  "include": [
+    ".astro/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.astro",
+    "src/**/*.d.ts"
+  ],
+  "exclude": ["dist", "scripts", "**/*.test.ts"]
 }

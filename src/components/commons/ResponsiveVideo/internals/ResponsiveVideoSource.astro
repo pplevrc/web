@@ -1,19 +1,17 @@
 ---
 import { PC_VIEWPORT_WIDTH } from "@lib/browsers/breakpoint";
-import { analyzeVideoMediaType } from "@lib/utils/mediainfo";
 
 type Media = "pc" | "sp";
 
 interface Props {
   media: Media;
   src: string;
+  mediaType: string;
 }
 
-const { media: mediaType, src } = Astro.props;
+const { media: mediaQuery, src, mediaType } = Astro.props;
 
-const analyzedMediaType = await analyzeVideoMediaType(src);
-
-const media = toMediaQuery(mediaType);
+const media = toMediaQuery(mediaQuery);
 
 function toMediaQuery(media: Media): string | undefined {
   switch (media) {
@@ -25,4 +23,4 @@ function toMediaQuery(media: Media): string | undefined {
 }
 ---
 
-<source src={src} type={analyzedMediaType} media={media} />
+<source src={src} type={mediaType} media={media} />

@@ -3,6 +3,19 @@ import ResponsiveVideo, {
   type Sources,
 } from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
 
+import movieProdPcAv1 from "@assets/videos/top-pc.generated.av1.webm";
+import movieProdPcAv1MediaType from "@assets/videos/top-pc.generated.av1.webm?mediaType";
+import movieDevPcH264 from "@assets/videos/top-pc.generated.dev.h264.mp4";
+import movieDevPcH264MediaType from "@assets/videos/top-pc.generated.dev.h264.mp4?mediaType";
+import movieProdPcVp9 from "@assets/videos/top-pc.generated.vp9.webm";
+import movieProdPcVp9MediaType from "@assets/videos/top-pc.generated.vp9.webm?mediaType";
+import movieProdSpAv1 from "@assets/videos/top-sp.generated.av1.webm";
+import movieProdSpAv1MediaType from "@assets/videos/top-sp.generated.av1.webm?mediaType";
+import movieDevSpH264 from "@assets/videos/top-sp.generated.dev.h264.mp4";
+import movieDevSpH264MediaType from "@assets/videos/top-sp.generated.dev.h264.mp4?mediaType";
+import movieProdSpVp9 from "@assets/videos/top-sp.generated.vp9.webm";
+import movieProdSpVp9MediaType from "@assets/videos/top-sp.generated.vp9.webm?mediaType";
+
 // for poster image
 // @ts-ignore ファイルが動的に作られるため
 import thumbnail from "@assets/videos/top.generated.thumbnail.webp";
@@ -11,48 +24,26 @@ const props = Astro.props;
 
 const isDev = process.env["NODE_ENV"] !== "production";
 
-let sources: Sources[];
-
-if (isDev) {
-  // for development mode
-  // 開発向けにはエンコードが最も早い H264 のみを表示する
-  // @ts-ignore ファイルが動的に作られるため
-  const movieDevPcH264 = (
-    await import("@assets/videos/top-pc.generated.dev.h264.mp4")
-  ).default;
-  // @ts-ignore ファイルが動的に作られるため
-  const movieDevSpH264 = (
-    await import("@assets/videos/top-sp.generated.dev.h264.mp4")
-  ).default;
-
-  const devSources: Sources[] = [{ pc: movieDevPcH264, sp: movieDevSpH264 }];
-  sources = devSources;
-} else {
-  // for production mode
-  // VP9 対応ブラウザがすでに大半浸透しているため, これをサポートの下限にする
-  // @ts-ignore ファイルが動的に作られるため
-  const movieProdPcAv1 = (
-    await import("@assets/videos/top-pc.generated.av1.webm")
-  ).default;
-  // @ts-ignore ファイルが動的に作られるため
-  const movieProdPcVp9 = (
-    await import("@assets/videos/top-pc.generated.vp9.webm")
-  ).default;
-  // @ts-ignore ファイルが動的に作られるため
-  const movieProdSpAv1 = (
-    await import("@assets/videos/top-sp.generated.av1.webm")
-  ).default;
-  // @ts-ignore ファイルが動的に作られるため
-  const movieProdSpVp9 = (
-    await import("@assets/videos/top-sp.generated.vp9.webm")
-  ).default;
-
-  const prodSources: Sources[] = [
-    { pc: movieProdPcAv1, sp: movieProdSpAv1 },
-    { pc: movieProdPcVp9, sp: movieProdSpVp9 },
+const sources: Sources[] = (() => {
+  if (isDev) {
+    return [
+      {
+        pc: { src: movieDevPcH264, mediaType: movieDevPcH264MediaType },
+        sp: { src: movieDevSpH264, mediaType: movieDevSpH264MediaType },
+      },
+    ];
+  }
+  return [
+    {
+      pc: { src: movieProdPcAv1, mediaType: movieProdPcAv1MediaType },
+      sp: { src: movieProdSpAv1, mediaType: movieProdSpAv1MediaType },
+    },
+    {
+      pc: { src: movieProdPcVp9, mediaType: movieProdPcVp9MediaType },
+      sp: { src: movieProdSpVp9, mediaType: movieProdSpVp9MediaType },
+    },
   ];
-  sources = prodSources;
-}
+})();
 ---
 
 <ResponsiveVideo

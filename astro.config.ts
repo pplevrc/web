@@ -7,9 +7,9 @@ import type { AstroUserConfig } from "astro";
 import { defineConfig } from "astro/config";
 import { defu } from "defu";
 import isWsl from "is-wsl";
-import type { Plugin as RollupPlugin } from "rollup";
 import { purgeInlineCss } from "./scripts/cleanup/purge-inline-css.js";
 import { renameRemoteImages } from "./scripts/cleanup/rename-remote-images.js";
+import { ghostFile, videoMediaInfoPlugin } from "./scripts/rollup/index.js";
 
 const IS_PRODUCTION = process.env["NODE_ENV"] === "production";
 
@@ -40,27 +40,6 @@ console.log("Environments", {
   CONTENTS_SERVICE_ID: mask(process.env["CONTENTS_SERVICE_ID"] ?? ""),
   CONTENTS_CASTS_URL: mask(process.env["CONTENTS_CASTS_URL"] ?? ""),
   CONTENTS_CASTS_API_KEY: mask(process.env["CONTENTS_CASTS_API_KEY"] ?? ""),
-});
-
-/**
- *
- * .dev. がファイル名に含まれるファイルが存在しなくてもエラーにせず、バンドルを回避する. 基本的には undefined を返す
- * e.g. `@assets/videos/top-pc.generated.dev.h264.mp4` → undefined を返す
- */
-const virtualDevAssets = (): RollupPlugin => ({
-  name: "virtual-dev-assets",
-  resolveId(source) {
-    if (source.includes(".dev.")) {
-      return `\0virtual:${source}`;
-    }
-    return null;
-  },
-  load(id) {
-    if (id.startsWith("\0virtual:")) {
-      return "export default undefined";
-    }
-    return null;
-  },
 });
 
 function ensureNonNil<T>(value: T | undefined | null, message: string): T {
@@ -95,6 +74,11 @@ export default defineConfig(
     vite: {
       css: {
         transformer: "lightningcss",
+      },
+      build: {
+        rollupOptions: {
+          plugins: [videoMediaInfoPlugin()],
+        },
       },
     },
     cacheDir: USE_MOCK ? "./.cache-mock" : "./.cache",
@@ -135,7 +119,9 @@ export default defineConfig(
             output: {
               assetFileNames: "_assets/[hash].[ext]",
             },
-            plugins: [virtualDevAssets()],
+            plugins: [
+              ghostFile((id: string) => id.includes(".generated.dev.")),
+            ],
           },
         },
       },
@@ -146,6 +132,17 @@ export default defineConfig(
      */
     $development: {
       vite: {
+        build: {
+          rollupOptions: {
+            plugins: [
+              ghostFile(
+                (id: string) =>
+                  id.includes(".generated") && !id.includes(".dev."),
+              ),
+            ],
+          },
+        },
+
         server: {
           watch: {
             usePolling: isWsl,
