@@ -65,6 +65,7 @@ export default defineConfig(
     output: "static",
     site: `https://${SITE_DOMAIN}`,
     base: SITE_BASE,
+    publicDir: USE_MOCK ? "public-mock" : "public",
     image: {
       service: {
         entrypoint: "./src/lib/services/custom-sharp.ts",

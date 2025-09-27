@@ -1,7 +1,6 @@
 import { mdToHtml } from "@lib/utils/html/markdown";
 import type { Article } from "../../types";
 import Content from "./collab-202x-xx-xx.md?raw";
-import Thumbnail from "./thumbnail.png";
 
 export async function getMockArticle(): Promise<Article> {
   return {
@@ -13,7 +12,7 @@ export async function getMockArticle(): Promise<Article> {
     title: "VTuber XXX さんが来店します!",
     description: "VTuber XXX さんが来店します!",
     keywords: ["VTuber", "コラボ", "イベント"],
-    thumbnail: Thumbnail.src,
+    thumbnail: "/__mock__/articles/thumbnail-01.png",
     thumbnailAlt: "でかぽに !",
     thumbnailLabel: "でかぽに !",
     themeColor: "berry",

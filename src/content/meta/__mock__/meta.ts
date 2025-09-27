@@ -1,8 +1,4 @@
 import type { Meta } from "@content/meta";
-import ArticlesThumbnailImage from "./お知らせ.png";
-import GuidelinesThumbnailImage from "./ガイドライン.png";
-import HomeThumbnailImage from "./ホーム.png";
-import CastsThumbnailImage from "./店員さん.jpg";
 
 export function getMockMeta(): Meta {
   return {
@@ -50,7 +46,7 @@ export function getMockMeta(): Meta {
       description: "ガイドライン",
       backLinkLabel: "ガイドライン一覧に戻る",
       keywords: [],
-      thumbnail: GuidelinesThumbnailImage.src,
+      thumbnail: "/__mock__/meta/ガイドライン.png",
     },
     article: {
       title: "{title}",
@@ -62,7 +58,7 @@ export function getMockMeta(): Meta {
       description: "お知らせ",
       backLinkLabel: "お知らせ一覧に戻る",
       keywords: [],
-      thumbnail: ArticlesThumbnailImage.src,
+      thumbnail: "/__mock__/meta/お知らせ.png",
     },
     cast: {
       title: "{nickname}",
@@ -74,14 +70,14 @@ export function getMockMeta(): Meta {
       description: "店員さん",
       backLinkLabel: "店員さん一覧に戻る",
       keywords: [],
-      thumbnail: CastsThumbnailImage.src,
+      thumbnail: "/__mock__/meta/店員さん.jpg",
     },
     home: {
       title: "ホーム",
       description: "ホーム",
       backLinkLabel: "ホームに戻る",
       keywords: [],
-      thumbnail: HomeThumbnailImage.src,
+      thumbnail: "/__mock__/meta/ホーム.png",
     },
   };
 }
