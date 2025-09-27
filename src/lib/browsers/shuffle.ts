@@ -76,4 +76,8 @@ function shuffleDOM() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", shuffleDOM);
+// 即座に実行（Astroでは既にDOMが構築済み）
+shuffleDOM();
+
+// ページ遷移時にも実行
+document.addEventListener("astro:page-load", shuffleDOM);
