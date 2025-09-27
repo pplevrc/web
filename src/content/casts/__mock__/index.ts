@@ -3,12 +3,6 @@ import { type SocialLink, randomSocialType } from "@content/commons";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import type { Cast } from "../types";
 
-import fullbodyEmotionalImg from "./assets/fullbody-emotional.png";
-import fullbodyNeutralImg from "./assets/fullbody-neutral.png";
-import portraitEmotionalImg from "./assets/portrait-emotional.png";
-import portraitNeutralImg from "./assets/portrait-neutral.png";
-import thumbnailImg from "./assets/thumbnail.png";
-
 const MEMBERS = 10;
 
 const hiragana =
@@ -159,19 +153,19 @@ function createMockCast(): Cast {
     avatars: [
       {
         images: {
-          emotional: fullbodyEmotionalImg,
-          neutral: fullbodyNeutralImg,
+          emotional: "/__mock__/casts/fullbody-emotional.png",
+          neutral: "/__mock__/casts/fullbody-neutral.png",
         },
         credit: randomPick(1, [undefined, "クレジット用文章"], castRandomizer),
       },
     ],
     portrait: {
-      emotional: portraitEmotionalImg,
-      neutral: portraitNeutralImg,
+      emotional: "/__mock__/casts/portrait-emotional.png",
+      neutral: "/__mock__/casts/portrait-neutral.png",
     },
     socialLinks: randomSocialLinks(),
     themeColor: randomColorBase(castRandomizer),
-    thumbnail: thumbnailImg,
+    thumbnail: "/__mock__/casts/thumbnail.png",
     vrchat: {
       userId: nickname,
       userPageURL: "https://www.google.co.jp",

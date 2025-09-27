@@ -1,7 +1,6 @@
 import { mdToHtml } from "@lib/utils/html/markdown";
 import type { Article } from "../../types";
 import Content from "./helloween-202x.md?raw";
-import Thumbnail from "./thumbnail.png";
 
 export async function getMockArticle(): Promise<Article> {
   return {
@@ -13,7 +12,7 @@ export async function getMockArticle(): Promise<Article> {
     title: "ハロウィンイベント202X開催のお知らせ",
     description: "ハロウィンイベント202X開催のお知らせです。",
     keywords: ["ハロウィン", "イベント"],
-    thumbnail: Thumbnail.src,
+    thumbnail: "/__mock__/articles/thumbnail-02.png",
     thumbnailAlt: "がうー",
     thumbnailLabel: "がうー",
     themeColor: "honey",
