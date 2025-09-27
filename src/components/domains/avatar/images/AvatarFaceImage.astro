@@ -39,6 +39,15 @@ interface Props extends HTMLAttributes<"picture"> {
    * @default true
    */
   responsive?: boolean;
+
+  /**
+   * アウトラインの幅
+   * none .. 0px
+   * medium .. 3px
+   * strong .. 5px
+   * @default "medium"
+   */
+  outline?: "none" | "medium" | "strong";
 }
 
 const {
@@ -48,6 +57,7 @@ const {
   width,
   trackLoad,
   responsive = true,
+  outline = "none",
   ...rest
 } = Astro.props;
 
@@ -67,10 +77,19 @@ const src = cast.portrait[expression];
 const height = width;
 
 const widths = responsive ? toWidths(width) : [width];
+
+const outlineMap = {
+  none: 0,
+  medium: 3,
+  strong: 5,
+} satisfies Record<Exclude<Props["outline"], undefined>, number>;
 ---
 
 <CustomPicture
   src={src}
+  outline={{
+    thickness: `${outlineMap[outline]}px`,
+  }}
   alt={alt}
   width={width}
   widths={widths}
