@@ -18,10 +18,10 @@ permissions:
   pages: write
   id-token: write
 
-# 同時実行制御：デプロイ中は新しいデプロイをキューに入れる（キャンセルしない）
+# 同時実行制御：デプロイ中は新しいデプロイを実行せず、古い実行をキャンセル
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

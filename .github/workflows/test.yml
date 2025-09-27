@@ -3,7 +3,6 @@ description: プルリクエストに対してコード品質チェック（lint
 
 on:
   pull_request:
-    branches: [main]
     paths-ignore:
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
