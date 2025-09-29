@@ -119,6 +119,10 @@ async function outline(image: Sharp, options: OutlineOptions): Promise<Sharp> {
     return result;
   })();
 
+  if (thicknessPx <= 0) {
+    return image.clone();
+  }
+
   const negatedMask = sharp(
     await image
       .clone()
