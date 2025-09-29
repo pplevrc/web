@@ -23,7 +23,7 @@ if (!cast) {
 
 const {
   themeColor,
-  profile,
+  profile: { introduction },
   socialLinks,
   vrchat: { userId, userPageURL },
 } = cast;
@@ -65,6 +65,8 @@ const paperAdjustStyle = css({
 const stickerStyle = css({
   pt: "4",
 });
+
+const fixedIntroduction = introduction.replace(/\n/g, "<br />");
 ---
 
 <section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
@@ -85,6 +87,6 @@ const stickerStyle = css({
       <NameSticker key="VRChat ID" value={userId} themeColor={themeColor} />
     </NameStickerList>
 
-    {profile.introduction}
+    <Fragment set:html={fixedIntroduction} />
   </Paper>
 </section>
