@@ -15,3 +15,14 @@ export function href(path: string): string {
 
   return `${base}${normalizedPath}`;
 }
+
+/**
+ *
+ * @param path
+ * @returns
+ */
+export function isHome(path: string): boolean {
+  const basePath = base ?? "/";
+
+  return path === basePath;
+}

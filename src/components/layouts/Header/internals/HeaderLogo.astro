@@ -1,6 +1,6 @@
 ---
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
-import { href } from "@lib/utils/base-path";
+import { href, isHome } from "@lib/utils/base-path";
 import { css, cva } from "@styles/css";
 
 interface Props {
@@ -8,8 +8,6 @@ interface Props {
 }
 
 const props = Astro.props;
-
-const isHome = Astro.url.pathname === "/";
 
 const hoverStyle = css({
   _motionSafe: {
@@ -48,7 +46,7 @@ const logoStyleRecipe = cva({
   },
 });
 
-const logoStyle = logoStyleRecipe({ home: isHome });
+const logoStyle = logoStyleRecipe({ home: isHome(Astro.url.pathname) });
 
 const iconStyle = css({
   w: "full",
