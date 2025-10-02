@@ -3,7 +3,7 @@ import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro
 import StarShape from "@components/decoratives/Vectors/Shapes/StarShape.astro";
 import type { ColorThemeBase } from "@content/commons";
 import { SP_MAX_WIDTH, SP_ROOT_FONT_SCALE } from "@lib/browsers/breakpoint";
-import { remToSizePercent } from "@lib/utils/image";
+import { IMAGE_FHD, remToSizePercent } from "@lib/utils/image";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "../avatar/images/common";
@@ -78,7 +78,7 @@ const width = widthSet[size] * scale;
 
 const height = heightSet[size] * scale;
 
-const widths = toWidths(width);
+const widths = toWidths(width, IMAGE_FHD);
 
 const sizes = `${remToSizePercent(width)}%, (max-width: ${SP_MAX_WIDTH}px) ${remToSizePercent(width) * SP_ROOT_FONT_SCALE}%`;
 

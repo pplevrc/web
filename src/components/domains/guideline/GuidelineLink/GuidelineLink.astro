@@ -5,6 +5,7 @@ import type { ColorThemeBase } from "@content/commons";
 import type { BallonPosition } from "@content/guidelines";
 import { PC_VIEWPORT_WIDTH, SP_MAX_WIDTH } from "@lib/browsers/breakpoint";
 import { href } from "@lib/utils/base-path";
+import { IMAGE_FHD } from "@lib/utils/image";
 import { css, cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -141,7 +142,7 @@ const pcHeight = 194;
  */
 const spWidth = 1247;
 
-const widths = toWidths(Math.max(pcWidth, spWidth));
+const widths = toWidths(Math.max(pcWidth, spWidth), IMAGE_FHD);
 
 const sizes = `${Math.round((pcWidth / PC_VIEWPORT_WIDTH) * 100)}%, (max-width: ${SP_MAX_WIDTH}px) ${Math.round((spWidth / PC_VIEWPORT_WIDTH) * 100)}%`;
 ---
