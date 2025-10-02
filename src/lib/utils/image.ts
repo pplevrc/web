@@ -26,3 +26,47 @@ export async function getOgpImage(
     position: "center",
   });
 }
+
+/**
+ *
+ */
+export interface ImageSize {
+  width: number;
+  height: number;
+}
+
+/**
+ *
+ */
+export const IMAGE_4K_WIDTH = 3840;
+
+/**
+ *
+ */
+export const IMAGE_4K_HEIGHT = 2160;
+
+/**
+ *
+ */
+export const IMAGE_4K = {
+  width: IMAGE_4K_WIDTH,
+  height: IMAGE_4K_HEIGHT,
+} as const;
+
+/**
+ *
+ */
+export const IMAGE_FHD_WIDTH = 1920;
+
+/**
+ *
+ */
+export const IMAGE_FHD_HEIGHT = 1080;
+
+/**
+ *
+ */
+export const IMAGE_FHD = {
+  width: IMAGE_FHD_WIDTH,
+  height: IMAGE_FHD_HEIGHT,
+} as const;

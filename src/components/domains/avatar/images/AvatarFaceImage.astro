@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import type { Avatar } from "@content/casts";
+import { IMAGE_FHD } from "@lib/utils/image";
 import type { HTMLAttributes } from "astro/types";
 import { toWidths } from "./common";
 
@@ -76,7 +77,7 @@ const src = cast.portrait[expression];
  */
 const height = width;
 
-const widths = responsive ? toWidths(width) : [width];
+const widths = responsive ? toWidths(width, IMAGE_FHD) : [width];
 
 const outlineMap = {
   none: 0,

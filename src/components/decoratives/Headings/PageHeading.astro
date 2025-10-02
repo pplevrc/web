@@ -2,6 +2,7 @@
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
+import { IMAGE_FHD } from "@lib/utils/image";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -15,7 +16,7 @@ const pcWidth = 1440;
 
 const pcHeight = 767;
 
-const widths = toWidths(pcWidth);
+const widths = toWidths(pcWidth, IMAGE_FHD);
 
 const sizes = "100vw";
 
