@@ -1,8 +1,8 @@
 import {
-  type SemanticTokens,
-  type Tokens,
   defineSemanticTokens,
   defineTokens,
+  type SemanticTokens,
+  type Tokens,
 } from "@pandacss/dev";
 import { defu } from "defu";
 import { toSizingToken } from "./commons/dimensions.js";

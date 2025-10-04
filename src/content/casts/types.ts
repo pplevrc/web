@@ -1,7 +1,11 @@
 import { site } from "astro:config/server";
 import { z } from "astro:content";
-import { type ColorThemeBase, colorBaseThemeSchema } from "@content/commons";
-import { type SocialLink, socialLinkSchema } from "@content/commons";
+import {
+  type ColorThemeBase,
+  colorBaseThemeSchema,
+  type SocialLink,
+  socialLinkSchema,
+} from "@content/commons";
 import { schemaForType } from "@lib/utils/type";
 import {
   type Avatar,

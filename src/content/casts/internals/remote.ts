@@ -1,6 +1,9 @@
 import type { Cast } from "@content/casts";
-import { type ColorThemeBase, isColorThemeBase } from "@content/commons";
-import { toSocialLink } from "@content/commons";
+import {
+  type ColorThemeBase,
+  isColorThemeBase,
+  toSocialLink,
+} from "@content/commons";
 import { CONTENTS_CASTS_URL } from "@lib/utils/env";
 import { ensureNonNil } from "@lib/utils/type";
 

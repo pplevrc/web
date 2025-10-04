@@ -5,7 +5,7 @@ const TARGET_DATA_ATTRIBUTE_BUSY_WATCH = "data-budy-watch";
  */
 function handleBusyStateAll() {
   const targets = document.querySelectorAll(
-    `[${TARGET_DATA_ATTRIBUTE_SHUFFLE}]`,
+    `[${TARGET_DATA_ATTRIBUTE_BUSY_WATCH}]`,
   );
 
   for (const target of targets) {

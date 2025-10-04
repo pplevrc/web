@@ -1,10 +1,10 @@
 import {
   type CssKeyframes,
-  type SemanticTokens,
-  type Tokens,
   defineKeyframes,
   defineSemanticTokens,
   defineTokens,
+  type SemanticTokens,
+  type Tokens,
 } from "@pandacss/dev";
 
 export const tokens: Tokens = defineTokens({

@@ -1,8 +1,7 @@
 import { USE_MOCK } from "@lib/utils/env";
 import type { Loader } from "astro/loaders";
-import { fetchCastsFromApi } from "./internals/remote";
-
 import { createMockCasts } from "./__mock__";
+import { fetchCastsFromApi } from "./internals/remote";
 import { castSchema } from "./types";
 
 /**

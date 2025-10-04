@@ -1,19 +1,18 @@
-export { avatarImageIndexDefault } from "./avatar";
 export type {
   Avatar,
+  AvatarImageIndex,
   AvatarImages,
   AvatarIndex,
-  AvatarImageIndex,
 } from "./avatar";
-export {
-  castSchema,
-  toCastMeta,
-} from "./types";
+export { avatarImageIndexDefault } from "./avatar";
+export { getAvatar, getNextEntry, getPrevEntry } from "./getters";
+export { castLoader } from "./loader";
 export type {
   Cast,
   CastProfile,
   VRChatProfile,
 } from "./types";
-
-export { castLoader } from "./loader";
-export { getNextEntry, getPrevEntry, getAvatar } from "./getters";
+export {
+  castSchema,
+  toCastMeta,
+} from "./types";

@@ -103,7 +103,7 @@ async function outline(image: Sharp, options: OutlineOptions): Promise<Sharp> {
 
   const thicknessPx = await (async (): Promise<number> => {
     if (thickness.endsWith("px")) {
-      return Number.parseInt(thickness);
+      return Number.parseInt(thickness, 10);
     }
 
     // FIXME: crop 指定がある場合でも、元画像のサイズを使用していそう
@@ -113,7 +113,7 @@ async function outline(image: Sharp, options: OutlineOptions): Promise<Sharp> {
     }
     const result = Math.max(
       1,
-      Math.round((Number.parseInt(thickness) * (width + height)) / 400),
+      Math.round((Number.parseInt(thickness, 10) * (width + height)) / 400),
     );
 
     return result;

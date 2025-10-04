@@ -22,7 +22,7 @@ const dateShortcuts = articleCollection
     return `${date.getFullYear()}-${date.getMonth() + 1}`;
   })
   .filter((date, index, self) => {
-    return index === self.findIndex((t) => t === date);
+    return index === self.indexOf(date);
   });
 
 const mainClass = css({

@@ -1,9 +1,9 @@
 import type { ColorThemeBase } from "@content/commons";
 import {
+  fetchContents,
   type MicroCMSFilters,
   type MicroCMSImage,
   type MicroCMSListContentBase,
-  fetchContents,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
 

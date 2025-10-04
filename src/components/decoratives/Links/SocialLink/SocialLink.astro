@@ -1,6 +1,7 @@
 ---
-import { type SocialLinkType, detectType } from "@content/commons";
+import { detectType, type SocialLinkType } from "@content/commons";
 import BlueSkyLink from "./internals/BlueSkyLink.astro";
+import type { Props as BaseProps } from "./internals/commons/IconLinkBase.astro";
 import GitHubLink from "./internals/GitHubLink.astro";
 import MastodonLink from "./internals/MastodonLink.astro";
 import MisskeyLink from "./internals/MisskeyLink.astro";
@@ -10,7 +11,6 @@ import PixivFanboxLink from "./internals/PixivFanboxLink.astro";
 import PixivVroidHubLink from "./internals/PixivVroidHubLink.astro";
 import VRChatLink from "./internals/VRChatLink.astro";
 import XLink from "./internals/XLink.astro";
-import type { Props as BaseProps } from "./internals/commons/IconLinkBase.astro";
 
 export interface Props extends BaseProps {
   /**

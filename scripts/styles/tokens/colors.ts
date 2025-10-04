@@ -1,4 +1,4 @@
-import { type SemanticTokens, type Tokens, defineTokens } from "@pandacss/dev";
+import { defineTokens, type SemanticTokens, type Tokens } from "@pandacss/dev";
 import { defu } from "defu";
 import { toRem } from "./commons/dimensions.js";
 

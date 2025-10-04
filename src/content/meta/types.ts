@@ -1,7 +1,7 @@
 import { z } from "astro:schema";
 import {
-  type SocialLink,
   colorBaseThemeSchema,
+  type SocialLink,
   socialLinkSchema,
 } from "@content/commons";
 import type { Guideline } from "@content/guidelines";
