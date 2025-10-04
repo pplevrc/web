@@ -2,7 +2,7 @@ export function parseIntFromString(value: string | null): number | undefined {
   if (!value) {
     return undefined;
   }
-  return Number.parseInt(value);
+  return Number.parseInt(value, 10);
 }
 
 export function ensureNotNil<T>(value: T | null | undefined): T {

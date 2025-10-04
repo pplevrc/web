@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { createReadStream, createWriteStream, existsSync } from "node:fs";
 import { copyFile, mkdir, readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
-import { SVGA_WIDTH, UXGA_WIDTH, ensureNonNil, isDev } from "./utils.js";
+import { ensureNonNil, isDev, SVGA_WIDTH, UXGA_WIDTH } from "./utils.js";
 
 interface TransportArg {
   media?: "sp" | "pc";

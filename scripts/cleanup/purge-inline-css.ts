@@ -254,7 +254,7 @@ function translateSelector(
 /**
  * セレクターが擬似要素 ("::before") の場合
  */
-// @ts-ignore
+// @ts-expect-error
 function translatePseudoElementSelector(
   selectors: SelectorComponent[],
 ): SelectorComponent[] {
@@ -279,7 +279,7 @@ function translatePseudoElementSelector(
 /**
  * セレクターが擬似クラス (":hover") の場合
  */
-// @ts-ignore
+// @ts-expect-error
 function translatePseudoClassSelector(
   selectors: SelectorComponent[],
   context: Context,
@@ -308,7 +308,7 @@ function translatePseudoClassSelector(
 /**
  * セレクターが属性 ([hoge]) のような場合
  */
-// @ts-ignore
+// @ts-expect-error
 function translateAttributeSelector(
   selectors: SelectorComponent[],
   { usedAttributes }: Context,

@@ -1,9 +1,9 @@
 import { toSocialLink } from "@content/commons";
 import type { CMSGuideline } from "@content/guidelines/internals/remote";
 import {
+  fetchObject,
   type MicroCMSImage,
   type MicroCMSObjectContentBase,
-  fetchObject,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
 import type { Meta } from "../types";

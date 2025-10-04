@@ -121,7 +121,7 @@ export function randomPick(
  *
  */
 export function randomId(): string {
-  return hash(new Date().getTime());
+  return hash(Date.now());
 }
 
 /**

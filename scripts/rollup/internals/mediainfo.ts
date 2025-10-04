@@ -83,6 +83,7 @@ function toVp9Codecs(videoTrack: VideoTrack): string {
     name: ensureNonNil(videoTrack.Format_String, "Format_String not found"),
     profile: Number.parseInt(
       ensureNonNil(videoTrack.Format_Profile, "Format_Profile not found"),
+      10,
     ),
     bitDepth: ensureNonNil(videoTrack.BitDepth, "BitDepth not found"),
     level: toVp9Level({
