@@ -133,6 +133,12 @@ export default defineConfig(
      */
     $development: {
       vite: {
+        plugins: [
+          ghostFile(
+            (id: string) =>
+              id.includes(".generated") && !id.includes(".dev.") && !id.includes(".thumbnail."),
+          ),
+        ],
         build: {
           rollupOptions: {
             plugins: [
