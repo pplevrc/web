@@ -26,24 +26,6 @@ if (!cast) {
 const rootStyle = css({
   w: "128",
   h: "128",
-
-  _motionSafe: {
-    _supportHover: {
-      "&:hover [data-visible-on='default']": {
-        opacity: "full",
-      },
-      "&:hover [data-visible-on='hover']": {
-        opacity: "none",
-      },
-    },
-  },
-
-  "& [data-visible-on='default']": {
-    opacity: "none",
-  },
-  "& [data-visible-on='hover']": {
-    opacity: "full",
-  },
 });
 
 const avatarSwitchStyle = css({
@@ -53,6 +35,14 @@ const avatarSwitchStyle = css({
         opacity: "full",
       },
       "&:hover [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
+    _supportActive: {
+      "&[data-active] [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&[data-active] [data-visible-on='hover']": {
         opacity: "none",
       },
     },
@@ -122,6 +112,7 @@ const inverse = randomPick(1, [true, false] as const, random);
 
 <figure
   class:list={[className, avatarSwitchStyle, rootStyle]}
+  data-touch-active
   {...rootAttributes}
 >
   <OrigamiShape
@@ -161,3 +152,7 @@ const inverse = randomPick(1, [true, false] as const, random);
   />
   <NameSeals name={nickname} color={themeColor} radius="medium" />
 </figure>
+
+<script>
+  import "@lib/browsers/touch-active";
+</script>

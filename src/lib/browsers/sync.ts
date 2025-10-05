@@ -37,3 +37,5 @@ function toLoadDetectableElement(target: Element) {
 }
 
 window.addEventListener("DOMContentLoaded", handleBusyStateAll);
+
+document.addEventListener("astro:page-load", handleBusyStateAll);
