@@ -71,6 +71,14 @@ const imageSwitchStyle = css({
         opacity: "none",
       },
     },
+    _supportActive: {
+      "&:has(a:active) [data-visible-on='default']": {
+        opacity: "full",
+      },
+      "&:has(a:active) [data-visible-on='hover']": {
+        opacity: "none",
+      },
+    },
   },
   "& [data-visible-on='default']": {
     opacity: "none",

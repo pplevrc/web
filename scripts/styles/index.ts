@@ -33,6 +33,11 @@ export default definePreset({
         "@media (hover: hover) and (pointer: fine)",
         "&:is(:hover, [data-hover])",
       ],
+      touchActive: [
+        "@media (hover: none) and (pointer: coarse)",
+        "&:is(:active, [data-active])",
+      ],
+      supportActive: "@media (hover: none) and (pointer: coarse)",
       pc: ["@media screen and (width >= 1440px)"],
       spOnly: ["@media screen and (width < 1440px)"],
     },
