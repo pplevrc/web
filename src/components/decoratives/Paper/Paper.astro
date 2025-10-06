@@ -1,7 +1,7 @@
 ---
 import {
   type PpleIconType,
-  ppleIconTypes,
+  ppleIconType,
 } from "@components/decoratives/Vectors/Icon/types";
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
 import type { ColorThemeBase } from "@content/commons/ColorToken";
@@ -22,7 +22,7 @@ interface Props extends HTMLAttributes<"article"> {
 }
 
 const {
-  icon = randomPick(1, ppleIconTypes),
+  icon = randomPick(1, ppleIconType),
   size,
   position,
   themeColor = "smoke",

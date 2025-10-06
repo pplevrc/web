@@ -1,0 +1,25 @@
+---
+export interface Props {
+  invokers?: boolean;
+}
+
+const { invokers } = Astro.props;
+---
+
+{
+  invokers && (
+    <script lang="ts" is:inline>
+      async function polyfillInvokers() {
+        const button = document.createElement("button");
+
+        if (!("commandForElement" in button)) {
+          const { apply } = await import("invokers-polyfill/fn");
+          apply();
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", polyfillInvokers);
+      document.addEventListener("astro:page-load", polyfillInvokers);
+    </script>
+  )
+}

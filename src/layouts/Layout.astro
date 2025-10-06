@@ -18,6 +18,9 @@ interface Props {
   defineLogos?: OptionalLogoIconType[];
   defineShapes?: ShapeType[];
   themeColor?: ColorThemeBase;
+  polyfill?: {
+    invokers?: boolean;
+  };
 
   mainClass?: string;
   "mainClass:list"?: string[];
@@ -30,6 +33,7 @@ const {
   defineIcons,
   defineLogos,
   defineShapes,
+  polyfill,
   mainClass,
   "mainClass:list": mainClassList = [],
   rootClass,
@@ -141,6 +145,7 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       description={description}
       keywords={keywords}
       ogp={ogp}
+      polyfill={polyfill}
     />
   </head>
 

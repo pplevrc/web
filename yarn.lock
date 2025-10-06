@@ -3262,6 +3262,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"invokers-polyfill@npm:^0.5.7":
+  version: 0.5.7
+  resolution: "invokers-polyfill@npm:0.5.7"
+  checksum: 10c0/5ea658e853e76a1943a33857f132436c6c9f948d4920134f5c1f5f168682f7721b5cbd26167c94b4956bb33cca754125939154abdbc2eb02d448f5dd7d7262f9
+  languageName: node
+  linkType: hard
+
 "ip-address@npm:^9.0.5":
   version: 9.0.5
   resolution: "ip-address@npm:9.0.5"
@@ -5084,6 +5091,7 @@ __metadata:
     dotenv: "npm:^16.5.0"
     globby: "npm:^14.1.0"
     happy-dom: "npm:^17.4.4"
+    invokers-polyfill: "npm:^0.5.7"
     is-wsl: "npm:^3.1.0"
     jiti: "npm:^2.4.2"
     lefthook: "npm:^1.13.6"

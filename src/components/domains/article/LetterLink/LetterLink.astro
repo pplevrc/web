@@ -2,7 +2,7 @@
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
 import {
   type PpleIconType,
-  ppleIconTypes,
+  ppleIconType,
 } from "@components/decoratives/Vectors/Icon/types";
 import LetterShape from "@components/decoratives/Vectors/Shapes/LetterShapes.astro";
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
@@ -88,7 +88,7 @@ const theme = randomColorBase(seed);
 
 type LetterIconType = Exclude<PpleIconType, "flower-outline">;
 
-const targetIcons = ppleIconTypes.filter(
+const targetIcons = ppleIconType.filter(
   (icon) => icon !== "flower-outline",
 ) as LetterIconType[];
 
