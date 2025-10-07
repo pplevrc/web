@@ -36,6 +36,7 @@ const defineLogos = [
 ---
 
 <Layout
+  defineIcons={["lucide-copyright"]}
   defineLogos={defineLogos}
   headMeta={{
     title: replaceByMap(title, cast.profile),
@@ -46,6 +47,7 @@ const defineLogos = [
   themeColor={themeColor}
   polyfill={{
     invokers: true,
+    anchorPosition: true,
   }}
 >
   <CastImageSection nickname={id} />
