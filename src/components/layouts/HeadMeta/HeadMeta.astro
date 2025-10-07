@@ -7,6 +7,7 @@ import DescriptionMeta from "./internals/DescriptionMeta.astro";
 import FaviconMeta from "./internals/FaviconMeta.astro";
 import GtmMeta from "./internals/GtmMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
+import Polyfill from "./internals/Polyfill.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
 
 import type { DescriptionMetaProps } from "./types";
@@ -19,13 +20,9 @@ const isProduction = import.meta.env.MODE === "production";
 ---
 
 <DescriptionMeta {...props} />
-<OgpMeta
-  title={props.title}
-  description={props.description}
-  ogp={props.ogp}
-/>
+<OgpMeta title={props.title} description={props.description} ogp={props.ogp} />
 <GtmMeta />
 <FaviconMeta />
 {isProduction ? <SecurityMeta /> : null}
-
+<Polyfill {...props.polyfill} />
 <ClientRouter fallback="animate" />

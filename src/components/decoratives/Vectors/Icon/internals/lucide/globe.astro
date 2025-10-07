@@ -1,7 +1,7 @@
 ---
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
-import { flowerId } from "../ids";
+import { globeId } from "./ids";
 
 interface Props extends HTMLAttributes<"svg"> {
   /**
@@ -18,19 +18,28 @@ const { definition = false, class: className, ...props } = Astro.props;
 <svg
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
-  class:list={[className, css({ fill: "[currentColor]" })]}
+  class:list={[
+    className,
+    css({
+      fill: "[none]",
+      stroke: "[currentColor]",
+      strokeWidth: "[2]",
+      strokeLinecap: "[round]",
+      strokeLinejoin: "[round]",
+    }),
+  ]}
   {...props}
 >
   {
     definition ? (
-      <symbol id={flowerId} viewBox="0 0 24 24">
-        <path
-          clip-rule="evenodd"
-          d="M17.4 5s-.7-5-5.5-5C7.2 0 6.7 5 6.7 5s-5-.8-6.4 3.8c-1.4 4.7 3 6.8 3 6.8S1 19.7 4.5 22.8c3.6 3 7.3-.7 7.3-.7s4 3.8 7.5.7c3.6-3.1 1.4-7.2 1.4-7.2s4.3-2.2 3-6.8c-1.4-4.6-6.4-3.7-6.4-3.7Zm-10 7.7c.1-2.5 2-4.4 4.5-4.5 2.5 0 4.5 2 4.6 4.4.1 2.7-1.9 5-4.6 5-2.5 0-4.5-2.3-4.5-4.9Z"
-        />
+      <symbol id={globeId} viewBox="0 0 24 24">
+        <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+        <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+        <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+        <circle cx="12" cy="12" r="10" />
       </symbol>
     ) : (
-      <use xlink:href={`#${flowerId}`} />
+      <use xlink:href={`#${globeId}`} />
     )
   }
 </svg>

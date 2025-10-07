@@ -1,12 +1,14 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import IconCherryBlossom from "./internals/IconCherryBlossom.astro";
-import IconFlower from "./internals/IconFlower.astro";
-import IconFlowerOutline from "./internals/IconFlowerOutline.astro";
-import IconPancake from "./internals/IconPancake.astro";
-import IconPlum from "./internals/IconPlum.astro";
-import IconTeaCup from "./internals/IconTeaCup.astro";
-import IconTeaPot from "./internals/IconTeaPot.astro";
+import IconLucideCopyright from "./internals/lucide/copyright.astro";
+import IconLucideGlobe from "./internals/lucide/globe.astro";
+import IconCherryBlossom from "./internals/pple/IconCherryBlossom.astro";
+import IconFlower from "./internals/pple/IconFlower.astro";
+import IconFlowerOutline from "./internals/pple/IconFlowerOutline.astro";
+import IconPancake from "./internals/pple/IconPancake.astro";
+import IconPlum from "./internals/pple/IconPlum.astro";
+import IconTeaCup from "./internals/pple/IconTeaCup.astro";
+import IconTeaPot from "./internals/pple/IconTeaPot.astro";
 import type { IconType } from "./types";
 
 interface Props extends HTMLAttributes<"svg"> {
@@ -21,11 +23,6 @@ interface Props extends HTMLAttributes<"svg"> {
    * アイコンの種類.
    */
   type: IconType;
-
-  /**
-   *
-   */
-  class?: string;
 }
 
 const { type, ...rest } = Astro.props;
@@ -46,6 +43,12 @@ const IconComponent = (() => {
       return IconPlum;
     case "cherry-blossom":
       return IconCherryBlossom;
+
+    case "lucide-globe":
+      return IconLucideGlobe;
+    case "lucide-copyright":
+      return IconLucideCopyright;
+
     default:
       throw new Error(`Icon type ${type} is not supported`);
   }

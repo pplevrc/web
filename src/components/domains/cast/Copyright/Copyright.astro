@@ -1,0 +1,74 @@
+---
+import { getEntry } from "astro:content";
+import { breakLineToBr, toHTML, urlToLink } from "@lib/utils/html/string";
+import { hash } from "@lib/utils/random";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import CopyrightButton from "./internals/CopyrightButton.astro";
+import CopyrightPopover from "./internals/CopyrightPopover.astro";
+
+interface Props extends HTMLAttributes<"button"> {
+  /**
+   * 店員さんのニックネーム
+   */
+  nickname: string;
+
+  /**
+   * 店員さんのアバターのインデックス
+   */
+  avatarIndex: number;
+}
+
+const { nickname, avatarIndex, class: className, ...props } = Astro.props;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const avatar = cast.avatars[avatarIndex];
+
+const { themeColor } = cast;
+
+if (!avatar) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { credit } = avatar;
+
+const hasCopyright = credit !== undefined;
+
+const dialogId = hash(`${nickname}-${avatarIndex}-copyright`);
+
+const dialogPositionStyle = css({
+  positionAnchor: "[--copyright-anchor]",
+  positionArea: "block-end span-inline-start"
+
+})
+
+const dialogAnchorStyle = css({
+  anchorName: "[--copyright-anchor]",
+})
+
+const creditHtml = toHTML(credit ?? '', [urlToLink, breakLineToBr]);
+---
+
+{
+  hasCopyright ? (
+    <CopyrightButton 
+      {...props} 
+      class:list={[dialogAnchorStyle, className]}
+      commandfor={dialogId}
+      command="toggle-popover"
+      themeColor={themeColor}
+      aria-label="アバターのクレジット情報を表示する"
+    />
+    <CopyrightPopover id={dialogId} class={dialogPositionStyle} themeColor={themeColor}>
+      <Fragment set:html={creditHtml} />
+    </CopyrightPopover>
+  )
+  : null
+}

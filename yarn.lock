@@ -565,6 +565,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@floating-ui/core@npm:1.7.3"
+  dependencies:
+    "@floating-ui/utils": "npm:^0.2.10"
+  checksum: 10c0/edfc23800122d81df0df0fb780b7328ae6c5f00efbb55bd48ea340f4af8c5b3b121ceb4bb81220966ab0f87b443204d37105abdd93d94846468be3243984144c
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.7.1":
+  version: 1.7.4
+  resolution: "@floating-ui/dom@npm:1.7.4"
+  dependencies:
+    "@floating-ui/core": "npm:^1.7.3"
+    "@floating-ui/utils": "npm:^0.2.10"
+  checksum: 10c0/da6166c25f9b0729caa9f498685a73a0e28251613b35d27db8de8014bc9d045158a23c092b405321a3d67c2064909b6e2a7e6c1c9cc0f62967dca5779f5aef30
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "@floating-ui/utils@npm:0.2.10"
+  checksum: 10c0/e9bc2a1730ede1ee25843937e911ab6e846a733a4488623cd353f94721b05ec2c9ec6437613a2ac9379a94c2fd40c797a2ba6fa1df2716f5ce4aa6ddb1cf9ea4
+  languageName: node
+  linkType: hard
+
 "@img/colour@npm:^1.0.0":
   version: 1.0.0
   resolution: "@img/colour@npm:1.0.0"
@@ -856,6 +882,18 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 10c0/c37a5b4842bfdece3d14dfdb054f73fe15ed2d3da61b34ff76629fb5b1731647c49166fd2a8bf8b56fcfa51200382385ea8909a3cbecdad612310c114d3f6c99
+  languageName: node
+  linkType: hard
+
+"@oddbird/css-anchor-positioning@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@oddbird/css-anchor-positioning@npm:0.6.1"
+  dependencies:
+    "@floating-ui/dom": "npm:^1.7.1"
+    "@types/css-tree": "npm:^2.3.10"
+    css-tree: "npm:^3.1.0"
+    nanoid: "npm:^5.1.5"
+  checksum: 10c0/f7362dda4c29d08813926fc6ad89ddf857c1406b551c01f35a4de29bcfc27443e8fefa5a81d6ca79eeae21ba646b8f22a33cda687642c6016ff368d069971f9e
   languageName: node
   linkType: hard
 
@@ -1395,6 +1433,13 @@ __metadata:
   dependencies:
     "@types/deep-eql": "npm:*"
   checksum: 10c0/49282bf0e8246800ebb36f17256f97bd3a8c4fb31f92ad3c0eaa7623518d7e87f1eaad4ad206960fcaf7175854bdff4cb167e4fe96811e0081b4ada83dd533ec
+  languageName: node
+  linkType: hard
+
+"@types/css-tree@npm:^2.3.10":
+  version: 2.3.11
+  resolution: "@types/css-tree@npm:2.3.11"
+  checksum: 10c0/8f8706b3a94eabe1218da47ca067e337da37ae9ec5bedd1d695747fac4c9fc5c8fe66ba90024f8f29e590e63e9eb0121c143d7788687ff8167cd3457d1979ac1
   languageName: node
   linkType: hard
 
@@ -2381,7 +2426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-tree@npm:^3.0.0":
+"css-tree@npm:^3.0.0, css-tree@npm:^3.1.0":
   version: 3.1.0
   resolution: "css-tree@npm:3.1.0"
   dependencies:
@@ -3259,6 +3304,13 @@ __metadata:
   version: 4.0.0
   resolution: "indent-string@npm:4.0.0"
   checksum: 10c0/1e1904ddb0cb3d6cce7cd09e27a90184908b7a5d5c21b92e232c93579d314f0b83c246ffb035493d0504b1e9147ba2c9b21df0030f48673fba0496ecd698161f
+  languageName: node
+  linkType: hard
+
+"invokers-polyfill@npm:^0.5.7":
+  version: 0.5.7
+  resolution: "invokers-polyfill@npm:0.5.7"
+  checksum: 10c0/5ea658e853e76a1943a33857f132436c6c9f948d4920134f5c1f5f168682f7721b5cbd26167c94b4956bb33cca754125939154abdbc2eb02d448f5dd7d7262f9
   languageName: node
   linkType: hard
 
@@ -4615,6 +4667,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^5.1.5":
+  version: 5.1.6
+  resolution: "nanoid@npm:5.1.6"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 10c0/27b5b055ad8332cf4f0f9f6e2a494aa7e5ded89df4cab8c8490d4eabefe72c4423971d2745d22002868b1d50576a5e42b7b05214733b19f576382323282dd26e
+  languageName: node
+  linkType: hard
+
 "negotiator@npm:^0.6.3":
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
@@ -5076,6 +5137,7 @@ __metadata:
     "@astrojs/check": "npm:^0.9.4"
     "@astrojs/sitemap": "npm:^3.6.0"
     "@biomejs/biome": "npm:^2.2.5"
+    "@oddbird/css-anchor-positioning": "npm:^0.6.1"
     "@pandacss/dev": "npm:^1.4.1"
     "@tsconfig/strictest": "npm:^2.0.6"
     "@vitest/ui": "npm:^3.1.4"
@@ -5084,6 +5146,7 @@ __metadata:
     dotenv: "npm:^16.5.0"
     globby: "npm:^14.1.0"
     happy-dom: "npm:^17.4.4"
+    invokers-polyfill: "npm:^0.5.7"
     is-wsl: "npm:^3.1.0"
     jiti: "npm:^2.4.2"
     lefthook: "npm:^1.13.6"

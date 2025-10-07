@@ -1,7 +1,7 @@
 ---
 import {
   type PpleIconType,
-  ppleIconTypes,
+  ppleIconType,
 } from "@components/decoratives/Vectors/Icon/types";
 import Logo from "@components/decoratives/Vectors/Logo/Logo.astro";
 import type { ColorThemeBase } from "@content/commons/ColorToken";
@@ -22,7 +22,7 @@ interface Props extends HTMLAttributes<"article"> {
 }
 
 const {
-  icon = randomPick(1, ppleIconTypes),
+  icon = randomPick(1, ppleIconType),
   size,
   position,
   themeColor = "smoke",
@@ -44,9 +44,7 @@ const paperStyleRecipe = cva({
     borderColor: "colorPalette.bg",
     borderWidth: "[0.5rem]",
     colorPalette: themeColor,
-    bg: "smoke.50",
-    bgImage:
-      "[linear-gradient(to_bottom, transparent 20rem, {colors.smoke} 0.1rem)]",
+    bg: "white",
     bgSize: "[100% 40rem]",
     shadow: "xs",
     transform: "[rotate(2deg)]",

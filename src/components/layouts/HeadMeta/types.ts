@@ -1,4 +1,5 @@
 import type { ImageMetadata } from "astro";
+import type { Props as PolyfillProps } from "./internals/Polyfill.astro";
 
 export interface DescriptionMetaProps {
   title: string;
@@ -6,4 +7,6 @@ export interface DescriptionMetaProps {
   keywords: string[];
 
   ogp?: ImageMetadata | string;
+
+  polyfill?: PolyfillProps;
 }

@@ -5,6 +5,7 @@ import Paper from "@components/decoratives/Paper/Paper.astro";
 import NameSticker from "@components/decoratives/Sticker/NameSticker.astro";
 import NameStickerList from "@components/decoratives/Sticker/NameStickerList.astro";
 import type { SocialLink } from "@content/commons";
+import { breakLineToBr, toHTML } from "@lib/utils/html/string";
 import { css } from "@styles/css";
 
 interface Props {
@@ -66,7 +67,7 @@ const stickerStyle = css({
   pt: "4",
 });
 
-const fixedIntroduction = introduction.replace(/\n/g, "<br />");
+const fixedIntroduction = toHTML(introduction, breakLineToBr);
 ---
 
 <section class={rootStyle} aria-label={`${nickname}のプロフィール`}>

@@ -1,5 +1,6 @@
 ---
 import DecorativeAvatar from "@components/domains/avatar/DecorativeAvatar/DecorativeAvatar.astro";
+import Copyright from "@components/domains/cast/Copyright/Copyright.astro";
 import { css } from "@styles/css";
 
 interface Props {
@@ -23,6 +24,18 @@ const avatarStyle = css({
   left: "[50%]",
   transform: "[translate(-50%, 0)]",
 });
+
+const copyrightButtonStyle = css({
+  pos: "absolute",
+
+  bottom: "[10%]",
+  right: "[10%]",
+
+  _pc: {
+    bottom: "[25%]",
+    right: "[33%]",
+  },
+});
 ---
 
 <section class={rootStyle} aria-label={`${nickname}の立ち絵`}>
@@ -35,4 +48,6 @@ const avatarStyle = css({
     nickname={nickname}
     avatarIndex={0}
   />
+
+  <Copyright nickname={nickname} avatarIndex={0} class={copyrightButtonStyle} />
 </section>

@@ -1,0 +1,52 @@
+---
+export interface Props {
+
+  /**
+   * <button commandfor> を polyfill する
+   * @default false
+   */
+  invokers?: boolean;
+
+  /**
+   * css の positionAnchor を polyfill する
+   * @default false
+   */
+  anchorPosition?: boolean;
+}
+
+const { invokers, anchorPosition } = Astro.props;
+---
+
+{
+  invokers && (
+    <script>
+      async function polyfillInvokers() {
+        const button = document.createElement("button");
+
+        if (!("commandForElement" in button)) {
+          const { apply } = await import("invokers-polyfill/fn");
+          apply();
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", polyfillInvokers);
+      document.addEventListener("astro:page-load", polyfillInvokers);
+    </script>
+  )
+}
+
+{
+  anchorPosition && (
+    <script>
+      async function polyfillAnchorPosition() {
+
+        if (!("positionAnchor" in document.documentElement)) {
+          await import("@oddbird/css-anchor-positioning");
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", polyfillAnchorPosition);
+      document.addEventListener("astro:page-load", polyfillAnchorPosition);
+    </script>
+  )
+}

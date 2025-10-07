@@ -1,7 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
-import { ppleIconTypes } from "@components/decoratives/Vectors/Icon/types";
+import { ppleIconType } from "@components/decoratives/Vectors/Icon/types";
 import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
 import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
 import { randomPick, seedRandom } from "@lib/utils/random";
@@ -99,7 +99,7 @@ const origamiRotateType = randomPick(
   random,
 );
 
-const icon = randomPick(1, ppleIconTypes, random);
+const icon = randomPick(1, ppleIconType, random);
 
 const inverse = randomPick(1, [true, false] as const, random);
 ---
