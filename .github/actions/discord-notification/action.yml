@@ -8,11 +8,8 @@ inputs:
   status:
     description: "ステータス（色選択用: start, success, failure）"
     required: true
-  title:
-    description: 通知タイトル
-    required: true
-  description:
-    description: 通知メッセージ
+  content:
+    description: Discordメッセージ本文（Markdown形式）
     required: true
   username:
     description: Discordに表示するユーザー名
@@ -22,9 +19,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    # Discord通知を送信（ダミー実装）
+    # Discord通知を送信
     - name: 📢 Discord通知を送信
       run: |
+        # ステータスに応じた色を設定
         case "${{ inputs.status }}" in
           start)
             COLOR="3447003"  # 青色
@@ -40,61 +38,89 @@ runs:
             ;;
         esac
 
+        # コミットメッセージの取得（最初の行のみ）
+        COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s' 2>/dev/null || echo "N/A")
+
+        # コミット者情報の取得
+        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an' 2>/dev/null || echo "N/A")
+
+        # タイムスタンプ（ISO 8601形式）
+        TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
         # Discord Webhook用のJSONペイロード
-        PAYLOAD=$(cat <<EOF
-        {
-          "username": "${{ inputs.username }}",
-          "embeds": [{
-            "title": "${{ inputs.title }}",
-            "description": "${{ inputs.description }}",
-            "color": ${COLOR},
-            "fields": [
-              {
-                "name": "リポジトリ",
-                "value": "${{ github.repository }}",
-                "inline": true
-              },
-              {
-                "name": "ブランチ",
-                "value": "${{ github.ref_name }}",
-                "inline": true
-              },
-              {
-                "name": "コミット",
-                "value": "[\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})",
-                "inline": true
-              },
-              {
-                "name": "実行者",
-                "value": "${{ github.actor }}",
-                "inline": true
-              },
-              {
-                "name": "ワークフロー",
-                "value": "[${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
-                "inline": true
-              },
-              {
-                "name": "時刻",
-                "value": "$(date -u '+%Y-%m-%d %H:%M:%S UTC')",
-                "inline": true
-              }
-            ]
-          }]
-        }
-        EOF
-        )
+        # jqを使って安全にJSON生成
+        PAYLOAD=$(jq -n \
+          --arg username "${{ inputs.username }}" \
+          --arg content "${{ inputs.content }}" \
+          --argjson color "${COLOR}" \
+          --arg repo "${{ github.repository }}" \
+          --arg branch "${{ github.ref_name }}" \
+          --arg sha "${{ github.sha }}" \
+          --arg short_sha "${GITHUB_SHA:0:7}" \
+          --arg commit_url "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" \
+          --arg actor "${{ github.actor }}" \
+          --arg workflow "${{ github.workflow }}" \
+          --arg run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+          --arg timestamp "${TIMESTAMP}" \
+          --arg commit_msg "${COMMIT_MESSAGE}" \
+          --arg commit_author "${COMMIT_AUTHOR}" \
+          '{
+            username: $username,
+            content: $content,
+            embeds: [{
+              color: $color,
+              fields: [
+                {
+                  name: "🌿 ブランチ",
+                  value: $branch,
+                  inline: true
+                },
+                {
+                  name: "👤 実行者",
+                  value: $actor,
+                  inline: true
+                },
+                {
+                  name: "📝 コミット",
+                  value: ("[\($short_sha)](\($commit_url))"),
+                  inline: true
+                },
+                {
+                  name: "✍️ コミット者",
+                  value: $commit_author,
+                  inline: true
+                },
+                {
+                  name: "🔗 ワークフロー",
+                  value: ("[\($workflow)](\($run_url))"),
+                  inline: true
+                },
+                {
+                  name: "🕒 更新日時",
+                  value: $timestamp,
+                  inline: true
+                },
+                {
+                  name: "💬 コミットメッセージ",
+                  value: $commit_msg
+                }
+              ]
+            }]
+          }')
 
-        # 現在はダミー実装：実際のwebhookは後で設定
-        echo "📢 Discord通知送信（ダミー）:"
-        echo "URL: ${{ inputs.webhook_url }}"
-        echo "Status: ${{ inputs.status }}"
-        echo "Title: ${{ inputs.title }}"
-        echo "Description: ${{ inputs.description }}"
-        echo "Color: ${COLOR}"
+        # Discord Webhookに送信
+        if [ -n "${{ inputs.webhook_url }}" ]; then
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Content-Type: application/json" \
+            -d "${PAYLOAD}" \
+            "${{ inputs.webhook_url }}")
 
-        # 実際のcurl送信はコメントアウト
-        # curl -H "Content-Type: application/json" \
-        #      -d "${PAYLOAD}" \
-        #      "${{ inputs.webhook_url }}"
+          if [ "$HTTP_STATUS" -eq 204 ]; then
+            echo "✅ Discord通知を送信しました（Status: ${HTTP_STATUS}）"
+          else
+            echo "⚠️ Discord通知の送信に失敗しました（Status: ${HTTP_STATUS}）"
+          fi
+        else
+          echo "⚠️ Discord Webhook URLが設定されていません"
+        fi
       shell: bash

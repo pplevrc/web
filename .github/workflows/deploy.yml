@@ -28,24 +28,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: 🏗️ Astroプロジェクトをビルド
+  notify_start:
+    name: 📢 デプロイ開始通知
     runs-on: ubuntu-latest
-    environment: CMS_STACK_20250923
     steps:
-      # リポジトリのコードをチェックアウト
       - name: 📁 コードをチェックアウト
         uses: actions/checkout@v4
 
-      # デプロイ開始通知
-      - name: 📢 デプロイ開始通知
+      - name: 🔍 デプロイ起因を判定
+        id: trigger
+        run: |
+          case "${{ github.event_name }}" in
+            push)
+              MESSAGE="ソースコードが更新されたので、"
+              ;;
+            repository_dispatch)
+              MESSAGE="コンテンツが更新されたので、"
+              ;;
+            workflow_dispatch)
+              MESSAGE="手動実行で"
+              ;;
+            *)
+              MESSAGE=""
+              ;;
+          esac
+          echo "message=${MESSAGE}" >> $GITHUB_OUTPUT
+
+      - name: 📢 Discord通知を送信
         uses: ./.github/actions/discord-notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: 'start'
-          title: '🚀 デプロイ開始'
-          description: 'GitHub Pagesへのデプロイを開始しました'
+          content: |
+            # 🚀 デプロイ始めるキプよ！
+
+            ${{ steps.trigger.outputs.message }}デプロイ開始するよ！
           username: 'pple-web bot'
+
+  build:
+    name: 🏗️ Astroプロジェクトをビルド
+    runs-on: ubuntu-latest
+    environment: CMS_STACK_20250923
+    needs: notify_start
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
 
       # GitHub Pages用の設定を取得
       - name: ⚙️ GitHub Pages設定を取得
@@ -79,6 +107,21 @@ jobs:
         with:
           path: './dist'
 
+      # ビルド失敗通知
+      - name: 📢 ビルド失敗通知
+        if: failure()
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: 'failure'
+          content: |
+            # ❌ やばばば！ ビルド失敗したキプよ！
+
+            やべーよやべーよ
+            Astroプロジェクトのビルドが失敗しちゃったみたい...
+            ログ見て確認してね！
+          username: 'ウェブサイト更新おしらせキプ'
+
   deploy:
     name: 🚀 GitHub Pagesにデプロイ
     runs-on: ubuntu-latest
@@ -101,9 +144,14 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: 'success'
-          title: '✅ デプロイ成功'
-          description: 'GitHub Pagesへのデプロイが正常に完了しました'
-          username: 'pple-web bot'
+          content: |
+            # ✅ デプロイ完了したキプよ！
+
+            無事にGitHub Pagesへデプロイできたね！
+            サイト見てみてね〜
+
+            🌐 サイト: ${{ secrets.SITE_DOMAIN }}${{ secrets.SITE_BASE }}
+          username: 'ウェブサイト更新完了お知らせキプ'
 
       # デプロイ失敗通知
       - name: 📢 デプロイ失敗通知
@@ -112,6 +160,12 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: 'failure'
-          title: '❌ デプロイ失敗'
-          description: 'GitHub Pagesへのデプロイが失敗しました。ログを確認してください。'
-          username: 'pple-web bot'
+          content: |
+            # ❌ やばばば！ デプロイ失敗したキプよ！
+
+            やべーよやべーよ
+            GitHub Pagesへのデプロイが失敗しちゃった...
+            ログ見て確認してね！
+
+            🔗 ログ: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          username: 'ウェブサイト更新失敗お知らせキプ'
