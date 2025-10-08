@@ -1,0 +1,29 @@
+name: 📋 Issue 通知
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  notify:
+    name: 📢 Issue通知
+    runs-on: ubuntu-latest
+    # リポジトリメンバー以外のIssueは通知しない（荒らし防止）
+    if: github.event.issue.author_association != 'NONE'
+    steps:
+      - name: 📁 コードをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: 📢 Discord通知を送信
+        uses: ./.github/actions/discord-notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: 'start'
+          content: |
+            # 🆕 新しいIssueが作成されたキプよ！
+
+            **${{ github.event.issue.title }}**
+
+            👤 作成者: ${{ github.event.issue.user.login }}
+            🔗 Issue: ${{ github.event.issue.html_url }}
+          username: 'Issue通知キプ'
