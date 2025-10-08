@@ -45,15 +45,14 @@ const dialogId = hash(`${nickname}-${avatarIndex}-copyright`);
 
 const dialogPositionStyle = css({
   positionAnchor: "[--copyright-anchor]",
-  positionArea: "block-end span-inline-start"
-
-})
+  positionArea: "block-end span-inline-start",
+});
 
 const dialogAnchorStyle = css({
   anchorName: "[--copyright-anchor]",
-})
+});
 
-const creditHtml = toHTML(credit ?? '', [urlToLink, breakLineToBr]);
+const creditHtml = toHTML(credit ?? "", [urlToLink, breakLineToBr]);
 ---
 
 {
