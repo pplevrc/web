@@ -12,6 +12,10 @@ on:
   # GitHub UIから手動実行可能
   workflow_dispatch:
 
+  # CMSからの更新通知
+  repository_dispatch:
+    types: [update]
+
 # GitHub Pagesへの書き込み権限を設定
 permissions:
   contents: read
