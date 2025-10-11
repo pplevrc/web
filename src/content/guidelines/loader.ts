@@ -42,6 +42,11 @@ export function guidelineLoader(): Loader {
     name: "guidelines",
     schema: guidelineSchema,
     load: async ({ meta, parseData, store, generateDigest, logger }) => {
+      if (!USE_CACHE) {
+        logger.info("Clear guideline data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -50,13 +55,21 @@ export function guidelineLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (USE_CACHE && !(await hasNewGuidelinesSince(currentUpdatedAt))) {
+      if (!(await hasNewGuidelinesSince(currentUpdatedAt))) {
         logger.info("No new guidelines found");
         return;
       }
 
       logger.info("Fetching new guidelines");
       const guidelines = await fetchGuidelinesSince(currentUpdatedAt);
+
+      const cachedIds = store.keys();
+
+      for (const id of cachedIds) {
+        if (!guidelines.some((guideline) => guideline.title === id)) {
+          store.delete(id);
+        }
+      }
 
       for (const guideline of guidelines) {
         const id = guideline.title;
@@ -73,11 +86,13 @@ export function guidelineLoader(): Loader {
           create: guideline.publishedAt,
         });
 
-        logger.info(
-          store.get(id)
-            ? `Update guideline data: ${guideline.title}`
-            : `Set new guideline data: ${guideline.title}`,
-        );
+        if (!store.has(id)) {
+          logger.info(`Set new guideline data: ${id}`);
+        }
+
+        if (store.get(id)?.digest !== digest) {
+          logger.info(`Update guideline data: ${id}`);
+        }
 
         store.set({ id, data, digest });
       }
