@@ -10,6 +10,7 @@ import isWsl from "is-wsl";
 import { purgeInlineCss } from "./scripts/cleanup/purge-inline-css.js";
 import { renameRemoteImages } from "./scripts/cleanup/rename-remote-images.js";
 import { ghostFile, videoMediaInfoPlugin } from "./scripts/rollup/index.js";
+import { imageProxy } from "./scripts/server/image-proxy/index.js";
 
 const IS_PRODUCTION = process.env["NODE_ENV"] === "production";
 
@@ -66,6 +67,7 @@ export default defineConfig(
     site: `https://${SITE_DOMAIN}`,
     base: SITE_BASE,
     publicDir: USE_MOCK ? "public-mock" : "public",
+    integrations: [imageProxy()],
     image: {
       service: {
         entrypoint: "./src/lib/services/custom-sharp.ts",
