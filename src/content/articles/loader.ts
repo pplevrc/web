@@ -39,6 +39,11 @@ export function articleLoader(): Loader {
     name: "articles",
     schema: articleSchema,
     load: async ({ meta, parseData, store, generateDigest, logger }) => {
+      if (!USE_CACHE) {
+        logger.info("Clear article data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -47,7 +52,7 @@ export function articleLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (USE_CACHE && !(await hasNewArticlesSince(currentUpdatedAt))) {
+      if (!(await hasNewArticlesSince(currentUpdatedAt))) {
         logger.info("No new articles found");
         return;
       }
@@ -55,6 +60,14 @@ export function articleLoader(): Loader {
       logger.info("Fetching new articles");
 
       const articles = await fetchArticlesSince(currentUpdatedAt);
+
+      const cachedIds = store.keys();
+
+      for (const id of cachedIds) {
+        if (!articles.some((article) => toId(article) === id)) {
+          store.delete(id);
+        }
+      }
 
       for (const article of articles) {
         const id = toId(article);
@@ -71,11 +84,13 @@ export function articleLoader(): Loader {
           create: article.publishedAt,
         });
 
-        logger.info(
-          store.get(id)
-            ? `Update article data: ${article.title}`
-            : `Set new article data: ${article.title}`,
-        );
+        if (!store.has(id)) {
+          logger.info(`Set new article data: ${article.title}`);
+        }
+
+        if (store.get(id)?.digest !== digest) {
+          logger.info(`Update article data: ${article.title}`);
+        }
 
         store.set({
           id,

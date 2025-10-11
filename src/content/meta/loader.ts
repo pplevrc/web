@@ -35,6 +35,11 @@ export function metaLoader(): Loader {
     name: "meta",
     schema: metaSchema,
     load: async ({ store, parseData, generateDigest, logger, meta }) => {
+      if (!USE_CACHE) {
+        logger.info("Clear meta data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -43,7 +48,7 @@ export function metaLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (USE_CACHE && !(await hasUpdatedSince(currentUpdatedAt))) {
+      if (!(await hasUpdatedSince(currentUpdatedAt))) {
         logger.info("No new meta found");
         return;
       }
@@ -60,6 +65,13 @@ export function metaLoader(): Loader {
         update: metadata.updatedAt,
         create: metadata.publishedAt,
       });
+
+      if (
+        !store.has(COMMON_DATA_ID) ||
+        store.get(COMMON_DATA_ID)?.digest !== digest
+      ) {
+        logger.info(`Update meta data: ${COMMON_DATA_ID}`);
+      }
 
       store.set({ id: COMMON_DATA_ID, data, digest });
     },
