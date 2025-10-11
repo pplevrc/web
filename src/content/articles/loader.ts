@@ -56,6 +56,14 @@ export function articleLoader(): Loader {
 
       const articles = await fetchArticlesSince(currentUpdatedAt);
 
+      const cachedIds = store.keys();
+
+      for (const id of cachedIds) {
+        if (!articles.some((article) => toId(article) === id)) {
+          store.delete(id);
+        }
+      }
+
       for (const article of articles) {
         const id = toId(article);
         const data = await parseData({
@@ -71,11 +79,13 @@ export function articleLoader(): Loader {
           create: article.publishedAt,
         });
 
-        logger.info(
-          store.get(id)
-            ? `Update article data: ${article.title}`
-            : `Set new article data: ${article.title}`,
-        );
+        if (!store.has(id)) {
+          logger.info(`Set new article data: ${article.title}`);
+        }
+
+        if (store.get(id)?.digest !== digest) {
+          logger.info(`Update article data: ${article.title}`);
+        }
 
         store.set({
           id,

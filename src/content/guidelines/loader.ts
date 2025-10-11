@@ -58,6 +58,14 @@ export function guidelineLoader(): Loader {
       logger.info("Fetching new guidelines");
       const guidelines = await fetchGuidelinesSince(currentUpdatedAt);
 
+      const cachedIds = store.keys();
+
+      for (const id of cachedIds) {
+        if (!guidelines.some((guideline) => guideline.title === id)) {
+          store.delete(id);
+        }
+      }
+
       for (const guideline of guidelines) {
         const id = guideline.title;
         const data = await parseData({
@@ -73,11 +81,13 @@ export function guidelineLoader(): Loader {
           create: guideline.publishedAt,
         });
 
-        logger.info(
-          store.get(id)
-            ? `Update guideline data: ${guideline.title}`
-            : `Set new guideline data: ${guideline.title}`,
-        );
+        if (!store.has(id)) {
+          logger.info(`Set new guideline data: ${id}`);
+        }
+
+        if (store.get(id)?.digest !== digest) {
+          logger.info(`Update guideline data: ${id}`);
+        }
 
         store.set({ id, data, digest });
       }

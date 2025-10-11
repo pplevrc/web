@@ -61,6 +61,13 @@ export function metaLoader(): Loader {
         create: metadata.publishedAt,
       });
 
+      if (
+        !store.has(COMMON_DATA_ID) ||
+        store.get(COMMON_DATA_ID)?.digest !== digest
+      ) {
+        logger.info(`Update meta data: ${COMMON_DATA_ID}`);
+      }
+
       store.set({ id: COMMON_DATA_ID, data, digest });
     },
   };
