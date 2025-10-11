@@ -50,6 +50,11 @@ export function castLoader(): Loader {
     }): Promise<void> => {
       logger.info("Fetching cast datas");
 
+      if (!USE_CACHE) {
+        logger.info("Clear cast data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -65,7 +70,7 @@ export function castLoader(): Loader {
       const hasUpdate =
         currentUpdatedAt?.getTime() ?? 0 > lastUpdatedAt.getTime();
 
-      if (USE_CACHE && !hasUpdate) {
+      if (!hasUpdate) {
         logger.info("No new casts found");
         return;
       }

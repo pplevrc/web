@@ -11,6 +11,12 @@ on:
 
   # GitHub UIから手動実行可能
   workflow_dispatch:
+    inputs:
+      clear_cache:
+        description: 'コンテンツキャッシュをクリアしてビルド'
+        required: false
+        type: boolean
+        default: false
 
   # CMSからの更新通知
   repository_dispatch:
@@ -100,6 +106,7 @@ jobs:
           CONTENTS_SERVICE_ID: ${{ secrets.CONTENTS_SERVICE_ID }}
           CONTENTS_CASTS_URL: ${{ secrets.CONTENTS_CASTS_URL }}
           CONTENTS_CASTS_API_KEY: ${{ secrets.CONTENTS_CASTS_API_KEY }}
+          FETCH_CONTENT_FORCE: ${{ github.event.inputs.clear_cache == 'true' && 'true' || 'false' }}
 
       # GitHub Pages用にビルド結果をアップロード
       - name: 📤 ビルド結果をアップロード

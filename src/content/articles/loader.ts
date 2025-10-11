@@ -39,6 +39,11 @@ export function articleLoader(): Loader {
     name: "articles",
     schema: articleSchema,
     load: async ({ meta, parseData, store, generateDigest, logger }) => {
+      if (!USE_CACHE) {
+        logger.info("Clear article data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -47,7 +52,7 @@ export function articleLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (USE_CACHE && !(await hasNewArticlesSince(currentUpdatedAt))) {
+      if (!(await hasNewArticlesSince(currentUpdatedAt))) {
         logger.info("No new articles found");
         return;
       }

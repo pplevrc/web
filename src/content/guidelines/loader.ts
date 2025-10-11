@@ -42,6 +42,11 @@ export function guidelineLoader(): Loader {
     name: "guidelines",
     schema: guidelineSchema,
     load: async ({ meta, parseData, store, generateDigest, logger }) => {
+      if (!USE_CACHE) {
+        logger.info("Clear guideline data store");
+        store.clear();
+      }
+
       const currentUpdatedAt = (() => {
         const lastUpdatedAt = meta.get("last-updated-at");
         if (!lastUpdatedAt) {
@@ -50,7 +55,7 @@ export function guidelineLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (USE_CACHE && !(await hasNewGuidelinesSince(currentUpdatedAt))) {
+      if (!(await hasNewGuidelinesSince(currentUpdatedAt))) {
         logger.info("No new guidelines found");
         return;
       }
