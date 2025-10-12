@@ -53,6 +53,7 @@ export function castLoader(): Loader {
       if (!USE_CACHE) {
         logger.info("Clear cast data store");
         store.clear();
+        meta.delete("last-updated-at");
       }
 
       const currentUpdatedAt = (() => {
