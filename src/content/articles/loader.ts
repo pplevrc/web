@@ -42,6 +42,7 @@ export function articleLoader(): Loader {
       if (!USE_CACHE) {
         logger.info("Clear article data store");
         store.clear();
+        meta.delete("last-updated-at");
       }
 
       const currentUpdatedAt = (() => {

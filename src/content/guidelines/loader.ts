@@ -45,6 +45,7 @@ export function guidelineLoader(): Loader {
       if (!USE_CACHE) {
         logger.info("Clear guideline data store");
         store.clear();
+        meta.delete("last-updated-at");
       }
 
       const currentUpdatedAt = (() => {

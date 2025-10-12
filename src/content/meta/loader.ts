@@ -38,6 +38,7 @@ export function metaLoader(): Loader {
       if (!USE_CACHE) {
         logger.info("Clear meta data store");
         store.clear();
+        meta.delete("last-updated-at");
       }
 
       const currentUpdatedAt = (() => {
