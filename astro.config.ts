@@ -34,6 +34,7 @@ console.log("Environments", {
   NODE_ENV: process.env["NODE_ENV"],
   SITE_DOMAIN: process.env["SITE_DOMAIN"],
   SITE_BASE: process.env["SITE_BASE"],
+  GTM_ID: mask(process.env["GTM_ID"] ?? ""),
   MOCK: process.env["MOCK"] !== "false",
   FETCH_CONTENT_FORCE: process.env["FETCH_CONTENT_FORCE"] === "true",
   SITE_IS_PUBLIC: process.env["SITE_IS_PUBLIC"] === "true",

@@ -8,7 +8,7 @@ import FooterBorder from "./internals/FooterBorder.astro";
 const rootStyle = css({
   h: {
     base: "128",
-    _pc: "64",
+    _pc: "96",
   },
   pos: "relative",
 });
@@ -20,11 +20,21 @@ const footerPositionStyle = css({
   h: "[fit-content]",
 });
 
-const contentStyle = css({
+const footerAreaStyle = css({
   bgGradient: "to-b",
   gradientFrom: "latte.deep",
   gradientTo: "latte.900",
 
+  display: "flex",
+  flexDir: "column",
+  justifyContent: "space-between",
+  alignItems: { base: "center", _pc: "inherit" },
+  h: "full",
+
+  gap: { base: "4", _pc: "8" },
+});
+
+const contentStyle = css({
   display: "flex",
   flexDir: {
     base: "column",
@@ -55,44 +65,71 @@ const logoStyle = css({
   w: "20",
 });
 
+const privacyNoticeStyle = css({
+  w: "96",
+  pb: "16",
+  _pc: {
+    w: "full",
+  },
+
+  color: "white",
+  textStyle: "normal.sm",
+  textAlign: "center",
+
+  "& p": {
+    wordBreak: "[auto-phrase]",
+  },
+
+  "& a": {
+    textDecoration: "underline",
+    textStyle: "normal.bold.sm",
+    px: "1",
+  },
+});
+
 const {
-  official: { socialLinks, copyright },
+  official: { socialLinks, copyright, privacyNotice },
 } = await getMeta();
 ---
 
 <footer class={rootStyle}>
   <FooterBorder class={footerPositionStyle} />
-  <div class={contentStyle}>
-    <div class={copyrightSetStyle}>
-      <figure
-        class={css({ display: "contents" })}
-        aria-label="『ロリっ子喫茶ぷぷりえ』の著作権情報"
-      >
-        <Logo
-          type="pple"
-          class={logoStyle}
-          aria-label="『ロリっ子喫茶ぷぷりえ』のロゴ画像"
-        />
-        <figcaption>
-          <small>
-            {copyright}
-            <br /> All rights reserved.
-          </small>
-        </figcaption>
-      </figure>
-      <nav aria-label="『ロリっ子喫茶ぷぷりえ』の公式ソーシャルリンク一覧">
-        <SocialLinks links={socialLinks} variant="vector-only" />
-      </nav>
-    </div>
+  <div class={footerAreaStyle}>
+    <div class={contentStyle}>
+      <article class={copyrightSetStyle}>
+        <figure
+          class={css({ display: "contents" })}
+          aria-label="『ロリっ子喫茶ぷぷりえ』の著作権情報"
+        >
+          <Logo
+            type="pple"
+            class={logoStyle}
+            aria-label="『ロリっ子喫茶ぷぷりえ』のロゴ画像"
+          />
+          <figcaption>
+            <small>
+              {copyright}
+              <br /> All rights reserved.
+            </small>
+          </figcaption>
+        </figure>
+        <nav aria-label="『ロリっ子喫茶ぷぷりえ』の公式ソーシャルリンク一覧">
+          <SocialLinks links={socialLinks} variant="vector-only" />
+        </nav>
+      </article>
 
-    <figure
-      class={copyrightSetStyle}
-      aria-label="『ロリっ子喫茶ぷぷりえ』の開催プラットフォーム情報"
-    >
-      <Logo type="vrchat" class={logoStyle} aria-label="VRChatのロゴ画像" />
-      <figcaption>
-        <small>This event will be held on the VRChat platform.</small>
-      </figcaption>
-    </figure>
+      <article>
+        <figure
+          class={copyrightSetStyle}
+          aria-label="『ロリっ子喫茶ぷぷりえ』の開催プラットフォーム情報"
+        >
+          <Logo type="vrchat" class={logoStyle} aria-label="VRChatのロゴ画像" />
+          <figcaption>
+            <small>This event will be held on the VRChat platform.</small>
+          </figcaption>
+        </figure>
+      </article>
+    </div>
+    <div class={privacyNoticeStyle} set:html={privacyNotice} />
   </div>
 </footer>

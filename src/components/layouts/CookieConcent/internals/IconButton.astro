@@ -1,0 +1,54 @@
+---
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {}
+
+const { class: className, ...props } = Astro.props;
+
+const buttonStyle = css({
+  w: "7",
+  h: "7",
+  p: "1",
+  _pc: {
+    w: "10",
+    h: "10",
+    p: "[0.125rem]",
+  },
+
+  cursor: "pointer",
+
+  rounded: "full",
+  shadow: "xs",
+  bgColor: "carrot.deep",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+const insideStyle = css({
+  display: "contents",
+
+  _pc: {
+    rounded: "full",
+    w: "full",
+    h: "full",
+
+    p: "1",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    borderWidth: "sm",
+    borderStyle: "dashed",
+    borderColor: "white",
+  },
+});
+---
+
+<button class:list={[buttonStyle, className]} {...props}>
+  <div class:list={[insideStyle]}>
+    <slot />
+  </div>
+</button>

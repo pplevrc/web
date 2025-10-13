@@ -1,10 +1,24 @@
 ---
-
+/**
+ * セキュリティ関連のメタタグとポリシー設定
+ */
 const site = Astro.site;
 ---
 
-{/* 一部の AI クローラーが meta も見る可能性があるため（保険） */}
+{/* AI クローラー対策 */}
 <meta name="robots" content="noai, noimageai" />
 
 {/* 正規化された URL を指定 */}
 <link rel="canonical" href={site} />
+
+{/* Referrer Policy: リファラー情報の送信ポリシー */}
+{/* HTTPS→HTTPSなら完全URL、HTTPS→HTTPならオリジンのみ送信 */}
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+{/* Permissions Policy: 不要なブラウザ機能を無効化 */}
+{/* camera, microphone, geolocation を無効化 */}
+{/* interest-cohort を無効化（Google FLoC トラッキング防止） */}
+<meta
+  http-equiv="Permissions-Policy"
+  content="camera=(), microphone=(), geolocation=(), interest-cohort=()"
+/>

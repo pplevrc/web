@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import IconLucideCookie from "./internals/lucide/cookie.astro";
 import IconLucideCopyright from "./internals/lucide/copyright.astro";
 import IconLucideGlobe from "./internals/lucide/globe.astro";
 import IconCherryBlossom from "./internals/pple/IconCherryBlossom.astro";
@@ -48,6 +49,8 @@ const IconComponent = (() => {
       return IconLucideGlobe;
     case "lucide-copyright":
       return IconLucideCopyright;
+    case "lucide-cookie":
+      return IconLucideCookie;
 
     default:
       throw new Error(`Icon type ${type} is not supported`);

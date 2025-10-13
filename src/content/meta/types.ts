@@ -99,6 +99,21 @@ export interface Meta extends ContentMeta {
      * コピーライト
      */
     copyright: string;
+
+    /**
+     * プライバシーポリシー
+     */
+    privacyPolicyShortcut: Pick<Guideline, "title" | "themeColor">;
+
+    /**
+     * プライバシーポリシーの簡易表記
+     */
+    privacyNotice: string;
+
+    /**
+     * クッキーに関する注意事項
+     */
+    cookieConcent: string;
   };
 
   /**
@@ -166,6 +181,12 @@ export const metaSchema = z.object({
   official: z.object({
     socialLinks: z.array(socialLinkSchema),
     copyright: z.string(),
+    privacyPolicyShortcut: z.object({
+      title: z.string(),
+      themeColor: colorBaseThemeSchema,
+    }),
+    privacyNotice: z.string(),
+    cookieConcent: z.string(),
   }),
   guideline: contentPageMetaSchema,
   guidelines: listPageMetaSchema,

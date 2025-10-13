@@ -26,3 +26,9 @@ async function getOgpPath(): Promise<string> {
 <meta property="og:image" content={await getOgpPath()} />
 <meta property="og:type" content="website" />
 <meta property="og:url" content={siteUrl} />
+
+{/* X Card */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={props.title} />
+<meta name="twitter:description" content={props.description} />
+<meta name="twitter:image" content={await getOgpPath()} />

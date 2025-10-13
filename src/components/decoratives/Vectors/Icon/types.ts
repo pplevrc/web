@@ -9,7 +9,10 @@ export type PpleIconType =
   | "teapot"
   | "pancake";
 
-export type LucideIconType = "lucide-globe" | "lucide-copyright";
+export type LucideIconType =
+  | "lucide-globe"
+  | "lucide-copyright"
+  | "lucide-cookie";
 
 export const ppleIconType = [
   "flower",
@@ -21,6 +24,9 @@ export const ppleIconType = [
   "pancake",
 ] as const satisfies IconType[];
 
-export const defaultIconType = ppleIconType;
+export const defaultIconType = [
+  ...ppleIconType,
+  "lucide-cookie",
+] satisfies IconType[];
 
 export type OptionalIconType = Omit<IconType, (typeof ppleIconType)[number]>;
