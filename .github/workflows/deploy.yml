@@ -101,6 +101,7 @@ jobs:
           SITE_DOMAIN: ${{ secrets.SITE_DOMAIN }}
           SITE_BASE: ${{ secrets.SITE_BASE }}
           MOCK: ${{ vars.MOCK }}
+          GTM_ID: ${{ secrets.GTM_ID }}
           SITE_IS_PUBLIC: ${{ vars.SITE_IS_PUBLIC }}
           CONTENTS_API_KEY: ${{ secrets.CONTENTS_API_KEY }}
           CONTENTS_SERVICE_ID: ${{ secrets.CONTENTS_SERVICE_ID }}
