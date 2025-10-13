@@ -62,13 +62,10 @@ export function articleLoader(): Loader {
 
       const articles = await fetchArticlesSince(currentUpdatedAt);
 
-      const cachedIds = store.keys();
-
-      for (const id of cachedIds) {
-        if (!articles.some((article) => toId(article) === id)) {
-          store.delete(id);
-        }
-      }
+      // TODO: CMS側で削除された記事の検出と削除処理を実装する
+      // CMSの削除API (beta) を使用して、削除されたコンテンツを取得し、
+      // キャッシュから削除する処理を追加する必要がある
+      // 現状は削除時に手動でキャッシュクリア (FETCH_CONTENT_FORCE=true) が必要
 
       for (const article of articles) {
         const id = toId(article);
