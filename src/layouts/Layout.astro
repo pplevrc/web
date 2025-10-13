@@ -2,6 +2,7 @@
 import type { OptionalIconType } from "@components/decoratives/Vectors/Icon/types";
 import type { OptionalLogoIconType } from "@components/decoratives/Vectors/LogoIcon/types";
 import type { ShapeType } from "@components/decoratives/Vectors/Shapes/types";
+import CookieConsent from "@components/layouts/CookieConcent/CookieConcent.astro";
 import Footer from "@components/layouts/Footer/Footer.astro";
 import Header from "@components/layouts/Header/Header.astro";
 import {
@@ -10,6 +11,8 @@ import {
 } from "@components/layouts/HeadMeta";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 import type { ColorThemeBase } from "@content/commons";
+import { getMeta } from "@content/meta";
+import { GTM_ID, IS_PUBLIC } from "@lib/utils/env";
 import { css, cva } from "@styles/css";
 
 interface Props {
@@ -41,6 +44,10 @@ const {
   "rootClass:list": rootClassList = [],
   themeColor,
 } = Astro.props;
+
+const {
+  official: { cookieConcent },
+} = await getMeta();
 
 const hideScroll = css({
   _spOnly: {
@@ -147,6 +154,7 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       keywords={keywords}
       ogp={ogp}
       polyfill={polyfill}
+      themeColor={themeColor ?? "smoke"}
     />
   </head>
 
@@ -163,5 +171,6 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       <slot />
     </main>
     <Footer />
+    {IS_PUBLIC && GTM_ID ? <CookieConsent cookieConcentHtml={cookieConcent} /> : null}
   </body>
 </html>

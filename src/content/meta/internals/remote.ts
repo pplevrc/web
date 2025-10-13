@@ -83,6 +83,21 @@ export interface CMSMeta extends MicroCMSObjectContentBase {
   "guidelines-shortcut": CMSGuideline[];
 
   /**
+   *
+   */
+  "privacy-policy": CMSGuideline;
+
+  /**
+   *
+   */
+  "privacy-notice": string;
+
+  /**
+   *
+   */
+  "cookie-concent": string;
+
+  /**
    * comma-separated string
    */
   "common-keywords": string;
@@ -136,6 +151,9 @@ export interface CMSMeta extends MicroCMSObjectContentBase {
 async function convertCMSMetaToMeta(microCMSMeta: CMSMeta): Promise<Meta> {
   const {
     "guidelines-shortcut": guidelinesShortcut,
+    "privacy-policy": privacyPolicyShortcut,
+    "privacy-notice": privacyNotice,
+    "cookie-concent": cookieConcent,
     "common-keywords": commonKeywords,
     "social-links": socialLinks,
     home,
@@ -169,6 +187,12 @@ async function convertCMSMetaToMeta(microCMSMeta: CMSMeta): Promise<Meta> {
       ),
 
       copyright,
+      privacyPolicyShortcut: {
+        title: privacyPolicyShortcut.title,
+        themeColor: ensureNonNil(privacyPolicyShortcut["theme-color"][0]),
+      },
+      privacyNotice,
+      cookieConcent,
     },
     home: {
       title: home.title,
@@ -242,6 +266,10 @@ export async function fetchMeta(): Promise<Meta> {
       fields: [
         "guidelines-shortcut.title",
         "guidelines-shortcut.theme-color",
+        "privacy-policy.title",
+        "privacy-policy.theme-color",
+        "privacy-notice",
+        "cookie-concent",
         "common-keywords",
         "home",
         "article",

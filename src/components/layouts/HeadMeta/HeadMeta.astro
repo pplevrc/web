@@ -3,26 +3,24 @@ import "@assets/css/index.css";
 import "@styles/styles.css";
 
 import { ClientRouter } from "astro:transitions";
+import { IS_PUBLIC } from "@lib/utils/env";
 import DescriptionMeta from "./internals/DescriptionMeta.astro";
 import FaviconMeta from "./internals/FaviconMeta.astro";
-import GtmMeta from "./internals/GtmMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
 import Polyfill from "./internals/Polyfill.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
-
 import type { DescriptionMetaProps } from "./types";
 
 interface Props extends DescriptionMetaProps {}
 
 const props = Astro.props;
 
-const isProduction = import.meta.env.MODE === "production";
+// ※ GTM に関しては直接 GTM 用の script タグを埋め込まず, ./src/components/layouts/CookieConcent/CookieConcent.astro で実装している.
 ---
 
 <DescriptionMeta {...props} />
 <OgpMeta title={props.title} description={props.description} ogp={props.ogp} />
-<GtmMeta />
 <FaviconMeta />
-{isProduction ? <SecurityMeta /> : null}
+{IS_PUBLIC ? <SecurityMeta /> : null}
 <Polyfill {...props.polyfill} />
 <ClientRouter fallback="animate" />

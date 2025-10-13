@@ -25,6 +25,14 @@ export function getMockMeta(): Meta {
           description: "ロリっ子喫茶ぷぷりえ公式 Booth ストア",
         },
       ],
+      privacyPolicyShortcut: {
+        title: "プライバシー ポリシー",
+        themeColor: "smoke",
+      },
+      privacyNotice:
+        '<p>本サイトは、VRChat のコミュニティ紹介を目的として運営されており、Google Analytics によりアクセス解析を行っています。</p><p>個人を特定する情報は収集せず、サイト改善のみに利用します。詳細は<a href="/guidelines/プライバシー%20ポリシー" target="_blank" rel="noopener noreferrer">プライバシーポリシー全文</a>をご覧ください。</p>',
+      cookieConcent:
+        '<p>当サイトでは、アクセス状況を把握する目的で Cookie を使用しています。Cookie ボタンを押すことで、その利用に同意したものとみなします。</p><p>Cookie を拒否しても、基本的な閲覧機能に影響はありません。詳細は<a href="/guidelines/プライバシー%20ポリシー/" target="_blank" rel="noopener noreferrer nofollow">プライバシーポリシー全文</a>をご覧ください。</p>',
     },
     guidelinesShortcut: [
       {

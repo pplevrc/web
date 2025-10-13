@@ -1,15 +1,18 @@
 ---
 import { getMeta } from "@content/meta";
+import { getColorCode } from "@lib/utils/style";
 import type { DescriptionMetaProps } from "../types";
 
 interface Props extends DescriptionMetaProps {}
 
-const { description, keywords = [], title } = Astro.props;
+const { description, keywords = [], title, themeColor = "smoke" } = Astro.props;
 
 const { commonKeywords } = await getMeta();
 
 const fixedTitle =
   title === "ロリっ子喫茶ぷぷりえ" ? title : `${title} | ロリっ子喫茶ぷぷりえ`;
+
+const color = getColorCode(`${themeColor}.lite`);
 ---
 
 <meta charset="UTF-8" />
@@ -22,4 +25,5 @@ const fixedTitle =
   content={[...commonKeywords, ...keywords].map((k) => k.trim()).join(",")}
 />
 <meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content={color} />
 <title>{fixedTitle}</title>

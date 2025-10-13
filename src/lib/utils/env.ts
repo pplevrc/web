@@ -11,6 +11,11 @@ export const IS_PUBLIC = process.env.SITE_IS_PUBLIC === "true";
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 /**
+ * Google Tag Manager の ID
+ */
+export const GTM_ID = process.env.GTM_ID;
+
+/**
  * モックデータを利用するかどうか?
  */
 export const USE_MOCK = process.env.MOCK !== "false";

@@ -1,0 +1,146 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { GTM_ID } from "@lib/utils/env";
+import { hash } from "@lib/utils/random";
+import { css } from "@styles/css";
+import IconButton from "./internals/IconButton.astro";
+
+interface Props {
+  /**
+   *
+   */
+  cookieConcentHtml: string;
+}
+
+const { cookieConcentHtml } = Astro.props;
+
+const description = hash("cookie-concent-description");
+
+const dialogStyle = css({
+  position: "fixed",
+  bg: "carrot.bg",
+  zIndex: "overlay",
+  opacity: "[0.9]",
+  shadow: "sm",
+
+  bottom: "0",
+  w: "[100vw]",
+  h: "24",
+  pt: "1",
+
+  _pc: {
+    bottom: "4",
+    left: "[50%]",
+    transform: "[translateX(-50%)]",
+
+    w: "192",
+    h: "36",
+    p: "1",
+
+    rounded: "2xl",
+  },
+});
+
+const insideStyle = css({
+  borderColor: "carrot.deep",
+  borderTopWidth: "sm",
+  borderTopStyle: "dashed",
+  pt: "4",
+  px: "4",
+
+  _pc: {
+    borderWidth: "sm",
+    borderStyle: "dashed",
+    px: "8",
+    py: "6",
+
+    rounded: "xl",
+  },
+
+  w: "full",
+  h: "full",
+});
+
+const contentStyle = css({
+  textStyle: "normal.xs",
+
+  _pc: {
+    textStyle: "normal.base",
+  },
+
+  "& a": {
+    textDecoration: "underline",
+    textStyle: "normal.bold.xs",
+    _pc: {
+      textStyle: "normal.bold.base",
+    },
+    px: "1",
+  },
+});
+
+const menuStyle = css({
+  pos: "absolute",
+
+  bottom: "2",
+  right: "4",
+  gap: "2",
+
+  _pc: {
+    bottom: "4",
+    right: "8",
+    gap: "4",
+  },
+
+  display: "flex",
+  flexDirection: "row",
+});
+
+const iconStyle = css({
+  color: "white",
+});
+
+const backgroundStyle = css({
+  position: "absolute",
+  zIndex: "back",
+  inset: "0",
+  overflow: "hidden",
+});
+
+const backgroundIconStyle = css({
+  w: "64",
+  h: "64",
+  top: "-8",
+  left: "0",
+  _pc: {
+    w: "128",
+    h: "128",
+    top: "-26",
+  },
+
+  transform: "[rotate(15deg)]",
+  zIndex: "back",
+  pos: "absolute",
+  opacity: "[0.1]",
+  filter: "[grayscale(100%)]",
+});
+
+const DIALOG_ID = hash("cookie-concent");
+
+const COOKIE_BUTTON_ID = hash("cookie-button");
+const STORAGE_KEY = hash("accepted-cookie-concent");
+---
+<dialog id={DIALOG_ID} aria-label="Cookieに関する注意事項" aria-describedby={description} role="alertdialog" class={dialogStyle}>
+  <div class={insideStyle}>
+    <div id={description} set:html={cookieConcentHtml} class={contentStyle} />
+  </div>
+  <div class={backgroundStyle} aria-hidden role="presentation">
+    <Icon type="lucide-cookie" class={backgroundIconStyle} />
+  </div>
+  <menu class={menuStyle}>
+    <IconButton id={COOKIE_BUTTON_ID} class={iconStyle} >
+      <Icon type="lucide-cookie" />
+    </IconButton>
+  </menu>
+</dialog>
+
+<script define:vars={{ A: DIALOG_ID, B: GTM_ID, C: COOKIE_BUTTON_ID, D: STORAGE_KEY }} is:inline> const N = "accepted"; function s() { document.getElementById(A)?.show(); } function h() { document.getElementById(A)?.close(); } function i() { return localStorage.getItem(D) === N; } function g() { localStorage.setItem(D, N); } function e() { const s = document.createElement("script"); s.src = `https://www.googletagmanager.com/gtag/js?id=${B}`; document.head.appendChild(s); window.dataLayer = window.dataLayer ?? []; function t() { dataLayer.push(arguments); } t("js", new Date()); t("config", B); } window.addEventListener("DOMContentLoaded", () => { if (i()) { e(); } else { s(); } document.getElementById(C)?.addEventListener("click", () => { g(); e(); h(); }); }) </script>
