@@ -64,13 +64,10 @@ export function guidelineLoader(): Loader {
       logger.info("Fetching new guidelines");
       const guidelines = await fetchGuidelinesSince(currentUpdatedAt);
 
-      const cachedIds = store.keys();
-
-      for (const id of cachedIds) {
-        if (!guidelines.some((guideline) => guideline.title === id)) {
-          store.delete(id);
-        }
-      }
+      // TODO: CMS側で削除されたガイドラインの検出と削除処理を実装する
+      // CMSの削除API (beta) を使用して、削除されたコンテンツを取得し、
+      // キャッシュから削除する処理を追加する必要がある
+      // 現状は削除時に手動でキャッシュクリア (FETCH_CONTENT_FORCE=true) が必要
 
       for (const guideline of guidelines) {
         const id = guideline.title;
