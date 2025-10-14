@@ -105,6 +105,8 @@ export async function hasNewArticlesSince(date?: Date): Promise<boolean> {
 
 /**
  * 指定した日付より後に update された記事を取得する
+ * @param date - この日付より後に更新された記事を取得する。未指定の場合は全ての記事を取得
+ * @returns 取得した記事の配列（ソートなし。表示時にソートが必要）
  */
 export async function fetchArticlesSince(
   date?: Date,
@@ -128,13 +130,14 @@ export async function fetchArticlesSince(
 
 /**
  * 最新の更新日時を取得する
- * @returns
+ * @returns 全記事の中で最も新しい更新日時
+ * @throws 記事が1件も存在しない場合にエラーをスロー
  */
 async function fetchLatestUpdatedAt(): Promise<Date> {
   const result = await fetchContents<CMSArticle>("articles", {
     query: {
       fields: ["updatedAt"],
-      order: "updatedAt",
+      orders: "-updatedAt",
       limit: 1,
     },
   });

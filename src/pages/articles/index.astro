@@ -5,25 +5,27 @@ import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { sortByDesc, unique } from "@lib/utils/array";
 import { css } from "@styles/css";
 
 const {
   articles: { title, description, keywords, thumbnail },
 } = await getMeta();
 
-const articleCollection = await getCollection("articles");
+const articleCollection = sortByDesc(
+  await getCollection("articles"),
+  (article) => new Date(article.data.publishedAt).getTime(),
+);
 
 const articles = articleCollection.map((article) => article.data);
 
-// 2023-04 のような年月のリストを取り出す
-const dateShortcuts = articleCollection
-  .map((article): `${number}-${number}` => {
+// 2023-04 のような年月のリストを取り出す（既にソート済みなので重複削除のみ）
+const dateShortcuts = unique(
+  articleCollection.map((article): `${number}-${number}` => {
     const date = new Date(article.data.publishedAt);
     return `${date.getFullYear()}-${date.getMonth() + 1}`;
-  })
-  .filter((date, index, self) => {
-    return index === self.indexOf(date);
-  });
+  }),
+);
 
 const mainClass = css({
   display: "flex",
