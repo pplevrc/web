@@ -127,7 +127,7 @@ async function fetchLatestUpdatedAt(): Promise<Date> {
   const result = await fetchContents<CMSGuideline>("guidelines", {
     query: {
       fields: ["updatedAt"],
-      order: "updatedAt",
+      orders: "-updatedAt",
       limit: 1,
     },
   });

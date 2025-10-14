@@ -101,13 +101,48 @@ export interface MicroCMSImage {
 }
 
 /**
+ * 単一の値または配列を表す型
+ */
+type SingleOrArray<T> = T | T[];
+
+/**
+ * MicroCMS のフィールド名を表す型（トップレベルのキーまたはネストされたパス）
+ */
+type FieldPath<T extends MicroCMSContentBase> = (
+  | keyof T
+  | Paths<FlattenArray<T>>
+) &
+  string;
+
+/**
+ * MicroCMS の orders パラメータで使用する文字列型
+ * 昇順の場合はそのまま、降順の場合は `-` プレフィックスをつける
+ * @example "publishedAt" | "-publishedAt"
+ */
+type OrderStr<K extends string> = K | `-${K}`;
+
+/**
  * MicroCMS が提供している Query Params の型
  */
 export interface MicroCMSQueryParams<T extends MicroCMSContentBase> {
-  fields?: (keyof T | Paths<FlattenArray<T>>)[];
+  /**
+   * 取得するフィールドを指定
+   */
+  fields?: FieldPath<T>[];
+  /**
+   * 取得開始位置のオフセット
+   */
   offset?: number;
+  /**
+   * 取得件数の上限
+   */
   limit?: number;
-  order?: keyof T;
+  /**
+   * ソート順を指定。昇順の場合はフィールド名、降順の場合は `-` プレフィックスをつける
+   * 複数指定する場合は配列で渡す
+   * @example "publishedAt" | "-publishedAt" | ["-publishedAt", "createdAt"]
+   */
+  orders?: SingleOrArray<OrderStr<FieldPath<T>>>;
 }
 
 /**
@@ -156,6 +191,12 @@ function createMicroCMSUrl<T extends MicroCMSContentBase>(
     }
     if (query.limit) {
       url.searchParams.append("limit", query.limit.toString());
+    }
+    if (query.orders) {
+      const ordersStr = Array.isArray(query.orders)
+        ? query.orders.join(",")
+        : query.orders;
+      url.searchParams.append("orders", ordersStr);
     }
   }
 
