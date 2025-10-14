@@ -1,0 +1,51 @@
+---
+import image from "@assets/images/404.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import Layout from "@layouts/Layout.astro";
+import { href } from "@lib/utils/base-path";
+import { css } from "@styles/css";
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  py: "42",
+  gap: "16",
+  textAlign: "center",
+});
+
+const imageStyle = css({
+  w: "256",
+});
+---
+
+<Layout
+  headMeta={{
+    title: `404 Not Found`,
+    description: "お探しのページが見つかりませんでした。",
+    keywords: [],
+  }}
+  defineShapes={["letter", "star"]}
+  mainClass={mainClass}
+>
+  <CustomPicture
+    src={image}
+    alt="404 Not Found"
+    width={2560}
+    widths={toWidths(
+      256,
+      /* 404 image のサイズ */
+      {
+        width: 3508,
+        height: 2480,
+      },
+    )}
+    fit="cover"
+    class={imageStyle}
+  />
+  <DecorativeLink href={href("/")} themeColor="ice">ホームに戻る</DecorativeLink
+  >
+</Layout>
