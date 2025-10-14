@@ -12,18 +12,28 @@ const props = Astro.props;
 
 const siteUrl = Astro.url.href;
 
-async function getOgpPath(): Promise<string> {
+async function getOgpImageUrl(): Promise<string> {
   if (!props.ogp) return "";
 
   const image = await getOgpImage(props.ogp);
-  return image.src;
+
+  // OGP画像は絶対URLである必要がある（特にX/Twitterのクローラー用）
+  if (!Astro.site) {
+    throw new Error(
+      "Astro.site is not configured. Please set 'site' in astro.config",
+    );
+  }
+
+  return new URL(image.src, Astro.site).href;
 }
+
+const ogpImageUrl = await getOgpImageUrl();
 ---
 
 <meta property="og:title" content={props.title} />
 <meta property="og:site_name" content="ロリっ子喫茶ぷぷりえ" />
 <meta property="og:description" content={props.description} />
-<meta property="og:image" content={await getOgpPath()} />
+<meta property="og:image" content={ogpImageUrl} />
 <meta property="og:type" content="website" />
 <meta property="og:url" content={siteUrl} />
 
@@ -31,4 +41,4 @@ async function getOgpPath(): Promise<string> {
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={props.title} />
 <meta name="twitter:description" content={props.description} />
-<meta name="twitter:image" content={await getOgpPath()} />
+<meta name="twitter:image" content={ogpImageUrl} />
