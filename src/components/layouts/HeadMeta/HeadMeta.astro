@@ -6,6 +6,7 @@ import { ClientRouter } from "astro:transitions";
 import { IS_PUBLIC } from "@lib/utils/env";
 import DescriptionMeta from "./internals/DescriptionMeta.astro";
 import FaviconMeta from "./internals/FaviconMeta.astro";
+import GoogleMeta from "./internals/GoogleMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
 import Polyfill from "./internals/Polyfill.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
@@ -21,6 +22,7 @@ const props = Astro.props;
 <DescriptionMeta {...props} />
 <OgpMeta title={props.title} description={props.description} ogp={props.ogp} />
 <FaviconMeta />
+{IS_PUBLIC ? <GoogleMeta /> : null}
 {IS_PUBLIC ? <SecurityMeta /> : null}
 <Polyfill {...props.polyfill} />
 <ClientRouter fallback="animate" />
