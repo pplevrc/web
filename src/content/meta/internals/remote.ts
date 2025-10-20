@@ -6,6 +6,7 @@ import {
   type MicroCMSObjectContentBase,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
+import type { AstroIntegrationLogger } from "astro";
 import type { Meta } from "../types";
 
 /**
@@ -245,22 +246,27 @@ async function convertCMSMetaToMeta(microCMSMeta: CMSMeta): Promise<Meta> {
 /**
  *
  * @param date
+ * @param logger
  * @returns
  */
-export async function hasUpdatedSince(date?: Date): Promise<boolean> {
+export async function hasUpdatedSince(
+  date: Date | undefined,
+  logger: AstroIntegrationLogger,
+): Promise<boolean> {
   if (!date) {
     return true;
   }
 
-  const latestUpdatedAt = await fetchLatestUpdatedAt();
+  const latestUpdatedAt = await fetchLatestUpdatedAt(logger);
   return latestUpdatedAt > date;
 }
 
 /**
  *
+ * @param logger
  * @returns
  */
-export async function fetchMeta(): Promise<Meta> {
+export async function fetchMeta(logger: AstroIntegrationLogger): Promise<Meta> {
   const result = await fetchObject<CMSMeta>("meta", {
     query: {
       fields: [
@@ -284,19 +290,24 @@ export async function fetchMeta(): Promise<Meta> {
         "social-links",
       ],
     },
+    logger,
   });
   return convertCMSMetaToMeta(result);
 }
 
 /**
  *
+ * @param logger
  * @returns
  */
-async function fetchLatestUpdatedAt(): Promise<Date> {
+async function fetchLatestUpdatedAt(
+  logger: AstroIntegrationLogger,
+): Promise<Date> {
   const result = await fetchObject<CMSMeta>("meta", {
     query: {
       fields: ["updatedAt"],
     },
+    logger,
   });
 
   const date = result.updatedAt;

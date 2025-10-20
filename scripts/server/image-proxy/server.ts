@@ -89,6 +89,69 @@ function patchHeaders(
 }
 
 /**
+ * レスポンスが画像かどうかを判定する
+ * @param response
+ * @returns
+ */
+function isImageResponse(response: Response): boolean {
+  const contentType = response.headers.get("content-type") ?? "";
+  return contentType.startsWith("image/");
+}
+
+/**
+ * fetch で自動展開されたレスポンスを返す
+ * Content-Encoding ヘッダーを削除して二重展開を防ぐ
+ * @param response
+ * @param raw
+ * @returns
+ */
+function asPassthroughResponse(response: Response, raw: Buffer): HttpResponse {
+  const headers = Object.fromEntries(response.headers.entries());
+
+  // PATCH: Content-Encoding ヘッダーを削除して二重展開を防ぐ
+  // 理由:
+  // 1. fetch() は gzip/deflate されたレスポンスを自動的に展開する
+  // 2. response.arrayBuffer() で取得した時点でデータは既に展開済み
+  // 3. Content-Encoding: gzip ヘッダーがそのまま残っていると、
+  //    クライアント側の fetch が「圧縮されている」と判断してしまう
+  // 4. 既に展開済みのデータを gzip として展開しようとして Zlib エラーが発生する
+  //    (エラー: "incorrect header check")
+  //
+  // Content-Encoding ヘッダーを削除することで、レスポンスボディが
+  // 圧縮されていないことをクライアントに伝え、不要な展開処理を防ぐ。
+  delete headers["content-encoding"];
+
+  return new HttpResponse(raw, {
+    status: response.status,
+    headers: headers,
+  });
+}
+
+/**
+ * 画像レスポンスとして返す（キャッシュヘッダーをパッチ）
+ * @param response
+ * @param raw
+ * @param url
+ * @returns
+ */
+function asImageResponse(
+  response: Response,
+  raw: Buffer,
+  url: string,
+): HttpResponse {
+  const headers = Object.fromEntries(response.headers.entries());
+  const fixedHeaders = patchHeaders(headers, url);
+
+  // PATCH: Content-Encoding ヘッダーを削除して二重展開を防ぐ（画像の場合も同様）
+  delete fixedHeaders["content-encoding"];
+
+  return new HttpResponse(raw, {
+    status: 200,
+    headers: fixedHeaders,
+  });
+}
+
+/**
  * リクエストを処理する
  * @param option
  * @param logger
@@ -129,15 +192,15 @@ async function createHandleRequest(
         throw new AggregateError(errors, `Fetch failed after ${retry} retries`);
       })();
 
-      const headers = Object.fromEntries(response.headers.entries());
       const raw = Buffer.from(await response.arrayBuffer());
 
-      const fixedHeaders = patchHeaders(headers, url);
+      // Content-Type が画像の場合のみキャッシュヘッダーをパッチ
+      // それ以外（JSON, HTML等）はそのまま返す
+      if (isImageResponse(response)) {
+        return asImageResponse(response, raw, url);
+      }
 
-      return new HttpResponse(raw, {
-        status: 200,
-        headers: fixedHeaders,
-      });
+      return asPassthroughResponse(response, raw);
     } catch (error) {
       if (error instanceof ClientError) {
         logger.error(`Client error: ${error.message}`);

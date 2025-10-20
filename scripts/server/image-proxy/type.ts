@@ -26,7 +26,7 @@ const DEFAULT_RETRY = 3;
 /**
  * デフォルトのタイムアウト時間
  */
-const DEFAULT_TIMEOUT = 30000;
+const DEFAULT_TIMEOUT = 60000;
 
 /**
  * デフォルトのオプション

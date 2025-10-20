@@ -1,3 +1,4 @@
+import type { AstroIntegrationLogger } from "astro";
 import { snakeCase } from "scule";
 import type { Paths } from "type-fest";
 import { CONTENTS_API_KEY, CONTENTS_SERVICE_ID } from "./env";
@@ -171,6 +172,7 @@ export interface MicroCMSOptions<
 > {
   query?: MicroCMSQueryParams<T>;
   filters?: MicroCMSFilters<T>[];
+  logger: AstroIntegrationLogger;
 }
 
 /**
@@ -235,20 +237,55 @@ function createMicroCMSHeaders(): Record<string, string> {
  */
 export async function fetchObject<T extends MicroCMSObjectContentBase>(
   endpoint: string,
-  options: MicroCMSOptions<T> = {},
+  options: MicroCMSOptions<T>,
 ): Promise<T> {
+  const { logger } = options;
   const url = createMicroCMSUrl(endpoint, options);
   const headers = createMicroCMSHeaders();
 
-  const response = await fetch(url, { headers });
+  const maxRetries = 3;
+  let lastError: unknown;
 
-  if (!response.ok) {
-    throw new Error(
-      `MicroCMS API error: ${response.status} ${response.statusText}`,
-    );
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      logger.info(
+        `Fetching object from MicroCMS: ${endpoint} (attempt ${attempt}/${maxRetries})`,
+      );
+      const response = await fetch(url, { headers });
+
+      if (!response.ok) {
+        throw new Error(
+          `MicroCMS API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      logger.info(`Successfully fetched object from MicroCMS: ${endpoint}`);
+      return data;
+    } catch (error) {
+      lastError = error;
+      const isZlibError =
+        error instanceof Error &&
+        (error.message.includes("incorrect header check") ||
+          error.message.includes("Zlib"));
+
+      if (isZlibError && attempt < maxRetries) {
+        logger.warn(
+          `Zlib error on attempt ${attempt}, retrying... (${endpoint})`,
+        );
+        // Wait before retrying (exponential backoff)
+        await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+        continue;
+      }
+
+      logger.error(
+        `Error fetching object from MicroCMS (${endpoint}): ${error}`,
+      );
+      throw error;
+    }
   }
 
-  return response.json();
+  throw lastError;
 }
 
 /**
@@ -259,18 +296,53 @@ export async function fetchObject<T extends MicroCMSObjectContentBase>(
  */
 export async function fetchContents<T extends MicroCMSListContentBase>(
   endpoint: string,
-  options: MicroCMSOptions<T> = {},
+  options: MicroCMSOptions<T>,
 ): Promise<MicroCMSListResponse<T>> {
+  const { logger } = options;
   const url = createMicroCMSUrl(endpoint, options);
   const headers = createMicroCMSHeaders();
 
-  const response = await fetch(url, { headers });
+  const maxRetries = 3;
+  let lastError: unknown;
 
-  if (!response.ok) {
-    throw new Error(
-      `MicroCMS API error: ${response.status} ${response.statusText}`,
-    );
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      logger.info(
+        `Fetching contents from MicroCMS: ${endpoint} (attempt ${attempt}/${maxRetries})`,
+      );
+      const response = await fetch(url, { headers });
+
+      if (!response.ok) {
+        throw new Error(
+          `MicroCMS API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = await response.json();
+      logger.info(`Successfully fetched contents from MicroCMS: ${endpoint}`);
+      return data;
+    } catch (error) {
+      lastError = error;
+      const isZlibError =
+        error instanceof Error &&
+        (error.message.includes("incorrect header check") ||
+          error.message.includes("Zlib"));
+
+      if (isZlibError && attempt < maxRetries) {
+        logger.warn(
+          `Zlib error on attempt ${attempt}, retrying... (${endpoint})`,
+        );
+        // Wait before retrying (exponential backoff)
+        await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+        continue;
+      }
+
+      logger.error(
+        `Error fetching contents from MicroCMS (${endpoint}): ${error}`,
+      );
+      throw error;
+    }
   }
 
-  return response.json();
+  throw lastError;
 }
