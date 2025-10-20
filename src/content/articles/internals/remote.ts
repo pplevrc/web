@@ -6,6 +6,7 @@ import {
   type MicroCMSListContentBase,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
+import type { AstroIntegrationLogger } from "astro";
 import type { Article } from "../types";
 
 /**
@@ -91,14 +92,18 @@ function convertCMSDataToArticle(cmsData: CMSArticle): Omit<Article, "id"> {
 /**
  * 指定した日付より後に update された記事があるかどうかを取得する
  * @param date
+ * @param logger
  * @returns
  */
-export async function hasNewArticlesSince(date?: Date): Promise<boolean> {
+export async function hasNewArticlesSince(
+  date: Date | undefined,
+  logger: AstroIntegrationLogger,
+): Promise<boolean> {
   if (!date) {
     return true;
   }
 
-  const latestUpdatedAt = await fetchLatestUpdatedAt();
+  const latestUpdatedAt = await fetchLatestUpdatedAt(logger);
 
   return latestUpdatedAt > date;
 }
@@ -106,10 +111,12 @@ export async function hasNewArticlesSince(date?: Date): Promise<boolean> {
 /**
  * 指定した日付より後に update された記事を取得する
  * @param date - この日付より後に更新された記事を取得する。未指定の場合は全ての記事を取得
+ * @param logger
  * @returns 取得した記事の配列（ソートなし。表示時にソートが必要）
  */
 export async function fetchArticlesSince(
-  date?: Date,
+  date: Date | undefined,
+  logger: AstroIntegrationLogger,
 ): Promise<Omit<Article, "id">[]> {
   const filters: MicroCMSFilters<CMSArticle>[] = [];
 
@@ -123,6 +130,7 @@ export async function fetchArticlesSince(
 
   const result = await fetchContents<CMSArticle>("articles", {
     filters,
+    logger,
   });
 
   return result.contents.map(convertCMSDataToArticle);
@@ -130,16 +138,20 @@ export async function fetchArticlesSince(
 
 /**
  * 最新の更新日時を取得する
+ * @param logger
  * @returns 全記事の中で最も新しい更新日時
  * @throws 記事が1件も存在しない場合にエラーをスロー
  */
-async function fetchLatestUpdatedAt(): Promise<Date> {
+async function fetchLatestUpdatedAt(
+  logger: AstroIntegrationLogger,
+): Promise<Date> {
   const result = await fetchContents<CMSArticle>("articles", {
     query: {
       fields: ["updatedAt"],
       orders: "-updatedAt",
       limit: 1,
     },
+    logger,
   });
 
   const date = result.contents[0]?.updatedAt;

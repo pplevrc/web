@@ -6,6 +6,7 @@ import {
 } from "@content/commons";
 import { CONTENTS_CASTS_URL } from "@lib/utils/env";
 import { ensureNonNil } from "@lib/utils/type";
+import type { AstroIntegrationLogger } from "astro";
 
 /**
  * APIレスポンスデータの型（すべてnullable）
@@ -177,37 +178,51 @@ function isValidCastData(
 /**
  * 店員さんデータを外部APIから取得する
  */
-export async function fetchCastsFromApi(): Promise<Cast[]> {
+export async function fetchCastsFromApi(
+  logger: AstroIntegrationLogger,
+): Promise<Cast[]> {
   if (!CONTENTS_CASTS_URL) {
     throw new Error("CONTENTS_CASTS_URL not configured");
   }
 
-  const response = await fetch(CONTENTS_CASTS_URL);
+  try {
+    logger.info("Fetching cast data from external API");
+    const response = await fetch(CONTENTS_CASTS_URL);
 
-  if (!response.ok) {
-    throw new Error(
-      `Casts API error: ${response.status} ${response.statusText}`,
-    );
-  }
-
-  const apiData: CastApiResponse[] = await response.json();
-  const validCasts: Cast[] = [];
-
-  for (const item of apiData) {
-    // publishedでない場合はスキップ
-    if (!item.published) continue;
-
-    // データが無効な場合はスキップ
-    if (!isValidCastData(item)) continue;
-
-    try {
-      const cast = await convertApiResponseToCast(item);
-      validCasts.push(cast);
-    } catch (error) {
-      console.warn(`Failed to convert cast data for ${item.nickname}:`, error);
-      // 変換エラーの場合もスキップ
+    if (!response.ok) {
+      throw new Error(
+        `Casts API error: ${response.status} ${response.statusText}`,
+      );
     }
-  }
 
-  return validCasts;
+    const apiData: CastApiResponse[] = await response.json();
+    logger.info(`Received ${apiData.length} cast records from API`);
+    const validCasts: Cast[] = [];
+
+    for (const item of apiData) {
+      // publishedでない場合はスキップ
+      if (!item.published) continue;
+
+      // データが無効な場合はスキップ
+      if (!isValidCastData(item)) continue;
+
+      try {
+        const cast = await convertApiResponseToCast(item);
+        validCasts.push(cast);
+      } catch (error) {
+        logger.warn(
+          `Failed to convert cast data for ${item.nickname}: ${error}`,
+        );
+        // 変換エラーの場合もスキップ
+      }
+    }
+
+    logger.info(
+      `Successfully processed ${validCasts.length} valid cast records`,
+    );
+    return validCasts;
+  } catch (error) {
+    logger.error(`Error fetching cast data from API: ${error}`);
+    throw error;
+  }
 }

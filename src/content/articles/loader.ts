@@ -53,14 +53,14 @@ export function articleLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (!(await hasNewArticlesSince(currentUpdatedAt))) {
+      if (!(await hasNewArticlesSince(currentUpdatedAt, logger))) {
         logger.info("No new articles found");
         return;
       }
 
       logger.info("Fetching new articles");
 
-      const articles = await fetchArticlesSince(currentUpdatedAt);
+      const articles = await fetchArticlesSince(currentUpdatedAt, logger);
 
       // TODO: CMS側で削除された記事の検出と削除処理を実装する
       // CMSの削除API (beta) を使用して、削除されたコンテンツを取得し、

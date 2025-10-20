@@ -6,6 +6,7 @@ import {
   type MicroCMSListContentBase,
 } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
+import type { AstroIntegrationLogger } from "astro";
 
 import type { BallonPosition, Guideline } from "../types";
 
@@ -84,23 +85,30 @@ function convertCMSToGuideline(cmsData: CMSGuideline): Omit<Guideline, "id"> {
 /**
  * 指定した日付より後に update された Guideline があるかどうかを取得する
  * @param date
+ * @param logger
  * @returns
  */
-export async function hasNewGuidelinesSince(date?: Date): Promise<boolean> {
+export async function hasNewGuidelinesSince(
+  date: Date | undefined,
+  logger: AstroIntegrationLogger,
+): Promise<boolean> {
   if (!date) {
     return true;
   }
 
-  const latestUpdatedAt = await fetchLatestUpdatedAt();
+  const latestUpdatedAt = await fetchLatestUpdatedAt(logger);
   return latestUpdatedAt > date;
 }
 
 /**
  * CMS から Guideline を取得する
+ * @param date
+ * @param logger
  * @returns
  */
 export async function fetchGuidelinesSince(
-  date?: Date,
+  date: Date | undefined,
+  logger: AstroIntegrationLogger,
 ): Promise<Omit<Guideline, "id">[]> {
   const filters: MicroCMSFilters<CMSGuideline>[] = [];
 
@@ -114,6 +122,7 @@ export async function fetchGuidelinesSince(
 
   const result = await fetchContents<CMSGuideline>("guidelines", {
     filters,
+    logger,
   });
 
   return result.contents.map(convertCMSToGuideline);
@@ -121,15 +130,19 @@ export async function fetchGuidelinesSince(
 
 /**
  * 最新の更新日時を取得する
+ * @param logger
  * @returns
  */
-async function fetchLatestUpdatedAt(): Promise<Date> {
+async function fetchLatestUpdatedAt(
+  logger: AstroIntegrationLogger,
+): Promise<Date> {
   const result = await fetchContents<CMSGuideline>("guidelines", {
     query: {
       fields: ["updatedAt"],
       orders: "-updatedAt",
       limit: 1,
     },
+    logger,
   });
 
   const date = result.contents[0]?.updatedAt;

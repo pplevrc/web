@@ -86,7 +86,7 @@ export function castLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      const casts = await fetchCastsFromApi();
+      const casts = await fetchCastsFromApi(logger);
 
       const lastUpdatedAt = extractLastUpdatedDateByData(casts);
 

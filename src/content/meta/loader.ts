@@ -49,13 +49,13 @@ export function metaLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (!(await hasUpdatedSince(currentUpdatedAt))) {
+      if (!(await hasUpdatedSince(currentUpdatedAt, logger))) {
         logger.info("No new meta found");
         return;
       }
 
       logger.info("Fetching meta data");
-      const metadata = await fetchMeta();
+      const metadata = await fetchMeta(logger);
 
       const data = await parseData({
         id: COMMON_DATA_ID,

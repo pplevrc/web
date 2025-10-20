@@ -56,13 +56,13 @@ export function guidelineLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      if (!(await hasNewGuidelinesSince(currentUpdatedAt))) {
+      if (!(await hasNewGuidelinesSince(currentUpdatedAt, logger))) {
         logger.info("No new guidelines found");
         return;
       }
 
       logger.info("Fetching new guidelines");
-      const guidelines = await fetchGuidelinesSince(currentUpdatedAt);
+      const guidelines = await fetchGuidelinesSince(currentUpdatedAt, logger);
 
       // TODO: CMS側で削除されたガイドラインの検出と削除処理を実装する
       // CMSの削除API (beta) を使用して、削除されたコンテンツを取得し、
