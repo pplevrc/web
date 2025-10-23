@@ -59,7 +59,7 @@ const {
 // OGPProps から OGPMetadata に変換（url を追加）
 const ogpMetadata: OGPMetadata | undefined = ogp
   ? {
-      ...ogp,
+      ...(ogp as Omit<OGPMetadata, "url">),
       url: Astro.url.href,
     }
   : undefined;

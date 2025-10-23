@@ -9,10 +9,17 @@ type Props = OGPMetadata;
 const props = Astro.props;
 const siteUrl = Astro.url.href;
 
-async function toOgpImageURL(
+interface OgpImageResult {
+  url: string;
+  width: number;
+  height: number;
+  type: "image/webp" | "image/png" | "image/jpeg" | "image/gif";
+}
+
+async function toOgpImage(
   imageURL: string | ImageMetadata | undefined,
-): Promise<string> {
-  if (!imageURL) return "";
+): Promise<OgpImageResult | undefined> {
+  if (!imageURL) return undefined;
 
   const image = await getOgpImage(imageURL);
 
@@ -23,7 +30,12 @@ async function toOgpImageURL(
     );
   }
 
-  return new URL(image.src, Astro.site).href;
+  return {
+    url: new URL(image.src, Astro.site).href,
+    width: image.attributes.width,
+    height: image.attributes.height,
+    type: `image/${image.options.format}` as OgpImageResult["type"],
+  };
 }
 
 // 単一値または配列を配列に統一
@@ -44,10 +56,16 @@ const {
   content,
 } = props;
 const images = await Promise.all(
-  toArray(props.image).map(async (image) => ({
-    ...image,
-    url: await toOgpImageURL(image.url),
-  })),
+  toArray(props.image).map(async (image) => {
+    const ogpImageUrl = await toOgpImage(image.url);
+    return {
+      ...image,
+      url: ogpImageUrl?.url ?? "",
+      width: ogpImageUrl?.width ?? image.width,
+      height: ogpImageUrl?.height ?? image.height,
+      type: ogpImageUrl?.type ?? image.type,
+    };
+  }),
 );
 const videos = toArray(props.video);
 const audios = toArray(props.audio);
@@ -70,23 +88,20 @@ const audios = toArray(props.audio);
 
 {/* OGP Image */}
 {
-  images.map(async ({ url, secureUrl, type, width, height, alt }) => (
-    <>
-      <meta property="og:image" content={url} />
-      {secureUrl && (
-        <meta
-          property="og:image:secure_url"
-          content={await toOgpImageURL(secureUrl)}
-        />
-      )}
-      {type && <meta property="og:image:type" content={type} />}
-      {width && <meta property="og:image:width" content={width.toString()} />}
-      {height && (
-        <meta property="og:image:height" content={height.toString()} />
-      )}
-      {alt && <meta property="og:image:alt" content={alt} />}
-    </>
-  ))
+  // secureUrl だけ何もしない
+  images.map(
+    async ({ url, secureUrl: _secureUrl, type, width, height, alt }) => (
+      <>
+        <meta property="og:image" content={url} />
+        {type && <meta property="og:image:type" content={type} />}
+        {width && <meta property="og:image:width" content={width.toString()} />}
+        {height && (
+          <meta property="og:image:height" content={height.toString()} />
+        )}
+        {alt && <meta property="og:image:alt" content={alt} />}
+      </>
+    ),
+  )
 }
 
 {/* OGP Video */}

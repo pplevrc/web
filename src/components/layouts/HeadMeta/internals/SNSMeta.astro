@@ -7,13 +7,18 @@ interface Props extends SNSMetadata {}
 
 const { twitter } = Astro.props;
 
-// 画像URL を取得
-async function getImageUrl(
-  imageURL: string | ImageMetadata | undefined,
-): Promise<string> {
-  if (!imageURL) return "";
+interface ImageResult {
+  url: string;
+  alt?: string;
+}
 
-  const image = await getOgpImage(imageURL);
+// 画像URL と alt テキストを取得
+async function getImageInfo(
+  image: string | ImageMetadata | undefined,
+): Promise<ImageResult | undefined> {
+  if (!image) return undefined;
+
+  const ogpImage = await getOgpImage(image);
 
   // Twitter画像は絶対URLである必要がある
   if (!Astro.site) {
@@ -22,10 +27,13 @@ async function getImageUrl(
     );
   }
 
-  return new URL(image.src, Astro.site).href;
+  const url = new URL(ogpImage.src, Astro.site).href;
+  const alt = ogpImage.attributes.alt;
+
+  return { url, alt };
 }
 
-const imageUrl = await getImageUrl(typeof twitter.image === "string" ? twitter.image : undefined);
+const imageInfo = await getImageInfo(twitter.image);
 ---
 
 <meta name="twitter:card" content="summary_large_image" />
@@ -35,4 +43,13 @@ const imageUrl = await getImageUrl(typeof twitter.image === "string" ? twitter.i
     <meta name="twitter:description" content={twitter.description} />
   )
 }
-{imageUrl && <meta name="twitter:image" content={imageUrl} />}
+{
+  imageInfo && (
+    <>
+      <meta name="twitter:image" content={imageInfo.url} />
+      {imageInfo.alt && (
+        <meta name="twitter:image:alt" content={imageInfo.alt} />
+      )}
+    </>
+  )
+}
