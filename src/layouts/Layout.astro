@@ -17,11 +17,13 @@ import type { ColorThemeBase } from "@content/commons";
 import { getMeta } from "@content/meta";
 import { GTM_ID, IS_PUBLIC } from "@lib/utils/env";
 import { css, cva } from "@styles/css";
+import type { NodeObject } from "jsonld";
 
 interface Props {
   headMeta: DescriptionMetaProps;
   ogp?: OGPProps;
   sns?: SNSProps;
+  jsonLd?: NodeObject | NodeObject[];
   defineIcons?: OptionalIconType[];
   defineLogos?: OptionalLogoIconType[];
   defineShapes?: ShapeType[];
@@ -40,6 +42,7 @@ interface Props {
 const {
   ogp,
   sns,
+  jsonLd,
   headMeta: { title, description, keywords },
   defineIcons,
   defineLogos,
@@ -171,6 +174,7 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       themeColor={themeColor ?? "smoke"}
       ogp={ogpMetadata}
       sns={sns}
+      jsonLd={jsonLd}
     />
   </head>
 

@@ -4,7 +4,7 @@ import type { Props as PolyfillProps } from "./internals/Polyfill.astro";
 import type { SNSMetadata } from "./internals/snsType";
 
 /**
- *
+ * デスクリプションメタデータのプロパティ
  */
 export interface DescriptionMetaProps {
   /**
@@ -50,6 +50,6 @@ export interface OGPProps extends Omit<OGPMetadata, "url" | "image"> {
 }
 
 /**
- *
+ * SNS プロパティ
  */
 export interface SNSProps extends SNSMetadata {}

@@ -7,6 +7,7 @@ import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
 import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 const mainClass = css({
@@ -41,6 +42,28 @@ const {
       image: thumbnail,
     },
   }}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "ロリっ子喫茶ぷぷりえ",
+      url: toAbsoluteUrl("/", Astro.site),
+      image: thumbnail,
+      description,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "ホーム",
+          item: toAbsoluteUrl("/", Astro.site),
+        },
+      ],
+    },
+  ]}
   mainClass={mainClass}
   defineShapes={["letter", "star"]}
 >

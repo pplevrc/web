@@ -1584,6 +1584,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsonld@npm:^1.5.15":
+  version: 1.5.15
+  resolution: "@types/jsonld@npm:1.5.15"
+  checksum: 10c0/d01fbf07c10f4fc53a5b85f28a5691cf7cea4f5f041e0266c5e8d9e4ca94cd410ef427129b2bd930065f675104cbf0a36a7792ba42d3c9b0ec7305c9f01d34c4
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^4.0.0":
   version: 4.0.4
   resolution: "@types/mdast@npm:4.0.4"
@@ -5329,6 +5336,7 @@ __metadata:
     "@oddbird/css-anchor-positioning": "npm:^0.6.1"
     "@pandacss/dev": "npm:^1.4.1"
     "@tsconfig/strictest": "npm:^2.0.6"
+    "@types/jsonld": "npm:^1.5.15"
     "@vitest/ui": "npm:^3.1.4"
     astro: "npm:^5.14.1"
     defu: "npm:^6.1.4"

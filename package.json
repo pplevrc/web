@@ -33,6 +33,7 @@
     "@oddbird/css-anchor-positioning": "^0.6.1",
     "@pandacss/dev": "^1.4.1",
     "@tsconfig/strictest": "^2.0.6",
+    "@types/jsonld": "^1.5.15",
     "@vitest/ui": "^3.1.4",
     "astro": "^5.14.1",
     "defu": "^6.1.4",

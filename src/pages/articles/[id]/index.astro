@@ -5,6 +5,7 @@ import ArticleContentSection from "@components/pages/articles/ArticleContentSect
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { toAbsoluteUrl } from "@lib/utils/url";
 import { replaceByMap } from "@lib/utils/string";
 import { css } from "@styles/css";
 
@@ -85,6 +86,41 @@ const pageKeywords = [
       image: thumbnail,
     },
   }}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+      datePublished: new Date(publishedAt).toISOString(),
+      url: Astro.url.href,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "ホーム",
+          item: toAbsoluteUrl("/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "記事一覧",
+          item: toAbsoluteUrl("/articles/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: pageTitle,
+          item: Astro.url.href,
+        },
+      ],
+    },
+  ]}
   themeColor={themeColor}
   mainClass={mainClass}
   defineShapes={["star"]}
