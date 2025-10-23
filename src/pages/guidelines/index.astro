@@ -20,7 +20,20 @@ const guidelines = guidelineCollection.map((guideline) => guideline.data);
     title,
     description,
     keywords,
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title,
+    type: "website",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title,
+      description,
+      image: thumbnail,
+    },
   }}
 >
   <PageHeading img={thumbnail}> {title} </PageHeading>

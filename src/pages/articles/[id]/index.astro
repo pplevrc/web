@@ -50,23 +50,46 @@ const contentClass = css({
   paddingTop: "26",
   paddingBottom: "42",
 });
+
+// ページメタデータの前処理
+const pageTitle = replaceByMap(title, article);
+const pageDescription = replaceByMap(description, article);
+const pageKeywords = [
+  ...keywords.map((k) => replaceByMap(k, article)),
+  ...articleKeywords,
+];
 ---
 
 <Layout
   headMeta={{
-    title: replaceByMap(title, article),
-    description: replaceByMap(description, article),
-    keywords: [
-      ...keywords.map((k) => replaceByMap(k, article)),
-      ...articleKeywords,
-    ],
-    ogp: thumbnail,
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
+  }}
+  ogp={{
+    title: pageTitle,
+    type: "article",
+    image: {
+      url: thumbnail,
+    },
+    content: {
+      article: {
+        publishedTime: publishedAt,
+      },
+    },
+  }}
+  sns={{
+    twitter: {
+      title: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+    },
   }}
   themeColor={themeColor}
   mainClass={mainClass}
   defineShapes={["star"]}
 >
-  <PageHeading img={thumbnail}>{replaceByMap(title, article)}</PageHeading>
+  <PageHeading img={thumbnail}>{pageTitle}</PageHeading>
   <ArticleContentSection
     contentHtml={content}
     thumbnail={thumbnail}

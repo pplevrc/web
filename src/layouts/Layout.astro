@@ -8,7 +8,10 @@ import Header from "@components/layouts/Header/Header.astro";
 import {
   type DescriptionMetaProps,
   default as HeadMeta,
+  type OGPProps,
+  type SNSProps,
 } from "@components/layouts/HeadMeta";
+import type { OGPMetadata } from "@components/layouts/HeadMeta/internals/ogpType";
 import { default as TemplateDefinition } from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
 import type { ColorThemeBase } from "@content/commons";
 import { getMeta } from "@content/meta";
@@ -17,6 +20,8 @@ import { css, cva } from "@styles/css";
 
 interface Props {
   headMeta: DescriptionMetaProps;
+  ogp?: OGPProps;
+  sns?: SNSProps;
   defineIcons?: OptionalIconType[];
   defineLogos?: OptionalLogoIconType[];
   defineShapes?: ShapeType[];
@@ -33,7 +38,9 @@ interface Props {
 }
 
 const {
-  headMeta: { title, description, keywords, ogp },
+  ogp,
+  sns,
+  headMeta: { title, description, keywords },
   defineIcons,
   defineLogos,
   defineShapes,
@@ -48,6 +55,14 @@ const {
 const {
   official: { cookieConcent },
 } = await getMeta();
+
+// OGPProps から OGPMetadata に変換（url を追加）
+const ogpMetadata: OGPMetadata | undefined = ogp
+  ? {
+      ...ogp,
+      url: Astro.url.href,
+    }
+  : undefined;
 
 const hideScroll = css({
   _spOnly: {
@@ -152,9 +167,10 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       title={title}
       description={description}
       keywords={keywords}
-      ogp={ogp}
       polyfill={polyfill}
       themeColor={themeColor ?? "smoke"}
+      ogp={ogpMetadata}
+      sns={sns}
     />
   </head>
 
@@ -171,6 +187,10 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       <slot />
     </main>
     <Footer />
-    {IS_PUBLIC && GTM_ID ? <CookieConsent cookieConcentHtml={cookieConcent} /> : null}
+    {
+      IS_PUBLIC && GTM_ID ? (
+        <CookieConsent cookieConcentHtml={cookieConcent} />
+      ) : null
+    }
   </body>
 </html>

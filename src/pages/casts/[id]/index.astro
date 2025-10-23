@@ -42,7 +42,25 @@ const defineLogos = [
     title: replaceByMap(title, cast.profile),
     description: replaceByMap(description, cast.profile),
     keywords: keywords.map((k) => replaceByMap(k, cast.profile)),
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title: replaceByMap(title, cast.profile),
+    type: "profile",
+    image: {
+      url: thumbnail,
+    },
+    content: {
+      profile: {
+        username: cast.profile.nickname,
+      },
+    },
+  }}
+  sns={{
+    twitter: {
+      title: replaceByMap(title, cast.profile),
+      description: replaceByMap(description, cast.profile),
+      image: thumbnail,
+    },
   }}
   themeColor={themeColor}
   polyfill={{

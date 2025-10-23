@@ -47,22 +47,40 @@ const contentClass = css({
     _pc: "160",
   },
 });
+
+// ページメタデータの前処理
+const pageTitle = replaceByMap(title, guideline);
+const pageDescription = replaceByMap(description, guideline);
+const pageKeywords = [
+  ...keywords.map((k) => replaceByMap(k, guideline)),
+  ...guideline.keywords,
+];
 ---
 
 <Layout
   headMeta={{
-    title: replaceByMap(title, guideline),
-    description: replaceByMap(description, guideline),
-    keywords: [
-      ...keywords.map((k) => replaceByMap(k, guideline)),
-      ...guideline.keywords,
-    ],
-    ogp: thumbnail,
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
+  }}
+  ogp={{
+    title: pageTitle,
+    type: "article",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+    },
   }}
   themeColor={themeColor}
   mainClass={mainClass}
 >
-  <PageHeading img={thumbnail}> {replaceByMap(title, guideline)} </PageHeading>
+  <PageHeading img={thumbnail}> {pageTitle} </PageHeading>
   <GuidelineContentSection contentHtml={content} class={contentClass} />
   <GuidelineNavigation />
 </Layout>

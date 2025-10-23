@@ -57,7 +57,20 @@ const fitStyle = css({
     title,
     description,
     keywords,
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title,
+    type: "website",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title,
+      description,
+      image: thumbnail,
+    },
   }}
   defineShapes={["letter", "star"]}
   mainClass={mainClass}

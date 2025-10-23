@@ -19,7 +19,20 @@ const {
     title,
     description,
     keywords,
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title,
+    type: "website",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title,
+      description,
+      image: thumbnail,
+    },
   }}
   defineIcons={["lucide-copyright"]}
 >

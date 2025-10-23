@@ -23,11 +23,23 @@ const {
 
 <Layout
   headMeta={{
-    // title だけわざと指定しない
     title: "ロリっ子喫茶ぷぷりえ",
     description,
     keywords,
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title: "ロリっ子喫茶ぷぷりえ",
+    type: "website",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title: "ロリっ子喫茶ぷぷりえ",
+      description,
+      image: thumbnail,
+    },
   }}
   mainClass={mainClass}
   defineShapes={["letter", "star"]}
