@@ -4,23 +4,35 @@ import "@styles/styles.css";
 
 import { ClientRouter } from "astro:transitions";
 import { IS_PUBLIC } from "@lib/utils/env";
+import type { NodeObject } from "jsonld";
 import DescriptionMeta from "./internals/DescriptionMeta.astro";
 import FaviconMeta from "./internals/FaviconMeta.astro";
 import GoogleMeta from "./internals/GoogleMeta.astro";
+import JsonLdMeta from "./internals/JsonLdMeta.astro";
 import OgpMeta from "./internals/OgpMeta.astro";
+import type { OGPMetadata } from "./internals/ogpType";
 import Polyfill from "./internals/Polyfill.astro";
 import SecurityMeta from "./internals/SecurityMeta.astro";
+import SNSMeta from "./internals/SNSMeta.astro";
+import type { SNSMetadata } from "./internals/snsType";
 import type { DescriptionMetaProps } from "./types";
 
-interface Props extends DescriptionMetaProps {}
+interface Props extends DescriptionMetaProps {
+  ogp?: OGPMetadata;
+  sns?: SNSMetadata;
+  jsonLd?: NodeObject | NodeObject[];
+}
 
 const props = Astro.props;
+const { ogp, sns, jsonLd } = Astro.props;
 
 // ※ GTM に関しては直接 GTM 用の script タグを埋め込まず, ./src/components/layouts/CookieConcent/CookieConcent.astro で実装している.
 ---
 
 <DescriptionMeta {...props} />
-<OgpMeta title={props.title} description={props.description} ogp={props.ogp} />
+{ogp && <OgpMeta {...ogp} />}
+{sns && <SNSMeta {...sns} />}
+{jsonLd && <JsonLdMeta data={jsonLd} />}
 <FaviconMeta />
 {IS_PUBLIC ? <GoogleMeta /> : null}
 {IS_PUBLIC ? <SecurityMeta /> : null}

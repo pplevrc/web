@@ -1,0 +1,55 @@
+---
+import { getOgpImage } from "@lib/utils/image";
+import type { ImageMetadata } from "astro";
+import type { SNSMetadata } from "./snsType";
+
+interface Props extends SNSMetadata {}
+
+const { twitter } = Astro.props;
+
+interface ImageResult {
+  url: string;
+  alt?: string;
+}
+
+// 画像URL と alt テキストを取得
+async function getImageInfo(
+  image: string | ImageMetadata | undefined,
+): Promise<ImageResult | undefined> {
+  if (!image) return undefined;
+
+  const ogpImage = await getOgpImage(image);
+
+  // Twitter画像は絶対URLである必要がある
+  if (!Astro.site) {
+    throw new Error(
+      "Astro.site is not configured. Please set 'site' in astro.config",
+    );
+  }
+
+  const url = new URL(ogpImage.src, Astro.site).href;
+  const alt = ogpImage.attributes.alt;
+
+  return { url, alt };
+}
+
+const imageInfo = await getImageInfo(twitter.image);
+---
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={twitter.title} />
+{
+  twitter.description && (
+    <meta name="twitter:description" content={twitter.description} />
+  )
+}
+{
+  imageInfo && (
+    <>
+      <meta name="twitter:image" content={imageInfo.url} />
+      {imageInfo.alt && (
+        <meta name="twitter:image:alt" content={imageInfo.alt} />
+      )}
+    </>
+  )
+}

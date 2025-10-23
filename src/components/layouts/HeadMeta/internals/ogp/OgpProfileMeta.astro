@@ -1,0 +1,12 @@
+---
+import type { OGPProfile } from "../ogpType";
+
+interface Props extends OGPProfile {}
+
+const { firstName, lastName, username, gender } = Astro.props;
+---
+
+{firstName && <meta property="profile:first_name" content={firstName} />}
+{lastName && <meta property="profile:last_name" content={lastName} />}
+{username && <meta property="profile:username" content={username} />}
+{gender && <meta property="profile:gender" content={gender} />}

@@ -6,6 +6,7 @@ import ArticleNavigation from "@components/pages/articles/ArticleNavigation/Arti
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { replaceByMap } from "@lib/utils/string";
+import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
@@ -50,23 +51,81 @@ const contentClass = css({
   paddingTop: "26",
   paddingBottom: "42",
 });
+
+// ページメタデータの前処理
+const pageTitle = replaceByMap(title, article);
+const pageDescription = replaceByMap(description, article);
+const pageKeywords = [
+  ...keywords.map((k) => replaceByMap(k, article)),
+  ...articleKeywords,
+];
 ---
 
 <Layout
   headMeta={{
-    title: replaceByMap(title, article),
-    description: replaceByMap(description, article),
-    keywords: [
-      ...keywords.map((k) => replaceByMap(k, article)),
-      ...articleKeywords,
-    ],
-    ogp: thumbnail,
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
   }}
+  ogp={{
+    title: pageTitle,
+    type: "article",
+    image: {
+      url: thumbnail,
+    },
+    content: {
+      article: {
+        publishedTime: publishedAt,
+      },
+    },
+  }}
+  sns={{
+    twitter: {
+      title: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+    },
+  }}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+      datePublished: new Date(publishedAt).toISOString(),
+      url: Astro.url.href,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "ホーム",
+          item: toAbsoluteUrl("/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "記事一覧",
+          item: toAbsoluteUrl("/articles/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: pageTitle,
+          item: Astro.url.href,
+        },
+      ],
+    },
+  ]}
   themeColor={themeColor}
   mainClass={mainClass}
   defineShapes={["star"]}
 >
-  <PageHeading img={thumbnail}>{replaceByMap(title, article)}</PageHeading>
+  <PageHeading img={thumbnail}>{pageTitle}</PageHeading>
   <ArticleContentSection
     contentHtml={content}
     thumbnail={thumbnail}

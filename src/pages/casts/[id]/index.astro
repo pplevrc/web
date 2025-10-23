@@ -8,6 +8,7 @@ import type { SocialLinkType } from "@content/commons";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { replaceByMap } from "@lib/utils/string";
+import { toAbsoluteUrl } from "@lib/utils/url";
 
 export async function getStaticPaths() {
   const casts = await getCollection("casts");
@@ -42,8 +43,59 @@ const defineLogos = [
     title: replaceByMap(title, cast.profile),
     description: replaceByMap(description, cast.profile),
     keywords: keywords.map((k) => replaceByMap(k, cast.profile)),
-    ogp: thumbnail,
   }}
+  ogp={{
+    title: replaceByMap(title, cast.profile),
+    type: "profile",
+    image: {
+      url: thumbnail,
+    },
+    content: {
+      profile: {
+        username: cast.profile.nickname,
+      },
+    },
+  }}
+  sns={{
+    twitter: {
+      title: replaceByMap(title, cast.profile),
+      description: replaceByMap(description, cast.profile),
+      image: thumbnail,
+    },
+  }}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: replaceByMap(title, cast.profile),
+      image: thumbnail,
+      url: Astro.url.href,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "ホーム",
+          item: toAbsoluteUrl("/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "キャスト",
+          item: toAbsoluteUrl("/casts/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: replaceByMap(title, cast.profile),
+          item: Astro.url.href,
+        },
+      ],
+    },
+  ]}
   themeColor={themeColor}
   polyfill={{
     invokers: true,

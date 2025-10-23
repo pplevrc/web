@@ -6,6 +6,7 @@ import ArticleList from "@components/domains/article/ArticleList/ArticleList.ast
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc, unique } from "@lib/utils/array";
+import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 const {
@@ -57,7 +58,38 @@ const fitStyle = css({
     title,
     description,
     keywords,
-    ogp: thumbnail,
+  }}
+  ogp={{
+    title,
+    type: "website",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title,
+      description,
+      image: thumbnail,
+    },
+  }}
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "ホーム",
+        item: toAbsoluteUrl("/", Astro.site),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: title,
+        item: Astro.url.href,
+      },
+    ],
   }}
   defineShapes={["letter", "star"]}
   mainClass={mainClass}

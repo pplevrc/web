@@ -2,14 +2,14 @@
 /**
  * セキュリティ関連のメタタグとポリシー設定
  */
-const site = Astro.site;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 {/* AI クローラー対策 */}
 <meta name="robots" content="noai, noimageai" />
 
 {/* 正規化された URL を指定 */}
-<link rel="canonical" href={site} />
+<link rel="canonical" href={canonicalUrl} />
 
 {/* Referrer Policy: リファラー情報の送信ポリシー */}
 {/* HTTPS→HTTPSなら完全URL、HTTPS→HTTPならオリジンのみ送信 */}

@@ -6,6 +6,7 @@ import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigatio
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { replaceByMap } from "@lib/utils/string";
+import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 export async function getStaticPaths() {
@@ -47,22 +48,74 @@ const contentClass = css({
     _pc: "160",
   },
 });
+
+// ページメタデータの前処理
+const pageTitle = replaceByMap(title, guideline);
+const pageDescription = replaceByMap(description, guideline);
+const pageKeywords = [
+  ...keywords.map((k) => replaceByMap(k, guideline)),
+  ...guideline.keywords,
+];
 ---
 
 <Layout
   headMeta={{
-    title: replaceByMap(title, guideline),
-    description: replaceByMap(description, guideline),
-    keywords: [
-      ...keywords.map((k) => replaceByMap(k, guideline)),
-      ...guideline.keywords,
-    ],
-    ogp: thumbnail,
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
   }}
+  ogp={{
+    title: pageTitle,
+    type: "article",
+    image: {
+      url: thumbnail,
+    },
+  }}
+  sns={{
+    twitter: {
+      title: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+    },
+  }}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: pageTitle,
+      description: pageDescription,
+      image: thumbnail,
+      url: Astro.url.href,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "ホーム",
+          item: toAbsoluteUrl("/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "ガイドライン",
+          item: toAbsoluteUrl("/guidelines/", Astro.site),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: pageTitle,
+          item: Astro.url.href,
+        },
+      ],
+    },
+  ]}
   themeColor={themeColor}
   mainClass={mainClass}
 >
-  <PageHeading img={thumbnail}> {replaceByMap(title, guideline)} </PageHeading>
+  <PageHeading img={thumbnail}> {pageTitle} </PageHeading>
   <GuidelineContentSection contentHtml={content} class={contentClass} />
   <GuidelineNavigation />
 </Layout>
