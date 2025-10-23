@@ -7,8 +7,8 @@ import CastProfileSection from "@components/pages/cast/CastProfileSection/CastPr
 import type { SocialLinkType } from "@content/commons";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
-import { toAbsoluteUrl } from "@lib/utils/url";
 import { replaceByMap } from "@lib/utils/string";
+import { toAbsoluteUrl } from "@lib/utils/url";
 
 export async function getStaticPaths() {
   const casts = await getCollection("casts");
