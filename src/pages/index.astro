@@ -43,7 +43,7 @@ const recentArticles = sortByDesc(articles, (article) => new Date(article.data.p
     title: "ロリっ子喫茶ぷぷりえ",
     type: "website",
     image: {
-      url: ogpImage.src,
+      url: toAbsoluteUrl(ogpImage.src, Astro.site),
       width: ogpImage.attributes.width,
       height: ogpImage.attributes.height,
       type: `image/${ogpImage.options.format}` as OGPImage["type"],
