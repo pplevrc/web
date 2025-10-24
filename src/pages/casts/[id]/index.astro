@@ -29,7 +29,8 @@ if (!cast) {
   return new Response("Not Found", { status: 404 });
 }
 
-const { themeColor, socialLinks, thumbnail } = cast;
+const { themeColor, socialLinks, thumbnail, profile } = cast;
+const { nickname } = profile;
 
 const defineLogos = [
   ...socialLinks.map((link) => link.type),
@@ -51,7 +52,7 @@ const ogpImage = await getOgpImage(thumbnail);
     title: replaceByMap(title, cast.profile),
     type: "profile",
     image: {
-      url: ogpImage.src,
+      url: toAbsoluteUrl(ogpImage.src, Astro.site),
       width: ogpImage.attributes.width,
       height: ogpImage.attributes.height,
       type: `image/${ogpImage.options.format}` as OGPImage["type"],
@@ -73,10 +74,14 @@ const ogpImage = await getOgpImage(thumbnail);
   jsonLd={[
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      name: replaceByMap(title, cast.profile),
+      "@type": "ProfilePage",
+      name: nickname,
       image: toAbsoluteUrl(ogpImage.src, Astro.site),
       url: Astro.url.href,
+      mainEntity: {
+        "@type": "Person",
+        name: nickname,
+      },
     },
     {
       "@context": "https://schema.org",
@@ -97,7 +102,7 @@ const ogpImage = await getOgpImage(thumbnail);
         {
           "@type": "ListItem",
           position: 3,
-          name: replaceByMap(title, cast.profile),
+          name: nickname,
           item: Astro.url.href,
         },
       ],

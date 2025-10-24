@@ -1,14 +1,15 @@
 ---
+import { getCollection } from "astro:content";
 // biome-ignore lint/suspicious/noTsIgnore: ファイルが動的に作られるため
 // @ts-ignore ファイルが動的に作られるため
 import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp";
-
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
 import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
 import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { sortByDesc } from "@lib/utils/array";
 import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
@@ -25,6 +26,12 @@ const {
 } = await getMeta();
 
 const ogpImage = await getOgpImage(thumbnail);
+
+// 直近5件のarticles
+const articles = await getCollection("articles");
+const recentArticles = sortByDesc(articles, (article) =>
+  new Date(article.data.publishedAt).getTime(),
+).slice(0, 5);
 ---
 
 <Layout
@@ -37,7 +44,7 @@ const ogpImage = await getOgpImage(thumbnail);
     title: "ロリっ子喫茶ぷぷりえ",
     type: "website",
     image: {
-      url: ogpImage.src,
+      url: toAbsoluteUrl(ogpImage.src, Astro.site),
       width: ogpImage.attributes.width,
       height: ogpImage.attributes.height,
       type: `image/${ogpImage.options.format}` as OGPImage["type"],
@@ -71,6 +78,18 @@ const ogpImage = await getOgpImage(thumbnail);
           item: toAbsoluteUrl("/", Astro.site),
         },
       ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "最近の記事",
+      url: toAbsoluteUrl("/articles", Astro.site),
+      itemListElement: recentArticles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: toAbsoluteUrl(`/articles/${article.id}`, Astro.site),
+        name: article.data.title,
+      })),
     },
   ]}
   mainClass={mainClass}
