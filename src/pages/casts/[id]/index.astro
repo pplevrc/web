@@ -1,12 +1,13 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
 import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
 import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
 import type { SocialLinkType } from "@content/commons";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
 
@@ -34,6 +35,8 @@ const defineLogos = [
   ...socialLinks.map((link) => link.type),
   "vrchat",
 ] as const satisfies SocialLinkType[];
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -48,7 +51,10 @@ const defineLogos = [
     title: replaceByMap(title, cast.profile),
     type: "profile",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
     content: {
       profile: {
@@ -60,7 +66,8 @@ const defineLogos = [
     twitter: {
       title: replaceByMap(title, cast.profile),
       description: replaceByMap(description, cast.profile),
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={[
@@ -68,7 +75,7 @@ const defineLogos = [
       "@context": "https://schema.org",
       "@type": "Person",
       name: replaceByMap(title, cast.profile),
-      image: thumbnail,
+      image: toAbsoluteUrl(ogpImage.src, Astro.site),
       url: Astro.url.href,
     },
     {

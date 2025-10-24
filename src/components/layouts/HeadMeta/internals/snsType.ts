@@ -1,5 +1,3 @@
-import type { ImageMetadata } from "astro";
-
 /**
  *
  */
@@ -25,5 +23,8 @@ export interface TwitterMetadata {
   description?: string;
 
   /** ページを表すイメージ */
-  image?: string | ImageMetadata;
+  image?: string;
+
+  /** ページを表すイメージの alt テキスト */
+  imageAlt?: string;
 }

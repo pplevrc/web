@@ -1,10 +1,12 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
 import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
@@ -56,6 +58,8 @@ const pageKeywords = [
   ...keywords.map((k) => replaceByMap(k, guideline)),
   ...guideline.keywords,
 ];
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -68,14 +72,18 @@ const pageKeywords = [
     title: pageTitle,
     type: "article",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
   }}
   sns={{
     twitter: {
       title: pageTitle,
       description: pageDescription,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={[
@@ -84,7 +92,7 @@ const pageKeywords = [
       "@type": "WebPage",
       name: pageTitle,
       description: pageDescription,
-      image: thumbnail,
+      image: toAbsoluteUrl(ogpImage.src, Astro.site),
       url: Astro.url.href,
     },
     {

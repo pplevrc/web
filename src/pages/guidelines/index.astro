@@ -2,8 +2,10 @@
 import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 
 const {
@@ -13,6 +15,8 @@ const {
 const guidelineCollection = await getCollection("guidelines");
 
 const guidelines = guidelineCollection.map((guideline) => guideline.data);
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -26,14 +30,18 @@ const guidelines = guidelineCollection.map((guideline) => guideline.data);
     title,
     type: "website",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
   }}
   sns={{
     twitter: {
       title,
       description,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={{

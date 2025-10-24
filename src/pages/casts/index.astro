@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import CastListNavigator from "@components/pages/cast/CastListNavigator/CastListNavigator.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 
 const castCollection = await getCollection("casts");
@@ -13,6 +15,8 @@ const casts = castCollection.map((cast) => cast.data);
 const {
   casts: { title, description, keywords, thumbnail },
 } = await getMeta();
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -25,14 +29,18 @@ const {
     title,
     type: "website",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
   }}
   sns={{
     twitter: {
       title,
       description,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={{
