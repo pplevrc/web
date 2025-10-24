@@ -1,5 +1,4 @@
 ---
-import { getOgpImage } from "@lib/utils/image";
 import OgpArticleMeta from "./ogp/OgpArticleMeta.astro";
 import OgpProfileMeta from "./ogp/OgpProfileMeta.astro";
 import type { OGPMetadata } from "./ogpType";
@@ -8,35 +7,6 @@ type Props = OGPMetadata;
 
 const props = Astro.props;
 const siteUrl = Astro.url.href;
-
-interface OgpImageResult {
-  url: string;
-  width: number;
-  height: number;
-  type: "image/webp" | "image/png" | "image/jpeg" | "image/gif";
-}
-
-async function toOgpImage(
-  imageURL: string | ImageMetadata | undefined,
-): Promise<OgpImageResult | undefined> {
-  if (!imageURL) return undefined;
-
-  const image = await getOgpImage(imageURL);
-
-  // OGP 画像は絶対 URL である必要がある (特に X のクローラー用)
-  if (!Astro.site) {
-    throw new Error(
-      "Astro.site is not configured. Please set 'site' in astro.config",
-    );
-  }
-
-  return {
-    url: new URL(image.src, Astro.site).href,
-    width: image.attributes.width,
-    height: image.attributes.height,
-    type: `image/${image.options.format}` as OgpImageResult["type"],
-  };
-}
 
 // 単一値または配列を配列に統一
 function toArray<T>(value: T | T[] | undefined | null): T[] {
@@ -55,18 +25,8 @@ const {
   determiner,
   content,
 } = props;
-const images = await Promise.all(
-  toArray(props.image).map(async (image) => {
-    const ogpImageUrl = await toOgpImage(image.url);
-    return {
-      ...image,
-      url: ogpImageUrl?.url ?? "",
-      width: ogpImageUrl?.width ?? image.width,
-      height: ogpImageUrl?.height ?? image.height,
-      type: ogpImageUrl?.type ?? image.type,
-    };
-  }),
-);
+
+const images = toArray(props.image);
 const videos = toArray(props.video);
 const audios = toArray(props.audio);
 ---

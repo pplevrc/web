@@ -2,11 +2,14 @@
 // biome-ignore lint/suspicious/noTsIgnore: ファイルが動的に作られるため
 // @ts-ignore ファイルが動的に作られるため
 import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp";
+
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
 import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
 import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
@@ -20,6 +23,8 @@ const mainClass = css({
 const {
   home: { description, keywords, thumbnail },
 } = await getMeta();
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -32,14 +37,18 @@ const {
     title: "ロリっ子喫茶ぷぷりえ",
     type: "website",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
   }}
   sns={{
     twitter: {
       title: "ロリっ子喫茶ぷぷりえ",
       description,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={[
@@ -48,7 +57,7 @@ const {
       "@type": "Organization",
       name: "ロリっ子喫茶ぷぷりえ",
       url: toAbsoluteUrl("/", Astro.site),
-      image: thumbnail,
+      image: toAbsoluteUrl(ogpImage.src, Astro.site),
       description,
     },
     {

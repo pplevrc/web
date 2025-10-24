@@ -1,10 +1,12 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
 import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
+import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
@@ -59,6 +61,8 @@ const pageKeywords = [
   ...keywords.map((k) => replaceByMap(k, article)),
   ...articleKeywords,
 ];
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -71,7 +75,10 @@ const pageKeywords = [
     title: pageTitle,
     type: "article",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
     content: {
       article: {
@@ -83,7 +90,8 @@ const pageKeywords = [
     twitter: {
       title: pageTitle,
       description: pageDescription,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={[
@@ -92,7 +100,7 @@ const pageKeywords = [
       "@type": "Article",
       headline: pageTitle,
       description: pageDescription,
-      image: thumbnail,
+      image: toAbsoluteUrl(ogpImage.src, Astro.site),
       datePublished: new Date(publishedAt).toISOString(),
       url: Astro.url.href,
     },

@@ -13,7 +13,7 @@ type DateValue = string | Date;
 /** イメージメタデータ */
 export interface OGPImage {
   /** イメージの URL */
-  url: string | ImageMetadata;
+  url: string;
   /** セキュアな URL（HTTPS）*/
   secureUrl?: string;
   /** イメージの MIME タイプ */

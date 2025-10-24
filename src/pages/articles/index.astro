@@ -3,9 +3,11 @@ import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
 import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
+import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc, unique } from "@lib/utils/array";
+import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
@@ -51,6 +53,8 @@ const fitStyle = css({
     gap: "26",
   },
 });
+
+const ogpImage = await getOgpImage(thumbnail);
 ---
 
 <Layout
@@ -63,14 +67,18 @@ const fitStyle = css({
     title,
     type: "website",
     image: {
-      url: thumbnail,
+      url: ogpImage.src,
+      width: ogpImage.attributes.width,
+      height: ogpImage.attributes.height,
+      type: `image/${ogpImage.options.format}` as OGPImage["type"],
     },
   }}
   sns={{
     twitter: {
       title,
       description,
-      image: thumbnail,
+      image: ogpImage.src,
+      imageAlt: ogpImage.attributes.alt,
     },
   }}
   jsonLd={{
