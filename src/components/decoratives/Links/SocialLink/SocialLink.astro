@@ -11,6 +11,7 @@ import PixivFanboxLink from "./internals/PixivFanboxLink.astro";
 import PixivVroidHubLink from "./internals/PixivVroidHubLink.astro";
 import VRChatLink from "./internals/VRChatLink.astro";
 import XLink from "./internals/XLink.astro";
+import YouTubeLink from "./internals/YouTubeLink.astro";
 
 export interface Props extends BaseProps {
   /**
@@ -26,8 +27,7 @@ const fixedUrl = url instanceof URL ? url : new URL(url);
 const fixedType = type ?? (await detectType(fixedUrl));
 
 const componentMap = {
-  // TODO: Youtube に申請しないとアイコンを使えない
-  youtube: OtherLink,
+  youtube: YouTubeLink,
   x: XLink,
   mastodon: MastodonLink,
   misskey: MisskeyLink,

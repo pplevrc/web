@@ -10,6 +10,7 @@ import PixivFanboxLogo from "./internals/PixivFanboxLogo.astro";
 import PixivVRoidHubLogo from "./internals/PixivVRoidHubLogo.astro";
 import VRChatLogo from "./internals/VRChatLogo.astro";
 import XLogo from "./internals/XLogo.astro";
+import YouTubeLogo from "./internals/YouTubeLogo.astro";
 import type { LogoIconType } from "./types";
 
 interface Props extends HTMLAttributes<"svg"> {
@@ -48,6 +49,8 @@ const LogoIconComponent = (() => {
       return PixivFanboxLogo;
     case "vrchat":
       return VRChatLogo;
+    case "youtube":
+      return YouTubeLogo;
 
     // TODO: logo 用意してない
     case "amazon-wishlist":
