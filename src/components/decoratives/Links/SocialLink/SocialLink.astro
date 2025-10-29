@@ -20,7 +20,7 @@ export interface Props extends BaseProps {
   type?: SocialLinkType;
 }
 
-const { type, url, description, variant } = Astro.props;
+const { type, url, description, variant, color, ...rest } = Astro.props;
 
 const fixedUrl = url instanceof URL ? url : new URL(url);
 
@@ -54,4 +54,10 @@ const componentMap = {
 const Component = componentMap[fixedType];
 ---
 
-<Component url={fixedUrl} description={description} variant={variant} />
+<Component
+  url={fixedUrl}
+  description={description}
+  variant={variant}
+  color={color}
+  {...rest}
+/>
