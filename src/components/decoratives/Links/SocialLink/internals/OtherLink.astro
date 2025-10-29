@@ -9,41 +9,74 @@ import IconLinkBase, {
 
 export interface Props extends BaseProps {}
 
-const { url, description, variant } = Astro.props;
+const {
+  url,
+  description,
+  variant,
+  color,
+  class: className,
+  ...rest
+} = Astro.props;
 
 const seed = seedRandom(url);
-
-const colorPalette = randomColorBase(seed);
 
 const styleRecipe = cva({
   base: {},
   variants: {
     variant: {
       sticker: {
-        colorPalette,
+        // sticker の場合のみ色味をランダムにする
+        colorPalette: color ?? randomColorBase(seed),
         bg: "colorPalette.bg",
         color: "colorPalette.regular",
       },
-      "vector-only": {
+      "vector-light": {
+        color: "colorPalette.lite",
+        colorPalette: color ?? "berry",
+      },
+      "vector-dark": {
+        color: "colorPalette.deep",
+        colorPalette: color ?? "berry",
+      },
+      "vector-white": {
         color: "white",
+      },
+      "vector-black": {
+        color: "black",
       },
     },
   },
 });
+
+/**
+ * variant type をレシピに対して修正する
+ * 色が指定されていない場合は、白か黒に固定する
+ */
+const fixedVariant = (() => {
+  switch (variant) {
+    case "vector-light":
+      return color ? "vector-light" : "vector-white";
+    case "vector-dark":
+      return color ? "vector-dark" : "vector-black";
+    default:
+      return variant;
+  }
+})();
 
 const logoStyle = css({
   w: "5",
   h: "5",
 });
 
-const style = styleRecipe({ variant });
+const style = styleRecipe({ variant: fixedVariant });
 ---
 
 <IconLinkBase
   url={url}
   description={description}
   variant={variant}
-  class={style}
+  class:list={[style, className]}
+  {...rest}
 >
   <LogoIcon type="other" class={logoStyle} />
 </IconLinkBase>

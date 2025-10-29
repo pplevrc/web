@@ -1,4 +1,5 @@
 ---
+import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import { getMeta } from "@content/meta";
 import { href } from "@lib/utils/base-path";
 import { hash } from "@lib/utils/random";
@@ -22,27 +23,22 @@ const rootStyle = css({
       display: "none",
     },
   },
+});
 
-  "& > ul": {
+const responsiveNavControlsStyle = css({
+  "& > [data-nav-content]": {
     display: "none",
 
     _pc: {
       display: "flex",
-      justifyContent: "end",
-      gap: "6",
     },
   },
 
   _spOnly: {
     "&:has(:checked)": {
-      "& > ul": {
+      "& > [data-nav-content]": {
         display: "flex",
-        justifyContent: "center",
-        flexDir: "column",
         zIndex: "header",
-
-        placeItems: "center",
-        gap: "4",
 
         animation: "fadeIn",
         animationFillMode: "both",
@@ -59,6 +55,42 @@ const rootStyle = css({
   },
 });
 
+const navContentStyle = css({
+  // responsiveNavControlsStyle で display: "flex" を設定しているので、ここでは設定しない
+  // display: "flex",
+  flexDir: "column",
+  placeItems: "center",
+  justifyContent: "center",
+  gap: "16",
+
+  _pc: {
+    flexDir: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: "8",
+  },
+});
+
+const navMainStyle = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "6",
+
+  _pc: {
+    flexDir: "row",
+  },
+});
+
+const navSNSStyle = css({
+  display: "flex",
+  flexDir: "row",
+  gap: "6",
+
+  _pc: {
+    gap: "2",
+  },
+});
+
 const logoStyle = css({
   position: "absolute",
   display: "block",
@@ -72,6 +104,12 @@ const logoStyle = css({
   },
 });
 
+const linkStyle = css({
+  _pc: {
+    transform: "[scale(0.8)]",
+  },
+});
+
 const navigationId = hash("global-navigation");
 
 const {
@@ -79,11 +117,12 @@ const {
   guidelines: { title: guidelinesTitle },
   casts: { title: castsTitle },
   home: { title: homeTitle },
+  official: { socialLinks },
 } = await getMeta();
 ---
 
 <nav
-  class={rootStyle}
+  class:list={[rootStyle, responsiveNavControlsStyle]}
   aria-label="グローバルナビゲーション"
   id={navigationId}
   data-auto-expanded="target"
@@ -94,20 +133,31 @@ const {
     data-auto-expanded="source"
   />
   <HeaderLogo class={logoStyle} />
-  <ul>
-    <li>
-      <HeaderNavItem label={homeTitle} path={href("/")} />
-    </li>
-    <li>
-      <HeaderNavItem label={articlesTitle} path={href("/articles")} />
-    </li>
-    <li>
-      <HeaderNavItem label={castsTitle} path={href("/casts")} />
-    </li>
-    <li>
-      <HeaderNavItem label={guidelinesTitle} path={href("/guidelines")} />
-    </li>
-  </ul>
+  <div data-nav-content class={navContentStyle}>
+    <ul class={navMainStyle}>
+      <li>
+        <HeaderNavItem label={homeTitle} path={href("/")} />
+      </li>
+      <li>
+        <HeaderNavItem label={articlesTitle} path={href("/articles")} />
+      </li>
+      <li>
+        <HeaderNavItem label={castsTitle} path={href("/casts")} />
+      </li>
+      <li>
+        <HeaderNavItem label={guidelinesTitle} path={href("/guidelines")} />
+      </li>
+    </ul>
+    <ul class={navSNSStyle}>
+      {
+        socialLinks.map((link) => (
+          <li>
+            <SocialLink {...link} variant="vector-dark" class={linkStyle} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
   <script>
     const expandedStateEls = document.querySelectorAll(
       "[data-auto-expanded='source']",

@@ -7,7 +7,14 @@ import IconLinkBase, {
 
 export interface Props extends BaseProps {}
 
-const { url, description, variant } = Astro.props;
+const {
+  url,
+  description,
+  variant,
+  color,
+  class: className,
+  ...rest
+} = Astro.props;
 
 const styleRecipe = cva({
   base: {},
@@ -17,14 +24,40 @@ const styleRecipe = cva({
         color: "[#FF0000]",
         bg: "white",
       },
-      "vector-only": {
+      "vector-light": {
+        color: "colorPalette.lite",
+        colorPalette: color ?? "berry",
+      },
+      "vector-dark": {
+        color: "colorPalette.deep",
+        colorPalette: color ?? "berry",
+      },
+      "vector-white": {
         color: "white",
+      },
+      "vector-black": {
+        color: "black",
       },
     },
   },
 });
 
-const style = styleRecipe({ variant });
+/**
+ * variant type をレシピに対して修正する
+ * 色が指定されていない場合は、白か黒に固定する
+ */
+const fixedVariant = (() => {
+  switch (variant) {
+    case "vector-light":
+      return color ? "vector-light" : "vector-white";
+    case "vector-dark":
+      return color ? "vector-dark" : "vector-black";
+    default:
+      return variant;
+  }
+})();
+
+const style = styleRecipe({ variant: fixedVariant });
 
 const logoStyle = css({
   w: "4",
@@ -36,7 +69,8 @@ const logoStyle = css({
   url={url}
   description={description}
   variant={variant}
-  class={style}
+  class:list={[style, className]}
+  {...rest}
 >
   <LogoIcon type="youtube" class={logoStyle} />
 </IconLinkBase>

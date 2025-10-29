@@ -1,4 +1,5 @@
 ---
+import type { ColorThemeBase } from "@content/commons";
 import { cva } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 import type { SocialLinkVariant } from "../../type";
@@ -18,9 +19,21 @@ export interface Props extends HTMLAttributes<"a"> {
    *
    */
   variant: SocialLinkVariant;
+
+  /**
+   *
+   */
+  color?: ColorThemeBase;
 }
 
-const { variant } = Astro.props;
+const {
+  url,
+  description,
+  class: className,
+  variant,
+  color,
+  ...rest
+} = Astro.props;
 
 const linkStyleRecipe = cva({
   base: {
@@ -36,14 +49,13 @@ const linkStyleRecipe = cva({
         rounded: "full",
         shadow: "xs",
       },
-      "vector-only": {},
+      "vector-light": {},
+      "vector-dark": {},
     },
   },
 });
 
 const linkStyle = linkStyleRecipe({ variant });
-
-const { url, description, class: className, ...rest } = Astro.props;
 ---
 
 <a
