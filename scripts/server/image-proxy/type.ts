@@ -24,9 +24,9 @@ export type FixedImageProxyOptions = Required<ImageProxyOptions>;
 const DEFAULT_RETRY = 3;
 
 /**
- * デフォルトのタイムアウト時間
+ * デフォルトのタイムアウト時間 (5 min)
  */
-const DEFAULT_TIMEOUT = 60000;
+const DEFAULT_TIMEOUT = 5 * 60 * 1000;
 
 /**
  * デフォルトのオプション
