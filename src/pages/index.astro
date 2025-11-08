@@ -1,8 +1,11 @@
 ---
+/** biome-ignore-all lint/suspicious/noTsIgnore: ファイルが動的に作られるため */
+
 import { getCollection } from "astro:content";
-// biome-ignore lint/suspicious/noTsIgnore: ファイルが動的に作られるため
 // @ts-ignore ファイルが動的に作られるため
-import heroThumbnail from "@assets/videos/top.generated.thumbnail.webp";
+import heroThumbnailDev from "@assets/videos/top.generated.dev.thumbnail.webp";
+// @ts-ignore ファイルが動的に作られるため
+import heroThumbnailProd from "@assets/videos/top.generated.thumbnail.webp";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
 import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
 import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
@@ -10,9 +13,12 @@ import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/News
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc } from "@lib/utils/array";
+import { IS_PRODUCTION } from "@lib/utils/env";
 import { getOgpImage } from "@lib/utils/image";
 import { toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
+
+const heroThumbnail = IS_PRODUCTION ? heroThumbnailProd : heroThumbnailDev;
 
 const mainClass = css({
   display: "flex",

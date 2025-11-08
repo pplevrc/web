@@ -113,7 +113,7 @@ export function toThumbnail(
 ): Promise<string> {
   return transport({
     src: filePath,
-    distFileSuffix: ".generated.thumbnail.webp",
+    distFileSuffix: `.generated${isDev ? ".dev" : ""}.thumbnail.webp`,
     createOptions: (input, output) => [
       "-y",
       "-i",

@@ -1,5 +1,5 @@
-import type { Plugin as RollupPlugin } from "rollup";
 import { analyzeVideoMediaType } from "./internals/mediainfo.js";
+import type { PluginOption } from "./type.js";
 
 const TARGET_SUFFIX = "?mediaType";
 
@@ -35,7 +35,7 @@ function extractFilePath(id: string): string {
  * ビデオ系拡張子のファイルを import する際に、 suffix を `?mediaType` とすることで, そのビデオに最適な MediaType を取得する
  * MediaType の判断には FileRead が必要だが, ビルド処理中に node api でファイルを読み込む際のパス解決が, 実行環境によって異なるため, その回避策として vite で事前処理する方針を取っている
  */
-export function videoMediaInfoPlugin(): RollupPlugin {
+export function videoMediaInfoPlugin(): PluginOption {
   return {
     name: "video-media-info",
     resolveId(source) {

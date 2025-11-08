@@ -27,15 +27,15 @@
     "clean:store": "rm -rf .astro && rm .cache/data-store.json"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.5",
     "@astrojs/sitemap": "^3.6.0",
-    "@biomejs/biome": "^2.2.5",
+    "@biomejs/biome": "^2.3.4",
     "@oddbird/css-anchor-positioning": "^0.6.1",
     "@pandacss/dev": "^1.4.1",
     "@tsconfig/strictest": "^2.0.6",
     "@types/jsonld": "^1.5.15",
     "@vitest/ui": "^3.1.4",
-    "astro": "^5.14.1",
+    "astro": "^5.15.4",
     "defu": "^6.1.4",
     "dotenv": "^16.5.0",
     "globby": "^14.1.0",
@@ -57,6 +57,7 @@
     "sharp": "^0.34.4",
     "type-fest": "^5.0.1",
     "typescript": "^5.9.3",
+    "undici": "^7.16.0",
     "unified": "^11.0.5",
     "vitest": "^3.2.4"
   },
