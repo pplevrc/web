@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { AstroIntegrationLogger } from "astro";
 import { bypass, HttpResponse, type HttpResponseResolver, http } from "msw";
 import { type SetupServerApi, setupServer } from "msw/node";
+import { Agent } from "undici";
 import { ClientError, type FixedImageProxyOptions } from "./type.js";
 
 /**
@@ -105,7 +106,10 @@ function isImageResponse(response: Response): boolean {
  * @param raw
  * @returns
  */
-function asPassthroughResponse(response: Response, raw: Buffer): HttpResponse {
+function asPassthroughResponse(
+  response: Response,
+  raw: Buffer,
+): HttpResponse<Buffer> {
   const headers = Object.fromEntries(response.headers.entries());
 
   // PATCH: Content-Encoding ヘッダーを削除して二重展開を防ぐ
@@ -138,7 +142,7 @@ function asImageResponse(
   response: Response,
   raw: Buffer,
   url: string,
-): HttpResponse {
+): HttpResponse<Buffer> {
   const headers = Object.fromEntries(response.headers.entries());
   const fixedHeaders = patchHeaders(headers, url);
 
@@ -149,6 +153,18 @@ function asImageResponse(
     status: 200,
     headers: fixedHeaders,
   });
+}
+
+function logError(error: unknown, logger: AstroIntegrationLogger) {
+  if (error instanceof Error) {
+    logger.error(error.message);
+    if ("cause" in error) {
+      logger.error(`Cause: ${error.cause}`);
+    }
+    return;
+  }
+
+  logger.error(String(error));
 }
 
 /**
@@ -173,11 +189,20 @@ async function createHandleRequest(
         const errors: unknown[] = [];
         for (let i = 0; i < retry; i++) {
           try {
+            const agent = new Agent({
+              connect: {
+                timeout: timeout,
+              },
+            });
+
             // NOTE: MSW の bypass 関数は, この関数の外で呼び出すとなぜか bypass されない問題あり.
             return await fetch(bypass(request), {
-              signal: AbortSignal.timeout(timeout),
-            });
+              dispatcher: agent,
+              // FIXME: RequestInit には dispatcher が存在していない (?) が, 仕様としてある
+            } as RequestInit);
           } catch (error) {
+            logError(error, logger);
+
             if (
               error instanceof Error &&
               RETRY_ERRORS.includes(error.message)

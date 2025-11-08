@@ -3,7 +3,11 @@
 
 // for poster image
 // @ts-ignore ファイルが動的に作られるため
-import thumbnail from "@assets/videos/top.generated.thumbnail.webp";
+import thumbnailDev from "@assets/videos/top.generated.dev.thumbnail.webp";
+// @ts-ignore ファイルが動的に作られるため
+import thumbnailProd from "@assets/videos/top.generated.thumbnail.webp";
+
+// for movie sources
 // @ts-ignore ファイルが動的に作られるため
 import movieProdPcAv1 from "@assets/videos/top-pc.generated.av1.webm";
 // @ts-ignore ファイルが動的に作られるため
@@ -32,28 +36,30 @@ import movieProdSpVp9MediaType from "@assets/videos/top-sp.generated.vp9.webm?me
 import ResponsiveVideo, {
   type Sources,
 } from "@components/commons/ResponsiveVideo/ResponsiveVideo.astro";
+import { IS_PRODUCTION } from "@lib/utils/env";
 
 const props = Astro.props;
 
-const isDev = process.env["NODE_ENV"] !== "production";
+const poster = IS_PRODUCTION ? thumbnailProd : thumbnailDev;
 
 const sources: Sources[] = (() => {
-  if (isDev) {
+  if (IS_PRODUCTION) {
     return [
       {
-        pc: { src: movieDevPcH264, mediaType: movieDevPcH264MediaType },
-        sp: { src: movieDevSpH264, mediaType: movieDevSpH264MediaType },
+        pc: { src: movieProdPcAv1, mediaType: movieProdPcAv1MediaType },
+        sp: { src: movieProdSpAv1, mediaType: movieProdSpAv1MediaType },
+      },
+      {
+        pc: { src: movieProdPcVp9, mediaType: movieProdPcVp9MediaType },
+        sp: { src: movieProdSpVp9, mediaType: movieProdSpVp9MediaType },
       },
     ];
   }
+
   return [
     {
-      pc: { src: movieProdPcAv1, mediaType: movieProdPcAv1MediaType },
-      sp: { src: movieProdSpAv1, mediaType: movieProdSpAv1MediaType },
-    },
-    {
-      pc: { src: movieProdPcVp9, mediaType: movieProdPcVp9MediaType },
-      sp: { src: movieProdSpVp9, mediaType: movieProdSpVp9MediaType },
+      pc: { src: movieDevPcH264, mediaType: movieDevPcH264MediaType },
+      sp: { src: movieDevSpH264, mediaType: movieDevSpH264MediaType },
     },
   ];
 })();
@@ -67,7 +73,7 @@ const sources: Sources[] = (() => {
   loop
   aria-label="ロリっ子喫茶ぷぷりえの紹介ムービー"
   preload="metadata"
-  poster={thumbnail.src}
+  poster={poster.src}
   sources={sources}
   {...props}
 />

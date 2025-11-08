@@ -9,8 +9,8 @@ import { defu } from "defu";
 import isWsl from "is-wsl";
 import { purgeInlineCss } from "./scripts/cleanup/purge-inline-css.js";
 import { renameRemoteImages } from "./scripts/cleanup/rename-remote-images.js";
-import { ghostFile, videoMediaInfoPlugin } from "./scripts/rollup/index.js";
 import { imageProxy } from "./scripts/server/image-proxy/index.js";
+import { ghostFile, videoMediaInfoPlugin } from "./scripts/vite/index.js";
 
 const IS_PRODUCTION = process.env["NODE_ENV"] === "production";
 
@@ -44,6 +44,12 @@ console.log("Environments", {
   CONTENTS_CASTS_API_KEY: mask(process.env["CONTENTS_CASTS_API_KEY"] ?? ""),
 });
 
+/**
+ * 値が null または undefined の場合はエラーを投げる
+ * @param value
+ * @param message
+ * @returns
+ */
 function ensureNonNil<T>(value: T | undefined | null, message: string): T {
   if (value === undefined || value === null) {
     throw new Error(message);
@@ -51,6 +57,11 @@ function ensureNonNil<T>(value: T | undefined | null, message: string): T {
   return value;
 }
 
+/**
+ * 環境に応じてオプションを選択する
+ * @param param0
+ * @returns
+ */
 function byEnv<T>({
   $development,
   $production,
@@ -79,11 +90,7 @@ export default defineConfig(
       css: {
         transformer: "lightningcss",
       },
-      build: {
-        rollupOptions: {
-          plugins: [videoMediaInfoPlugin()],
-        },
-      },
+      plugins: [videoMediaInfoPlugin()],
     },
     cacheDir: USE_MOCK ? "./.cache-mock" : "./.cache",
 
@@ -123,11 +130,9 @@ export default defineConfig(
             output: {
               assetFileNames: "_assets/[hash].[ext]",
             },
-            plugins: [
-              ghostFile((id: string) => id.includes(".generated.dev.")),
-            ],
           },
         },
+        plugins: [ghostFile((id: string) => id.includes(".generated.dev."))],
       },
     } satisfies AstroUserConfig,
 
@@ -136,16 +141,11 @@ export default defineConfig(
      */
     $development: {
       vite: {
-        build: {
-          rollupOptions: {
-            plugins: [
-              ghostFile(
-                (id: string) =>
-                  id.includes(".generated") && !id.includes(".dev."),
-              ),
-            ],
-          },
-        },
+        plugins: [
+          ghostFile(
+            (id: string) => id.includes(".generated") && !id.includes(".dev."),
+          ),
+        ],
 
         server: {
           watch: {
