@@ -10,6 +10,7 @@ import Layout from "@layouts/Layout.astro";
 import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
+import { css } from "@styles/css";
 
 export async function getStaticPaths() {
   const casts = await getCollection("casts");
@@ -114,7 +115,7 @@ const ogpImage = await getOgpImage(thumbnail);
     anchorPosition: true,
   }}
 >
-  <h1 class="sr-only">{nickname} - ぷぷりえ店員</h1>
+  <h1 class={css({ srOnly: true })}>{nickname} - ぷぷりえ店員</h1>
   <CastImageSection nickname={id} />
   <CastProfileSection nickname={id} />
   <CastNavigator nickname={id} themeColor={themeColor} />
