@@ -92,6 +92,10 @@ export async function fetchCastsSince(
   const result = await fetchContents<CMSCast>("casts", {
     filters,
     logger,
+    // FIXME: 全権取得が必要な場合に, limit が邪魔する.
+    query: {
+      limit: 100,
+    },
   });
 
   return Promise.all(result.contents.map(convertCMSToCast));
