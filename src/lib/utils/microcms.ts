@@ -44,7 +44,7 @@ export interface MicroCMSListResponse<T extends MicroCMSListContentBase> {
 }
 
 /**
- *
+ * MicroCMSのコンテンツの基本情報
  */
 interface MicroCMSContentBase {
   /**
@@ -99,6 +99,16 @@ export interface MicroCMSImage {
    *
    */
   width: number;
+}
+
+/**
+ * MicroCMSのフィールドの基本情報
+ */
+export interface MicroCMSField<T extends string> {
+  /**
+   * フィールドID
+   */
+  fieldId: T;
 }
 
 /**
