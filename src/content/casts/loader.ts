@@ -28,7 +28,8 @@ export function castLoader(): Loader {
   }
 
   return {
-    name: "casts",
+    // データ保存先を更新するたびに末尾の番号を更新し、キャッシュの再利用性を回避する
+    name: "casts-2",
     schema: castSchema,
     load: async ({
       store,
