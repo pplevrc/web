@@ -1,51 +1,9 @@
-import type { ColorThemeBase } from "@content/commons";
-import {
-  fetchContents,
-  type MicroCMSFilters,
-  type MicroCMSImage,
-  type MicroCMSListContentBase,
-} from "@lib/utils/microcms";
+import { fetchContents, type MicroCMSFilters } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
 import type { AstroIntegrationLogger } from "astro";
 
-import type { BallonPosition, Guideline } from "../types";
-
-export interface CMSGuideline extends MicroCMSListContentBase {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   * comma-separated string
-   */
-  keywords?: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   *
-   */
-  "hero-image": MicroCMSImage;
-
-  /**
-   *
-   */
-  contents: string;
-
-  /**
-   *
-   */
-  "theme-color": [ColorThemeBase];
-
-  /**
-   *
-   */
-  "ballon-position": [BallonPosition];
-}
+import type { Guideline } from "../types";
+import type { CMSGuideline } from "./cms-type";
 
 /**
  *

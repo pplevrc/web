@@ -1,41 +1,8 @@
 import { USE_CACHE, USE_MOCK } from "@lib/utils/env";
 import type { Loader } from "astro/loaders";
 import { createMockCasts } from "./__mock__";
-import { fetchCastsFromApi } from "./internals/remote";
-import { type Cast, castSchema } from "./types";
-
-/**
- * updatedAt のフォーマットは "2025-10-05 08:23:30 JST" のようになっている
- */
-function formatToDate(date: string): Date {
-  // "2025-10-05 08:23:30 JST" -> Date オブジェクトに変換
-  // JST は UTC+9 なので、ISO 8601 形式に変換してパース
-  const jstPattern =
-    /^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})\s+JST$/;
-  const match = date.match(jstPattern);
-
-  if (!match) {
-    // フォーマットが異なる場合は従来通りのパース
-    return new Date(date);
-  }
-
-  const [, year, month, day, hour, minute, second] = match;
-  // ISO 8601 形式に変換 (JST = UTC+9)
-  const isoString = `${year}-${month}-${day}T${hour}:${minute}:${second}+09:00`;
-  return new Date(isoString);
-}
-
-/**
- *
- * @param casts
- * @returns
- */
-function extractLastUpdatedDateByData(casts: Cast[]): Date {
-  return casts.reduce((max, cast) => {
-    const updatedAt = formatToDate(cast.updatedAt);
-    return updatedAt > max ? updatedAt : max;
-  }, new Date(0));
-}
+import { fetchCastsSince, hasNewCastsSince } from "./internals/remote";
+import { castSchema } from "./types";
 
 /**
  *
@@ -70,8 +37,6 @@ export function castLoader(): Loader {
       generateDigest,
       meta,
     }): Promise<void> => {
-      logger.info("Fetching cast datas");
-
       if (!USE_CACHE) {
         logger.info("Clear cast data store");
         store.clear();
@@ -86,25 +51,15 @@ export function castLoader(): Loader {
         return new Date(lastUpdatedAt);
       })();
 
-      const casts = await fetchCastsFromApi(logger);
-
-      const lastUpdatedAt = extractLastUpdatedDateByData(casts);
-
-      const hasUpdate =
-        lastUpdatedAt.getTime() > (currentUpdatedAt?.getTime() ?? 0);
-
-      if (!hasUpdate) {
+      if (!(await hasNewCastsSince(currentUpdatedAt, logger))) {
         logger.info("No new casts found");
         return;
       }
 
-      const cachedIds = store.keys();
+      logger.info("Fetching new casts");
+      const casts = await fetchCastsSince(currentUpdatedAt, logger);
 
-      for (const id of cachedIds) {
-        if (!casts.some((cast) => cast.profile.nickname === id)) {
-          store.delete(id);
-        }
-      }
+      // CMS側で削除されたキャストの検出と削除処理 (Guideline同様、現状は手動キャッシュクリアが必要)
 
       for (const cast of casts) {
         const id = cast.profile.nickname;

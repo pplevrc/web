@@ -1,154 +1,15 @@
 import { toSocialLink } from "@content/commons";
-import type { CMSGuideline } from "@content/guidelines/internals/remote";
-import {
-  fetchObject,
-  type MicroCMSImage,
-  type MicroCMSObjectContentBase,
-} from "@lib/utils/microcms";
+import { fetchObject } from "@lib/utils/microcms";
 import { ensureNonNil } from "@lib/utils/type";
 import type { AstroIntegrationLogger } from "astro";
 import type { Meta } from "../types";
+import type { CMSMeta } from "./cms-type";
 
 /**
  *
+ * @param microCMSMeta
+ * @returns
  */
-interface CMSPageMeta {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   *
-   */
-  backLinkLabel: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   * comma-separated string
-   */
-  keywords: string;
-
-  /**
-   *
-   */
-  "hero-image": MicroCMSImage;
-}
-
-/**
- *
- */
-interface CMSContentPageMeta {
-  /**
-   *
-   */
-  title: string;
-
-  /**
-   *
-   */
-  description: string;
-
-  /**
-   *
-   */
-  keywords: string;
-}
-
-/**
- *
- */
-interface CMSSocialLink {
-  /**
-   *
-   */
-  url: string;
-
-  /**
-   *
-   */
-  description: string;
-}
-
-/**
- *
- */
-export interface CMSMeta extends MicroCMSObjectContentBase {
-  /**
-   *
-   */
-  "guidelines-shortcut": CMSGuideline[];
-
-  /**
-   *
-   */
-  "privacy-policy": CMSGuideline;
-
-  /**
-   *
-   */
-  "privacy-notice": string;
-
-  /**
-   *
-   */
-  "cookie-concent": string;
-
-  /**
-   * comma-separated string
-   */
-  "common-keywords": string;
-
-  /**
-   *
-   */
-  copyright: string;
-
-  /**
-   *
-   */
-  home: CMSPageMeta;
-
-  /**
-   * replace `{nickname}` to cast's nickname
-   */
-  cast: CMSContentPageMeta;
-
-  /**
-   *
-   */
-  casts: CMSPageMeta;
-
-  /**
-   *
-   */
-  article: CMSContentPageMeta;
-
-  /**
-   *
-   */
-  articles: CMSPageMeta;
-
-  /**
-   *
-   */
-  guideline: CMSContentPageMeta;
-
-  /**
-   *
-   */
-  guidelines: CMSPageMeta;
-
-  /**
-   *
-   */
-  "social-links": CMSSocialLink[];
-}
-
 async function convertCMSMetaToMeta(microCMSMeta: CMSMeta): Promise<Meta> {
   const {
     "guidelines-shortcut": guidelinesShortcut,

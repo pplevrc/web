@@ -6,6 +6,7 @@ export type {
 } from "./avatar";
 export { avatarImageIndexDefault } from "./avatar";
 export { getAvatar, getNextEntry, getPrevEntry } from "./getters";
+export type * from "./internals/cms-type";
 export { castLoader } from "./loader";
 export type {
   Cast,
