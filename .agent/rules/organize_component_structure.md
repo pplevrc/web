@@ -14,3 +14,12 @@ globs: "**/*.astro"
 ## Component Size
 - Keep components small and focused.
 - Break down large components into smaller sub-components, especially if they exceed ~300 lines.
+
+## Page Entry Point
+- **Routing & Data (`src/pages/`)**:
+    - Responsible for **Layout**, **Metadata**, **Data Fetching**, and **Routing**.
+    - MUST invoke the UI Entry Point component and pass necessary data as props.
+- **UI Entry Point (`src/components2/pages/<page-name>/index.astro`)**:
+    - Responsible for the visual structure of the page.
+    - MUST be a pure component that receives data via Props.
+    - SHOULD NOT contain `Layout` or global metadata logic.

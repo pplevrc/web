@@ -1,0 +1,16 @@
+---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import CastListNavigator from "@components2/pages/cast-list/CastListNavigator/CastListNavigator.astro";
+import type { Cast } from "@content/casts";
+
+interface Props {
+  casts: Cast[];
+  title: string;
+  thumbnail: string | ImageMetadata;
+}
+
+const { casts, title, thumbnail } = Astro.props;
+---
+
+<PageHeading img={thumbnail}> {title} </PageHeading>
+<CastListNavigator casts={casts} />

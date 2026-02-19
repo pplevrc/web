@@ -9,14 +9,14 @@ This document tracks the progress of the refactoring project using the flat `src
 ## Tasks
 
 - [ ] **Phase 1: Setup & Home Page**
-    - [ ] Create `src/components2` directory.
-    - [ ] **Home Page** (`/`) -> `src/components2/pages/home`
-        - Create `src/components2/pages/home/index.astro`.
-        - Move `HeroSection`, `NewsHeadlineSection`, `CastPickupSection`.
-        - Update `src/pages/index.astro`.
+    - [x] Create `src/components2` directory.
+    - [x] **Home Page** (`/`) -> `src/components2/pages/home`
+        - [x] Create `src/components2/pages/home/index.astro`.
+        - [x] Move `HeroSection`, `NewsHeadlineSection`, `CastPickupSection`.
+        - [x] Update `src/pages/index.astro`.
 
 - [ ] **Phase 2: Cast Pages**
-    - [ ] **List** (`/casts`) -> `src/components2/pages/cast-list`
+    - [x] **List** (`/casts`) -> `src/components2/pages/cast-list`
     - [ ] **Detail** (`/casts/[id]`) -> `src/components2/pages/cast-detail`
 
 - [ ] **Phase 3: Article Pages**
