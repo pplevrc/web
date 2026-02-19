@@ -1,20 +1,15 @@
 ---
-import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
-import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
 import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
+import HomePickupSection from "../HomePickupSection/HomePickupSection.astro";
 
-const articles = await getCollection("articles");
+interface Props {
+  articles: CollectionEntry<"articles">[];
+}
 
-const newArticles = articles
-  .sort((a, b) => {
-    const aData = new Date(a.data.publishedAt);
-    const bData = new Date(b.data.publishedAt);
-
-    return bData.getTime() - aData.getTime();
-  })
-  .slice(0, 5);
+const { articles } = Astro.props;
 
 const listStyle = css({
   // SP
@@ -48,7 +43,7 @@ const listItemStyle = css({
 >
   <ul class={listStyle}>
     {
-      newArticles.map(
+      articles.map(
         ({ id, data: { title, thumbnail, thumbnailLabel, publishedAt } }) => (
           <li class={listItemStyle}>
             <LetterLink

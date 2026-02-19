@@ -7,9 +7,7 @@ import heroThumbnailDev from "@assets/videos/top.generated.dev.thumbnail.webp";
 // @ts-ignore ファイルが動的に作られるため
 import heroThumbnailProd from "@assets/videos/top.generated.thumbnail.webp";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
-import CastPickupSection from "@components/pages/home/CastPickupSection/CastPickupSection.astro";
-import HeroSection from "@components/pages/home/HeroSection/HeroSection.astro";
-import NewsHeadlineSection from "@components/pages/home/NewsHeadlineSection/NewsHeadlineSection.astro";
+import Home from "@components2/pages/home/index.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc } from "@lib/utils/array";
@@ -29,6 +27,7 @@ const mainClass = css({
 
 const {
   home: { description, keywords, thumbnail },
+  guidelinesShortcut,
 } = await getMeta();
 
 const ogpImage = await getOgpImage(thumbnail);
@@ -38,6 +37,8 @@ const articles = await getCollection("articles");
 const recentArticles = sortByDesc(articles, (article) =>
   new Date(article.data.publishedAt).getTime(),
 ).slice(0, 5);
+
+const casts = await getCollection("casts");
 ---
 
 <Layout
@@ -113,7 +114,9 @@ const recentArticles = sortByDesc(articles, (article) =>
       fetchpriority="high"
     />
   </Fragment>
-  <HeroSection />
-  <NewsHeadlineSection />
-  <CastPickupSection />
+  <Home
+    articles={recentArticles}
+    casts={casts}
+    guidelinesShortcut={guidelinesShortcut}
+  />
 </Layout>

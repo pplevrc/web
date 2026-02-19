@@ -1,11 +1,15 @@
 ---
-import { getCollection } from "astro:content";
-import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
-import HomePickupSection from "@components/layouts/Sections/HomePickupSection/HomePickupSection.astro";
+import type { CollectionEntry } from "astro:content";
 import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
+import HomePickupSection from "../HomePickupSection/HomePickupSection.astro";
+import FeaturedApprentice from "./internals/FeaturedApprentice.astro";
 
-const casts = await getCollection("casts");
+interface Props {
+  casts: CollectionEntry<"casts">[];
+}
+
+const { casts } = Astro.props;
 
 const listStyle = css({
   bg: "white/50",
@@ -112,12 +116,13 @@ const imageWrapStyle = css({
           },
         }) => (
           <li class:list={[listItemStyle, imageSwitchStyle]}>
-            <DecorativeAvatarLink
-              size="medium"
+            <a
+              href={href(`/casts/${nickname}`)}
               class={imageWrapStyle}
-              nickname={nickname}
-              avatarIndex={0}
-            />
+              aria-label={`店員"${nickname}"の紹介ページ`}
+            >
+              <FeaturedApprentice nickname={nickname} avatarIndex={0} />
+            </a>
           </li>
         ),
       )

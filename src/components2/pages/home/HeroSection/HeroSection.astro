@@ -1,8 +1,15 @@
 ---
 import ScreenFitSection from "@components/layouts/Sections/ScreenFitSection/ScreenFitSection.astro";
+import type { ColorThemeBase } from "@content/commons";
 import { css } from "@styles/css";
 import HeroMovie from "./internals/HeroMovie.astro";
 import OverlayPopText from "./internals/OverlayPopText.astro";
+
+interface Props {
+  guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
+}
+
+const { guidelinesShortcut } = Astro.props;
 
 const sectionStyle = css({
   position: "relative",
@@ -18,6 +25,6 @@ const videoStyle = css({
 ---
 
 <ScreenFitSection class={sectionStyle}>
-  <OverlayPopText />
+  <OverlayPopText guidelinesShortcut={guidelinesShortcut} />
   <HeroMovie class={videoStyle} />
 </ScreenFitSection>

@@ -1,0 +1,201 @@
+---
+import { getEntry } from "astro:content";
+import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { ppleIconType } from "@components/decoratives/Vectors/Icon/types";
+import NameSeal from "@components/domains/avatar/DecorativeAvatar/common/internals/NameSeals.astro";
+import StripeCircle from "@components/domains/avatar/DecorativeAvatar/common/internals/StripeCircle.astro";
+import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
+import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { css, cva } from "@styles/css";
+
+interface Props extends CommonProps {}
+
+const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
+
+const { nickname } = avatarImageProps;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { themeColor } = cast;
+
+const figureRoot = css({
+  w: "32",
+  h: "[inherit]",
+  pos: "relative",
+});
+
+const origamiStyle = css({
+  pos: "absolute",
+  transform: "[translate(-50%, -50%)]",
+  left: "[50%]",
+  bottom: "[17.5%]",
+
+  w: "32",
+  h: "32",
+});
+
+const imageStyle = css({
+  pos: "absolute",
+  bottom: "[10%]",
+  left: "[50%]",
+  w: "80",
+  h: "80",
+  transform: "[translate(-50%, 0)]",
+  display: "block",
+  zIndex: "front",
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "28",
+  h: "28",
+  left: "[40%]",
+  top: "[50%]",
+  transform: "[translate(-50%, -50%)]",
+});
+
+const nameStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    left: "[50%]",
+    bottom: "[10%]",
+
+    textStyle: "decorative.bold.lg",
+    textDecorationStyle: "solid",
+    color: "white",
+    zIndex: "float",
+  },
+  variants: {
+    rotate: {
+      "0": {
+        transform: "[translate(-50%, -50%)]",
+      },
+      "2.5": {
+        transform: "[translate(-50%, -50%) rotate(2.5deg)]",
+      },
+      "5": {
+        transform: "[translate(-50%, -50%) rotate(5deg)]",
+      },
+      "7.5": {
+        transform: "[translate(-50%, -50%) rotate(7.5deg)]",
+      },
+      "10": {
+        transform: "[translate(-50%, -50%) rotate(10deg)]",
+      },
+      "12.5": {
+        transform: "[translate(-50%, -50%) rotate(12.5deg)]",
+      },
+      "15": {
+        transform: "[translate(-50%, -50%) rotate(15deg)]",
+      },
+      "-2.5": {
+        transform: "[translate(-50%, -50%) rotate(-2.5deg)]",
+      },
+      "-5": {
+        transform: "[translate(-50%, -50%) rotate(-5deg)]",
+      },
+      "-7.5": {
+        transform: "[translate(-50%, -50%) rotate(-7.5deg)]",
+      },
+      "-10": {
+        transform: "[translate(-50%, -50%) rotate(-10deg)]",
+      },
+      "-12.5": {
+        transform: "[translate(-50%, -50%) rotate(-12.5deg)]",
+      },
+      "-15": {
+        transform: "[translate(-50%, -50%) rotate(-15deg)]",
+      },
+    },
+  },
+});
+
+const random = seedRandom(nickname);
+
+const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
+
+const origamiRotateType = randomPick(
+  1,
+  /**
+   * 60, 120, 240, 300 度のみにする
+   */
+  [2, 4, 8, 10] as const,
+  random,
+);
+
+const inverse = randomPick(1, [true, false] as const, random);
+
+const icon = randomPick(1, ppleIconType, random);
+
+const nameRotateType = randomPick(
+  1,
+  [
+    "0",
+    "2.5",
+    "5",
+    "7.5",
+    "10",
+    "12.5",
+    "15",
+    "-2.5",
+    "-5",
+    "-7.5",
+    "-10",
+    "-12.5",
+    "-15",
+  ] as const,
+  random,
+);
+
+const nameStyle = nameStyleRecipe({
+  rotate: nameRotateType,
+});
+---
+
+<figure class:list={[figureRoot, className]} {...rootAttributes}>
+  <OrigamiShape
+    shape={shapeType}
+    rotate={origamiRotateType}
+    inverse={inverse}
+    color={themeColor}
+    class={origamiStyle}
+  />
+  <StripeCircle class={circleStyle} />
+  {
+    /**
+     * hover の判定が親のコンポーネントに依存しているため、仕方なくここで data-visible-on で親側のスタイルが適用させている
+     */
+  }
+  <AvatarImage
+    {...avatarImageProps}
+    expression="neutral"
+    width={776}
+    height={776}
+    class={imageStyle}
+    alt={`${nickname}のアバター`}
+    data-visible-on="default"
+  />
+  <AvatarImage
+    {...avatarImageProps}
+    expression="emotional"
+    width={776}
+    height={776}
+    class={imageStyle}
+    alt={""}
+    data-visible-on="hover"
+  />
+  <NameSeal
+    name={nickname}
+    color={themeColor}
+    icon={icon}
+    width="short"
+    class={nameStyle}
+  />
+</figure>
