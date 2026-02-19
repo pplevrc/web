@@ -1,0 +1,165 @@
+---
+import { getEntry } from "astro:content";
+import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import { ppleIconType } from "@components/decoratives/Vectors/Icon/types";
+import NameSeal from "@components/domains/avatar/DecorativeAvatar/common/internals/NameSeals.astro";
+import StripeCircle from "@components/domains/avatar/DecorativeAvatar/common/internals/StripeCircle.astro";
+import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
+import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
+import { href } from "@lib/utils/base-path";
+import { randomPick, seedRandom } from "@lib/utils/random";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+export interface Props extends CommonProps, HTMLAttributes<"a"> {
+  nickname: string;
+}
+
+const {
+  class: className,
+  rootAttributes,
+  nickname,
+  ...avatarImageProps
+} = Astro.props;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const { themeColor } = cast;
+
+const random = seedRandom(nickname);
+
+const shapeType = randomPick(1, [0, 1, 2, 3, 4, 5, 6, 7, 8] as const, random);
+
+const figureRoot = css({
+  w: "48",
+  h: "48",
+  overflow: "visible",
+  pos: "relative",
+
+  rounded: "full",
+  borderColor: "colorPalette.lite",
+  bg: "colorPalette.bg/70",
+  colorPalette: themeColor,
+  borderWidth: "lg",
+
+  _pc: {
+    _hover: {
+      scale: "[1.1]",
+      transform: "[rotate(1deg)]",
+    },
+  },
+});
+
+const origamiStyle = css({
+  pos: "absolute",
+
+  w: "full",
+  h: "full",
+});
+
+const imageStyle = css({
+  pos: "absolute",
+  w: "full",
+  h: "full",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+  display: "block",
+  zIndex: "front",
+  rounded: "full",
+  overflow: "hidden",
+
+  "& img": {
+    w: "full",
+    h: "full",
+  },
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "full",
+  h: "full",
+  left: "0",
+  top: "0",
+});
+
+const nameStyle = css({
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+  zIndex: "front",
+});
+
+const rootStyle = css({
+  overflow: "visible",
+
+  "& *": {
+    pointerEvents: "none",
+  },
+});
+
+const origamiRotateType = randomPick(
+  1,
+  /**
+   * 60, 120, 240, 300 度のみにする
+   */
+  [2, 4, 8, 10] as const,
+  random,
+);
+
+const icon = randomPick(1, ppleIconType, random);
+
+const inverse = randomPick(1, [true, false] as const, random);
+---
+
+<a
+  class:list={[rootStyle, className]}
+  href={href(`/casts/${nickname}`)}
+  aria-label={`店員"${nickname}"の紹介ページ`}
+  {...rootAttributes}
+>
+  <figure class={figureRoot}>
+    <OrigamiShape
+      shape={shapeType}
+      rotate={origamiRotateType}
+      inverse={inverse}
+      color={themeColor}
+      class={origamiStyle}
+    />
+    <StripeCircle class={circleStyle} />
+    <AvatarFaceImage
+      {...avatarImageProps}
+      nickname={nickname}
+      class={imageStyle}
+      expression="neutral"
+      alt={`${nickname} のアバター`}
+      width={384}
+      outline="medium"
+      data-visible-on="default"
+    />
+    <AvatarFaceImage
+      {...avatarImageProps}
+      nickname={nickname}
+      class={imageStyle}
+      expression="emotional"
+      alt={`${nickname} のアバター`}
+      width={384}
+      outline="medium"
+      data-visible-on="hover"
+    />
+    <NameSeal
+      name={nickname}
+      color={themeColor}
+      icon={icon}
+      width="medium"
+      class={nameStyle}
+    />
+  </figure>
+</a>

@@ -1,5 +1,5 @@
 ---
-import DecorativeAvatarLink from "@components/domains/avatar/DecorativeAvatarLink/DecorativeAvatarLink.astro";
+import CastBustUpLink from "@components2/domains/avatar/CastBustUpLink/CastBustUpLink.astro";
 import type { Cast } from "@content/casts";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
@@ -138,10 +138,7 @@ const castRows = (() => {
         <ul class={listStyle} role="presentation" data-shuffle="cast">
           {casts.map((cast) => (
             <li class:list={[listItemStyle, imageSwitchStyle]} role="listitem">
-              <DecorativeAvatarLink
-                size="small"
-                nickname={cast.profile.nickname}
-              />
+              <CastBustUpLink nickname={cast.profile.nickname} />
             </li>
           ))}
         </ul>
