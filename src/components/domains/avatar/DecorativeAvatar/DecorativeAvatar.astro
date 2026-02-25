@@ -1,12 +1,11 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import Large from "./large/Large.astro";
 import Medium from "./medium/Medium.astro";
 import Small from "./small/Small.astro";
 import type { CommonProps } from "./type";
 
 export interface Props extends CommonProps, HTMLAttributes<"figure"> {
-  size: "small" | "medium" | "large";
+  size: "small" | "medium";
 }
 
 const { size, ...avatarImageProps } = Astro.props;
@@ -14,7 +13,6 @@ const { size, ...avatarImageProps } = Astro.props;
 const Component = {
   small: Small,
   medium: Medium,
-  large: Large,
 }[size];
 ---
 

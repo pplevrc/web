@@ -1,13 +1,13 @@
 ---
 import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
+import StripeCircle from "@components/domains/avatar/DecorativeAvatar/common/internals/StripeCircle.astro";
+import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import PhotoImage from "@components/domains/image/PhotoImage.astro";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
-import StripeCircle from "../common/internals/StripeCircle.astro";
-import type { CommonProps } from "../type";
-import NameSeals from "./internals/NameSeals.astro";
+import CircularNameSeals from "./CircularNameSeals.astro";
 
 interface Props extends CommonProps {}
 
@@ -150,7 +150,7 @@ const inverse = randomPick(1, [true, false] as const, random);
     data-visible-on="hover"
     alt={""}
   />
-  <NameSeals name={nickname} color={themeColor} radius="medium" />
+  <CircularNameSeals name={nickname} color={themeColor} radius="medium" />
 </figure>
 
 <script>

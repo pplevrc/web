@@ -1,16 +1,13 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
-import CastImageSection from "@components/pages/cast/CastImageSection/CastImageSection.astro";
-import CastNavigator from "@components/pages/cast/CastNavigator/CastNavigator.astro";
-import CastProfileSection from "@components/pages/cast/CastProfileSection/CastProfileSection.astro";
+import CastDetailPageEntry from "@components2/pages/cast-detail/index.astro";
 import type { SocialLinkType } from "@content/commons";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
-import { css } from "@styles/css";
 
 export async function getStaticPaths() {
   const casts = await getCollection("casts");
@@ -115,8 +112,5 @@ const ogpImage = await getOgpImage(thumbnail);
     anchorPosition: true,
   }}
 >
-  <h1 class={css({ srOnly: true })}>{nickname} - ぷぷりえ店員</h1>
-  <CastImageSection nickname={id} />
-  <CastProfileSection nickname={id} />
-  <CastNavigator nickname={id} themeColor={themeColor} />
+  <CastDetailPageEntry nickname={id} themeColor={themeColor} />
 </Layout>

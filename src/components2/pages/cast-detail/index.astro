@@ -1,0 +1,19 @@
+---
+import { css } from "@styles/css";
+import type { ColorThemeBase } from "@content/commons";
+import CastImageSection from "./CastImageSection/CastImageSection.astro";
+import CastProfileSection from "./CastProfileSection/CastProfileSection.astro";
+import CastNavigator from "./CastNavigator/CastNavigator.astro";
+
+interface Props {
+  nickname: string;
+  themeColor: ColorThemeBase;
+}
+
+const { nickname, themeColor } = Astro.props;
+---
+
+<h1 class={css({ srOnly: true })}>{nickname} - ぷぷりえ店員</h1>
+<CastImageSection nickname={nickname} />
+<CastProfileSection nickname={nickname} />
+<CastNavigator nickname={nickname} themeColor={themeColor} />
