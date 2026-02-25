@@ -20,7 +20,7 @@ This document tracks the progress of the refactoring project using the flat `src
     - [ ] **Detail** (`/casts/[id]`) -> `src/components2/pages/cast-detail`
 
 - [ ] **Phase 3: Article Pages**
-    - [ ] **List** (`/articles`) -> `src/components2/pages/article-list`
+    - [x] **List** (`/articles`) -> `src/components2/pages/article-list`
     - [ ] **Detail** (`/articles/[id]`) -> `src/components2/pages/article-detail`
 
 - [ ] **Phase 4: Guideline Pages**

@@ -1,0 +1,37 @@
+---
+import type { Article } from "@content/articles";
+import { css } from "@styles/css";
+import ArticleDateShortcut from "./ArticleDateShortcut/ArticleDateShortcut.astro";
+import ArticleList from "./ArticleList/ArticleList.astro";
+
+interface Props {
+  articles: Article[];
+  yearMonths: `${number}-${number}`[];
+  title: string;
+}
+
+const { articles, yearMonths, title } = Astro.props;
+
+const fitStyle = css({
+  // grid にする. list がメインで、 date shortcut は aside になる
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  w: "full",
+  paddingInline: "8",
+  gap: "16",
+  pt: "16",
+  pb: "26",
+
+  _pc: {
+    gridTemplateColumns: "4fr 1fr",
+    w: "256",
+    paddingInline: "[inherit]",
+    gap: "26",
+  },
+});
+---
+
+<section class={fitStyle}>
+  <ArticleList articles={articles} yearMonths={yearMonths} aria-label={title} />
+  <ArticleDateShortcut yearMonths={yearMonths} aria-label="公開年月一覧" />
+</section>
