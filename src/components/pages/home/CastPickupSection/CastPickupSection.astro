@@ -95,10 +95,12 @@ const imageSwitchStyle = css({
 const imageWrapStyle = css({
   w: "full",
   h: "full",
-  p: "-4",
   display: "flex",
   flexDir: "column",
   alignItems: "center",
+  "& *": {
+    pointerEvents: "none",
+  },
 });
 ---
 
