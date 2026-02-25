@@ -1,0 +1,32 @@
+---
+import type { NodeObject } from "jsonld";
+
+/**
+ * JSON-LD 構造化データメタタグコンポーネント
+ *
+ * Article、BreadcrumbList、Organization などの構造化データを
+ * JSON-LD 形式で <head> に埋め込みます
+ *
+ * @example
+ * ```astro
+ * <JsonLdMeta
+ *   data={{
+ *     "@type": "Article",
+ *     headline: "Article Title",
+ *     datePublished: "2024-01-01"
+ *   }}
+ * />
+ * ```
+ */
+interface Props {
+  /**
+   * JSON-LD 構造化データ
+   * ArticleSchema、BreadcrumbListSchema、OrganizationSchema のいずれか
+   */
+  data: NodeObject | NodeObject[];
+}
+
+const { data } = Astro.props;
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />

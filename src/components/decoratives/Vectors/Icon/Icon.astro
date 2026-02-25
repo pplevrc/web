@@ -1,0 +1,61 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import IconLucideCookie from "./internals/lucide/cookie.astro";
+import IconLucideCopyright from "./internals/lucide/copyright.astro";
+import IconLucideGlobe from "./internals/lucide/globe.astro";
+import IconCherryBlossom from "./internals/pple/IconCherryBlossom.astro";
+import IconFlower from "./internals/pple/IconFlower.astro";
+import IconFlowerOutline from "./internals/pple/IconFlowerOutline.astro";
+import IconPancake from "./internals/pple/IconPancake.astro";
+import IconPlum from "./internals/pple/IconPlum.astro";
+import IconTeaCup from "./internals/pple/IconTeaCup.astro";
+import IconTeaPot from "./internals/pple/IconTeaPot.astro";
+import type { IconType } from "./types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+
+  /**
+   * アイコンの種類.
+   */
+  type: IconType;
+}
+
+const { type, ...rest } = Astro.props;
+
+const IconComponent = (() => {
+  switch (type) {
+    case "flower":
+      return IconFlower;
+    case "flower-outline":
+      return IconFlowerOutline;
+    case "teacup":
+      return IconTeaCup;
+    case "teapot":
+      return IconTeaPot;
+    case "pancake":
+      return IconPancake;
+    case "plum":
+      return IconPlum;
+    case "cherry-blossom":
+      return IconCherryBlossom;
+
+    case "lucide-globe":
+      return IconLucideGlobe;
+    case "lucide-copyright":
+      return IconLucideCopyright;
+    case "lucide-cookie":
+      return IconLucideCookie;
+
+    default:
+      throw new Error(`Icon type ${type} is not supported`);
+  }
+})();
+---
+
+<IconComponent {...rest} />

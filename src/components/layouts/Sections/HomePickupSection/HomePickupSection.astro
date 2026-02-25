@@ -1,0 +1,76 @@
+---
+import SectionHeading from "@components/decoratives/Headings/SectionHeading.astro";
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { randomId } from "@lib/utils/random";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"nav"> {
+  themeColor: ColorThemeBase;
+  title: string;
+  hrefViewMore: string;
+}
+
+const {
+  class: className,
+  title,
+  hrefViewMore,
+  themeColor,
+  ...attrs
+} = Astro.props;
+
+const sectionBgStyle = css({
+  pos: "relative",
+  _before: {
+    content: "''",
+    pos: "absolute",
+    inset: "0",
+    mixBlendMode: "color",
+    zIndex: "backgroundBlend",
+    bg: "colorPalette.lite/50",
+  },
+  colorPalette: themeColor,
+});
+
+const fitStyle = css({
+  scrollSnapAlign: "center",
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+  justifyContent: "center",
+
+  // SP
+  gap: "16",
+  minH: "256",
+  h: "256",
+
+  _pc: {
+    gap: "4",
+    minH: "160",
+    h: "160",
+  },
+});
+
+const content = css({
+  display: "contents",
+});
+
+const id = randomId();
+---
+
+<nav
+  class:list={[fitStyle, className, sectionBgStyle]}
+  aria-labelledby={id}
+  {...attrs}
+>
+  <header class={content}>
+    <SectionHeading id={id}>{title}</SectionHeading>
+  </header>
+  <slot />
+  <footer class={content}>
+    <DecorativeLink themeColor={themeColor} href={hrefViewMore}>
+      もっとみる
+    </DecorativeLink>
+  </footer>
+</nav>

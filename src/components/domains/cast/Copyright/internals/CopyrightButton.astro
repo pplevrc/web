@@ -1,0 +1,57 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  /**
+   * ダイアログの ID
+   * TODO: これは button 標準の attribute ではあるが, 型がないだけなので, HTMLAttributes 側に型ができたらこの型を消す
+   */
+  commandfor: string;
+
+  /**
+   * ダイアログを表示するコマンド
+   * TODO: これは button 標準の attribute ではあるが, 型がないだけなので, HTMLAttributes 側に型ができたらこの型を消す
+   */
+  command:
+    | "show-popover"
+    | "hide-popover"
+    | "toggle-popover"
+    | "show-modal"
+    | "close"
+    | "request-close"
+    | string;
+
+  /**
+   * テーマカラー
+   */
+  themeColor: ColorThemeBase;
+}
+
+const { class: className, themeColor, ...props } = Astro.props;
+
+const buttonStyle = css({
+  _pc: {
+    w: "7",
+    h: "7",
+  },
+  w: "9",
+  h: "9",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  rounded: "full",
+  shadow: "xs",
+  cursor: "pointer",
+  bgColor: "colorPalette.lite",
+  color: "white",
+  colorPalette: themeColor,
+});
+---
+
+<button class:list={[buttonStyle, className]} {...props}>
+  <Icon type="lucide-copyright" />
+</button>

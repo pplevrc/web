@@ -1,0 +1,55 @@
+---
+import type { ColorThemeBase } from "@content/commons";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"article"> {
+  /**
+   *
+   */
+  themeColor: ColorThemeBase;
+}
+
+const { class: className, themeColor, ...props } = Astro.props;
+
+const rootStyle = css({
+  w: "64",
+  p: "4",
+  mt: "4",
+
+  _pc: {
+    w: "96",
+    p: "6",
+    mr: "-4",
+  },
+
+  borderColor: "colorPalette.regular",
+  borderWidth: "[0.3rem]",
+  borderStyle: "solid",
+  bg: "white",
+  colorPalette: themeColor,
+  shadow: "xs",
+});
+
+const headerStyle = css({
+  color: "colorPalette.deep",
+  textStyle: "normal.bold.base",
+});
+
+const textStyle = css({
+  textWrap: "balance",
+  textStyle: "normal.sm",
+
+  "& a": {
+    textStyle: "normal.bold.sm",
+    textDecoration: "underline",
+  },
+});
+---
+
+<article popover="auto" class:list={[rootStyle, className]} {...props}>
+  <header class={headerStyle}>アバタークレジット</header>
+  <p class={textStyle}>
+    <slot />
+  </p>
+</article>

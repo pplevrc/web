@@ -1,0 +1,334 @@
+---
+import type { ColorThemeBase } from "@content/commons";
+import type { UnionArrayIndex } from "@lib/utils/arithmetic-types";
+import { cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+/**
+ * 0 .. 長方形
+ * 8 .. 直角三角形
+ * その間はそれぞれに近くなる
+ */
+type ShapeType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
+// 30 度ずつ回転
+const rotateTypes = [
+  0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330,
+] as const;
+
+type RotateIndex = UnionArrayIndex<typeof rotateTypes>;
+
+interface Props extends HTMLAttributes<"div"> {
+  /**
+   * 0 .. 長方形
+   * 8 .. 直角三角形
+   * その間はそれぞれに近くなる
+   */
+  shape: ShapeType;
+
+  /**
+   * 30 * value
+   */
+  rotate: RotateIndex;
+
+  /**
+   * @default false
+   */
+  inverse?: boolean;
+
+  /**
+   *
+   */
+  color: ColorThemeBase;
+}
+
+const { shape, rotate, inverse, color, ...attrs } = Astro.props;
+
+const origamiStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    w: "full",
+    h: "full",
+
+    _before: {
+      content: "''",
+      pos: "absolute",
+      inset: "[-10%]",
+    },
+  },
+  variants: {
+    rotate: {
+      0: {},
+      30: {},
+      60: {},
+      90: {},
+      120: {},
+      150: {},
+      180: {},
+      210: {},
+      240: {},
+      270: {},
+      300: {},
+      330: {},
+    },
+    inverse: {
+      true: {},
+      false: {},
+    },
+    shape: {
+      0: {
+        clipPath: "[polygon(25% 0, 75% 0, 75% 100%, 25% 100%)]",
+      },
+      1: {
+        clipPath: "[polygon(21.875% 0, 65.625% 0, 78.125% 100%, 21.875% 100%)]",
+      },
+      2: {
+        clipPath: "[polygon(18.75% 0, 56.25% 0, 81.25% 100%, 18.75% 100%)]",
+      },
+      3: {
+        clipPath: "[polygon(15.625% 0, 46.875% 0, 84.375% 100%, 15.625% 100%)]",
+      },
+      4: {
+        clipPath: "[polygon(12.5% 0, 37.5% 0, 87.5% 100%, 12.5% 100%)]",
+      },
+      5: {
+        clipPath: "[polygon(9.375% 0, 28.125% 0, 90.625% 100%, 9.375% 100%)]",
+      },
+      6: {
+        clipPath: "[polygon(6.25% 0, 18.75% 0, 93.75% 100%, 6.25% 100%)]",
+      },
+      7: {
+        clipPath: "[polygon(3.125% 0, 9.375% 0, 96.875% 100%, 3.125% 100%)]",
+      },
+      8: {
+        clipPath: "[polygon(0% 0, 100% 100%, 0% 100%)]",
+      },
+    },
+    color: {
+      smoke: {
+        _before: {
+          bgGradient: "smoke",
+        },
+      },
+      olive: {
+        _before: {
+          bgGradient: "olive",
+        },
+      },
+      berry: {
+        _before: {
+          bgGradient: "berry",
+        },
+      },
+      honey: {
+        _before: {
+          bgGradient: "honey",
+        },
+      },
+      soda: {
+        _before: {
+          bgGradient: "soda",
+        },
+      },
+      rose: {
+        _before: {
+          bgGradient: "rose",
+        },
+      },
+      matcha: {
+        _before: {
+          bgGradient: "matcha",
+        },
+      },
+      latte: {
+        _before: {
+          bgGradient: "latte",
+        },
+      },
+      lavender: {
+        _before: {
+          bgGradient: "lavender",
+        },
+      },
+      carrot: {
+        _before: {
+          bgGradient: "carrot",
+        },
+      },
+      ice: {
+        _before: {
+          bgGradient: "ice",
+        },
+      },
+      mint: {
+        _before: {
+          bgGradient: "mint",
+        },
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      rotate: 30,
+      css: {
+        transform: "[rotate(30deg)]",
+      },
+    },
+    {
+      rotate: 60,
+      css: {
+        transform: "[rotate(60deg)]",
+      },
+    },
+    {
+      rotate: 90,
+      css: {
+        transform: "[rotate(90deg)]",
+      },
+    },
+    {
+      rotate: 120,
+      css: {
+        transform: "[rotate(120deg)]",
+      },
+    },
+    {
+      rotate: 150,
+      css: {
+        transform: "[rotate(150deg)]",
+      },
+    },
+    {
+      rotate: 180,
+      css: {
+        transform: "[rotate(180deg)]",
+      },
+    },
+    {
+      rotate: 210,
+      css: {
+        transform: "[rotate(210deg)]",
+      },
+    },
+    {
+      rotate: 240,
+      css: {
+        transform: "[rotate(240deg)]",
+      },
+    },
+    {
+      rotate: 270,
+      css: {
+        transform: "[rotate(270deg)]",
+      },
+    },
+    {
+      rotate: 300,
+      css: {
+        transform: "[rotate(300deg)]",
+      },
+    },
+    {
+      rotate: 330,
+      css: {
+        transform: "[rotate(330deg)]",
+      },
+    },
+    {
+      rotate: 0,
+      inverse: true,
+      css: {
+        transform: "[scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 30,
+      inverse: true,
+      css: {
+        transform: "[rotate(30deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 60,
+      inverse: true,
+      css: {
+        transform: "[rotate(60deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 90,
+      inverse: true,
+      css: {
+        transform: "[rotate(90deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 120,
+      inverse: true,
+      css: {
+        transform: "[rotate(120deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 150,
+      inverse: true,
+      css: {
+        transform: "[rotate(150deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 180,
+      inverse: true,
+      css: {
+        transform: "[rotate(180deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 210,
+      inverse: true,
+      css: {
+        transform: "[rotate(210deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 240,
+      inverse: true,
+      css: {
+        transform: "[rotate(240deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 270,
+      inverse: true,
+      css: {
+        transform: "[rotate(270deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 300,
+      inverse: true,
+      css: {
+        transform: "[rotate(300deg) scale(-1, 1)]",
+      },
+    },
+    {
+      rotate: 330,
+      inverse: true,
+      css: {
+        transform: "[rotate(330deg) scale(-1, 1)]",
+      },
+    },
+  ],
+});
+
+const origamiStyle = origamiStyleRecipe({
+  color,
+  shape,
+  rotate: rotateTypes[rotate],
+  inverse,
+});
+---
+
+<div {...attrs}>
+  <div class={origamiStyle}></div>
+</div>

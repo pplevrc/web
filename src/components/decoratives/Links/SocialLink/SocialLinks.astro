@@ -1,0 +1,39 @@
+---
+import SocialLink, {
+  type Props as SocialLinkProps,
+} from "@components/decoratives/Links/SocialLink/SocialLink.astro";
+import type { SocialLink as SocialLinkType } from "@content/commons";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"nav"> {
+  links: SocialLinkType[];
+
+  label?: string;
+
+  variant: SocialLinkProps["variant"];
+}
+
+const { links, label, variant, ...rest } = Astro.props;
+
+const listStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "left",
+  gap: "4",
+  transform: "[rotate(-1deg)]",
+});
+---
+
+<nav {...rest} aria-label={label}>
+  <ul class={listStyle}>
+    {
+      links.map((link) => (
+        <li>
+          <SocialLink {...link} variant={variant} />
+        </li>
+      ))
+    }
+  </ul>
+</nav>

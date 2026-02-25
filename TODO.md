@@ -17,7 +17,7 @@ This document tracks the progress of the refactoring project using the flat `src
 
 - [ ] **Phase 2: Cast Pages**
     - [x] **List** (`/casts`) -> `src/components2/pages/cast-list`
-    - [ ] **Detail** (`/casts/[id]`) -> `src/components2/pages/cast-detail`
+    - [x] **Detail** (`/casts/[id]`) -> `src/components2/pages/cast-detail`
 
 - [ ] **Phase 3: Article Pages**
     - [x] **List** (`/articles`) -> `src/components2/pages/article-list`
@@ -27,5 +27,5 @@ This document tracks the progress of the refactoring project using the flat `src
     - [x] **List** (`/guidelines`) -> `src/components2/pages/guideline-list`
     - [x] **Detail** (`/guidelines/[id]`) -> `src/components2/pages/guideline-detail`
 
-- [ ] **Phase 5: Finalize**
-    - [ ] Rename `src/components2` -> `src/components`.
+- [x] **Phase 5: Finalize**
+    - [x] Rename `src/components2` -> `src/components`.

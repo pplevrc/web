@@ -1,0 +1,18 @@
+---
+import { css } from "@styles/css";
+import HeaderNav from "./internals/HeaderNav.astro";
+
+const headerStyle = css({
+  bg: "white",
+  h: "header",
+  zIndex: "header",
+  shadow: "xs",
+
+  position: "sticky",
+  top: "0",
+});
+---
+
+<header class={headerStyle}>
+  <HeaderNav class={css({ w: "screen" })} />
+</header>

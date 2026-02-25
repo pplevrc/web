@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import ResponsiveVideoSource from "./internals/ResponsiveVideoSource.astro";
+
+interface VideoAsset {
+  src: string;
+  mediaType: string;
+}
+
+export interface Sources {
+  pc: VideoAsset;
+  sp: VideoAsset;
+}
+
+interface Props extends HTMLAttributes<"video"> {
+  sources: Sources[];
+}
+
+const { sources, ...props } = Astro.props;
+---
+
+<video {...props as any}>
+  {
+    sources.flatMap((source) => [
+      <ResponsiveVideoSource media="pc" src={source.pc.src} mediaType={source.pc.mediaType} />,
+      <ResponsiveVideoSource media="sp" src={source.sp.src} mediaType={source.sp.mediaType} />,
+    ])
+  }
+  <slot />
+</video>

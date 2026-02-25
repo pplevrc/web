@@ -1,0 +1,37 @@
+---
+import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
+import type { Guideline } from "@content/guidelines";
+import { css } from "@styles/css";
+import GuidelineContentSection from "./GuidelineContentSection/GuidelineContentSection.astro";
+import GuidelineNavigation from "./GuidelineNavigation/GuidelineNavigation.astro";
+
+interface Props {
+  guideline: Guideline;
+  title: string;
+}
+
+const { guideline, title } = Astro.props;
+const { thumbnail, content } = guideline;
+
+const mainClass = css({
+  display: "flex",
+  flexDir: "column",
+  alignItems: "center",
+});
+
+const contentClass = css({
+  paddingTop: "26",
+  paddingBottom: "42",
+
+  w: {
+    base: "96",
+    _pc: "160",
+  },
+});
+---
+
+<div class={mainClass}>
+  <PageHeading img={thumbnail}> {title} </PageHeading>
+  <GuidelineContentSection contentHtml={content} class={contentClass} />
+  <GuidelineNavigation />
+</div>

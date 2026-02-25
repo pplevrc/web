@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from "astro:content";
+import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
+import { href } from "@lib/utils/base-path";
+import { css } from "@styles/css";
+import HomePickupSection from "../HomePickupSection/HomePickupSection.astro";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+}
+
+const { articles } = Astro.props;
+
+const listStyle = css({
+  // SP
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "2",
+  p: "4",
+
+  _pc: {
+    display: "flex",
+    flexDir: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "9",
+
+    h: "96",
+    w: "256",
+  },
+});
+
+const listItemStyle = css({
+  w: "[fit-content]",
+  h: "[fit-content]",
+});
+---
+
+<HomePickupSection
+  title="おしらせ"
+  hrefViewMore={href("/articles")}
+  themeColor="matcha"
+>
+  <ul class={listStyle}>
+    {
+      articles.map(
+        ({ id, data: { title, thumbnail, thumbnailLabel, publishedAt } }) => (
+          <li class={listItemStyle}>
+            <LetterLink
+              href={href(`/articles/${id}`)}
+              title={title}
+              thumbnail={thumbnail}
+              thumbnailDisplayAlt={thumbnailLabel ?? ""}
+              publishedAt={new Date(publishedAt)}
+            />
+          </li>
+        ),
+      )
+    }
+  </ul>
+</HomePickupSection>

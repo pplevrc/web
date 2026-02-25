@@ -1,0 +1,122 @@
+---
+import OgpArticleMeta from "./ogp/OgpArticleMeta.astro";
+import OgpProfileMeta from "./ogp/OgpProfileMeta.astro";
+import type { OGPMetadata } from "./ogpType";
+
+type Props = OGPMetadata;
+
+const props = Astro.props;
+const siteUrl = Astro.url.href;
+
+// 単一値または配列を配列に統一
+function toArray<T>(value: T | T[] | undefined | null): T[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+// データの正規化：単一値を配列に統一
+const {
+  title,
+  type,
+  description,
+  siteName,
+  locale,
+  localeAlternate = [],
+  determiner,
+  content,
+} = props;
+
+const images = toArray(props.image);
+const videos = toArray(props.video);
+const audios = toArray(props.audio);
+---
+
+<meta property="og:title" content={title} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={siteUrl} />
+
+{/* OGP Optional Properties */}
+{description && <meta property="og:description" content={description} />}
+{siteName && <meta property="og:site_name" content={siteName} />}
+{locale && <meta property="og:locale" content={locale} />}
+{
+  localeAlternate.map((locale) => (
+    <meta property="og:locale:alternate" content={locale} />
+  ))
+}
+{determiner && <meta property="og:determiner" content={determiner} />}
+
+{/* OGP Image */}
+{
+  // secureUrl だけ何もしない
+  images.map(
+    async ({ url, secureUrl: _secureUrl, type, width, height, alt }) => (
+      <>
+        <meta property="og:image" content={url} />
+        {type && <meta property="og:image:type" content={type} />}
+        {width && <meta property="og:image:width" content={width.toString()} />}
+        {height && (
+          <meta property="og:image:height" content={height.toString()} />
+        )}
+        {alt && <meta property="og:image:alt" content={alt} />}
+      </>
+    ),
+  )
+}
+
+{/* OGP Video */}
+{
+  videos.map(({ url, secureUrl, type, width, height }) => (
+    <>
+      <meta property="og:video" content={url} />
+      {secureUrl && <meta property="og:video:secure_url" content={secureUrl} />}
+      {type && <meta property="og:video:type" content={type} />}
+      {width && <meta property="og:video:width" content={width.toString()} />}
+      {height && (
+        <meta property="og:video:height" content={height.toString()} />
+      )}
+    </>
+  ))
+}
+
+{/* OGP Audio */}
+{
+  audios.map(({ url, secureUrl, type }) => (
+    <>
+      <meta property="og:audio" content={url} />
+      {secureUrl && <meta property="og:audio:secure_url" content={secureUrl} />}
+      {type && <meta property="og:audio:type" content={type} />}
+    </>
+  ))
+}
+
+{/* Content Metadata */}
+{
+  () => {
+    switch (type) {
+      case "article":
+        return <OgpArticleMeta {...(content?.article ?? {})} />;
+      case "profile":
+        return <OgpProfileMeta {...(content?.profile ?? {})} />;
+      /**
+       * 利用先がないタイプ
+       */
+      case "book":
+      case "music.song":
+      case "music.album":
+      case "music.playlist":
+      case "music.radio_station":
+      case "video.movie":
+      case "video.episode":
+      case "video.tv_show":
+      case "video.other":
+      case "payment.link":
+      /**
+       * メタタグの追加が不要なタイプ
+       */
+      case "website":
+      default:
+        return null;
+    }
+  }
+}

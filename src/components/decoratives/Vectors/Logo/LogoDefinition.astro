@@ -1,0 +1,14 @@
+---
+import Logo from "./Logo.astro";
+import { commonLogoTypes, type LogoType } from "./types";
+
+interface Props {
+  logos?: LogoType[];
+}
+
+const { logos = [] } = Astro.props;
+
+const definiteLogos = [...logos, ...commonLogoTypes] as LogoType[];
+---
+
+{definiteLogos.map((type) => <Logo type={type} definition />)}

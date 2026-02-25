@@ -1,0 +1,52 @@
+---
+import Copyright from "@components/domains/cast/Copyright/Copyright.astro";
+import { css } from "@styles/css";
+import CastMainVisual from "./internals/CastMainVisual.astro";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const rootStyle = css({
+  h: {
+    base: "192",
+    _pc: "160",
+  },
+  w: "full",
+  pos: "relative",
+});
+
+const avatarStyle = css({
+  pos: "absolute",
+  bottom: "0",
+  left: "[50%]",
+  transform: "[translate(-50%, 0)]",
+});
+
+const copyrightButtonStyle = css({
+  pos: "absolute",
+
+  bottom: "[10%]",
+  right: "[10%]",
+
+  _pc: {
+    bottom: "[25%]",
+    right: "[33%]",
+  },
+});
+---
+
+<section class={rootStyle} aria-label={`${nickname}の立ち絵`}>
+  <CastMainVisual
+    rootAttributes={{
+      "aria-label": `${nickname}の立ち絵`,
+    }}
+    class={avatarStyle}
+    nickname={nickname}
+    avatarIndex={0}
+  />
+
+  <Copyright nickname={nickname} avatarIndex={0} class={copyrightButtonStyle} />
+</section>

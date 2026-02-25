@@ -1,0 +1,14 @@
+---
+import Icon from "./Icon.astro";
+import { defaultIconType, type IconType, type OptionalIconType } from "./types";
+
+interface Props {
+  icons?: OptionalIconType[];
+}
+
+const { icons = [] } = Astro.props;
+
+const definiteIcons = [...icons, ...defaultIconType] as IconType[];
+---
+
+{definiteIcons.map((type) => <Icon type={type} definition />)}

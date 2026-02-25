@@ -1,0 +1,37 @@
+---
+import { hash } from "@lib/utils/random";
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   */
+  definition?: boolean;
+}
+
+const { definition = false, class: className, ...props } = Astro.props;
+
+const symbolId = hash("logo-icon-github");
+---
+
+<svg
+  viewBox="0 0 20 20"
+  xmlns="http://www.w3.org/2000/svg"
+  class:list={[className, css({ fill: "[currentColor]" })]}
+  {...props}
+>
+  {
+    definition ? (
+      <symbol id={symbolId} viewBox="0 0 20 20">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M10 0C4.5 0 0 4.6 0 10.3C0 14.8 2.9 18.6 6.8 20C7.3 20.1 7.5 19.8 7.5 19.5C7.5 19.3 7.5 18.4 7.5 17.6C4.7 18.2 4.1 16.4 4.1 16.4C3.7 15.2 3 14.9 3 14.9C2.1 14.2 3.1 14.2 3.1 14.2C4.1 14.3 4.6 15.3 4.6 15.3C5.5 16.9 7 16.4 7.6 16.1C7.6 15.5 7.9 15 8.2 14.8C6 14.5 3.6 13.6 3.6 9.7C3.6 8.6 4 7.7 4.7 7C4.6 6.7 4.2 5.7 4.8 4.2C4.8 4.2 5.6 4 7.5 5.3C8.3 5.1 9.2 5 10 5C10.9 5 11.7 5.1 12.5 5.3C14.4 4 15.3 4.2 15.3 4.2C15.8 5.7 15.5 6.7 15.4 7C16 7.7 16.4 8.6 16.4 9.7C16.4 13.6 14.1 14.5 11.8 14.8C12.2 15.1 12.5 15.7 12.5 16.7C12.5 18 12.5 19.1 12.5 19.5C12.5 19.8 12.7 20.1 13.2 20C17.1 18.6 20 14.8 20 10.3C20 4.6 15.5 0 10 0Z"
+        />
+      </symbol>
+    ) : (
+      <use xlink:href={`#${symbolId}`} />
+    )
+  }
+</svg>

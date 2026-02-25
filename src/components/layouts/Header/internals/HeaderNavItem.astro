@@ -1,0 +1,114 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { css } from "@styles/css";
+
+interface Props {
+  label: string;
+  path: string;
+}
+
+const { label, path } = Astro.props;
+
+const currentRootPath = Astro.url.pathname.split("/")[1];
+const isCurrent = path === `/${currentRootPath}`;
+
+const rootStyle = css({
+  color: "latte.regular",
+  fill: "latte.regular",
+
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexDir: "row",
+
+  w: "64",
+  h: "8",
+
+  _pc: {
+    w: "20",
+    h: "header",
+    pb: "2",
+    pos: "relative",
+    textStyle: "normal.bold.sm",
+
+    _supportHover: {
+      "&:hover span::after": {
+        transform: "scale(1, 1)",
+        transformOrigin: "left top",
+      },
+
+      "&:hover svg": {
+        animationPlayState: "running",
+      },
+    },
+  },
+});
+
+const iconStyle = css({
+  w: "4",
+  h: "4",
+
+  _pc: {
+    w: "6",
+    h: "6",
+    pos: "absolute",
+    top: "-3",
+    left: "0",
+    right: "0",
+    margin: "auto",
+    scale: "auto",
+    scaleX: "1",
+    scaleY: "1",
+
+    _motionSafe: {
+      animation: "rotate",
+      animationDuration: "slower",
+      animationIterationCount: "infinite",
+      animationTimingFunction: "linear",
+      animationPlayState: "paused",
+    },
+  },
+});
+
+const secondIconStyle = css({
+  _pc: {
+    display: "none",
+  },
+});
+
+const labelStyle = css({
+  w: "52",
+  textAlign: "center",
+
+  _pc: {
+    alignSelf: "flex-end",
+    w: "full",
+    h: "7",
+    pt: "2",
+
+    _after: {
+      content: "''",
+      pos: "absolute",
+      left: "0",
+      w: "full",
+      h: "0.5",
+      bg: "latte.regular",
+      bottom: "1",
+
+      _motionSafe: {
+        transform: "scale(0, 1)",
+        transformOrigin: "right top",
+        transition: "transform",
+      },
+    },
+  },
+});
+---
+
+<a aria-current={isCurrent ? "page" : undefined} href={path} class={rootStyle}>
+  <Icon type="flower" aria-hidden class={iconStyle} />
+  <span class={labelStyle}>
+    {label}
+  </span>
+  <Icon type="flower" aria-hidden class:list={[iconStyle, secondIconStyle]} />
+</a>

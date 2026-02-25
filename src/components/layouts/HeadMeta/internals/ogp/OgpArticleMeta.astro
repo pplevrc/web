@@ -1,0 +1,49 @@
+---
+import type { OGPArticle } from "../ogpType";
+import OgpProfileMeta from "./OgpProfileMeta.astro";
+
+type Props = OGPArticle;
+
+const { publishedTime, modifiedTime, expirationTime, author, section, tag } =
+  Astro.props;
+
+// 日時を ISO 8601 形式に変換
+const formatDate = (date: string | Date): string => {
+  return date instanceof Date ? date.toISOString() : date;
+};
+
+// 単一値または配列を配列に統一
+function toArray<T>(value: T | T[] | undefined | null): T[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+// データの正規化：単一値を配列に統一
+const authors = toArray(author);
+const tags = toArray(tag);
+---
+
+{
+  publishedTime && (
+    <meta
+      property="article:published_time"
+      content={formatDate(publishedTime)}
+    />
+  )
+}
+{
+  modifiedTime && (
+    <meta property="article:modified_time" content={formatDate(modifiedTime)} />
+  )
+}
+{
+  expirationTime && (
+    <meta
+      property="article:expiration_time"
+      content={formatDate(expirationTime)}
+    />
+  )
+}
+{authors.map((author) => <OgpProfileMeta {...author} />)}
+{section && <meta property="article:section" content={section} />}
+{tags.map((tag) => <meta property="article:tag" content={tag} />)}

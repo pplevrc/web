@@ -1,0 +1,87 @@
+---
+import type { ColorThemeBase } from "@content/commons";
+import { cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"span"> {
+  /**
+   * カラー
+   */
+  color: ColorThemeBase;
+
+  /**
+   * 折りたたまれているかどうか
+   */
+  folded?: boolean;
+
+  /**
+   * 深い色かどうか
+   */
+  deep?: boolean;
+
+  /**
+   * サイズ
+   */
+  size: "regular" | "small";
+}
+
+const { color, folded, deep, size, ...attrs } = Astro.props;
+
+const rootStyleRecipe = cva({
+  base: {
+    zIndex: "front",
+    display: "flex",
+    justifyContent: "center",
+
+    color: "white",
+
+    rounded: "full",
+    shadow: "xs",
+
+    _pc: {
+      w: "12",
+      h: "12",
+      textStyle: "decorative.bold.4xl",
+    },
+  },
+  variants: {
+    deep: {
+      true: {
+        bg: "colorPalette.deep",
+        colorPalette: color,
+      },
+      false: {
+        bg: "colorPalette.regular",
+        colorPalette: color,
+      },
+    },
+    folded: {
+      true: {},
+      false: {},
+    },
+    size: {
+      regular: {
+        w: "16",
+        h: "16",
+        textStyle: "decorative.bold.5xl",
+      },
+      small: {
+        w: "12",
+        h: "12",
+        textStyle: "decorative.bold.3xl",
+      },
+    },
+  },
+  defaultVariants: {
+    deep: false,
+    folded: false,
+    size: "regular",
+  },
+});
+
+const rootStyle = rootStyleRecipe({ deep, folded, size });
+---
+
+<span class:list={[rootStyle, attrs.class]} {...attrs} translate="no">
+  <slot />
+</span>

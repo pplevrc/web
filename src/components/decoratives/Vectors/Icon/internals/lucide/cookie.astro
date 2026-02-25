@@ -1,0 +1,38 @@
+---
+import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
+import { cookieId } from "./ids";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /**
+   * SVG を `<symbol>` として定義するかどうか.
+   * `true` にすると、`<symbol>` が返され, アイコンの SVG 定義が含まれます.
+   * `false` にすると、`<use>` が返され, 事前に定義された SVG を参照します.
+   */
+  definition?: boolean;
+}
+
+const { definition = false, class: className, ...props } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+  class:list={[className, css({ fill: "[none]", stroke: "[currentColor]", strokeWidth: "[2]", strokeLinecap: "[round]", strokeLinejoin: "[round]" })]}
+  {...props}
+>
+  {
+    definition ? (
+      <symbol id={cookieId} viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+        <path d="M8.5 8.5v.01" />
+        <path d="M16 15.5v.01" />
+        <path d="M12 12v.01" />
+        <path d="M11 17v.01" />
+        <path d="M7 14v.01" />
+      </symbol>
+    ) : (
+      <use xlink:href={`#${cookieId}`} />
+    )
+  }
+</svg>
