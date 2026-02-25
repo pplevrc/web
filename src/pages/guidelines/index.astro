@@ -1,8 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
-import GuidelineList from "@components/domains/guideline/GuidelineList/GuidelineList.astro";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
+import GuidelineListPageEntry from "@components2/pages/guideline-list/index.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { getOgpImage } from "@lib/utils/image";
@@ -63,6 +62,9 @@ const ogpImage = await getOgpImage(thumbnail);
     ],
   }}
 >
-  <PageHeading img={thumbnail}> {title} </PageHeading>
-  <GuidelineList guidelines={guidelines} />
+  <GuidelineListPageEntry
+    guidelines={guidelines}
+    title={title}
+    thumbnail={thumbnail}
+  />
 </Layout>

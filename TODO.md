@@ -24,7 +24,7 @@ This document tracks the progress of the refactoring project using the flat `src
     - [x] **Detail** (`/articles/[id]`) -> `src/components2/pages/article-detail`
 
 - [ ] **Phase 4: Guideline Pages**
-    - [ ] **List** (`/guidelines`) -> `src/components2/pages/guideline-list`
+    - [x] **List** (`/guidelines`) -> `src/components2/pages/guideline-list`
     - [ ] **Detail** (`/guidelines/[id]`) -> `src/components2/pages/guideline-detail`
 
 - [ ] **Phase 5: Finalize**
