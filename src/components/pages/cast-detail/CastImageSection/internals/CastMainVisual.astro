@@ -1,13 +1,13 @@
 ---
 import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
-import type { HTMLAttributes } from "astro/types";
 import type { Props as AvatarImageProps } from "@components/domains/avatar/images/AvatarImage.astro";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
 import PhotoImage from "@components/domains/image/PhotoImage/PhotoImage.astro";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
 import CircularNameSeals from "./CircularNameSeals.astro";
 
 export interface Props

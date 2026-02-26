@@ -2,13 +2,13 @@
 import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
 import { ppleIconType } from "@components/decoratives/Vectors/Icon/types";
-import type { HTMLAttributes } from "astro/types";
 import type { Props as AvatarImageProps } from "@components/domains/avatar/images/AvatarImage.astro";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
 import NameSeal from "@components/domains/avatar/NameSeal/NameSeal.astro";
 import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css, cva } from "@styles/css";
+import type { HTMLAttributes } from "astro/types";
 
 export interface Props
   extends Omit<AvatarImageProps, "alt" | "width" | "height" | "expression"> {
