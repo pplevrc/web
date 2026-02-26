@@ -1,16 +1,19 @@
 ---
 import { getEntry } from "astro:content";
 import OrigamiShape from "@components/decoratives/Shape/OrigamiShape/OrigamiShape.astro";
-import StripeCircle from "@components/domains/avatar/DecorativeAvatar/common/internals/StripeCircle.astro";
-import type { CommonProps } from "@components/domains/avatar/DecorativeAvatar/type";
+import type { HTMLAttributes } from "astro/types";
+import type { Props as AvatarImageProps } from "@components/domains/avatar/images/AvatarImage.astro";
 import AvatarImage from "@components/domains/avatar/images/AvatarImage.astro";
+import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
 import PhotoImage from "@components/domains/image/PhotoImage/PhotoImage.astro";
 import { randomPick, seedRandom } from "@lib/utils/random";
 import { css } from "@styles/css";
 import CircularNameSeals from "./CircularNameSeals.astro";
 
-interface Props extends CommonProps {}
-
+export interface Props
+  extends Omit<AvatarImageProps, "alt" | "width" | "height" | "expression"> {
+  rootAttributes?: HTMLAttributes<"figure">;
+}
 const { class: className, rootAttributes, ...avatarImageProps } = Astro.props;
 
 const { nickname } = avatarImageProps;
@@ -132,6 +135,7 @@ const inverse = randomPick(1, [true, false] as const, random);
   <StripeCircle class={circleStyle} />
   <AvatarImage
     {...avatarImageProps}
+    nickname={nickname}
     expression="neutral"
     width={1024}
     height={1024}
@@ -142,6 +146,7 @@ const inverse = randomPick(1, [true, false] as const, random);
   />
   <AvatarImage
     {...avatarImageProps}
+    nickname={nickname}
     expression="emotional"
     width={1024}
     height={1024}

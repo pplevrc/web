@@ -97,7 +97,7 @@ const navItems = [prevCast.data, nextCast.data];
     {
       navItems.map(({ profile: { nickname } }) => (
         <li class:list={[listItemStyle, avatarSwitchStyle]}>
-          <CastBustUpLink nickname={nickname} avatarIndex={0} />
+          <CastBustUpLink nickname={nickname} />
         </li>
       ))
     }
