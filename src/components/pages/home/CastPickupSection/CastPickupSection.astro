@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { href } from "@lib/utils/base-path";
+import { href } from "@lib/utils/url";
 import { css } from "@styles/css";
 import HomePickupSection from "../HomePickupSection/HomePickupSection.astro";
 import FeaturedApprentice from "./internals/FeaturedApprentice.astro";
@@ -107,7 +107,7 @@ const imageWrapStyle = css({
 <HomePickupSection
   title="店員さんピックアップ"
   themeColor="rose"
-  hrefViewMore={href("/casts")}
+  hrefViewMore={href("/casts/")}
 >
   <ul class={listStyle} data-shuffle="cast">
     {
@@ -119,7 +119,7 @@ const imageWrapStyle = css({
         }) => (
           <li class:list={[listItemStyle, imageSwitchStyle]}>
             <a
-              href={href(`/casts/${nickname}`)}
+              href={href(`/casts/${nickname}/`)}
               class={imageWrapStyle}
               aria-label={`店員"${nickname}"の紹介ページ`}
             >

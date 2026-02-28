@@ -6,8 +6,8 @@ import type { Props as AvatarImageProps } from "@components/domains/avatar/image
 import AvatarFaceImage from "@components/domains/avatar/images/AvatarFaceImage.astro";
 import NameSeal from "@components/domains/avatar/NameSeal/NameSeal.astro";
 import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
-import { href } from "@lib/utils/base-path";
 import { randomPick, seedRandom } from "@lib/utils/random";
+import { href } from "@lib/utils/url";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -131,7 +131,7 @@ const inverse = randomPick(1, [true, false] as const, random);
 
 <a
   class:list={[rootStyle, className]}
-  href={href(`/casts/${nickname}`)}
+  href={href(`/casts/${nickname}/`)}
   aria-label={`店員"${nickname}"の紹介ページ`}
   {...rootAttributes}
 >

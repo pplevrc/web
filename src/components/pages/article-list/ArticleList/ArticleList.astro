@@ -1,7 +1,7 @@
 ---
 import LetterLink from "@components/domains/article/LetterLink/LetterLink.astro";
 import type { Article } from "@content/articles";
-import { href } from "@lib/utils/base-path";
+import { href } from "@lib/utils/url";
 import { css } from "@styles/css";
 import type { HTMLAttributes } from "astro/types";
 
@@ -85,7 +85,7 @@ const itemStyle = css({});
                     >
                       <LetterLink
                         title={title}
-                        href={href(`/articles/${id}`)}
+                        href={href(`/articles/${id}/`)}
                         publishedAt={new Date(publishedAt)}
                         thumbnail={thumbnail}
                         thumbnailDisplayAlt={thumbnailLabel ?? ""}
