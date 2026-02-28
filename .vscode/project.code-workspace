@@ -16,7 +16,7 @@
       "editor.defaultFormatter": "biomejs.biome"
     },
     "[astro]": {
-      "editor.defaultFormatter": "astro-build.astro-vscode"
+      "editor.defaultFormatter": "biomejs.biome"
     },
     "[json]": {
       "editor.defaultFormatter": "biomejs.biome"
@@ -26,8 +26,6 @@
       "quickfix.biome": "explicit",
       "source.organizeImports.biome": "explicit"
     },
-
-    "editor.formatOnSave": true,
 
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
