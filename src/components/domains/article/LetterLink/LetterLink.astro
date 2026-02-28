@@ -62,11 +62,19 @@ const rootStyle = css({
 
   _motionSafe: {
     _supportHover: {
-      transition: "[transform]",
-      transitionDuration: "faster",
+      "&[data-letter-root] > *": {
+        transition: "[transform]",
+        transitionDuration: "faster",
+      },
 
-      _hover: {
+      // ルート直下と letter のルートは display: contents なので,
+      // その配下に対して transrofmr を効かせる
+      "&:hover [data-letter-root] > *": {
         transform: "[scale(1.05) rotate(1deg)]",
+      },
+
+      "&:hover footer": {
+        textDecoration: "underline",
       },
     },
     _touchActive: {
@@ -213,7 +221,7 @@ const titleStyle = css({
 
 <a href={href} class={rootStyle} aria-labelledby={labelId}>
   <article class={contentStyle}>
-    <figure class:list={[contentStyle, imageRootStyle]}>
+    <figure data-letter-root class:list={[contentStyle, imageRootStyle]}>
       <LetterShape class={letterStyle} theme={theme} />
       <div class={iconWrapStyle}>
         <Icon type={icon} class={iconStyle} />
