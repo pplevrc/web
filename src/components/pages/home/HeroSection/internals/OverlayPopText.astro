@@ -1,10 +1,16 @@
 ---
 import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
 import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
-import { getMeta } from "@content/meta";
+import type { ColorThemeBase } from "@content/commons";
 import { href } from "@lib/utils/base-path";
 import { css } from "@styles/css";
 import { token } from "@styles/tokens";
+
+interface Props {
+  guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
+}
+
+const { guidelinesShortcut } = Astro.props;
 
 const rootStyle = css({
   display: "contents",
@@ -99,8 +105,6 @@ const bottomIconStyle = css({
     animationTimingFunction: "linear",
   },
 });
-
-const { guidelinesShortcut } = await getMeta();
 ---
 
 <div class={rootStyle}>

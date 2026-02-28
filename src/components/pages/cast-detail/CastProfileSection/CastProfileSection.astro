@@ -1,0 +1,93 @@
+---
+import { getEntry } from "astro:content";
+import SocialLinks from "@components/decoratives/Links/SocialLink/SocialLinks.astro";
+import Paper from "@components/decoratives/Paper/Paper.astro";
+import NameSticker from "@components/pages/cast-detail/NameSticker/NameSticker.astro";
+import NameStickerList from "@components/pages/cast-detail/NameStickerList/NameStickerList.astro";
+import type { SocialLink } from "@content/commons";
+import { breakLineToBr, toHTML } from "@lib/utils/html/string";
+import { css } from "@styles/css";
+
+interface Props {
+  nickname: string;
+}
+
+const { nickname } = Astro.props;
+
+const { data: cast } = (await getEntry("casts", nickname)) ?? {
+  data: undefined,
+};
+
+if (!cast) {
+  return new Response("Not Found", { status: 404 });
+}
+
+const {
+  themeColor,
+  profile: { introduction },
+  socialLinks,
+  vrchat: { userId, userPageURL },
+} = cast;
+
+const links = [
+  {
+    url: userPageURL,
+    description: `VRChat: ${nickname}のユーザーページ`,
+    type: "vrchat",
+  } as const satisfies SocialLink,
+  ...socialLinks,
+];
+
+const rootStyle = css({
+  h: {
+    base: "80",
+    _pc: "80",
+  },
+  py: "12",
+
+  bg: "colorPalette.50/70",
+  colorPalette: themeColor,
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+
+  zIndex: "front",
+});
+
+const paperAdjustStyle = css({
+  top: {
+    base: "4",
+    _pc: "4",
+  },
+});
+
+const stickerStyle = css({
+  pt: "4",
+});
+
+const fixedIntroduction = toHTML(introduction, breakLineToBr);
+---
+
+<section class={rootStyle} aria-label={`${nickname}のプロフィール`}>
+  <Paper
+    size="short"
+    position="absolute"
+    themeColor={themeColor}
+    paperClass={paperAdjustStyle}
+  >
+    <SocialLinks
+      slot="header"
+      variant="sticker"
+      links={links}
+      label={`${nickname}のソーシャルリンク一覧`}
+    />
+
+    <NameStickerList slot="header" class={stickerStyle}>
+      <NameSticker key="VRChat ID" value={userId} themeColor={themeColor} />
+    </NameStickerList>
+
+    <Fragment set:html={fixedIntroduction} />
+  </Paper>
+</section>

@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { ColorThemeBase } from "@content/commons";
+import CastPickupSection from "./CastPickupSection/CastPickupSection.astro";
+import HeroSection from "./HeroSection/HeroSection.astro";
+import NewsHeadlineSection from "./NewsHeadlineSection/NewsHeadlineSection.astro";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  casts: CollectionEntry<"casts">[];
+  guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
+}
+
+const { articles, casts, guidelinesShortcut } = Astro.props;
+---
+
+<HeroSection guidelinesShortcut={guidelinesShortcut} />
+<NewsHeadlineSection articles={articles} />
+<CastPickupSection casts={casts} />

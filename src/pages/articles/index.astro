@@ -1,9 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
-import ArticleDateShortcut from "@components/domains/article/ArticleDateShortcut/ArticleDateShortcut.astro";
-import ArticleList from "@components/domains/article/ArticleList/ArticleList.astro";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
+import ArticleListPageEntry from "@components/pages/article-list/index.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc, unique } from "@lib/utils/array";
@@ -34,24 +33,6 @@ const mainClass = css({
   display: "flex",
   flexDir: "column",
   alignItems: "center",
-});
-
-const fitStyle = css({
-  // grid にする. list がメインで、 date shortcut は aside になる
-  display: "grid",
-  gridTemplateColumns: "2fr 1fr",
-  w: "full",
-  paddingInline: "8",
-  gap: "16",
-  pt: "16",
-  pb: "26",
-
-  _pc: {
-    gridTemplateColumns: "4fr 1fr",
-    w: "256",
-    paddingInline: "[inherit]",
-    gap: "26",
-  },
 });
 
 const ogpImage = await getOgpImage(thumbnail);
@@ -103,12 +84,9 @@ const ogpImage = await getOgpImage(thumbnail);
   mainClass={mainClass}
 >
   <PageHeading img={thumbnail}> {title} </PageHeading>
-  <section class={fitStyle}>
-    <ArticleList
-      articles={articles}
-      yearMonths={dateShortcuts}
-      aria-label={title}
-    />
-    <ArticleDateShortcut yearMonths={dateShortcuts} aria-label="公開年月一覧" />
-  </section>
+  <ArticleListPageEntry
+    articles={articles}
+    yearMonths={dateShortcuts}
+    title={title}
+  />
 </Layout>

@@ -1,15 +1,12 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
-import GuidelineContentSection from "@components/pages/guidelines/GuidelineContentSection/GuidelineContentSection.astro";
-import GuidelineNavigation from "@components/pages/guidelines/GuidelineNavigation/GuidelineNavigation.astro";
+import GuidelineDetailPageEntry from "@components/pages/guideline-detail/index.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
-import { css } from "@styles/css";
 
 export async function getStaticPaths() {
   const guidelines = await getCollection("guidelines");
@@ -33,23 +30,7 @@ if (!guideline) {
   return new Response("Not Found", { status: 404 });
 }
 
-const { thumbnail, themeColor, content } = guideline;
-
-const mainClass = css({
-  display: "flex",
-  flexDir: "column",
-  alignItems: "center",
-});
-
-const contentClass = css({
-  paddingTop: "26",
-  paddingBottom: "42",
-
-  w: {
-    base: "96",
-    _pc: "160",
-  },
-});
+const { thumbnail, themeColor } = guideline;
 
 // ページメタデータの前処理
 const pageTitle = replaceByMap(title, guideline);
@@ -121,9 +102,6 @@ const ogpImage = await getOgpImage(thumbnail);
     },
   ]}
   themeColor={themeColor}
-  mainClass={mainClass}
 >
-  <PageHeading img={thumbnail}> {pageTitle} </PageHeading>
-  <GuidelineContentSection contentHtml={content} class={contentClass} />
-  <GuidelineNavigation />
+  <GuidelineDetailPageEntry guideline={guideline} title={pageTitle} />
 </Layout>

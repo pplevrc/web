@@ -1,15 +1,12 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import PageHeading from "@components/decoratives/Headings/PageHeading.astro";
 import type { OGPImage } from "@components/layouts/HeadMeta/internals/ogpType";
-import ArticleContentSection from "@components/pages/articles/ArticleContentSection/ArticleContentSection.astro";
-import ArticleNavigation from "@components/pages/articles/ArticleNavigation/ArticleNavigation.astro";
+import ArticleDetailPageEntry from "@components/pages/article-detail/index.astro";
 import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { getOgpImage } from "@lib/utils/image";
 import { replaceByMap } from "@lib/utils/string";
 import { toAbsoluteUrl } from "@lib/utils/url";
-import { css } from "@styles/css";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -37,22 +34,8 @@ const {
   keywords: articleKeywords,
   thumbnail,
   themeColor,
-  content,
-  thumbnailLabel,
   publishedAt,
 } = article;
-
-const mainClass = css({
-  display: "flex",
-  flexDir: "column",
-  alignItems: "center",
-});
-
-const contentClass = css({
-  minHeight: "192",
-  paddingTop: "26",
-  paddingBottom: "42",
-});
 
 // ページメタデータの前処理
 const pageTitle = replaceByMap(title, article);
@@ -130,18 +113,7 @@ const ogpImage = await getOgpImage(thumbnail);
     },
   ]}
   themeColor={themeColor}
-  mainClass={mainClass}
   defineShapes={["star"]}
 >
-  <PageHeading img={thumbnail}>{pageTitle}</PageHeading>
-  <ArticleContentSection
-    contentHtml={content}
-    thumbnail={thumbnail}
-    thumbnailDisplayAlt={thumbnailLabel ?? ""}
-    title={replaceByMap(title, article)}
-    themeColor={themeColor}
-    publishedAt={new Date(publishedAt)}
-    class={contentClass}
-  />
-  <ArticleNavigation />
+  <ArticleDetailPageEntry article={article} title={pageTitle} />
 </Layout>

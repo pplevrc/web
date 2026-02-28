@@ -8,7 +8,7 @@ import { toWidths } from "./common";
 
 type Type = keyof Avatar["images"];
 
-interface Props extends HTMLAttributes<"picture"> {
+export interface Props extends HTMLAttributes<"picture"> {
   /**
    * 画像の読み込みが完了したことを示す aria-属性 ("aria-busy") を追加するかどうか
    */
