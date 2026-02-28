@@ -16,7 +16,7 @@ npm, yarn などの node 関連ツールは [volta](https://volta.sh/) で管理
 
 ### VSCode
 
-VSCode 系のコードエディターを使用している場合は、 [code workspace](./.vscode/project.code-workspace) を開いて, 推奨される拡張機能をインストールしておきましょ
+VSCode 系のコードエディター (cursor, antigravity 等も含む) を使用している場合は、 [code workspace](./.vscode/project.code-workspace) を開いて, 推奨される拡張機能をインストールしておきましょ
 
 ### Env の用意
 
@@ -24,4 +24,6 @@ VSCode 系のコードエディターを使用している場合は、 [code wor
 
 内容はぷぷりえ内緒ドキュメントを参考にしましょう.
 
-## 開発準備
+## ドキュメント
+
+- [コーディングガイドライン](./docs/coding-guidelines.md)
