@@ -7,7 +7,7 @@ import { getMeta } from "@content/meta";
 import Layout from "@layouts/Layout.astro";
 import { sortByDesc, unique } from "@lib/utils/array";
 import { getOgpImage } from "@lib/utils/image";
-import { toAbsoluteUrl } from "@lib/utils/url";
+import { href, toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 const {
@@ -48,7 +48,7 @@ const ogpImage = await getOgpImage(thumbnail);
     title,
     type: "website",
     image: {
-      url: toAbsoluteUrl(ogpImage.src, Astro.site),
+      url: toAbsoluteUrl(ogpImage.src),
       width: ogpImage.attributes.width,
       height: ogpImage.attributes.height,
       type: `image/${ogpImage.options.format}` as OGPImage["type"],
@@ -70,7 +70,7 @@ const ogpImage = await getOgpImage(thumbnail);
         "@type": "ListItem",
         position: 1,
         name: "ホーム",
-        item: toAbsoluteUrl("/", Astro.site),
+        item: toAbsoluteUrl(href("/")),
       },
       {
         "@type": "ListItem",

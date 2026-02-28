@@ -1,8 +1,8 @@
 ---
 import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import { getMeta } from "@content/meta";
-import { href } from "@lib/utils/base-path";
 import { hash } from "@lib/utils/random";
+import { href } from "@lib/utils/url";
 import { css } from "@styles/css";
 import HamburgerIconButton from "./HamburgerIconButton.astro";
 import HeaderLogo from "./HeaderLogo.astro";
@@ -139,13 +139,13 @@ const {
         <HeaderNavItem label={homeTitle} path={href("/")} />
       </li>
       <li>
-        <HeaderNavItem label={articlesTitle} path={href("/articles")} />
+        <HeaderNavItem label={articlesTitle} path={href("/articles/")} />
       </li>
       <li>
-        <HeaderNavItem label={castsTitle} path={href("/casts")} />
+        <HeaderNavItem label={castsTitle} path={href("/casts/")} />
       </li>
       <li>
-        <HeaderNavItem label={guidelinesTitle} path={href("/guidelines")} />
+        <HeaderNavItem label={guidelinesTitle} path={href("/guidelines/")} />
       </li>
     </ul>
     <ul class={navSNSStyle}>

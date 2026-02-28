@@ -152,6 +152,6 @@ export function toCastMeta(cast: Cast): CastMeta {
   return {
     nickname: cast.profile.nickname,
     vrchat: cast.vrchat,
-    profilePage: new URL(`/casts/${cast.profile.nickname}`, site),
+    profilePage: new URL(`/casts/${cast.profile.nickname}/`, site),
   };
 }

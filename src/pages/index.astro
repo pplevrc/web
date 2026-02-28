@@ -13,7 +13,7 @@ import Layout from "@layouts/Layout.astro";
 import { sortByDesc } from "@lib/utils/array";
 import { IS_PRODUCTION } from "@lib/utils/env";
 import { getOgpImage } from "@lib/utils/image";
-import { toAbsoluteUrl } from "@lib/utils/url";
+import { href, toAbsoluteUrl } from "@lib/utils/url";
 import { css } from "@styles/css";
 
 const heroThumbnail = IS_PRODUCTION ? heroThumbnailProd : heroThumbnailDev;
@@ -51,7 +51,7 @@ const casts = await getCollection("casts");
     title: "ロリっ子喫茶ぷぷりえ",
     type: "website",
     image: {
-      url: toAbsoluteUrl(ogpImage.src, Astro.site),
+      url: toAbsoluteUrl(ogpImage.src),
       width: ogpImage.attributes.width,
       height: ogpImage.attributes.height,
       type: `image/${ogpImage.options.format}` as OGPImage["type"],
@@ -70,8 +70,8 @@ const casts = await getCollection("casts");
       "@context": "https://schema.org",
       "@type": "Organization",
       name: "ロリっ子喫茶ぷぷりえ",
-      url: toAbsoluteUrl("/", Astro.site),
-      image: toAbsoluteUrl(ogpImage.src, Astro.site),
+      url: toAbsoluteUrl(href("/")),
+      image: toAbsoluteUrl(ogpImage.src),
       description,
     },
     {
@@ -82,7 +82,7 @@ const casts = await getCollection("casts");
           "@type": "ListItem",
           position: 1,
           name: "ホーム",
-          item: toAbsoluteUrl("/", Astro.site),
+          item: toAbsoluteUrl(href("/")),
         },
       ],
     },
@@ -90,11 +90,11 @@ const casts = await getCollection("casts");
       "@context": "https://schema.org",
       "@type": "ItemList",
       name: "最近の記事",
-      url: toAbsoluteUrl("/articles", Astro.site),
+      url: toAbsoluteUrl(href("/articles/")),
       itemListElement: recentArticles.map((article, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: toAbsoluteUrl(`/articles/${article.id}`, Astro.site),
+        url: toAbsoluteUrl(href(`/articles/${article.id}/`)),
         name: article.data.title,
       })),
     },
