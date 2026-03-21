@@ -1,0 +1,119 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+import { loadCasts } from "../common/casts";
+
+const casts = await loadCasts();
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "26",
+  paddingBlock: "12",
+});
+
+const titleStyle = css({
+  textStyle: "decorative.bold.2xl",
+});
+
+const layoutStyle = css({
+  display: "flex",
+  gap: "26",
+  alignItems: "center",
+  flexDir: {
+    base: "column",
+    _pc: "row",
+  },
+});
+
+const musicInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "12",
+});
+
+const musicDescriptionListStyle = css({
+  display: "flex",
+  w: {
+    base: "96",
+    _pc: "128",
+  },
+  flexDirection: "column",
+  gap: "12",
+  background: "white/90",
+  rounded: "3xl",
+  shadow: "xs",
+  paddingBlock: "16",
+  paddingInline: "12",
+});
+
+const musicDescriptionItemStyle = css({
+  display: "grid",
+  gridTemplateColumns: "max-content 1fr",
+  rowGap: "12",
+  columnGap: "16",
+  alignItems: "baseline",
+  "& dt": {
+    textStyle: "decorative.bold.2xs",
+    textAlign: "right",
+  },
+  "& dd": {
+    textStyle: "decorative.bold.lg",
+  },
+});
+
+const supprementTextStyle = css({
+  textStyle: "normal.bold.2xs",
+  "& a": {
+    textDecoration: "underline",
+    textUnderlineOffset: "2px",
+  },
+});
+
+const musicTitleStyle = css({
+  textStyle: "decorative.bold.4xl",
+  color: "berry.regular",
+  textAlign: "center",
+});
+
+const dummyJacketImageStyle = css({
+  w: "72",
+  h: "72",
+  bg: "black",
+});
+---
+
+<section class={rootStyle}>
+  <h2 class={titleStyle}>
+    <CustomPicture src={titleImage} alt="メインテーマ" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  </h2>
+  <div class={layoutStyle}>
+    <div class={musicInfoStyle}>
+      <div class={dummyJacketImageStyle} />
+      <h3 class={musicTitleStyle}>なぞ？なぞ！ぷぷりえ☆大解決！</h3>
+    </div>
+    <aside class={musicDescriptionListStyle}>
+      <dl class={musicDescriptionItemStyle}>
+        <dt>さっきょく</dt>
+        <dd>るぅなん <span class={supprementTextStyle}>(
+          <a href="https://x.com/lu_narn">@lu_narn</a>)</span></dd>
+        <dt>さくし</dt>
+        <dd>rikusu</dd>
+        <dt>うた</dt>
+        <dd>
+          <ul>
+            {
+              casts.map(({ profile, vrchat }) => (
+                <li>{profile.nickname} <span class={supprementTextStyle}>({vrchat.userId})</span></li>
+              ))
+            }
+          </ul>
+        </dd>
+      </dl>
+    </aside>
+  </div>
+</section>

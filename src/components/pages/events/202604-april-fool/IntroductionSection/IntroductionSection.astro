@@ -1,0 +1,101 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-introduction.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "26",
+});
+
+const titleStyle = css({
+  textStyle: "decorative.bold.2xl",
+  textAlign: "center",
+  textWrap: {
+    base: "nowrap",
+    _pc: "balance",
+  },
+});
+
+const bodyStyle = css({
+  textStyle: {
+    base: "decorative.bold.lg",
+    _pc: "decorative.bold.xl",
+  },
+  textShadow: "sm",
+  textAlign: "center",
+  lineHeight: "[3rem]",
+});
+
+const accent1Style = css({
+  textStyle: {
+    base: "decorative.bold.3xl",
+    _pc: "decorative.bold.4xl",
+  },
+});
+
+const accent2Style = css({
+  textStyle: {
+    base: "decorative.bold.2xl",
+    _pc: "decorative.bold.3xl",
+  },
+});
+
+const weakStyle = css({
+  textStyle: {
+    base: "decorative.bold.sm",
+    _pc: "decorative.bold.base",
+  },
+});
+
+const spOnlyBreak = css({
+  display: {
+    base: "initial",
+    _pc: "contents",
+  },
+});
+---
+
+<section class={rootStyle}>
+  <h2 class={titleStyle}>
+    <CustomPicture src={titleImage} alt="イントロダクション" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  </h2>
+  <p class={bodyStyle}>
+    <strong class:list={[accent2Style, css({ color: "rose.regular" })]}>たいへん！！</strong> 
+    <br class={spOnlyBreak} />
+    つまみ食いが多すぎて
+    <br class={spOnlyBreak} />
+    <strong class:list={[accent1Style, css({ color: "rose.regular" })]}>店長が倒れちゃった！！</strong>
+    <br class={spOnlyBreak} />
+    <small class:list={[weakStyle, css({ color: "smoke.regular" })]}>（このひとでなしー！） </small>
+    <br>
+    このままじゃ、みんなと遊べなくなっちゃう！
+    <br>
+    <br>
+    ぷぷりえを続けるために、
+    <br class={spOnlyBreak} />
+    世界の平和を守るために……
+    <br class={spOnlyBreak} />
+    <br>
+    <strong class={accent2Style}>今こそ、</strong>
+    <br class={spOnlyBreak} />
+    <strong class:list={[accent1Style, css({ color: "rose.regular" })]}>私達が名探偵になる時だ！</strong>
+    <br>
+    繰り返す、
+    <br class={spOnlyBreak} />
+    これは
+    <strong class={accent2Style}>ごっこ遊びじゃない</strong>
+    <br>
+    <strong class={accent1Style}>事件は店舗で起きてるんだ！</strong>
+    <br>
+    <br>
+    すべてのナゾを過去にするVRC名探偵
+    <br>
+    ぷぷりと解決！
+    <br class={spOnlyBreak} />
+    <strong class:list={[accent1Style, css({ color: "latte.regular" })]}>ロリっこ探偵✨️ぷぷリィホームズ！</strong>
+  </p>
+</section>

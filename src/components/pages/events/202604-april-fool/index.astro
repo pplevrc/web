@@ -1,0 +1,27 @@
+---
+import { css } from "@styles/css";
+import CharacterSection from "./CharacterSection/CharacterSection.astro";
+import FooterNavigation from "./Footer/Footer.astro";
+import HeroSection from "./HeroSection/HeroSection.astro";
+import IntroductionSection from "./IntroductionSection/IntroductionSection.astro";
+import MovieSection from "./MovieSection/MovieSection.astro";
+import MusicSection from "./MusicSection/MusicSection.astro";
+import OnairSection from "./OnairSection/OnairSection.astro";
+
+const mainStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "26",
+  paddingBottom: "26",
+});
+---
+
+<main class={mainStyle}>
+  <HeroSection />
+  <MovieSection />
+  <OnairSection />
+  <IntroductionSection />
+  <CharacterSection />
+  <MusicSection />
+</main>
+<FooterNavigation />

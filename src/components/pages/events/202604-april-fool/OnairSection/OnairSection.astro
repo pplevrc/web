@@ -1,0 +1,94 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-onair.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+
+const rootStyle = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "12",
+  alignItems: "center",
+});
+
+const titleStyle = css({
+  textStyle: "decorative.bold.2xl",
+});
+
+const iconStyle = css({
+  display: "inline",
+  w: "4",
+  verticalAlign: "baseline",
+});
+
+const informationGroupStyle = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "12",
+});
+
+const descriptionStyle = css({
+  textStyle: "decorative.bold.xl",
+  color: "berry.regular",
+  textAlign: "center",
+});
+
+const broadcastStationListStyle = css({
+  rounded: "3xl",
+  bg: "white/90",
+  shadow: "xs",
+  paddingBlock: "16",
+  paddingInline: {
+    base: "8",
+    _pc: "12",
+  },
+  gap: "2",
+  columnGap: "4",
+
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  textStyle: {
+    base: "decorative.bold.sm",
+    _pc: "decorative.bold.base",
+  },
+});
+
+const dummyBroadcastStation: string[] = [
+  "PPLE テレビ",
+  "TYB 巴焼きテレビ",
+  "JNK 人工衛星饅頭放送",
+  "GZK 御座候放送",
+  "OBB 大判焼き放送",
+  "GJF 義士焼き放送",
+  "太鼓焼きテレビ21",
+  "KBH 小判焼き放送",
+  "PPN パンセポンセ放送",
+  "今川焼きテレビ",
+  "BMN ベイクドモチョチョテレビ",
+  "KTB 回転焼き放送テレビ",
+  "NJH 二重焼きホームテレビ",
+  "HMB 蜂楽饅頭放送",
+  "MGT 満月焼きテレビ",
+  "TKB 太鼓饅頭放送",
+  "KTN 甘太郎焼き文化放送",
+  "AJK あじまん放送",
+  "OGO 黄金焼き放送",
+  "JMK じまんやき放送",
+  "CPQ ちゃっぽろ焼き放送",
+];
+---
+<section class={rootStyle}>
+  <h2 class={titleStyle}>
+    <CustomPicture src={titleImage} alt="ON AIR" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  </h2>
+  <div class={informationGroupStyle}>
+    <h3 class={descriptionStyle}>PPLEテレビ・テレビお菓子系列25局ネットにて <br />
+      4月1日<Icon type="flower" class={iconStyle} />曜日, 朝 99:99 より放送開始！ </h3>
+    <ul class={broadcastStationListStyle}>
+       {dummyBroadcastStation.map((s) => (
+        <li>{s}</li>
+       ))}
+    </ul>
+  </div>
+</section>

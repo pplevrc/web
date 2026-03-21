@@ -99,7 +99,7 @@ export default defineConfig(
       integrations: [
         purgeInlineCss(),
         sitemap({
-          filter: (page) => !page.includes("internals/"),
+          filter: (page) => !page.includes("/events/"),
         }),
         renameRemoteImages(),
       ],

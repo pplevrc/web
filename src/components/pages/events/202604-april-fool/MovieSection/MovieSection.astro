@@ -1,0 +1,51 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-movie.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+import LaceDivider from "../common/LaceDivider.astro";
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12",
+  paddingBlock: "12",
+  alignItems: "center",
+  bg: "white/90",
+});
+
+const titleStyle = css({
+  textStyle: "decorative.bold.2xl",
+});
+
+const movieFrameStyle = css({
+  rounded: "sm",
+});
+
+const dummyMovieStyle = css({
+  display: "block",
+  background: "black",
+  // 1280px x 720px
+  width: {
+    base: "[26rem]",
+    _pc: "[40rem]",
+  },
+  height: {
+    base: "[14.25rem]",
+    _pc: "[22.5rem]",
+  },
+});
+---
+
+<section>
+  <LaceDivider direction="up" />
+  <div class={rootStyle}>
+    <h2 class={titleStyle}>
+      <CustomPicture src={titleImage} alt="ムービー" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+    </h2>
+    <div class={movieFrameStyle}>
+      <div class={dummyMovieStyle}>ここに動画を埋め込み</div>
+    </div>
+  </div>
+  <LaceDivider direction="down" />
+</section>

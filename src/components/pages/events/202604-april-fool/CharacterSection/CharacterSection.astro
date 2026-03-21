@@ -1,0 +1,68 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-character.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+import { loadCasts } from "../common/casts";
+import LaceDivider from "../common/LaceDivider.astro";
+import CharacterSet from "./internals/CharacterSet.astro";
+
+const casts = await loadCasts();
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12",
+  paddingBlock: "12",
+  alignItems: "center",
+  bg: "white/90",
+});
+
+const titleStyle = css({
+  textStyle: "decorative.bold.2xl",
+});
+
+const characterNavigationStyle = css({
+  display: "flex",
+  gap: "12",
+});
+
+const dummyNavigationItemStyle = css({
+  display: "block",
+  w: "4",
+  h: "4",
+  bg: "black",
+  rounded: "full",
+});
+---
+
+<section>
+  <LaceDivider direction="up" />
+  <div class={rootStyle}>
+    <h2 class={titleStyle}>
+      <CustomPicture src={titleImage} alt="キャラクター" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+    </h2>
+    
+    <ul>
+      <li>
+        <CharacterSet cast={casts[0]!} />
+      </li>
+    </ul>
+    
+    <nav class={characterNavigationStyle}>
+      <ul>
+        <li class={dummyNavigationItemStyle}></li>
+      </ul>
+      <ul>
+        <li class={dummyNavigationItemStyle}></li>
+      </ul>
+      <ul>
+        <li class={dummyNavigationItemStyle}></li>
+      </ul>
+      <ul>
+        <li class={dummyNavigationItemStyle}></li>
+      </ul>
+    </nav>
+  </div>
+  <LaceDivider direction="down" />
+</section>

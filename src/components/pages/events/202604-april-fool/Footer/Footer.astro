@@ -1,0 +1,53 @@
+---
+import Logo from "@assets/images/events/202604-april-fool/logo.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { href } from "@lib/utils/url";
+import { css } from "@styles/css";
+import LaceDivider from "../common/LaceDivider.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const footerStyle = css({
+  display: "flex",
+  flexDir: "column",
+  justifyContent: "space-around",
+  alignItems: "center",
+  paddingBlock: "12",
+  gap: "12",
+
+  bg: "white/90",
+  paddingInline: "8",
+
+  _pc: {
+    paddingInline: "4",
+  },
+});
+
+const logoStyle = css({
+  width: {
+    base: "36",
+    _pc: "43",
+  },
+});
+
+const dummyCopylightStyle = css({
+  textStyle: "normal.base",
+});
+---
+
+<footer class={className}>
+  <LaceDivider direction="up"/>
+  <div class={footerStyle}>
+    <a class={logoStyle} href={href("/")}>
+      <CustomPicture src={Logo} alt="" fit="cover" height={120} width={240} />
+    </a>
+
+    <p class={dummyCopylightStyle}>
+      <s>©</s> katsuobushilord</p>
+  </div>
+</footer>
+

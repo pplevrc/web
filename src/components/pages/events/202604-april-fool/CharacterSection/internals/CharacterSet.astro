@@ -1,0 +1,78 @@
+---
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import type { Cast } from "@content/casts";
+import { css } from "@styles/css";
+
+interface Props {
+  cast: Cast;
+}
+
+const { cast } = Astro.props;
+
+const characterImageRootStyle = css({
+  w: "64",
+  h: "64",
+});
+
+const characterSetStyle = css({
+  display: "flex",
+  w: {
+    base: "96",
+    _pc: "[fit-content]",
+  },
+  h: {
+    base: "64",
+    _pc: "80",
+  },
+  gap: "12",
+  flexDir: {
+    base: "column",
+    _pc: "row",
+  },
+});
+
+const characterAsideStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4",
+});
+
+const characterNameStyle = css({
+  textStyle: "decorative.bold.xl",
+  textAlign: {
+    base: "center",
+    _pc: "left",
+  },
+});
+
+const characterDescriptionStyle = css({
+  textStyle: "normal.base",
+  whiteSpace: "pre-wrap",
+  w: {
+    base: "64",
+    _pc: "96",
+  },
+  textAlign: {
+    base: "center",
+    _pc: "left",
+  },
+});
+
+// biome-ignore lint/style/noNonNullAssertion: 常に存在する
+const avatar = cast.avatars[0]!.images.emotional;
+
+const nickname = cast.profile.nickname;
+
+const introduction = cast.profile.introduction;
+---
+
+<article class={characterSetStyle}>
+  <figure class={characterImageRootStyle}>
+    <CustomPicture src={avatar} alt={nickname} fit="cover" height={256} width={256} widths={toWidths(256, { width: 256, height: 256 })} />
+  </figure>
+  <aside class={characterAsideStyle}>
+    <h3 class={characterNameStyle}>{ nickname }</h3>
+    <p class={characterDescriptionStyle}>{ introduction }</p>
+  </aside>
+</article>

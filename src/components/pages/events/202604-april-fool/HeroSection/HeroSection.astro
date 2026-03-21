@@ -1,0 +1,86 @@
+---
+import StartDateInfo from "@assets/images/events/202604-april-fool/date-info.png";
+import Logo from "@assets/images/events/202604-april-fool/logo.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+
+const rootStyle = css({
+  display: "flex",
+  width: "full",
+  minHeight: "[100vh]",
+
+  _spOnly: {
+    flexDir: "column-reverse",
+    alignItems: "center",
+    paddingBlock: "4",
+  },
+
+  flexDir: "row",
+});
+
+const logoColStyle = css({
+  flex: "1",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+const imageColStyle = css({
+  flex: "1",
+  pos: "relative",
+  justifyContent: "center",
+  alignItems: "center",
+
+  _spOnly: {
+    minWidth: "[75vw]",
+    minHeight: "[75vh]",
+    width: "[75vw]",
+    height: "[75vh]",
+  },
+});
+
+const logoStyle = css({
+  "& > *": {
+    width: "20",
+    height: "20",
+    objectFit: "contain",
+  },
+});
+
+const dateInfoStyle = css({
+  width: { base: "96", _pc: "128" },
+});
+
+const imageStyle = css({
+  pos: "absolute",
+
+  _pc: {
+    top: "[50%]",
+    left: "[20%]",
+    transform: "translate(-50%, -50%)",
+  },
+
+  zIndex: "back",
+  width: "[75vw]",
+  height: "[75vh]",
+  backgroundColor: "white",
+  borderRadius: "full",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+---
+
+<section class={rootStyle}>
+  <div class={logoColStyle}>
+    <h1 class={logoStyle}>
+      <CustomPicture src={Logo} alt="ロリっ子探偵ぷぷりィホームズ" fit="cover" height={720} width={1440} widths={toWidths(1440, { width: 1440, height: 720 })} />
+    </h1>
+    <CustomPicture class={dateInfoStyle} src={StartDateInfo} alt="PPLEテレビ・テレビお菓子系25局ネットにて2000026年4月1日放送スタート" fit="cover" height={626} width={1024} widths={toWidths(1024, { width: 1024, height: 626 })} />
+  </div>
+  <div class={imageColStyle}>
+    <div class={imageStyle}>ここにでっかくイラストを配置</div>
+  </div>
+</section>

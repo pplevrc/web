@@ -37,6 +37,11 @@ interface Props {
   "mainClass:list"?: string[];
   rootClass?: string;
   "rootClass:list"?: string[];
+
+  /**
+   * 検索エンジンにインデックスさせないか
+   */
+  noindex?: boolean;
 }
 
 const {
@@ -53,6 +58,7 @@ const {
   rootClass,
   "rootClass:list": rootClassList = [],
   themeColor,
+  noindex,
 } = Astro.props;
 
 const {
@@ -172,6 +178,7 @@ const backgroundClass = backgroundClassRecipe({ color: themeColor });
       keywords={keywords}
       polyfill={polyfill}
       themeColor={themeColor ?? "smoke"}
+      noindex={noindex}
       ogp={ogpMetadata}
       sns={sns}
       jsonLd={jsonLd}
