@@ -21,10 +21,6 @@ const characterSetStyle = css({
     base: "96",
     _pc: "[fit-content]",
   },
-  h: {
-    base: "64",
-    _pc: "80",
-  },
   gap: "12",
   flexDir: {
     base: "column",
@@ -36,6 +32,11 @@ const characterAsideStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: "4",
+
+  alignItems: {
+    base: "center",
+    _pc: "initial",
+  },
 });
 
 const characterNameStyle = css({
@@ -50,8 +51,8 @@ const characterDescriptionStyle = css({
   textStyle: "normal.base",
   whiteSpace: "pre-wrap",
   w: {
-    base: "64",
-    _pc: "96",
+    base: "80",
+    _pc: "112",
   },
   textAlign: {
     base: "center",
