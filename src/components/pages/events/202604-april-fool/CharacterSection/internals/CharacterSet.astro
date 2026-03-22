@@ -1,6 +1,7 @@
 ---
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
+import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
 import type { Cast } from "@content/casts";
 import { css } from "@styles/css";
 
@@ -13,6 +14,7 @@ const { cast } = Astro.props;
 const characterImageRootStyle = css({
   w: "64",
   h: "64",
+  pos: "relative",
 });
 
 const characterSetStyle = css({
@@ -26,12 +28,19 @@ const characterSetStyle = css({
     base: "column",
     _pc: "row",
   },
+  alignItems: {
+    base: "center",
+    _pc: "end",
+  },
 });
 
 const characterAsideStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: "4",
+  pb: {
+    _pc: "26",
+  },
 
   alignItems: {
     base: "center",
@@ -60,6 +69,37 @@ const characterDescriptionStyle = css({
   },
 });
 
+const imageStyle = css({
+  pos: "absolute",
+  left: "[50%]",
+  bottom: {
+    _pc: "0",
+  },
+  transform: "[translate(-50%, 0)]",
+});
+
+const float = css({
+  zIndex: "float",
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "80",
+  h: "80",
+  bottom: {
+    base: "[-80%]",
+    _pc: "0",
+  },
+  left: {
+    base: "0",
+    _pc: "[16rem]",
+  },
+  transform: {
+    base: "[translate(-10%, 0) rotate(30deg)]",
+    _pc: "[translate(-50%, 0) rotate(30deg)]",
+  },
+});
+
 // biome-ignore lint/style/noNonNullAssertion: 常に存在する
 const avatar = cast.avatars[0]!.images.emotional;
 
@@ -70,9 +110,10 @@ const introduction = cast.profile.introduction;
 
 <article class={characterSetStyle}>
   <figure class={characterImageRootStyle}>
-    <CustomPicture src={avatar} alt={nickname} fit="cover" height={256} width={256} widths={toWidths(256, { width: 256, height: 256 })} />
+    <CustomPicture class:list={[imageStyle, float]} src={avatar} alt={nickname} fit="cover" height={256} width={256} widths={toWidths(256, { width: 256, height: 256 })} />
+    <StripeCircle class={circleStyle} />
   </figure>
-  <aside class={characterAsideStyle}>
+  <aside class:list={[characterAsideStyle, float]}>
     <h3 class={characterNameStyle}>{ nickname }</h3>
     <p class={characterDescriptionStyle}>{ introduction }</p>
   </aside>
