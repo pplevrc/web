@@ -15,12 +15,17 @@ export interface DescriptionMetaProps {
   /**
    * ページの説明
    */
-  description: string;
+  description?: string;
 
   /**
    * ページのキーワード
    */
-  keywords: string[];
+  keywords?: string[];
+
+  /**
+   * 検索エンジンにインデックスさせないか
+   */
+  noindex?: boolean;
 
   /**
    * テーマカラー

@@ -1,0 +1,73 @@
+---
+import laceURL from "@assets/images/events/202604-april-fool/lace.svg?url";
+
+import { css, cva } from "@styles/css";
+
+interface Props {
+  direction?: "up" | "down";
+}
+
+const { direction } = Astro.props;
+
+const rootStyle = css({
+  w: "full",
+  h: "12",
+  pos: "relative",
+  overflow: "hidden",
+  opacity: "[0.9]",
+});
+
+const directionStyleRecipe = cva({
+  base: {},
+  variants: {
+    direction: {
+      up: {},
+      down: {
+        // 上下反転
+        transform: "rotateX(180deg)",
+      },
+    },
+  },
+});
+
+const directionStyle = directionStyleRecipe({ direction });
+
+const laceStyleRecipe = cva({
+  base: {
+    pos: "absolute",
+    scale: {
+      base: "[2]",
+      _pc: "[1]",
+    },
+
+    height: "auto",
+    width: "full",
+
+    aspectRatio: "[1 / 0.8]",
+  },
+  variants: {
+    direction: {
+      up: {
+        bottom: {
+          // 画像の変更が規約上不可能であるため, 無理やり調整する
+          base: "[-380%]",
+          _pc: "[-1143%]",
+        },
+      },
+      down: {
+        top: {
+          // 画像の変更が規約上不可能であるため, 無理やり調整する
+          base: "[-380%]",
+          _pc: "[-1143%]",
+        },
+      },
+    },
+  },
+});
+
+const laceStyle = laceStyleRecipe({ direction });
+---
+
+<div class={rootStyle} aria-hidden>
+  <div class:list={[laceStyle, directionStyle]} style={`background-image: url(${laceURL});`} />
+</div>

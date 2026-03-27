@@ -5,7 +5,13 @@ import type { DescriptionMetaProps } from "../types";
 
 interface Props extends DescriptionMetaProps {}
 
-const { description, keywords = [], title, themeColor = "smoke" } = Astro.props;
+const {
+  description,
+  keywords,
+  title,
+  themeColor = "smoke",
+  noindex,
+} = Astro.props;
 
 const { commonKeywords } = await getMeta();
 
@@ -13,17 +19,34 @@ const fixedTitle =
   title === "ロリっ子喫茶ぷぷりえ" ? title : `${title} | ロリっ子喫茶ぷぷりえ`;
 
 const color = getColorCode(`${themeColor}.lite`);
+
+if (!noindex && !description) {
+  throw new Error("description is required");
+}
+
+if (!noindex && !keywords) {
+  throw new Error("keywords is required");
+}
 ---
 
 <meta charset="UTF-8" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta name="description" content={description} />
-<meta
-  name="keywords"
-  content={[...commonKeywords, ...keywords].map((k) => k.trim()).join(",")}
-/>
+{noindex && <meta name="robots" content="noindex" />}
+
+{!noindex && (
+  <meta name="description" content={description!} />
+)}
+
+{!noindex && (
+  <meta
+    name="keywords"
+    content={[...commonKeywords, ...keywords!].map((k) => k.trim()).join(",")}
+  />
+)}
+
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content={color} />
+
 <title>{fixedTitle}</title>

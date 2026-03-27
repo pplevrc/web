@@ -1,0 +1,211 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-character.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+import { loadCasts } from "../common/casts";
+import LaceDivider from "../common/LaceDivider.astro";
+import CharacterSet from "./internals/CharacterSet.astro";
+
+const casts = await loadCasts();
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  paddingBlock: "12",
+  alignItems: "center",
+  bg: "white/90",
+});
+
+const titleStyle = css({
+  width: {
+    base: "80",
+    _pc: "96",
+  },
+});
+
+const carouselRootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: {
+    base: "0",
+    _pc: "8",
+  },
+  w: "full",
+});
+
+const trackListStyle = css({
+  display: "flex",
+  w: "full",
+  h: {
+    _pc: "96",
+  },
+  overflowX: "auto",
+  overflowY: "hidden",
+  scrollBehavior: "smooth",
+  scrollSnapType: "[x mandatory]",
+  scrollbarWidth: "[none]",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+});
+
+const trackItemStyle = css({
+  flexShrink: 0,
+  w: "full",
+  display: "flex",
+  justifyContent: "center",
+  scrollSnapAlign: "center",
+  // 左右にスペースをあけて見栄えを整える
+  px: {
+    base: "4",
+    _pc: "8",
+  },
+});
+
+const characterNavigationStyle = css({
+  pt: {
+    base: "0",
+    _pc: "12",
+  },
+  display: "flex",
+});
+
+const dotListStyle = css({
+  display: "flex",
+  gap: {
+    base: "12",
+    _pc: "8",
+  },
+});
+
+const carouselLinkStyle = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  w: {
+    base: "6",
+    _pc: "12",
+  },
+  h: {
+    base: "6",
+    _pc: "12",
+  },
+
+  _motionSafe: {
+    transition: "all",
+    transitionDuration: "faster",
+    cursor: "pointer",
+
+    _supportHover: {
+      _hover: {
+        transform: "scale(1.1)",
+      },
+    },
+
+    _active: {
+      opacity: "[0.8]",
+    },
+  },
+
+  "&[data-active='true']": {
+    transform: "scale(1.1)",
+  },
+  "& .icon-active": {
+    display: "none",
+  },
+  "&[data-active='true'] .icon-active": {
+    display: "block",
+  },
+  "&[data-active='true'] .icon-default": {
+    display: "none",
+  },
+});
+---
+
+<section>
+  <LaceDivider direction="up" />
+  <div class={rootStyle}>
+    <h2 class={titleStyle}>
+      <CustomPicture src={titleImage} alt="キャラクター" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+    </h2>
+    
+    <character-carousel class={carouselRootStyle}>
+      <ul class={trackListStyle} data-track>
+        {
+          casts.map((cast, index) => (
+            <li class={trackItemStyle} id={`character-index-${index}`}>
+              <CharacterSet cast={cast} />
+            </li>
+          ))
+        }
+      </ul>
+      
+      <!-- JSで縦ジャンプを防ぐためのナビゲーション -->
+      <nav class={characterNavigationStyle}>
+        <ul class={dotListStyle}>
+          {
+            casts.map(({ themeColor }, index) => (
+              <li>
+                <a href={`#character-index-${index}`} data-dot aria-label={`キャラクター ${index + 1}`} class={carouselLinkStyle}>
+                  <Icon type="flower" class:list={["icon-default", css({ color: "colorPalette.regular", colorPalette: themeColor })]} />
+                  <Icon type="flower-outline" class:list={["icon-active", css({ color: "colorPalette.regular", colorPalette: themeColor })]} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </character-carousel>
+  </div>
+  <LaceDivider direction="down" />
+</section>
+
+<script>
+  // リンクによる通常の縦ジャンプ動作をキャンセルし、横スクロールのみを手動実行するミニマルなJS
+  class CharacterCarousel extends HTMLElement {
+    constructor() {
+      super();
+      const track = this.querySelector("[data-track]");
+      const dots = this.querySelectorAll("[data-dot]");
+
+      if (!track || !dots.length) return;
+
+      for (let index = 0; index < dots.length; index++) {
+        const dot = dots[index]!;
+        dot.addEventListener("click", (e) => {
+          e.preventDefault(); // 縦ジャンプ（アンカー挙動）を防ぐ
+          track.scrollTo({
+            left: index * track.clientWidth,
+            behavior: "smooth"
+          });
+        });
+      }
+
+      // スクロールに合わせてアクティブなドットを更新する処理
+      const updateDots = () => {
+        const clientWidth = track.clientWidth;
+        if (clientWidth === 0) return;
+        
+        const index = Math.round(track.scrollLeft / clientWidth);
+        
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i]!;
+          if (i === index) {
+            dot.setAttribute("data-active", "true");
+          } else {
+            dot.removeAttribute("data-active");
+          }
+        }
+      };
+
+      track.addEventListener("scroll", updateDots, { passive: true });
+      window.addEventListener("resize", updateDots, { passive: true });
+      updateDots(); // 初期状態への反映
+    }
+  }
+
+  customElements.define("character-carousel", CharacterCarousel);
+</script>

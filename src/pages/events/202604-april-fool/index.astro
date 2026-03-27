@@ -1,0 +1,44 @@
+---
+import AprilFoolEventPageEntry from "@components/pages/events/202604-april-fool/index.astro";
+import Layout from "@layouts/Blank.astro";
+import { css } from "@styles/css";
+
+const title = "探偵喫茶ぷぷりえ";
+
+const rootClass = css({
+  _before: {
+    content: "''",
+    pos: "fixed",
+
+    top: "[-50%]",
+    left: "[-50%]",
+    width: "[max(200vw, 200vh)]",
+    height: "[max(200vw, 200vh)]",
+
+    bgSize: "[5.0625rem, 5.0625rem]",
+    zIndex: "backgroundBase",
+    bgGradient: "smoke.checkered",
+    rotate: "[45deg]",
+  },
+
+  _after: {
+    content: "''",
+    pos: "fixed",
+    top: "0",
+    left: "0",
+    width: "[100vw]",
+    height: "[100vh]",
+    zIndex: "backgroundBlend",
+    mixBlendMode: "color",
+    bgImage: `[linear-gradient(90deg, {colors.berry.50} 0%, {colors.rose.50} 10%, {colors.carrot.50} 20%, {colors.latte.50} 30%, {colors.honey.50} 40%, {colors.olive.50} 50%, {colors.matcha.50} 60%, {colors.mint.50} 70%, {colors.soda.50} 80%, {colors.ice.50} 90%, {colors.lavender.50} 100%)]`,
+  },
+});
+---
+
+<Layout
+  headMeta={{ title }}
+  noindex
+  rootClass={rootClass}
+>
+  <AprilFoolEventPageEntry />
+</Layout>

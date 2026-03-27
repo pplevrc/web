@@ -1,0 +1,51 @@
+---
+import titleImage from "@assets/images/events/202604-april-fool/title-movie.png";
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import { css } from "@styles/css";
+import LaceDivider from "../common/LaceDivider.astro";
+
+const rootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12",
+  paddingBlock: "12",
+  alignItems: "center",
+  bg: "white/90",
+});
+
+const titleStyle = css({
+  width: {
+    base: "80",
+    _pc: "96",
+  },
+});
+
+const movieFrameStyle = css({
+  rounded: "sm",
+});
+
+const movieStyle = css({
+  width: {
+    base: "[28rem]",
+    _pc: "[35rem]",
+  },
+  height: {
+    base: "[15.75rem]",
+    _pc: "[19.6875rem]",
+  },
+});
+---
+
+<section>
+  <LaceDivider direction="up" />
+  <div class={rootStyle}>
+    <h2 class={titleStyle}>
+      <CustomPicture src={titleImage} alt="ムービー" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+    </h2>
+    <div class={movieFrameStyle}>
+      <iframe class={movieStyle} src="https://www.youtube.com/embed/o5fLCzqsUfo?si=x8O5we6tq-vn-9Hw" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
+    </div>
+  </div>
+  <LaceDivider direction="down" />
+</section>

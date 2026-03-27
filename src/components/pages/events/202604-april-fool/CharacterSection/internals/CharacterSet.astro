@@ -1,0 +1,121 @@
+---
+import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import { toWidths } from "@components/domains/avatar/images/common";
+import StripeCircle from "@components/domains/avatar/StripeCircle/StripeCircle.astro";
+import { css } from "@styles/css";
+import type { AprilFoolEventMainCast } from "../../common/casts";
+
+interface Props {
+  cast: AprilFoolEventMainCast;
+}
+
+const { cast } = Astro.props;
+
+const { image, nickname, introduction } = cast;
+
+const characterImageRootStyle = css({
+  w: "64",
+  h: "96",
+  pos: "relative",
+});
+
+const characterSetStyle = css({
+  display: "flex",
+  w: {
+    base: "96",
+    _pc: "[fit-content]",
+  },
+  gap: "12",
+  flexDir: {
+    base: "column",
+    _pc: "row",
+  },
+  alignItems: {
+    base: "center",
+    _pc: "end",
+  },
+});
+
+const characterAsideStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  pt: {
+    base: "0",
+    _pc: "12",
+  },
+  gap: "4",
+  pb: {
+    _pc: "26",
+  },
+
+  alignItems: {
+    base: "center",
+    _pc: "initial",
+  },
+});
+
+const characterNameStyle = css({
+  textStyle: "decorative.bold.xl",
+  textAlign: {
+    base: "center",
+    _pc: "left",
+  },
+});
+
+const characterDescriptionStyle = css({
+  textStyle: "normal.base",
+  whiteSpace: "pre-wrap",
+  w: {
+    base: "80",
+    _pc: "112",
+  },
+  textAlign: {
+    base: "center",
+    _pc: "left",
+  },
+});
+
+const imageStyle = css({
+  pos: "absolute",
+  left: "[50%]",
+  bottom: {
+    _pc: "0",
+  },
+  transform: "[translate(-50%, 0)]",
+  width: "auto",
+  height: "full",
+});
+
+const float = css({
+  zIndex: "float",
+});
+
+const circleStyle = css({
+  pos: "absolute",
+  w: "80",
+  h: "80",
+  bottom: {
+    base: "[-60%]",
+    _pc: "0",
+  },
+  left: {
+    base: "0",
+    _pc: "[16rem]",
+  },
+  transform: {
+    base: "[translate(-10%, 0) rotate(30deg)]",
+    _pc: "[translate(-50%, 0) rotate(30deg)]",
+  },
+});
+---
+
+<article class={characterSetStyle}>
+  <figure class={characterImageRootStyle}>
+    <CustomPicture class:list={[imageStyle, float]} src={image} alt={nickname} fit="cover" height={1024} width={512} widths={toWidths(512, { width: 512, height: 1024 })} />
+    <StripeCircle class={circleStyle} />
+  </figure>
+  <aside class:list={[characterAsideStyle, float]}>
+    <h3 class={characterNameStyle}>{ nickname }</h3>
+    <p class={characterDescriptionStyle}>{ introduction }</p>
+  </aside>
+</article>

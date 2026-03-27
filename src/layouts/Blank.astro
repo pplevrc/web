@@ -2,108 +2,87 @@
 import "@assets/css/index.css";
 import "@styles/styles.css";
 
-import { randomColorBase } from "@content/commons";
-import { css, cva } from "@styles/css";
+import {
+  type DescriptionMetaProps,
+  default as HeadMeta,
+  type OGPProps,
+  type SNSProps,
+} from "@components/layouts/HeadMeta";
+import type { OGPMetadata } from "@components/layouts/HeadMeta/internals/ogpType";
+import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { css } from "@styles/css";
+import type { NodeObject } from "jsonld";
 
-const mainClass = css({
-  w: "full",
-  h: "full",
-});
+interface Props {
+  headMeta: DescriptionMetaProps;
+  ogp?: OGPProps;
+  sns?: SNSProps;
+  jsonLd?: NodeObject | NodeObject[];
+  themeColor?: ColorThemeBase;
+  polyfill?: {
+    invokers?: boolean;
+    anchorPosition?: boolean;
+  };
+  /**
+   * 検索エンジンにインデックスさせないか
+   */
+  noindex?: boolean;
 
-const backgroundClassRecipe = cva({
-  base: {
-    pos: "relative",
+  /**
+   *
+   */
+  rootClass?: string;
 
-    _before: {
-      content: "''",
-      pos: "absolute",
-      top: "0",
-      left: "0",
-      width: "full",
-      height: "full",
-      bgSize: "[5.0625rem, 5.0625rem]",
-      zIndex: "backgroundBase",
-    },
-  },
-  variants: {
-    color: {
-      smoke: {
-        _before: {
-          bgGradient: "smoke.checkered",
-        },
-      },
-      olive: {
-        _before: {
-          bgGradient: "olive.checkered",
-        },
-      },
-      berry: {
-        _before: {
-          bgGradient: "berry.checkered",
-        },
-      },
-      honey: {
-        _before: {
-          bgGradient: "honey.checkered",
-        },
-      },
-      soda: {
-        _before: {
-          bgGradient: "soda.checkered",
-        },
-      },
-      rose: {
-        _before: {
-          bgGradient: "rose.checkered",
-        },
-      },
-      matcha: {
-        _before: {
-          bgGradient: "matcha.checkered",
-        },
-      },
-      latte: {
-        _before: {
-          bgGradient: "latte.checkered",
-        },
-      },
-      lavender: {
-        _before: {
-          bgGradient: "lavender.checkered",
-        },
-      },
-      carrot: {
-        _before: {
-          bgGradient: "carrot.checkered",
-        },
-      },
-      ice: {
-        _before: {
-          bgGradient: "ice.checkered",
-        },
-      },
-      mint: {
-        _before: {
-          bgGradient: "mint.checkered",
-        },
-      },
-    },
-  },
-  defaultVariants: {
-    color: "smoke",
-  },
-});
+  /**
+   *
+   */
+  "rootClass:list"?: string[];
+}
 
-const themeColor = randomColorBase();
+const {
+  headMeta: { title, description, keywords },
+  ogp,
+  sns,
+  jsonLd,
+  themeColor,
+  polyfill,
+  noindex,
+  rootClass,
+  "rootClass:list": rootClassList = [],
+} = Astro.props;
 
-const backgroundClass = backgroundClassRecipe({ color: themeColor });
+// OGPProps から OGPMetadata に変換（url を追加）
+const ogpMetadata: OGPMetadata | undefined = ogp
+  ? {
+      ...(ogp as Omit<OGPMetadata, "url">),
+      url: Astro.url.href,
+    }
+  : undefined;
 ---
 
 <!doctype html>
 <html lang="ja" dir="ltr">
-  <head> </head>
-  <body class:list={[backgroundClass, mainClass]}>
+  <head>
+    <slot name="head" />
+    <HeadMeta
+      title={title}
+      description={description}
+      keywords={keywords}
+      polyfill={polyfill}
+      themeColor={themeColor ?? "smoke"}
+      noindex={noindex}
+      ogp={ogpMetadata}
+      sns={sns}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body class:list={[
+    css({ w: "full", h: "full" }),
+    rootClass,
+    ...rootClassList,
+  ]}>
+    <TemplateDefinition />
     <slot />
-    <body> </body>
   </body>
 </html>
