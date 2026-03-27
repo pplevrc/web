@@ -110,8 +110,8 @@ const dummyJacketImageStyle = css({
         <dd>
           <ul>
             {
-              casts.map(({ profile, vrchat }) => (
-                <li>{profile.nickname} <span class={supprementTextStyle}>({vrchat.userId})</span></li>
+              casts.map(({ id, nickname }) => (
+                <li>{nickname} <span class={supprementTextStyle}>({id})</span></li>
               ))
             }
           </ul>

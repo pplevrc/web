@@ -25,17 +25,14 @@ const movieFrameStyle = css({
   rounded: "sm",
 });
 
-const dummyMovieStyle = css({
-  display: "block",
-  background: "black",
-  // 1280px x 720px
+const movieStyle = css({
   width: {
-    base: "[26rem]",
-    _pc: "[40rem]",
+    base: "[28rem]",
+    _pc: "[35rem]",
   },
   height: {
-    base: "[14.25rem]",
-    _pc: "[22.5rem]",
+    base: "[15.75rem]",
+    _pc: "[19.6875rem]",
   },
 });
 ---
@@ -47,7 +44,7 @@ const dummyMovieStyle = css({
       <CustomPicture src={titleImage} alt="ムービー" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
     </h2>
     <div class={movieFrameStyle}>
-      <div class={dummyMovieStyle}>ここに動画を埋め込み</div>
+      <iframe class={movieStyle} src="https://www.youtube.com/embed/o5fLCzqsUfo?si=x8O5we6tq-vn-9Hw" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
     </div>
   </div>
   <LaceDivider direction="down" />
