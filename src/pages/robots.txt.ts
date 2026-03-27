@@ -5,6 +5,7 @@ function createPublicRobots(site: string) {
   return `
 User-agent: *
 Allow: /
+Disallow: /events/
 Sitemap: ${sitemap}
 `.trim();
 }
