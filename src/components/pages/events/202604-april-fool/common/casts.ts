@@ -1,5 +1,6 @@
 import { getEntry } from "astro:content";
 import ImageHiraxu from "@assets/images/events/202604-april-fool/chara-hiraxu.png";
+import ImageOuka from "@assets/images/events/202604-april-fool/chara-ouka.png";
 import ImageStora from "@assets/images/events/202604-april-fool/chara-stora.png";
 
 import type { Cast } from "@content/casts";
@@ -30,8 +31,7 @@ type MainCastId = (typeof APRIL_FOOL_MAIN_CAST_IDS)[number];
 
 const IMAGE_MAP = {
   桃小姫ストラ: ImageStora,
-  // TODO: まだイラストできてない. でき次第差し替える
-  くるりおうか: ImageStora,
+  くるりおうか: ImageOuka,
   "ひらくぅ。": ImageHiraxu,
   // TODO: まだイラストできてない. でき次第差し替える
   "sao*": ImageStora,
