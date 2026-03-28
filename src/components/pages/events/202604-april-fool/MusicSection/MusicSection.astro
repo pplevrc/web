@@ -4,6 +4,7 @@ import CoverImg from "@assets/images/events/202604-april-fool/music-cover.png";
 import MusicTitleImg from "@assets/images/events/202604-april-fool/music-title.png";
 import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
 import { css } from "@styles/css";
 import { loadCasts } from "../common/casts";
@@ -77,12 +78,21 @@ const musicDescriptionItemStyle = css({
   },
 });
 
-const supprementTextStyle = css({
-  textStyle: "normal.bold.2xs",
-  "& a": {
-    textDecoration: "underline",
-    textUnderlineOffset: "2px",
-  },
+const socialLinkStyle = css({
+  display: "inline-block",
+  verticalAlign: "text-bottom",
+  pl: "2",
+});
+
+const socialLinkListStyle = css({
+  display: "flex",
+  gap: "4",
+  flexDir: "row",
+});
+
+const socialIconStyle = css({
+  width: "[0.75rem]",
+  height: "[0.75rem]",
 });
 
 const musicTitleImageStyle = css({
@@ -135,13 +145,29 @@ const storeURL = new URL("https://pple.booth.pm/items/8133713");
         <dt>さっきょく</dt>
         <dd>
           るぅなん
-          <small class={supprementTextStyle}>(<a href="https://x.com/lu_narn">@lu_narn</a>)</small></dd>
+          <nav class={socialLinkStyle}>
+            <ul class={socialLinkListStyle}>
+              <li>
+                <SocialLink class={socialIconStyle} type="x" url="https://x.com/lu_narn" description="@lu_narn" variant="vector-dark"/>
+              </li>
+            </ul>
+          </nav>
+        </dd>
         <dt>さくし</dt>
         <dd>rikusu</dd>
         <dt>カバーイラスト</dt>
         <dd>
           あすかろ
-          <small class={supprementTextStyle}>()</small>
+          <nav class={socialLinkStyle}>
+            <ul class={socialLinkListStyle}>
+              <li>
+                <SocialLink class={socialIconStyle} type="x" url="https://x.com/ascaro004" description="@ascaro004" variant="vector-dark"/>
+              </li>
+              <li>
+                <SocialLink class={socialIconStyle} type="misskey" url="https://misskey.io/@ascaro001" description="@ascaro001" variant="vector-dark"/>
+              </li>
+            </ul>
+          </nav>
         </dd>
          <dt>販売サイトは<br class={spOnlyBreak}>こちら</dt>
         <dd>
