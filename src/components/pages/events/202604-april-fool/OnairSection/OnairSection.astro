@@ -12,11 +12,12 @@ const rootStyle = css({
   alignItems: "center",
 });
 
-const titleStyle = css({
+const titleImageStyle = css({
   width: {
     base: "80",
     _pc: "96",
   },
+  margin: "auto",
 });
 
 const iconStyle = css({
@@ -82,8 +83,8 @@ const dummyBroadcastStation: string[] = [
 ];
 ---
 <section class={rootStyle}>
-  <h2 class={titleStyle}>
-    <CustomPicture src={titleImage} alt="ON AIR" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  <h2>
+    <CustomPicture src={titleImage} class={titleImageStyle} alt="ON AIR" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
   </h2>
   <div class={informationGroupStyle}>
     <h3 class={descriptionStyle}>PPLEテレビ・テレビお菓子系列25局ネットにて <br />

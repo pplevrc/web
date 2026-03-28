@@ -15,11 +15,12 @@ const rootStyle = css({
   paddingBlock: "12",
 });
 
-const titleStyle = css({
+const titleImageStyle = css({
   width: {
     base: "80",
     _pc: "96",
   },
+  margin: "auto",
 });
 
 const layoutStyle = css({
@@ -91,8 +92,8 @@ const dummyJacketImageStyle = css({
 ---
 
 <section class={rootStyle}>
-  <h2 class={titleStyle}>
-    <CustomPicture src={titleImage} alt="メインテーマ" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  <h2>
+    <CustomPicture src={titleImage} class={titleImageStyle} alt="メインテーマ" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
   </h2>
   <div class={layoutStyle}>
     <div class={musicInfoStyle}>
