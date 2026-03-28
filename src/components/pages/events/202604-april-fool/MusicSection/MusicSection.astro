@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import CoverImg from "@assets/images/events/202604-april-fool/music-cover.png";
+import MusicTitleImg from "@assets/images/events/202604-april-fool/music-title.png";
 import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
@@ -47,14 +48,13 @@ const musicInfoStyle = css({
   gap: "12",
 });
 
-const musicDescriptionListStyle = css({
+const musicDescriptionStyle = css({
   display: "flex",
   w: {
     base: "96",
     _pc: "128",
   },
   flexDirection: "column",
-  gap: "12",
   background: "white/90",
   rounded: "3xl",
   shadow: "xs",
@@ -65,7 +65,7 @@ const musicDescriptionListStyle = css({
 const musicDescriptionItemStyle = css({
   display: "grid",
   gridTemplateColumns: "max-content 1fr",
-  rowGap: "12",
+  rowGap: "8",
   columnGap: "16",
   alignItems: "baseline",
   "& dt": {
@@ -85,10 +85,8 @@ const supprementTextStyle = css({
   },
 });
 
-const musicTitleStyle = css({
-  textStyle: "decorative.bold.4xl",
-  color: "berry.regular",
-  textAlign: "center",
+const musicTitleImageStyle = css({
+  width: "80",
 });
 
 const boothLinkImageStyle = css({
@@ -117,26 +115,35 @@ const storeURL = new URL("https://pple.booth.pm/items/8133713");
   <div class={layoutStyle}>
     <div class={musicInfoStyle}>
       <CustomPicture src={CoverImg} alt="" class={coverImageStyle} height={600} width={600} widths={toWidths(600, { width: 600, height: 600 })} />
-      <h3 class={musicTitleStyle}>なぞ？なぞ！ぷぷりえ☆大解決！</h3>
+      <h3>
+        <CustomPicture src={MusicTitleImg} alt="なぞ？なぞ！ぷぷりえ☆大解決！" class={musicTitleImageStyle} height={350} width={600} widths={toWidths(600, { width: 600, height: 350 })} />
+      </h3>
     </div>
-    <aside class={musicDescriptionListStyle}>
+    <aside class={musicDescriptionStyle}>
       <dl class={musicDescriptionItemStyle}>
-        <dt>さっきょく</dt>
-        <dd>るぅなん <span class={supprementTextStyle}>(
-          <a href="https://x.com/lu_narn">@lu_narn</a>)</span></dd>
-        <dt>さくし</dt>
-        <dd>rikusu</dd>
-        <dt>うた</dt>
+       <dt>うた</dt>
         <dd>
           <ul>
             {
-              casts.map(({ id, nickname }) => (
-                <li>{nickname} <span class={supprementTextStyle}>({id})</span></li>
+              casts.map(({ nickname }) => (
+                <li>{nickname}</li>
               ))
             }
           </ul>
         </dd>
-        <dt>販売サイトは<br class={spOnlyBreak}>こちら</dt>
+
+        <dt>さっきょく</dt>
+        <dd>
+          るぅなん
+          <small class={supprementTextStyle}>(<a href="https://x.com/lu_narn">@lu_narn</a>)</small></dd>
+        <dt>さくし</dt>
+        <dd>rikusu</dd>
+        <dt>カバーイラスト</dt>
+        <dd>
+          あすかろ
+          <small class={supprementTextStyle}>()</small>
+        </dd>
+         <dt>販売サイトは<br class={spOnlyBreak}>こちら</dt>
         <dd>
           <a href={storeURL.href}><Image src="https://asset.booth.pm/static-images/banner/200x40_01.png" alt="BOOTHで見る" class={boothLinkImageStyle} width={200} height={40} format="png"></a>
         </dd>
