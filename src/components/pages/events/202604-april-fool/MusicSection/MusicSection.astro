@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import CoverImg from "@assets/images/events/202604-april-fool/music-cover.png";
 import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
@@ -13,6 +15,11 @@ const rootStyle = css({
   alignItems: "center",
   gap: "26",
   paddingBlock: "12",
+});
+
+const coverImageStyle = css({
+  width: "80",
+  height: "80",
 });
 
 const titleImageStyle = css({
@@ -84,11 +91,23 @@ const musicTitleStyle = css({
   textAlign: "center",
 });
 
-const dummyJacketImageStyle = css({
-  w: "72",
-  h: "72",
-  bg: "black",
+const boothLinkImageStyle = css({
+  display: "inline-block",
+  verticalAlign: "text-top",
+  w: {
+    base: "80",
+    _pc: "32",
+  },
 });
+
+const spOnlyBreak = css({
+  display: {
+    base: "initial",
+    _pc: "contents",
+  },
+});
+
+const storeURL = new URL("https://pple.booth.pm/items/8133713");
 ---
 
 <section class={rootStyle}>
@@ -97,7 +116,7 @@ const dummyJacketImageStyle = css({
   </h2>
   <div class={layoutStyle}>
     <div class={musicInfoStyle}>
-      <div class={dummyJacketImageStyle} />
+      <CustomPicture src={CoverImg} alt="" class={coverImageStyle} height={600} width={600} widths={toWidths(600, { width: 600, height: 600 })} />
       <h3 class={musicTitleStyle}>なぞ？なぞ！ぷぷりえ☆大解決！</h3>
     </div>
     <aside class={musicDescriptionListStyle}>
@@ -116,6 +135,10 @@ const dummyJacketImageStyle = css({
               ))
             }
           </ul>
+        </dd>
+        <dt>販売サイトは<br class={spOnlyBreak}>こちら</dt>
+        <dd>
+          <a href={storeURL.href}><Image src="https://asset.booth.pm/static-images/banner/200x40_01.png" alt="BOOTHで見る" class={boothLinkImageStyle} width={200} height={40} format="png"></a>
         </dd>
       </dl>
     </aside>
