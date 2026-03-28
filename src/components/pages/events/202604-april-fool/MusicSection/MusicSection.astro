@@ -9,7 +9,7 @@ import { toWidths } from "@components/domains/avatar/images/common";
 import { css } from "@styles/css";
 import { loadCasts } from "../common/casts";
 
-const casts = await loadCasts();
+const casts = loadCasts();
 
 const rootStyle = css({
   display: "flex",
