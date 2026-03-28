@@ -1,6 +1,7 @@
 ---
 import StartDateInfo from "@assets/images/events/202604-april-fool/date-info.png";
 import Logo from "@assets/images/events/202604-april-fool/logo.png";
+import HeroImage from "@assets/images/events/202604-april-fool/main.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
 import { css } from "@styles/css";
@@ -8,12 +9,11 @@ import { css } from "@styles/css";
 const rootStyle = css({
   display: "flex",
   width: "full",
-  minHeight: "[100vh]",
+  height: "[62rem]",
 
   _spOnly: {
     flexDir: "column-reverse",
     alignItems: "center",
-    paddingBlock: "4",
   },
 
   flexDir: "row",
@@ -34,53 +34,43 @@ const imageColStyle = css({
   alignItems: "center",
 
   _spOnly: {
-    minWidth: "[75vw]",
-    minHeight: "[75vh]",
-    width: "[75vw]",
-    height: "[75vh]",
+    w: "full",
   },
 });
 
-const logoStyle = css({
-  "& > *": {
-    width: "20",
-    height: "20",
-    objectFit: "contain",
-  },
+const logoImgStyle = css({
+  w: "[45rem]",
 });
 
-const dateInfoStyle = css({
+const onairInfoImgStyle = css({
   width: { base: "96", _pc: "128" },
 });
 
-const imageStyle = css({
+const heroImageStyle = css({
   pos: "absolute",
+  w: "[260rem]",
+  top: {
+    base: "[40%]",
+    _pc: "[60%]",
+  },
 
   _pc: {
-    top: "[50%]",
-    left: "[20%]",
+    left: "[30%]",
     transform: "translate(-50%, -50%)",
   },
 
   zIndex: "back",
-  width: "[75vw]",
-  height: "[75vh]",
-  backgroundColor: "white",
-  borderRadius: "full",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
 });
 ---
 
 <section class={rootStyle}>
   <div class={logoColStyle}>
-    <h1 class={logoStyle}>
-      <CustomPicture src={Logo} alt="ロリっ子探偵ぷぷりィホームズ" fit="cover" height={720} width={1440} widths={toWidths(1440, { width: 1440, height: 720 })} />
+    <h1>
+      <CustomPicture class={logoImgStyle} src={Logo} alt="ロリっ子探偵ぷぷりィホームズ" fit="cover" height={720} width={1440} widths={toWidths(1440, { width: 1440, height: 720 })} />
     </h1>
-    <CustomPicture class={dateInfoStyle} src={StartDateInfo} alt="PPLEテレビ・テレビお菓子系25局ネットにて2000026年4月1日放送スタート" fit="cover" height={626} width={1024} widths={toWidths(1024, { width: 1024, height: 626 })} />
+    <CustomPicture class={onairInfoImgStyle} src={StartDateInfo} alt="PPLEテレビ・テレビお菓子系25局ネットにて2000026年4月1日放送スタート" fit="cover" height={626} width={1024} widths={toWidths(1024, { width: 1024, height: 626 })} />
   </div>
   <div class={imageColStyle}>
-    <div class={imageStyle}>ここにでっかくイラストを配置</div>
+    <CustomPicture src={HeroImage} alt="" class={heroImageStyle} height={940} width={1160} widths={toWidths(1160, { width: 1160, height: 940 })} />
   </div>
 </section>
