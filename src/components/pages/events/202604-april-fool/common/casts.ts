@@ -24,7 +24,11 @@ const APRIL_FOOL_MAIN_CASTS = [
     image: ImageStora,
     themeColor: "rose",
     introduction: `
-じこしょうかい
+くんくんくん、この匂いは…
+期間限定春の特製ぷぷりえスイーツ！🍨✨️
+この名探偵からは逃げらないよ〜！
+大人しくストラのお口に入ってねっ！
+あむっ！おいちい！！🍨💕
 `.trim(),
   },
   {
@@ -44,7 +48,13 @@ const APRIL_FOOL_MAIN_CASTS = [
     image: ImageHiraxu,
     themeColor: "lavender",
     introduction: `
-じこしょうかい
+じけんのにおいがする。
+じけんのにおいはね。あまいの。
+そう、あまいおかしのような。
+というわけでおかしたべるね。
+これは頭をかいてんさせるためにいるの。
+ひらくぅ。がじけんをといちゃうね。
+おかしたべたぶんがんばるよ。
 `.trim(),
   },
   {
