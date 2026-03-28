@@ -1,6 +1,7 @@
 import { getEntry } from "astro:content";
 import ImageHiraxu from "@assets/images/events/202604-april-fool/chara-hiraxu.png";
 import ImageOuka from "@assets/images/events/202604-april-fool/chara-ouka.png";
+import ImageSao from "@assets/images/events/202604-april-fool/chara-sao.png";
 import ImageStora from "@assets/images/events/202604-april-fool/chara-stora.png";
 
 import type { Cast } from "@content/casts";
@@ -33,8 +34,7 @@ const IMAGE_MAP = {
   桃小姫ストラ: ImageStora,
   くるりおうか: ImageOuka,
   "ひらくぅ。": ImageHiraxu,
-  // TODO: まだイラストできてない. でき次第差し替える
-  "sao*": ImageStora,
+  "sao*": ImageSao,
 } as const satisfies Record<MainCastId, ImageMetadata>;
 
 export async function loadCasts(): Promise<AprilFoolEventMainCast[]> {
