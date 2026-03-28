@@ -115,6 +115,15 @@ const casts = await getCollection("casts");
       type="image/webp"
       fetchpriority="high"
     />
+    {
+      /**
+       * 時限性のあるイベントページへのリダイレクト処理
+       */
+    }
+    <script>
+      import { executeEventRedirects } from "@lib/utils/event";
+      executeEventRedirects();
+    </script>
   </Fragment>
   <HomePageEntry
     articles={recentArticles}
