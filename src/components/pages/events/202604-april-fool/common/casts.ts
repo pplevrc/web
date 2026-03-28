@@ -32,7 +32,11 @@ const APRIL_FOOL_MAIN_CASTS = [
     image: ImageOuka,
     themeColor: "berry",
     introduction: `
-じこしょうかい
+私だって探偵になれるもん！
+普段からみんなのお姉ちゃんだし
+皆をリードしてどんな謎も…
+…あ、私謎解き苦手だった…
+お兄さんお姉さん手伝ってーー！！
 `.trim(),
   },
   {
@@ -48,7 +52,13 @@ const APRIL_FOOL_MAIN_CASTS = [
     image: ImageSao,
     themeColor: "soda",
     introduction: `
-じこしょうかい
+はわわぁ💦 さおちゃんがめいたんていに！？
+
+さおちゃんできるこ！💕 つよいこだもんっ！💪
+どんなじけんも さおちゃんかいけつしちゃうもん✨
+
+んー………🌀🌀🌀 さおちゃんわかんなーい…！🥲
+え〜〜〜ん！😭😭😭
 `.trim(),
   },
 ] as const satisfies AprilFoolEventMainCast[];
