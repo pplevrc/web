@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import CoverImg from "@assets/images/events/202604-april-fool/music-cover.png";
-import MusicTitleImg from "@assets/images/events/202604-april-fool/music-title.png";
 import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
 import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
@@ -95,8 +94,19 @@ const socialIconStyle = css({
   height: "[0.75rem]",
 });
 
-const musicTitleImageStyle = css({
-  width: "80",
+const hgroupStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  textAlign: "center",
+});
+
+const musicTitleStyle = css({
+  color: "latte.deep",
+  textStyle: {
+    base: "decorative.bold.xl",
+    _pc: "decorative.bold.2xl",
+  },
 });
 
 const boothLinkImageStyle = css({
@@ -124,10 +134,13 @@ const storeURL = new URL("https://pple.booth.pm/items/8133713");
   </h2>
   <div class={layoutStyle}>
     <div class={musicInfoStyle}>
+      <hgroup class={hgroupStyle}>
+        <p>オープニング主題歌</p>
+        <h3 class={musicTitleStyle}>
+          なぞ？なぞ！ぷぷりえ☆大解決！
+        </h3>
+      </hgroup>
       <CustomPicture src={CoverImg} alt="" class={coverImageStyle} height={600} width={600} widths={toWidths(600, { width: 600, height: 600 })} />
-      <h3>
-        <CustomPicture src={MusicTitleImg} alt="なぞ？なぞ！ぷぷりえ☆大解決！" class={musicTitleImageStyle} height={350} width={600} widths={toWidths(600, { width: 600, height: 350 })} />
-      </h3>
     </div>
     <aside class={musicDescriptionStyle}>
       <dl class={musicDescriptionItemStyle}>
