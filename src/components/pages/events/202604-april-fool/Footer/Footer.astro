@@ -1,7 +1,6 @@
 ---
 import Logo from "@assets/images/events/202604-april-fool/logo.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
-import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import { href } from "@lib/utils/url";
 import { css } from "@styles/css";
 import LaceDivider from "../common/LaceDivider.astro";
@@ -39,25 +38,6 @@ const copylightStyle = css({
   textStyle: "normal.base",
 });
 
-const socialLinkStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "2",
-});
-
-const socialLinkListStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "2",
-});
-
-const socialIconStyle = css({
-  width: "6",
-  height: "6",
-});
-
 const logoImgStyle = css({
   margin: "auto",
 });
@@ -70,20 +50,6 @@ const logoImgStyle = css({
       <CustomPicture class={logoImgStyle} src={Logo} alt="" fit="cover" height={120} width={240} />
     </a>
 
-    <div>
-      <small>イラスト: </small>
-      <span>あすかろ</span>
-      <nav class={socialLinkStyle}>
-        <ul class={socialLinkListStyle}>
-          <li>
-            <SocialLink class={socialIconStyle} type="x" url="https://x.com/ascaro004" description="@ascaro004" variant="vector-dark"/>
-          </li>
-          <li>
-            <SocialLink class={socialIconStyle} type="misskey" url="https://misskey.io/@ascaro001" description="@ascaro001" variant="vector-dark"/>
-          </li>
-        </ul>
-      </nav>
-    </div>
 
     <p class={copylightStyle}>
       © 2026 ロリっ子喫茶ぷぷりえ. All Rights Reserved.
