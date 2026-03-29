@@ -18,13 +18,33 @@ export const EVENT_REDIRECTS = [
     path: "/events/202604-april-fool/",
     storageKey: "aprilFool2026Redirected",
     targetDates: ["2026/04/01"],
+    linkText: "ぷぷリィホームズ",
   },
 ] as const satisfies readonly EventRedirect[];
 
-interface EventRedirect {
+/**
+ * イベント用特集ページへのリダイレクト設定
+ */
+export interface EventRedirect {
+  /**
+   * リダイレクト先のパス
+   */
   path: string;
+
+  /**
+   * リダイレクト済みかどうかを判定するための localStorage のキー
+   */
   storageKey: string;
+
+  /**
+   * リダイレクト対象となる日時
+   */
   targetDates: readonly string[];
+
+  /**
+   * トップページに記載するリンクテキスト
+   */
+  linkText: string;
 }
 
 type StorageKey = (typeof EVENT_REDIRECTS)[number]["storageKey"];
@@ -34,7 +54,9 @@ type StorageKey = (typeof EVENT_REDIRECTS)[number]["storageKey"];
  * @param data
  * @returns
  */
-function findEvent(data: Date): (typeof EVENT_REDIRECTS)[number] | undefined {
+export function findEvent(
+  data: Date,
+): (typeof EVENT_REDIRECTS)[number] | undefined {
   const formattedDate = formatDate(data);
   return EVENT_REDIRECTS.find((redirect) =>
     redirect.targetDates.some((date) => date === formattedDate),

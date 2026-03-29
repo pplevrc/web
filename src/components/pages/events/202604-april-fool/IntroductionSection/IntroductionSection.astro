@@ -27,7 +27,10 @@ const bodyStyle = css({
   textShadow: "sm",
   textAlign: "center",
   lineHeight: "[3rem]",
+  color: "smoke.deep",
 });
+
+const strokeStyleCSS = `-webkit-text-stroke: 0.4rem white; paint-order: stroke;`;
 
 const accent1Style = css({
   textStyle: {
@@ -62,7 +65,7 @@ const spOnlyBreak = css({
   <h2>
     <CustomPicture src={titleImage} class={titleImageStyle} alt="イントロダクション" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
   </h2>
-  <p class={bodyStyle}>
+  <p class={bodyStyle} style={strokeStyleCSS}>
     <strong class:list={[accent2Style, css({ color: "rose.regular" })]}>たいへん！！</strong> 
     <br class={spOnlyBreak} />
     つまみ食いが多すぎて

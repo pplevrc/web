@@ -1,0 +1,60 @@
+---
+import Icon from "@components/decoratives/Vectors/Icon/Icon.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { css } from "@styles/css";
+import HeroNavigation from "./HeroNavigation.astro";
+import PopText from "./PopText.astro";
+
+interface Props {
+  guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
+}
+
+const { guidelinesShortcut } = Astro.props;
+
+const rootStyle = css({
+  display: "contents",
+
+  // assets/css/index.css を参考に. 文字のサイジングを 縦横の平均から算出する式に変更したもの
+  // ただし, SP, PC で異なるサイズにすると管理が大変なので合わせる
+  fontSize: "[calc((100vw + 100vh) / 2 / 1440 * 16)]",
+});
+
+const anchorBottomStyle = css({
+  pos: "absolute",
+  bottom: "[0%]",
+  left: "[50%]",
+  w: "[100%]",
+  h: "[50%]",
+  overflow: "hidden",
+});
+
+const bottomIconStyle = css({
+  pos: "absolute",
+  left: "[calc(50% - 20rem)]",
+  bottom: "[-25%]",
+
+  w: "[40rem]",
+  color: "white/30",
+
+  display: "none",
+  _motionSafe: {
+    display: "initial",
+    animation: "rotate",
+    transformOrigin: "center",
+    animationDuration: "slowest",
+    animationIterationCount: "infinite",
+    animationTimingFunction: "linear",
+  },
+});
+---
+
+<div class={rootStyle}>
+  <PopText />
+  <HeroNavigation guidelinesShortcut={guidelinesShortcut} />
+
+  <Icon
+    type="flower"
+    class:list={[anchorBottomStyle, bottomIconStyle]}
+    aria-hidden
+  />
+</div>

@@ -3,7 +3,7 @@ import ScreenFitSection from "@components/pages/home/ScreenFitSection/ScreenFitS
 import type { ColorThemeBase } from "@content/commons";
 import { css } from "@styles/css";
 import HeroMovie from "./internals/HeroMovie.astro";
-import OverlayPopText from "./internals/OverlayPopText.astro";
+import MovieOverlay from "./internals/MovieOverlay.astro";
 
 interface Props {
   guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
@@ -25,6 +25,6 @@ const videoStyle = css({
 ---
 
 <ScreenFitSection class={sectionStyle}>
-  <OverlayPopText guidelinesShortcut={guidelinesShortcut} />
+  <MovieOverlay guidelinesShortcut={guidelinesShortcut} />
   <HeroMovie class={videoStyle} />
 </ScreenFitSection>
