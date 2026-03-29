@@ -1,0 +1,106 @@
+---
+import DecorativeLink from "@components/decoratives/Links/DecorativeLink/DecorativeLink.astro";
+import type { ColorThemeBase } from "@content/commons";
+import { href } from "@lib/utils/url";
+import { css } from "@styles/css";
+
+interface Props {
+  guidelinesShortcut: { title: string; themeColor: ColorThemeBase }[];
+}
+
+const { guidelinesShortcut } = Astro.props;
+
+const anchorRightBottomStyle = css({
+  pos: "absolute",
+  bottom: "[0%]",
+  right: "[0%]",
+  w: "[fit-content]",
+});
+
+const floatStyle = css({
+  zIndex: "float",
+});
+
+const linkRootStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4",
+  paddingBottom: {
+    base: "26",
+    _pc: "16",
+  },
+  alignItems: "end",
+  w: "[fit-content]",
+});
+
+const linkStyle = css({
+  display: "block",
+  w: "56",
+});
+
+const eventLinkStyle = css({
+  "&[data-hide-event-link]": {
+    display: "none",
+  },
+});
+
+// data 属性の値を a 配下の contents に転写する
+const eventTextStyle = css({
+  "&[data-event-link]": {
+    "--event-link": "attr(data-event-link)",
+    "& [data-label]": {
+      _after: {
+        content: "var(--event-link)",
+      },
+    },
+  },
+});
+---
+<nav
+  aria-label="ガイドラインへのショートカット"
+  class:list={[anchorRightBottomStyle, floatStyle]}
+>
+  <ul class={linkRootStyle}>
+    <li data-hide-event-link data-event-link class:list={[eventLinkStyle, eventTextStyle]}>
+      <DecorativeLink themeColor="ice" type="right" class={linkStyle} />
+    </li>
+    {
+      guidelinesShortcut.map(({ title, themeColor }) => (
+        <li>
+          <DecorativeLink
+            themeColor={themeColor}
+            type="right"
+            href={href(`/guidelines/${title}/`)}
+            class={linkStyle}
+          >
+            {title}
+          </DecorativeLink>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  import { findEvent } from "@lib/utils/event";
+  
+  document.addEventListener("astro:page-load", setupEvent)
+  setupEvent()
+  
+  function setupEvent() {
+    const event = findEvent(new Date())
+    if (!event) {
+      return
+    }
+
+    const linkRootElement = document.querySelector("[data-hide-event-link]")
+    const linkElement = linkRootElement?.querySelector("a")
+    if (!linkRootElement || !linkElement) {
+      return;
+    }
+    
+    linkRootElement.removeAttribute("data-hide-event-link")
+    linkRootElement.setAttribute("data-event-link", event.linkText)
+    linkElement.setAttribute("href", event.path)
+  }
+</script>
