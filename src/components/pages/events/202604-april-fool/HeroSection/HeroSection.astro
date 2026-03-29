@@ -9,7 +9,10 @@ import { css } from "@styles/css";
 const rootStyle = css({
   display: "flex",
   width: "full",
-  height: "[62rem]",
+  height: {
+    base: "[75rem]",
+    _pc: "[50rem]",
+  },
 
   _spOnly: {
     flexDir: "column-reverse",
@@ -50,12 +53,12 @@ const heroImageStyle = css({
   pos: "absolute",
   w: "[260rem]",
   top: {
-    base: "[40%]",
-    _pc: "[60%]",
+    base: "[30%]",
+    _pc: "[50%]",
   },
 
   _pc: {
-    left: "[30%]",
+    left: "[35%]",
     transform: "translate(-50%, -50%)",
   },
 
