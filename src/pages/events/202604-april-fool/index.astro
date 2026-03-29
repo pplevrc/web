@@ -39,6 +39,15 @@ const rootClass = css({
   headMeta={{ title }}
   noindex
   rootClass={rootClass}
+  defineLogos={[
+    "x",
+    "pixiv-booth",
+    "misskey"
+  ]}
 >
   <AprilFoolEventPageEntry />
+  <script>
+    import { markRedirected } from "@lib/utils/event";
+    markRedirected("aprilFool2026Redirected");
+  </script>
 </Layout>

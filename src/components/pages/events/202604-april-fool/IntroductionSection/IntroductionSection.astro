@@ -11,11 +11,12 @@ const rootStyle = css({
   gap: "26",
 });
 
-const titleStyle = css({
+const titleImageStyle = css({
   width: {
     base: "80",
     _pc: "96",
   },
+  margin: "auto",
 });
 
 const bodyStyle = css({
@@ -58,8 +59,8 @@ const spOnlyBreak = css({
 ---
 
 <section class={rootStyle}>
-  <h2 class={titleStyle}>
-    <CustomPicture src={titleImage} alt="イントロダクション" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  <h2>
+    <CustomPicture src={titleImage} class={titleImageStyle} alt="イントロダクション" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
   </h2>
   <p class={bodyStyle}>
     <strong class:list={[accent2Style, css({ color: "rose.regular" })]}>たいへん！！</strong> 

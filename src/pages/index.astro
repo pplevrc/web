@@ -104,7 +104,9 @@ const casts = await getCollection("casts");
 >
   <Fragment slot="head">
     {
-      /* トップの動画が未読込のときに出すポスター画像を fetchpriority: "high" で取得する */
+      /**
+       * トップの動画が未読込のときに出すポスター画像を fetchpriority: "high" で取得する
+       */
     }
     <link
       rel="preload"
@@ -113,6 +115,15 @@ const casts = await getCollection("casts");
       type="image/webp"
       fetchpriority="high"
     />
+    {
+      /**
+       * 時限性のあるイベントページへのリダイレクト処理
+       */
+    }
+    <script>
+      import { executeEventRedirects } from "@lib/utils/event";
+      executeEventRedirects();
+    </script>
   </Fragment>
   <HomePageEntry
     articles={recentArticles}

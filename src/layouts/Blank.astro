@@ -10,7 +10,7 @@ import {
 } from "@components/layouts/HeadMeta";
 import type { OGPMetadata } from "@components/layouts/HeadMeta/internals/ogpType";
 import TemplateDefinition from "@components/layouts/TemplateDefinition/TemplateDefinition.astro";
-import type { ColorThemeBase } from "@content/commons";
+import type { ColorThemeBase, SocialLinkType } from "@content/commons";
 import { css } from "@styles/css";
 import type { NodeObject } from "jsonld";
 
@@ -38,6 +38,11 @@ interface Props {
    *
    */
   "rootClass:list"?: string[];
+
+  /**
+   *
+   */
+  defineLogos?: SocialLinkType[];
 }
 
 const {
@@ -50,6 +55,7 @@ const {
   noindex,
   rootClass,
   "rootClass:list": rootClassList = [],
+  defineLogos,
 } = Astro.props;
 
 // OGPProps から OGPMetadata に変換（url を追加）
@@ -82,7 +88,7 @@ const ogpMetadata: OGPMetadata | undefined = ogp
     rootClass,
     ...rootClassList,
   ]}>
-    <TemplateDefinition />
+    <TemplateDefinition defineLogos={defineLogos}/>
     <slot />
   </body>
 </html>

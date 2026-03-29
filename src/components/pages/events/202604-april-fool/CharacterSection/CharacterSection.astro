@@ -8,7 +8,7 @@ import { loadCasts } from "../common/casts";
 import LaceDivider from "../common/LaceDivider.astro";
 import CharacterSet from "./internals/CharacterSet.astro";
 
-const casts = await loadCasts();
+const casts = loadCasts();
 
 const rootStyle = css({
   display: "flex",
@@ -18,11 +18,12 @@ const rootStyle = css({
   bg: "white/90",
 });
 
-const titleStyle = css({
+const titleImageStyle = css({
   width: {
     base: "80",
     _pc: "96",
   },
+  margin: "auto",
 });
 
 const carouselRootStyle = css({
@@ -67,7 +68,7 @@ const trackItemStyle = css({
 
 const characterNavigationStyle = css({
   pt: {
-    base: "0",
+    base: "1",
     _pc: "12",
   },
   display: "flex",
@@ -128,8 +129,8 @@ const carouselLinkStyle = css({
 <section>
   <LaceDivider direction="up" />
   <div class={rootStyle}>
-    <h2 class={titleStyle}>
-      <CustomPicture src={titleImage} alt="キャラクター" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+    <h2>
+      <CustomPicture src={titleImage} class={titleImageStyle} alt="キャラクター" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
     </h2>
     
     <character-carousel class={carouselRootStyle}>

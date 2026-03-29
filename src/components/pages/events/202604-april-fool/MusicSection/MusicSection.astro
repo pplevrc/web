@@ -1,11 +1,15 @@
 ---
+import { Image } from "astro:assets";
+import CoverImg from "@assets/images/events/202604-april-fool/music-cover.png";
+import MusicTitleImg from "@assets/images/events/202604-april-fool/music-title.png";
 import titleImage from "@assets/images/events/202604-april-fool/title-maintheme.png";
 import CustomPicture from "@components/commons/CustomPicture/CustomPicture.astro";
+import SocialLink from "@components/decoratives/Links/SocialLink/SocialLink.astro";
 import { toWidths } from "@components/domains/avatar/images/common";
 import { css } from "@styles/css";
 import { loadCasts } from "../common/casts";
 
-const casts = await loadCasts();
+const casts = loadCasts();
 
 const rootStyle = css({
   display: "flex",
@@ -15,11 +19,17 @@ const rootStyle = css({
   paddingBlock: "12",
 });
 
-const titleStyle = css({
+const coverImageStyle = css({
+  width: "80",
+  height: "80",
+});
+
+const titleImageStyle = css({
   width: {
     base: "80",
     _pc: "96",
   },
+  margin: "auto",
 });
 
 const layoutStyle = css({
@@ -39,14 +49,13 @@ const musicInfoStyle = css({
   gap: "12",
 });
 
-const musicDescriptionListStyle = css({
+const musicDescriptionStyle = css({
   display: "flex",
   w: {
     base: "96",
     _pc: "128",
   },
   flexDirection: "column",
-  gap: "12",
   background: "white/90",
   rounded: "3xl",
   shadow: "xs",
@@ -57,7 +66,7 @@ const musicDescriptionListStyle = css({
 const musicDescriptionItemStyle = css({
   display: "grid",
   gridTemplateColumns: "max-content 1fr",
-  rowGap: "12",
+  rowGap: "8",
   columnGap: "16",
   alignItems: "baseline",
   "& dt": {
@@ -69,52 +78,86 @@ const musicDescriptionItemStyle = css({
   },
 });
 
-const supprementTextStyle = css({
-  textStyle: "normal.bold.2xs",
-  "& a": {
-    textDecoration: "underline",
-    textUnderlineOffset: "2px",
+const socialLinkStyle = css({
+  display: "inline-block",
+  verticalAlign: "text-bottom",
+  pl: "2",
+});
+
+const socialLinkListStyle = css({
+  display: "flex",
+  gap: "4",
+  flexDir: "row",
+});
+
+const socialIconStyle = css({
+  width: "[0.75rem]",
+  height: "[0.75rem]",
+});
+
+const musicTitleImageStyle = css({
+  width: "80",
+});
+
+const boothLinkImageStyle = css({
+  display: "inline-block",
+  verticalAlign: "text-top",
+  w: {
+    base: "80",
+    _pc: "32",
   },
 });
 
-const musicTitleStyle = css({
-  textStyle: "decorative.bold.4xl",
-  color: "berry.regular",
-  textAlign: "center",
+const spOnlyBreak = css({
+  display: {
+    base: "initial",
+    _pc: "contents",
+  },
 });
 
-const dummyJacketImageStyle = css({
-  w: "72",
-  h: "72",
-  bg: "black",
-});
+const storeURL = new URL("https://pple.booth.pm/items/8133713");
 ---
 
 <section class={rootStyle}>
-  <h2 class={titleStyle}>
-    <CustomPicture src={titleImage} alt="メインテーマ" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
+  <h2>
+    <CustomPicture src={titleImage} class={titleImageStyle} alt="メインテーマ" fit="cover" height={192} width={560} widths={toWidths(560, { width: 560, height: 192 })} />
   </h2>
   <div class={layoutStyle}>
     <div class={musicInfoStyle}>
-      <div class={dummyJacketImageStyle} />
-      <h3 class={musicTitleStyle}>なぞ？なぞ！ぷぷりえ☆大解決！</h3>
+      <CustomPicture src={CoverImg} alt="" class={coverImageStyle} height={600} width={600} widths={toWidths(600, { width: 600, height: 600 })} />
+      <h3>
+        <CustomPicture src={MusicTitleImg} alt="なぞ？なぞ！ぷぷりえ☆大解決！" class={musicTitleImageStyle} height={350} width={600} widths={toWidths(600, { width: 600, height: 350 })} />
+      </h3>
     </div>
-    <aside class={musicDescriptionListStyle}>
+    <aside class={musicDescriptionStyle}>
       <dl class={musicDescriptionItemStyle}>
-        <dt>さっきょく</dt>
-        <dd>るぅなん <span class={supprementTextStyle}>(
-          <a href="https://x.com/lu_narn">@lu_narn</a>)</span></dd>
-        <dt>さくし</dt>
-        <dd>rikusu</dd>
-        <dt>うた</dt>
+       <dt>うた</dt>
         <dd>
           <ul>
             {
-              casts.map(({ id, nickname }) => (
-                <li>{nickname} <span class={supprementTextStyle}>({id})</span></li>
+              casts.map(({ nickname }) => (
+                <li>{nickname}</li>
               ))
             }
           </ul>
+        </dd>
+
+        <dt>さっきょく</dt>
+        <dd>
+          るぅなん
+          <nav class={socialLinkStyle}>
+            <ul class={socialLinkListStyle}>
+              <li>
+                <SocialLink class={socialIconStyle} type="x" url="https://x.com/lu_narn" description="@lu_narn" variant="vector-dark"/>
+              </li>
+            </ul>
+          </nav>
+        </dd>
+        <dt>さくし</dt>
+        <dd>rikusu</dd>
+        <dt>販売サイトは<br class={spOnlyBreak}>こちら</dt>
+        <dd>
+          <a href={storeURL.href}><Image src="https://asset.booth.pm/static-images/banner/200x40_01.png" alt="BOOTHで見る" class={boothLinkImageStyle} width={200} height={40} format="png"></a>
         </dd>
       </dl>
     </aside>
