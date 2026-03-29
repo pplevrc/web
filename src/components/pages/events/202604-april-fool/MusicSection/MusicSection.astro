@@ -31,6 +31,8 @@ const titleImageStyle = css({
   margin: "auto",
 });
 
+const strokeStyleCSS = `-webkit-text-stroke: 0.4rem white; paint-order: stroke;`;
+
 const layoutStyle = css({
   display: "flex",
   gap: "26",
@@ -136,7 +138,7 @@ const storeURL = new URL("https://pple.booth.pm/items/8133713");
     <div class={musicInfoStyle}>
       <hgroup class={hgroupStyle}>
         <p>オープニング主題歌</p>
-        <h3 class={musicTitleStyle}>
+        <h3 class={musicTitleStyle} style={strokeStyleCSS}>
           なぞ？なぞ！ぷぷりえ☆大解決！
         </h3>
       </hgroup>
